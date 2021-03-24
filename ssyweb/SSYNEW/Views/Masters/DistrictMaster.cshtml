@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "DistrictMaster";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<style>
+    th {
+        font-size: 13px;
+        color: white;
+        /*background-color:red;*/
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    .dataTables_length {
+        display: none;
+    }
+
+    .dataTables_filter {
+        margin-left: 420px;
+    }
+    .modal-dialog {
+position :fixed !important;
+margin-left : -200px !important;
+
+    }
+</style>
+<div class="container-fluid">
+    <div class="logo" style="text-align: center;"><h3>District Master</h3></div>
+    <table class="TblDistrict  table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th class="no-sort">S.No</th>
+                <th class="no-sort">District Name</th>
+                <th class="no-sort"></th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="DitrictModel" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:643px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="height:70px;">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space" style="width:310px;">
+                            <span class="input-group-addon input-label">District Name <span style="color: red">*</span></span>
+                            @Html.TextBox("MstDistrictName", "", new { @class = "form-control  valid", maxlength = "50", onkeypress = " return IsCharsOnly(event); " })
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <div style="display:none">
+                    <label id="MstDistrictId" style="display:none;"></label>
+                </div>
+
+                <a id="UpdateDis" class="btn btn-success">Update</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+        $(document).ready(function () {
+
+
+            $("#UpdateDis").click(function () {
+
+                var DistrictName = $("#MstDistrictName").val();
+                var DistrictId = $("#MstDistrictId").text();
+                if (DistrictName == "" || DistrictName == null) {
+                    alert("Please Enter District Name");
+                    $("#MstDistrictName").focus();
+                    return false;
+                }
+                $.get('@Url.Action("updateDistrictName", "Masters")', { id: DistrictId, Name: DistrictName, Type: 'D' }, function (result) {
+                     
+                    if(result =="S")
+                    {
+                        alert("District Name Updated Succesfully");
+
+                        $('#DitrictModel').modal('toggle');
+                    }
+                    else
+                    {
+                        alert(result);
+                    }
+                });
+            });
+
+        });
+        $.get('@Url.Action("GetDitrictsList", "Masters")', {}, function (result) {
+             
+            var table = $('.TblDistrict').DataTable();
+            table.destroy();
+            $('.TblDistrict tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                $('.TblDistrict').append('<tr><td style="text-align: center !important; ">' + data.DistrictId + '</td><td style="text-align: center !important; ">' + data.DistrictName + '</td><td><a href="#" data-toggle="modal" data-target="#DitrictModel"   onClick = "EditDistrict(' + data.DistrictId + ');" id=' + data.DistrictId + '><span class="glyphicon glyphicon-pencil" ></span></a><label id="lblName' + data.DistrictId + '" style="display:none">' + data.DistrictName + '</label></td></tr>')
+            });
+            $('.TblDistrict').DataTable({
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['no-sort']
+                }]
+
+            });
+        });
+        function EditDistrict(id) {
+
+             
+
+           var Dname = $("#lblName" + id).text();
+           $("#MstDistrictName").val(Dname);
+            $("#MstDistrictId").text(id);
+        }
+
+
+</script>

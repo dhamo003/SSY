@@ -1,0 +1,277 @@
+
+<div id="content">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>PF Deposited </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+
+
+                        <p></p>
+
+                        <table class="table table-striped" [mfData]="pfDepositDetails" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="legacyNo">Legacy No</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="payinSlipNo">Payin Slip No</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="depositAmount">Deposit Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="depositDateString">Deposit Date</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let deposits of mf.data|grdFilter: {depositAmount:searchText, depositDateString: searchText, payinSlipNo: searchText, scrollNumber: searchText, bankDepositDateString: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onEditCollection(deposits.pfLegacyMasterId)" *ngIf="deposits.isEdit" title="Edit" class="txt-color-red"><i class="fa fa-edit fa-lg"></i></a>
+                                        <!--<a (click)="viewCollections(deposits.pfLegacyMasterId)" *ngIf="!deposits.isEdit" title="View Collections" class="txt-color-red"><i class="fa fa-eye"></i></a>-->
+                                    </td>
+                                    <td>{{deposits.pfLegacyMasterId}}</td>
+                                    <td>{{deposits.payinSlipNo}}</td>
+                                    <td>{{deposits.depositAmount}}</td>
+                                    <td>{{deposits.depositDateString}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <div>
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #payInSlipModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="payInSlipModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <fieldset id="divUploadPayInSlip">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Bank Deposited Date <span [style.color]="!dateOfDepostValid?'red':''"><b>*</b></span></label>
+                            <label class="input">
+                                <!--<i class="icon-append fa fa-calendar"></i>-->
+                                <input type="text" name="depositDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                       placeholder="DD/MM/YYYY"
+                                       #depositDate="ngModel"
+                                       [maxDate]="toDayDate"
+                                       [(ngModel)]="bankDepositDate" readonly
+                                       value="{{ depositedDate | date: 'dd/MM/yyyy' }}"
+                                       [ngClass]="{'invalid-data':!dateOfDepostValid, 'valid-data': dateOfDepostValid}"
+                                       required>
+                            </label>
+                            <div *ngIf="!dateOfDepostValid">
+                                <span style="color: red;">Deposited Date is required </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label">Scroll Number <span [style.color]="!payInSlipNumberValid?'red':''"><b>*</b></span> </label>
+                                <input type="text" class="form-control" name="payInSlip" numbersOnly [(ngModel)]="scrollNumber" />
+                                <div *ngIf="!payInSlipNumberValid">
+                                    <span style="color: red;">Scroll Number is required </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 smart-form">
+                            <section class="col col-6 top-5">
+                                <label class="label">PayIn Slip <span [style.color]="!payInSlipUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" id="file" (change)="onFileChanged($event, deposits)">Browse</span>
+                                    <input type="text" readonly>
+                                </div>
+                                <div *ngIf="(!payInSlipUploaded) && (payInSlipCertificate.fileName =='' || payInSlipCertificate.fileName == undefined )">
+                                    <span style="color: red;">PayIn Slip is required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>{{payInSlipCertificate.fileName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <section style="padding-top:30px" class="col col-6"><label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                        </div>
+                    </div>
+
+                    <!--<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="label">PayIn Slip <span [style.color]="!payInSlipUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" id="file" (change)="onFileChanged($event, deposits)">Browse</span><input type="text" readonly>
+                                    <label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label>
+                                </div>
+                                <div *ngIf="(!payInSlipUploaded) && (payInSlipCertificate.fileName =='' || payInSlipCertificate.fileName == undefined )">
+                                    <span style="color: red;">PayIn Slip is required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>{{payInSlipCertificate.fileName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </fieldset>
+            </div>
+
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="savePaySlip()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #collectionsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="collectionsModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <!--<div class="widget-body no-padding">-->
+                    <!--<table id="datatable_fixed_column" class="table table-striped table-bordered"
+                           [mfData]="pfCollectionDetails" #mf="mfDataTable" [mfRowsOnPage]="10" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <mfDefaultSorter by="ssI_Number">SSIN</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="benFullName">Beneficiary Name</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="receiptNo">Receipt No</mfDefaultSorter>
+
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="bookNo">Book No</mfDefaultSorter>
+
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="collectionDateString">Collection Date</mfDefaultSorter>
+                                </th>
+
+                                <th>
+                                    <mfDefaultSorter by="paidFromMonth">Paid From</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="paidToMonth">Paid To</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="collectionAmount">Amount</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let col of mf.data; let i=index;">
+                                <td>{{col.ssI_Number}}</td>
+                                <td>{{col.benFullName}}</td>
+                                <td>{{col.receiptNo}}</td>
+                                <td>{{col.bookNo}}</td>
+                                <td>{{col.collectionDateString}}</td>
+                                <td>{{col.paidFromMonth}}</td>
+                                <td>{{col.paidToMonth}}</td>
+                                <td>{{col.collectionAmount}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <div>
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>-->
+                <!--</div>-->
+            </div>
+
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="savePaySlip()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

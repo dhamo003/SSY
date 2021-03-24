@@ -1,0 +1,1314 @@
+﻿
+@{
+    ViewBag.Title = "ConstructionNewAdditionalDet";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" rel="stylesheet">
+<script src="~/Scripts/my_scripts/toaster.js"></script>
+<script src="~/Scripts/my_scripts/Validations.js"></script>
+
+<script>
+    var userId = @Html.Raw(Json.Encode(ViewBag.userId))
+</script>
+<style>
+    .text-on-pannel {
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        margin-left: 20px;
+        padding: 3px 5px;
+        position: absolute;
+        margin-top: -47px;
+        border: 1px solid #337ab7;
+        border-radius: 8px;
+    }
+
+    .panel {
+        /* for text on pannel */
+        margin-top: 27px !important;
+    }
+
+    .panel-body {
+        padding-top: 30px !important;
+    }
+
+    label {
+        font-weight: bold !important;
+    }
+
+    .primarybtn {
+        width: 114px !important;
+        background-color: #3d7ede !important;
+    }
+
+    .lblValue {
+        font-size: smaller !important;
+    }
+</style>
+
+<div class="container">
+
+    @*Benificiary information*@
+
+	<form id="additionalInformation">
+
+
+
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<h5 class="text-on-pannel text-primary"><strong class="text-uppercase">Benificiary Details</strong></h5>
+				<div class="row">
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p style="">Name:</p>
+
+							<label id="lblfrstname" class="lblValue"></label>
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>Marital Status:</p>
+
+							<label id="lblmarital" class="lblValue"></label>
+
+						</div>
+					</div>
+
+
+					<div class="col-md-4" id="divhus" style="">
+						<div class="form-group">
+							<p>Husband Name : </p>
+
+							<label id="lblhusname" class="lblValue"></label>
+
+						</div>
+					</div>
+
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Religion :</p>
+							<label id="lblrelgn" class="lblValue"></label>
+
+
+
+						</div>
+
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>Social Category :</p>
+							<label id="lblsoccat" class="lblValue"></label>
+
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>Occupation: </p>
+							<label id="lbloccu" class="lblValue"></label>
+						</div>
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Mobile no:</p>
+
+							<label id="lblmobno" class="lblValue"></label>
+
+
+						</div>
+
+					</div>
+
+
+				</div>
+
+				<div class="row">
+
+					<center style="background-color:#009688"><h4><b>Permanent Address</b></h4></center>
+					<div class="col-md-4">
+
+
+						<div class="form-group">
+							<p>State:</p>
+							<label id="PerState" class="lblValue">West Bengal</label>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>District:</p>
+							<label id="PerDist" class="lblValue"></label>
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Sub Division:</p>
+
+							<label id="PerSubDiv" class="lblValue"></label>
+
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Block/Municiplaity/Corporation :</p>
+							<label id="PerBMC" class="lblValue"></label>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-4">
+
+
+						<div class="form-group">
+							<p>Block/Municiplaity/Corporation (Name):</p>
+							<label id="PerMunc" class="lblValue"></label>
+
+						</div>
+
+
+
+					</div>
+
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>P.S:</p>
+							<label id="PerPs" class="lblValue"></label>
+
+						</div>
+					</div>
+
+
+
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>P.O:</p>
+							<label id="PerPo" class="lblValue"></label>
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>PIN code:</p>
+							<label id="PerPinCode" class="lblValue"></label>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>GP/Ward:</p>
+							<label id="PerGp" class="lblValue"></label>
+
+						</div>
+
+					</div>
+
+
+
+
+					<div class="col-md-4">
+
+
+
+						<div class="form-group">
+							<p>Village/Street/Road:</p>
+							<label id="PerVillage" class="lblValue"></label>
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<center style="background-color:#009688"><h4><b>Present Address</b></h4></center>
+
+					<div class="col-md-4">
+
+
+						<div class="form-group">
+							<p>State:</p>
+							<label id="PreState2" class="lblValue">West Bengal</label>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>District:</p>
+							<label id="PreDist2" class="lblValue"></label>
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Sub Division:</p>
+
+							<label id="PreSubDiv2" class="lblValue"></label>
+
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Block/Municiplaity/Corporation :</p>
+							<label id="PreBMC2" class="lblValue"></label>
+
+						</div>
+
+					</div>
+
+
+
+					<div class="col-md-4">
+
+
+						<div class="form-group">
+							<p>Block/Municiplaity/Corporation (Name):</p>
+							<label id="PreMunc2" class="lblValue"></label>
+
+
+						</div>
+
+					</div>
+
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>P.S:</p>
+							<label id="PrePs2" class="lblValue"></label>
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>P.O:</p>
+							<label id="PrePo2" class="lblValue"></label>
+
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>PIN code:</p>
+							<label id="PrePinCode2" class="lblValue"></label>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>GP/Ward:</p>
+							<label id="PreGp2" class="lblValue"></label>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Village/Street/Road:</p>
+
+							<label id="PreVillage2" class="lblValue"></label>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<center style="background-color:#009688"><h4><b>Bank Details</b></h4></center>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>District :</p>
+							<label id="bnkdis" class="lblValue"></label>
+
+
+						</div>
+					</div>
+
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<p>Bank Name :</p>
+							<label id="bnkname" class="lblValue"></label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>Account Number :</p>
+							<label id="bnkactnum" class="lblValue"></label>
+						</div>
+					</div>
+
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>Location :</p>
+							<label id="bnkloc" class="lblValue"></label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>Branch Name :</p>
+							<label id="brnchname" class="lblValue"></label>
+						</div>
+					</div>
+
+
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<p>IFSC Code :</p>
+							<label id="bnkifsc" class="lblValue"></label>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<h5 class="text-on-pannel text-primary"><strong class="text-uppercase">  Employment Details </strong></h5>
+				<div class="row">
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Name Of The Employer 
+
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control" id="txtEmployerName" name="txtEmployerName" maxlength="50" onkeypress="return onlyAlphabets(event,this)">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="">Rural/Urban</label>
+							<select class="form-control" id="ddlRU" name="ddlRU1">
+								<option value="0">Select</option>
+								<option value="1">Rural</option>
+								<option value="2">Uraban</option>
+
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Address Of The Employer
+
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control" id="txtEmployerAddress" name="txtEmployerAddress">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Registration Number Of The institute
+
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control" id="txtRegNumber" name="txtRegNumber" maxlength="20">
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Nature Of The job
+
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control" id="txtNatureJob" name="txtNatureJob" maxlength="100">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Employment Start Date
+
+
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control JoinDate" id="txtJdate" name="txtJdate" readonly>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Employment End Date
+
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control EndDate" id="txtEDate" name="txtEDate" onchange="EndDateChangeEvent()" readonly>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								No. Of Actual Working Days
+
+
+							</label><span style="color: red"> *</span>
+							@*<input type="text" class="form-control" id="txtWorkingDays" name="txtWorkingDays1" value="0" disabled>*@
+							<input type="text" class="form-control" id="txtWorkingDays" name="txtWorkingDays1" value="0" readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="form-group">
+							<label>
+								Workspace Details & Address
+							</label><span style="color: red"> *</span>
+							<textarea class="form-control" rows="3" id="txtWorkSpaceDet" name="txtWorkSpaceDet" maxlength="300"></textarea>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<h5 class="text-on-pannel text-primary"><strong class="text-uppercase"> Other Details </strong></h5>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Rate Of Subscrption
+							</label><span style="color: red"> *</span>
+							<input type="text" class="form-control" id="txtRateOfSub" name="txtRateOfSub" maxlength="5" onkeypress="return onlynumber(event,this)">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Status Of Construction Worker
+							</label>
+							<span style="color: red"> *</span>
+							<select class="form-control" id="ddlStatus" name="ddlStatus">
+								<option value="0">Select</option>
+								<option value="1">Self Employed</option>
+								<option value="2">Wage Employed</option>
+
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<h5 class="text-on-pannel text-primary"><strong class="text-uppercase">Documents</strong></h5>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Eligibility Certificate Form
+							</label><span style="color: red"> *</span>
+							<input type="file" multiple="multiple" name="files[0]" class="form-control" id="docEligibility" />
+
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								Statutory Application Form No.27
+							</label><span style="color: red"> *</span>
+							<input type="file" multiple="multiple" name="files[1]" class="form-control" id="docStatutory" />
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@*<div class="panel panel-primary">
+			<div class="panel-body">
+				<h5 class="text-on-pannel text-primary"><strong class="text-uppercase">History</strong></h5>
+				<div class="row">
+					<div class="row col-md-11" style="margin-left:14px;">
+						<center><h5><b>Renewal History</b></h5></center>
+						<div class="row divHistory">
+							<table class="table table-bordered tblPaymentHistory" id="tblPaymentHistory">
+								<thead>
+									<tr style="background:darkcyan;color:white;">
+										<th>S.No</th>
+										<th>Year</th>
+										<th>Month</th>
+										<th>Amount</th>
+										<th>Date Of Collection</th>
+										<th>Receipt Book No</th>
+										<th>Receipt Page No</th>
+
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<div class="row">
+							<center> <a class="btn btn-primary addbtn" onclick="AddPaymentRow()">Add</a></center>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>*@
+		
+		<input type="hidden" id="BenConstnamedet" value="0" name="Bennamedet" />
+		<input type="hidden" id="NamCount" value="0" name="NamCount" />
+		<input type="hidden" id="txtbase64ImgEligibility" value="" name="txtbase64ImgEligibility" />
+		<input type="hidden" id="txtbase64ImgStatutory" value="" name="txtbase64ImgStatutory" />
+
+	</form>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary primarybtn" onclick="submitForm()">Submit</button></center>
+    </div>
+</div>
+
+<script>
+        $(document).ready(function () {
+
+            var base64ImgEligibility = "";
+            var base64ImgStatutory = "";
+
+            $(".JoinDate,.EndDate").datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                yearRange: "1960:2019",
+                autoclose: true,
+                maxDate: new Date()
+            })
+            var dat = new Date();
+            var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+            var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+            var today = day + "-" + month + "-" + dat.getFullYear();
+			$(".JoinDate,.EndDate").val(today);
+			$("#txtDateOfEnrollMent,.txtCollectionDate").datepicker({
+				dateFormat: "dd-mm-yy",
+				changeYear: true,
+				yearRange: "1960:2019",
+				autoclose: true, maxDate: new Date()
+			})
+			var dat = new Date();
+			var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+			var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+			var today = day + "-" + month + "-" + dat.getFullYear();
+			$("#txtDateOfEnrollMent,.txtCollectionDate").val(today);
+
+			binddatepickerWithid(1);
+			binddatepickerWithid(2);
+			binddatepickerWithid(3);
+
+            $.get('@Url.Action("GetbenDetails", "Registration")', { bensno: userId }, function (res) {
+
+
+
+
+            //Change 2018-04-18 added regdate mandatery
+            $("#lblRegType").text(res.RegType);
+
+
+            if (res.RegDate != null && res.RegDate != '') {
+
+                $("#RegDatelbl").text(res.RegDate);
+            }
+            else {
+                $("#RegDatelbl").text("NA");
+            }
+
+
+
+
+            $("#lblRegNo").text(res.RegNumber);
+
+            // alert("1");
+
+
+            if (res.RegType == "L" || (res.RegType == "N" && res.RegNumber.length > 0 && res.RegDate.length > 0)) {
+
+                if (res.RegDate != null && res.RegDate != '') {
+
+
+                    var regDt = res.RegDate.split('-');
+
+                    var Dt = regDt[1] + "/" + regDt[0] + "/" + regDt[2];
+
+                    var date1 = new Date(Dt);
+                    var cmpDate = "03-31-2017";
+
+                    var valu = Date.parse(cmpDate) - Date.parse(date1);
+
+                    if (valu > 0 && res.RegType == "N") {
+                        $("#lblRegNoText").text('Registration No under while SASPFUW/ BOCW/ WBTWSSS');
+                    }
+                    else if (valu < 0 && res.RegType == "N") {
+                        $("#lblRegNoText").text('Temporary Registration No under SSY');
+                    }
+                    else {
+                        $("#lblRegNoText").text('Registration No');
+                    }
+                }
+                $("#divRegNo").show();
+                $("#divregdate").show();
+            }
+            else {
+                $("#divRegNo").hide();
+                $("#divregdate").hide();
+            }
+
+
+            $("#BenSno").val(res.BenSno);
+
+            $('#MainImage,#prntMainImage').empty();
+
+            $('#lblOtherDoc').empty();
+            $('#lblidproof').empty();
+            $('#lblsig').empty();
+            $('#BenPhoto').empty();
+            $('#lblbnkpassbk').empty();
+            $('#lblform').empty();
+
+            $("#DependentForm").empty();
+
+            $('#BeniSchemeCert').empty();
+
+
+            $('#MainImage').prepend('<img  class="profile-img" src="' + res.BenPhoto + '" style="height:150px" />')
+            $('#prntMainImage').prepend('<img src="' + res.BenPhoto + '" style="height:150px;" />');
+
+
+            $("#lblOtherDoc").attr('src', res.BenOtherDoc);
+            $("#dwnOtherDoc").attr("href", res.BenOtherDoc)
+
+
+            $("#lblidproof").attr('src', res.BenIdentity);
+            $("#dwnIdproof").attr("href", res.BenIdentity)
+
+
+
+            $("#lblsig").attr('src', res.BenSignature);
+
+            $("#dwnsign").attr("href", res.BenSignature)
+
+
+
+            $('#BenPhoto').prepend('<img  src="' + res.BenPhoto + '" />')
+
+
+            $("#dwnPhoto").attr("href", res.BenPhoto)
+
+            $("#lblbnkpassbk").attr('src', res.BenPassBook);
+
+
+
+            $("#dwnPassBook").attr("href", res.BenPassBook)
+            //$('#lblbnkpassbk').prepend('<img src="' + res.BenPassBook + '" />')
+
+            $("#lbladharnoproof").attr('src', res.BenAadhar);
+
+            $("#dwnAadhar").attr("href", res.BenAadhar)
+
+
+
+            //$('#lbladharnoproof').prepend('<img src="' + res.BenAadhar + '" />')
+
+            $("#lblform").attr('src', res.BenForm);
+
+            $("#dwnform").attr("href", res.BenForm)
+
+
+
+
+            //  if()
+
+            if (res.SchemeCertificate.indexOf("/UploadFiles/SchemeCertificate/") >= 0) {
+                // alert("Enter Scheme Certificate");
+                $(".divSchemeCerti").show();
+                $("#BeniSchemeCert").attr('src', res.SchemeCertificate);
+                $("#dwnCertificate").attr("href", res.SchemeCertificate)
+            }
+            else {
+                $(".divSchemeCerti").hide();
+            }
+
+            //alert("3");
+            //$('#lblformid').prepend('<img src="' + res.BenForm + '" />')
+
+
+
+
+
+            $("#lblfrstname,#prntlblfrstname").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+            $("#lblfathrname,#prntlblfathrname").text(res.BenFatherFirstName).addClass('label-data');
+            $("#lblmotherName,#prntlblMothername").text(res.MotherName).addClass('label-data');
+
+
+            $("#lbldob,#prntlbldob").text(res.BenDob).addClass('label-data');
+            $("#lblage,#prntlblage").text(res.BenAge).addClass('label-data');
+            $("#lblgender,#prntlblgender").text(res.BenGender).addClass('label-data');
+            $("#lblmarital,#prntlblmarital").text(res.MaritualName).addClass('label-data');
+            $("#lblemail,#prntlblemail").text(res.Email).addClass('label-data');
+            $("#lblbengname,#prntlblbengname").text(res.BengaliName).addClass('label-data');
+
+
+            $("#lbladharno,#lblaadharno,#prntlblaadharno").text(res.AadharCard).addClass('label-data');
+
+
+            if (res.AadharCard == "") {
+                $("#dwnAadhar").hide();
+
+
+            }
+
+            else {
+                $("#dwnAadhar").show();
+
+            }
+
+
+            if (res.EpicCard == "") {
+                $("#dwnIdproof").hide();
+
+
+            }
+
+            else {
+                $("#dwnIdproof").show();
+
+            }
+            $("#lblaccno,#lblbnkaccountno,#prntlblbnkaccountno").text(res.BenBankAccNo).addClass('label-data');
+            $("#lblEpicno,#lblepiccard,#prntlblepiccard").text(res.EpicCard).addClass('label-data');
+
+            if (res.BenGender == "Male") {
+                $("#divhus").hide();
+            }
+
+            else {
+                if (res.MaritualName == "Married" && res.BenGender == "Female") {
+                    $("#divhus").show();
+
+                    $("#lblhusname").text(res.HusbandName).addClass('label-data');
+                }
+
+            }
+
+
+            if (res.BenIdCardType == "1")
+                $("#lblIC").text('Aadhar Card' + '-' + res.BenIdCardNo).addClass('label-data');
+            else
+
+                $("#lblIC").text('Epic Card' + '-' + res.BenIdCardNo).addClass('label-data');
+
+            $("#lblrelgn,#prntlblrelgn").text(res.ReligionName).addClass('label-data');
+            $("#lblsoccat,#prntlblsoccat").text(res.Social_Name).addClass('label-data');
+            $("#lblbplno,#prntlblbplno").text(res.BenBplNo).addClass('label-data');
+            $("#lbloccu,#prntlbloccu").text(res.BenOccupation).addClass('label-data');
+            $("#lblmobno,#prntlblmobno").text(res.BenMobileNo).addClass('label-data');
+
+
+            $("#lblissueauth,#prntlblissueauth").text(res.IssAuthName).addClass('label-data');
+
+            $("#lblauthortyloc,#prntlblauthortyloc").text(res.empunorganised).addClass('label-data');
+            $("#lblauthname,#prntlblauthname").text(res.BenIssuingAuthName).addClass('label-data');
+            $("#labelpfnum,#prntpfnum").text(res.BenProvisionNo).addClass('label-data');
+
+            $("#LblESInum,#prntesinum").text(res.BenEsiNumber).addClass('label-data');
+
+            $("#lblmnthincme,#prntlblmnthincme").text(res.BenMonthlyIncom).addClass('label-data');
+            $("#empoccu,#prntempoccu").text(res.BenEmpType).addClass('label-data');
+
+            $("#empselfemp,#prntempselfemp").text("").addClass('label-data');
+            $("#empunorganised,#prntempunorganised").text("").addClass('label-data');
+
+            if (res.IndType == 1) {
+
+                $("#empselfemp,#prntempselfemp").text(res.IndustryName).addClass('label-data');
+
+                $("#empunorganised,#prntempunorganised").text('NA').addClass('label-data');
+
+
+
+            }
+
+
+            if (res.IndType == 2) {
+
+                $("#empunorganised,#prntempunorganised").text(res.IndustryName).addClass('label-data');
+                $("#empselfemp,#prntempselfemp").text('NA').addClass('label-data');
+
+
+            }
+            $("#empestaddr,#prntempestaddr").text(res.BenEstablishedAddress).addClass('label-data');
+
+            $("#bnkifsc,#prntbnkifsc").text(res.BenBankIfscCode).addClass('label-data');
+
+            $("#bnkdis,#prntbnkdis").text(res.DistrictName).addClass('label-data');
+            $("#bnkname,#prntbnkname").text(res.BankName).addClass('label-data');
+            //alert(res.Location);
+            $("#bnkloc,#prntbnkloc").text(res.LocName).addClass('label-data');
+            $("#bnkactnum,#prntbnkactnum").text(res.BenBankAccNo).addClass('label-data');
+            $("#brnchname,#prntbrnchname").text(res.BankBranchName).addClass('label-data');
+
+            var pfoption = "";
+
+            if (res.BenPFStatus == true)
+                pfoption = "Yes";
+
+            if (res.BenPFStatus == false)
+                pfoption = "No";
+            if (res.BenPFStatus == null)
+                pfoption = "NA";
+
+            $("#PfOptionBene,#prntlblOption").text(pfoption).addClass('label-data');
+
+
+
+            $("#lblusername,#prntlblusername").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+
+            if (res.SSIN == null || res.SSIN == "" || res.SSIN == "NA") {
+
+
+                $("#lblTempregno,#prntlblTempregno").text(res.BenTempRegNo).addClass('label-data');
+
+                $("#lblTrname").text("Temporary SSIN");
+
+
+
+            }
+            else {
+
+                $("#lblTempregno,#prntlblTempregno").text(res.SSIN).addClass('label-data');
+
+                $("#lblTrname").text("SSIN");
+
+
+                if (res.Status != 1) {
+                    if (res.BeneType == "OldReg" || res.BeneType == "Legacy1" || res.BeneType =="Legacy2") {
+                        $("#lblTempregno,#prntlblTempregno").text("NA").addClass('label-data');
+                        $("#lblTrname").text("SSIN");
+
+                    }
+                }
+
+            }
+
+
+
+
+
+        });
+
+
+            $.get('@Url.Action("GetbenAddressDetails", "Registration")', { bensno: userId }, function (res) {
+
+            $.each(res, function (i, data) {
+
+                if (data.BenAddressType == "Permanent") {
+
+                    $("#PerDist,#prntPerDist").text(data.DistrictName).addClass('label-data');
+                    $("#PerSubDiv,#prntPerSubDiv").text(data.SubDivisionName).addClass('label-data');
+                    $("#PerMunc,#prntPerMunc").text(data.BlockName).addClass('label-data');
+                    $("#PerPs,#prntPerPs").text(data.PsName).addClass('label-data');
+                    $("#PerPo,#prntPerPo").text(data.PoName).addClass('label-data');
+                    $("#PerBMC,#prntPerBMC").text(data.LocTypeName).addClass('label-data');
+                    $("#PerPinCode,#prntPerPinCode").text(data.BenPincode).addClass('label-data');
+                    $("#PerGp,#prntPerGp").text(data.GPName).addClass('label-data');
+                    $("#PerVillage,#prntPerVillage").text(data.BenVsr).addClass('label-data');
+                }
+                if (data.BenAddressType == "Present") {
+
+                    $("#PreDist2,#prntPreDist2").text(data.DistrictName).addClass('label-data');
+                    $("#PreSubDiv2,#prntPreSubDiv2").text(data.SubDivisionName).addClass('label-data');
+
+                    $("#PreBMC2,#prntPreBMC2").text(data.LocTypeName).addClass('label-data');
+
+                    $("#PreMunc2,#prntPreMunc2").text(data.BlockName).addClass('label-data');
+
+                    $("#PrePs2,#prntPrePs2").text(data.PsName).addClass('label-data');
+
+                    $("#PrePo2,#prntPrePo2").text(data.PoName).addClass('label-data');
+
+                    $("#PrePinCode2,#prntPrePinCode2").text(data.BenPincode).addClass('label-data');
+
+                    $("#PreGp2,#prntPreGp2").text(data.GPName).addClass('label-data');
+
+                    $("#PreVillage2,#prntPreVillage2").text(data.BenVsr).addClass('label-data');
+
+
+
+                }
+
+            });
+
+
+
+            })
+
+
+
+	});
+
+	function binddatepickerWithid(rowCount) {
+
+
+		for (i = 1980; i < 2020; i++) {
+
+			$("#ddlyear" + rowCount).append("<option value=" + 0 + "> " + "Select Year" + " </option>");
+			$("#ddlyear" + rowCount).append("<option value=" + i + "> " + i + " </option>");
+
+
+		}
+		//<option value="00">Select Month</option>
+		$("#ddlmnth" + rowCount).append("<option value=" + "00" + "> " + "Select Month" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "01" + "> " + "January" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "02" + "> " + "February" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "03" + "> " + "March" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "04" + "> " + "April" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "05" + "> " + "May" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "06" + "> " + "June" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "07" + "> " + "July" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "08" + "> " + "August" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "09" + "> " + "September" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "10" + "> " + "October" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "11" + "> " + "November" + " </option>");
+		$("#ddlmnth" + rowCount).append("<option value=" + "12" + "> " + "December" + " </option>");
+
+		$(".JoinDate,.EndDate,#txtDateOfEnrollMent,#txtCollectionDate" + rowCount).datepicker({
+			dateFormat: "dd-mm-yy",
+			changeYear: true,
+			yearRange: "1960:2019",
+			autoclose: true, maxDate: new Date()
+		})
+		var dat = new Date();
+		var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+		var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+		var today = day + "-" + month + "-" + dat.getFullYear();
+		$(".JoinDate,.EndDate").val(today);
+	}
+
+
+
+	function AddPaymentRow() {
+		 
+		var rowCount = $('#tblPaymentHistory tr').length;
+		$('#tblPaymentHistory').append('<tr><td>' + rowCount + '</td><td><select class="form-control ddlyear" id="ddlyear' + rowCount + '"></select></td><td><select class="form-control ddlmnth" id="ddlmnth' + rowCount + '"></select></td><td><input type="text" class="form-control" value="30" id="txtAmount' + rowCount + '"></td><td><input type="text" class="form-control txtCollectionDate" id="txtCollectionDate' + rowCount + '"></td><td><input type="text" class="form-control txtReceptPagno" id="txtReceptPagno' + rowCount + '"></td><td><input type="text" class="form-control txtReceptBookno" id="txtReceptBookno' + rowCount + '"></td><td><button type="button"  class="removenambutton" title="Remove this row">X</button></td></tr>')
+		binddatepickerWithid(rowCount);
+	}
+
+	$(document).on('click', 'button.removenambutton', function () {
+		var namrowCount = $('#tblPaymentHistory tr').length;
+		var $tr = $(this).closest('tr');
+		var myRow = $tr.index();
+		if (myRow == namrowCount - 2) {
+			$(this).closest('tr').remove();
+			return false;
+		}
+		else {
+			alert("Only last row will be deleted")
+			return false;
+		}
+	});
+
+    function submitForm() {
+
+        //alert();
+
+        if ($("#txtEmployerName").val() == "" || $("#txtEmployerName").val() == null) {
+
+            ErrorMessage("Please Enter Name of the Employer");
+            $("#txtEmployerName").focus();
+            return false;
+        }
+
+        if ($("#ddlRU").val() == "0" || $("#txtEmployerName").val() == null) {
+
+            ErrorMessage("Please Select Rural/Urban");
+            $("#ddlRU").focus();
+            return false;
+        }
+        if ($("#txtEmployerAddress").val() == "" || $("#txtEmployerAddress").val() == null) {
+
+            ErrorMessage("Please Enter Address Of The Employer");
+            $("#txtEmployerAddress").focus();
+            return false;
+        }
+        if ($("#txtRegNumber").val() == "" || $("#txtRegNumber").val() == null) {
+
+            ErrorMessage("Please Enter Registration Number Of The institute");
+            $("#txtRegNumber").focus();
+            return false;
+        }
+
+        if ($("#txtNatureJob").val() == "" || $("#txtNatureJob").val() == null) {
+
+            ErrorMessage("Please Enter Nature Of The job");
+            $("#txtNatureJob").focus();
+            return false;
+        }
+
+        if ($("#txtWorkSpaceDet").val() == "" || $("#txtWorkSpaceDet").val() == null) {
+
+            ErrorMessage("Please Enter Workspace Details & Address");
+            $("#txtWorkSpaceDet").focus();
+            return false;
+        }
+
+        if ($("#txtRateOfSub").val() == "" || $("#txtRateOfSub").val() == null) {
+
+            ErrorMessage("Please Enter Rate Of Subscrption");
+            $("#txtRateOfSub").focus();
+            return false;
+        }
+
+        if ($("#ddlStatus").val() == "0" || $("#ddlStatus").val() == null) {
+
+            ErrorMessage("Please Select Status Of Construction Worker");
+            $("#ddlStatus").focus();
+            return false;
+        }
+
+        if ($("#docEligibility").val() == "" || $("#docEligibility").val() == null) {
+
+            ErrorMessage("Please Upload Eligibility Certificate Form");
+            $("#docEligibility").focus();
+            return false;
+        }
+        if ($("#docStatutory").val() == "" || $("#docStatutory").val() == null) {
+
+            ErrorMessage("Please Upload Statutory Application Form No.27");
+            $("#docStatutory").focus();
+            return false;
+        }
+
+
+		/////////////////////////////////
+		//var namrowCount = $('#tblPaymentHistory tr').length;
+		//alert("namrowCount =" + namrowCount);
+		//$("#NamCount").val(namrowCount);
+
+		//var doc1 = "";
+
+		//for (i = 1; i < namrowCount; i++) {
+		//	if ($("#ddlyear" + i).val() == "" || $("#ddlyear" + i).val() == null) {
+		//		alert("Please Select Year");
+		//		$("#ddlyear" + i).focus();
+		//		return false;
+		//	}
+		//	if ($("#ddlmnth" + i).val() == "" || $("#ddlmnth" + i).val() == null) {
+		//		alert("Please Select Month");
+		//		$("#ddlmnth" + i).focus();
+		//		return false;
+		//	}
+		//	if ($("#txtAmount" + i).val() == "" || $("#txtAmount" + i).val() == null) {
+		//		alert("Please Enter Amount");
+		//		$("#txtAmount" + i).focus();
+		//		return false;
+		//	}
+		//	if ($("#txtCollectionDate" + i).val() == "" || $("#txtCollectionDate" + i).val() == null) {
+		//		alert("Please Select Collection Date");
+		//		$("#txtCollectionDate" + i).focus();
+		//		return false;
+		//	}
+		//	if ($("#txtReceptPagno" + i).val() == "" || $("#txtReceptPagno" + i).val() == null) {
+		//		alert("Please Enter Receipt Page No");
+		//		$("#txtReceptPagno" + i).focus();
+		//		return false;
+		//	}
+		//	if ($("#txtReceptBookno" + i).val() == "" || $("#txtReceptBookno" + i).val() == null) {
+		//		alert("Please Enter Receipt Book No");
+		//		$("#txtReceptBookno" + i).focus();
+		//		return false;
+		//	}
+
+		//	doc1 += $("#ddlyear" + i).val() + "$";
+		//	doc1 += $("#ddlmnth" + i).val() + "$";
+		//	doc1 += $("#txtAmount" + i).val() + "$";
+		//	doc1 += $("#txtCollectionDate" + i).val() + "$";
+		//	doc1 += $("#txtReceptPagno" + i).val() + "$";
+		//	doc1 += $("#txtReceptBookno" + i).val() + "~";
+
+
+
+		//}
+		//alert("doc1 = " + doc1);
+		//$("#BenConstnamedet").val(doc1);
+
+
+        var form = $('#additionalInformation')[0];
+        var data = new FormData(form);
+
+
+
+        $.ajax({
+			url: '/Registration/ConstructionNewAdditionalDet', //'/Registration/AddtionalInformationNewConstruction',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function (Res) {
+				alert(Res.Message);
+				if (Res.Code == "000") {
+					window.location.href = "/Registration/ConstructionNewAdditionalDet";
+				}
+
+
+                //$("#WaitModal").modal('hide');
+
+
+                //if (Res.Code == "000") {
+                //    if (RegType == "NewReg") {
+                //        // alert("Form submited successfully.");
+                //        $("#OtherRegModal").modal('show');
+                //        $("#lblRegMessage").text("Form submited successfully.");
+                //    }
+                //    else {
+                //        $("#OtherRegModal").modal('show');
+                //        $("#lblRegMessage").text("Your SSY application has been successfully submitted!!! You User Id : Aadhaar/Epic No and Password: Date of Birth (DDMMYYYY)");
+
+                //    }
+
+
+
+
+
+                //    // return false;
+
+                //}
+                //else {
+
+                //    alert(data.Message);
+                //    return false;
+
+
+                //}
+
+
+            }
+        });
+
+        //ErrorMessage("Please Enter Name of the Employer");
+       // SuccessMessage("success");
+
+
+    }
+
+  function  EndDateChangeEvent()
+    {
+
+        var arr1 = $('#txtJdate').val().split('-');
+        var arr2 = $('#txtEDate').val().split('-');
+        var startDate = new Date(arr1[1] + "-" + arr1[0] + "-" + arr1[2]);
+        var endDate = new Date(arr2[1] + "-" + arr2[0] + "-" + arr2[2]);
+
+        var diffDate = (endDate - startDate) / 1000 / 60 / 60 / 24;
+
+      if (diffDate < 1) {
+
+          ErrorMessage("Invalid Date Selection");
+          $('#txtJdate').focus();
+          return false;
+      }
+      else {
+          $("#txtWorkingDays").val(diffDate);
+      }
+
+    }
+
+
+    //For Uploading File
+    $('INPUT[type="file"]').change(function () {
+         
+       
+        if (this.files[0].size < 2000000) {
+            var ext = this.value.match(/\.(.+)$/)[1];
+			var ext2 = this.value.substr((this.value.lastIndexOf('.') + 1));
+           
+            switch (ext2) {
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'pdf':
+                case 'JPG':
+                case 'JPEG':
+                case 'PNG':
+                case 'PDF':
+                    break;
+                default:
+                    alert('Please choose only jpg,jpeg or png,pdf File');
+                    this.value = '';
+                    this.focus();
+            }
+        }
+        else {
+            alert('Please choose size of  file below 2MB');
+            this.value = '';
+            this.focus();
+        }
+    });
+
+
+    //function encodeImageFileAsURLEligibility(element) {
+    //    var file = element.files[0];
+
+    //    base64ImgEligibility = getBase64(file)
+    //   // alert(base64ImgEligibility);
+
+    //    $("#txtbase64ImgEligibility").val(base64ImgEligibility);
+
+
+    //}
+
+    //function encodeImageFileAsURLStatutory(element) {
+    //    var file = element.files[0];
+    //    base64ImgStatutory = getBase64(file)
+    //   // alert(base64ImgStatutory);
+    //    $("#txtbase64ImgStatutory").val(base64ImgStatutory);
+
+
+    //}
+
+    //function getBase64(file) {
+    //    alert(file);
+    //    var reader = new FileReader();
+    //    reader.readAsDataURL(file);
+    //    reader.onload = function () {
+    //        alert(reader.result);
+    //       return reader.result;
+    //    };
+    //    reader.onerror = function (error) {
+    //        alert(error)
+    //        console.log('Error: ', error);
+    //    };
+    //}
+
+</script>

@@ -1,0 +1,220 @@
+﻿@model SSY.Models.RegistartionForUser
+
+@{
+	ViewBag.Title = "EditBeneHusbandDetails";
+	Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+     
+    var benSno = @Html.Raw(Json.Encode(ViewBag.Bensno))
+    var Count = @Html.Raw(Json.Encode(ViewBag.Count))
+
+    var Status = @Html.Raw(Json.Encode(ViewBag.Status))
+
+    var StatusName = @Html.Raw(Json.Encode(ViewBag.StatusName))
+
+    var ClaimCount = @Html.Raw(Json.Encode(ViewBag.ClaimCount))
+	var Gender = @Html.Raw(Json.Encode(ViewBag.Gender))
+
+</script>
+<div class="">
+	<fieldset class="custom-border">
+		<legend class="custom-border color-white"><span class="leg-sty">Beneficiary Husband Details</span></legend>
+
+
+		<div class="row">
+
+			<form role="form" id="form">
+
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Husband Name <span style="color: red">*</span></label>
+						@Html.TextBoxFor(m => m.HusbandName, new { @class = "form-control benehusbandname", id = "beneHusbandname" })
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label class="">Upload ID Proof<font size="1"> *</font></label>
+						<input type="file" multiple="multiple" name="files[0]" class="form-control" id="idproofdoc" />
+						<font size="2"> &nbsp;&nbsp;&nbsp;&nbsp; ID Proof limit is upto 2MB, JPEG/PNG/PDF</font>
+						<a href="#" id="idproofdoc1"><span class="glyphicon glyphicon-remove-circle"></span></a>
+					</div>
+				</div>
+
+
+				<input type="hidden" id="Bensno" value="0" name="Bensno" />
+
+			</form>
+
+		</div>
+
+		<div id="divClaimStatus" >
+			<div class="row" id="divBtn">
+				<center>
+					<a class="btn btn-primary" onclick="FinalSubmit()">Submit</a>
+
+				</center>
+			</div>
+		</div>
+
+		<br />
+
+		<br />
+		<div>
+			<fieldset class="custom-border">
+				<center><legend class="custom-border color-white"><span class="leg-sty" style="color:green"><h3><b>History</b></h3></span></legend></center>
+
+				<div class="col-md-12">
+
+					<table class="table table-striped table-bordered tblBeneHusbDetHis" cellspacing="0" width="100%">
+						<thead>
+							<tr style="">
+								<th>S.No</th>
+								<th>Husband Name</th>
+								<th>Status</th>
+								<th>Requested Date</th>
+								<th>Verified Date</th>
+								<th>Remarks</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+
+	</fieldset>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+		if(Status != 1)
+		{
+
+			alert("Your application is " + StatusName);
+            window.location.href = " /Home/Dashboard";
+
+		}
+        $("#Bensno").val(benSno);
+		//GetDetail(benSno);
+		GetHistory(benSno)
+
+        if (Gender != "Female") {
+             
+			alert("your are not eligable to edit husband name");
+			$("#divBtn").hide();
+            window.location.href = "/Home/Dashboard";
+
+		}
+
+		if (ClaimCount == 0) {
+
+            $("#divClaimStatus").show();
+		}
+
+		
+
+	});
+    @*function GetDetail(benSno) {
+
+            $.get('@Url.Action("GetbenDetails", "Registration")', { bensno: benSno }, function (res) {
+
+				$("#benefirstname").val(res.BenFirstName);
+				$("#benelastname").val(res.BanLastName);
+				$("#benemiddlename").val(res.BenMiddleName);
+				$("#benedob").val(res.BenDob);
+
+            //$.get('@Url.Action("GetbranchAddrJSON", "Registration")', {ID :res[1]}, function (dat) {
+                //$("#branchaddress").val(dat);
+            //});
+            });
+
+    }*@
+
+    function FinalSubmit() {
+
+		if ($("#beneHusbandname").val() == "" || $("#beneHusbandname").val() == null || $("#beneHusbandname").val() == 0) {
+            alert("Please Enter Husband Name");
+			$("#beneHusbandname").focus();
+            return false;
+        }
+		
+
+		if ($("#idproofdoc").val() == "" || $("#idproofdoc").val() == null || $("#idproofdoc").val() == 0) {
+			alert("Please Upload ID Proof.");
+			$("#idproofdoc").focus();
+			return false;
+		}
+
+        var form = $('#form')[0];
+
+        var data = new FormData(form);
+
+
+
+        $.ajax({
+			url: '/Registration/SubmitBeneHusbandDetails',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function (Res) {
+                alert(Res.Message);
+                if (Res.Code=="000") {
+					window.location.href = "/Registration/EditBeneHusbandDetails";
+                }
+            }
+
+        });
+            }
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            return false;
+        }
+    }
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+            e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+            (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+            ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+            return false;
+        }
+    }
+
+    $("#ifsccode").keypress(function () {
+        var ifscval = $(this).val();
+        if (ifscval.length == 4) {
+            $(this).val(ifscval + "0");
+            return false;
+        }
+    });
+
+
+    function GetHistory(benSno) {
+        $.get('@Url.Action("GetBeneHusbandDetEditHistory", "Home")', { benSno: benSno}, function (result) {
+             
+			var table = $('.tblBeneHusbDetHis').DataTable();
+            table.destroy();
+
+			$('.tblBeneHusbDetHis tbody').empty();
+            $.each(result, function (i, data) {
+
+				if (data.Status == "Pending") {
+					$("#divBtn").hide();
+				}
+				$('.tblBeneHusbDetHis').append('<tr><td>' + data.Sno + '</td><td>' + data.BeneHusbandName + '</td><td>' + data.Status + '</td><td>' + data.ReqDate + '</td><td>' + data.VerifiedDate + '</td><td>' + data.Remarks + '</td>')
+            });
+			$('.tblBeneHusbDetHis').DataTable({
+
+            });
+
+        });
+
+    }
+</script>

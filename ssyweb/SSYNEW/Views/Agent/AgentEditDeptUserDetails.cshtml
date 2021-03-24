@@ -1,0 +1,436 @@
+﻿@model SSY.Models.SignUpUser
+@{
+    ViewBag.Title = "AgentEditDeptUserDetails";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<script>
+    var Result = @Html.Raw(Json.Encode(ViewBag.SucessMes))
+</script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+<link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+<style type="text/css">
+    .SumoUnder {
+        height: 10px !important;
+    }
+
+    .input-label {
+        text-align: left !important;
+        min-width: 148px !important;
+    }
+
+    .logo {
+        padding: 15px 0;
+        font-size: 25px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .row > div {
+        margin-bottom: 0px !important;
+    }
+
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+</style>
+<br class="clearfix" />
+<br class="clearfix" />
+@Html.ValidationSummary()
+<div class="container">
+    <div class="logo" style="text-align: center;">User Modifications</div>
+    @using (Html.BeginForm("AgentEditDeptUserDetails", "Agent", FormMethod.Post, new { onsubmit = "return Validateall()", id = "signup", @class = "form-signin text-left" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="container-fluid" id="sign">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Mobile Number<span style="color: red"> *</span></span>
+                            @Html.TextBox("DeptUserid", "", new { @class = "form-control", @maxlength = 10, placeholder = "Mobile Number", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);" })
+                        </div>
+                    </div>
+                </div>
+                <div style="display:none;">
+                    @Html.TextBox("Userid", "", new { @class = "form-control", @maxlength = 10, placeholder = "Mobile Number", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);" })
+                </div>
+                <div class="col-md-4">
+                    <a id="GetUserDet" class="btn btn-default">Get Details</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">UserType <span style="color: red">*</span></span>
+                            @Html.DropDownListFor(m => m.typeid, new SelectList(Model.typename, "Value", "Text"), new { @class = "form-control", tabindex = "7", @readonly = "readonly", @disabled = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">First Name<span style="color: red"> *</span></span>
+                            @Html.TextBoxFor(m => m.FirstName, null, new { @class = "form-control  valid", minlength = "3", maxlength = "50", placeholder = "First Name", req = "Req", message = "Please Enter First Name", onkeypress = " return IsCharsOnly(event); ", tabindex = "1" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Last Name <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.LastName, null, new { @class = "form-control  valid", placeholder = "Last Name", minlength = "3", maxlength = "50", req = "Req", message = "Please Enter Last Name", onkeypress = " return IsCharsOnly(event); ", tabindex = "2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Designation <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.Designation, null, new { @class = "form-control  valid", placeholder = "Designation", minlength = "3", maxlength = "50", req = "Req", message = "Please Enter Designation", onkeypress = " return IsCharsOnly(event); ", tabindex = "3" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Mobile Number <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.MobileNumber, null, new { @class = "form-control", @maxlength = 10, placeholder = "Mobile Number", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);", tabindex = "4" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Landline Number <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.Code, null, new { @class = "form-control", @maxlength = 5, placeholder = "Code", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);", tabindex = "5", style = "width: 72px;" })
+                        </div>
+                        @*@Html.TextBoxFor(m => m.Landline, null, new { @class = "form-control", @maxlength = 8, placeholder = "Number", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);", tabindex = "6", style = "width: 127px;margin-top :-34px;margin-left :223px;" })*@
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.Landline, null, new { @class = "form-control", @maxlength = 8, placeholder = "Number", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);", tabindex = "6", style = "width: 123px;    margin-top: -35px;margin-left: 212px;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Email Address </span>
+                            @Html.TextBoxFor(m => m.Email, null, new { @class = "form-control ", placeholder = "Email ", req = "Req", message = "Please Enter Email", @onchange = "validateEmail()", @tabindex = "14" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" id="divdist">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">District <span style="color: red">*</span></span>
+                            @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District", @tabindex = "8", @multiple = "multiple" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" id="divsubdiv">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">SubDivision <span style="color: red">*</span></span>
+                            @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control Subdivision", @tabindex = "10", @multiple = "multiple" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" id="divloc">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Location<span style="color: red">*</span></span>
+                            @Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location", id = "Location", @tabindex = "12", @multiple = "multiple" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <center>
+                        <button type="submit" id="Save" class="btn btn-sm card-1 inline btn-primary  clearside">Update</button>
+                        <a id="signreset" onclick="ClearAll()" class="btn btn-sm card-1 inline btn-danger  clearside">Reset</a>
+                    </center>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <center>
+            <input type="hidden" id="MultiDis" value="" name="MultiDis" />
+            <input type="hidden" id="MultiSubdiv" value="" name="MultiSubdiv" />
+            <input type="hidden" id="MultiLoca" value="" name="MultiLoca" />
+            <input type="hidden" id="UserTypeId" value="" name="UserTypeId" />
+        </center>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var message = Result;
+        var Deptuserid = localStorage.getItem("Deptuserid");
+        if(message !="" )
+        {
+            alert(message);
+        }
+    });
+    $("#GetUserDet").click(function () {
+         
+        var DeptUserid = $("#DeptUserid").val();
+        // $("#DeptUserid").val(Deptuserid);
+        if(DeptUserid == null || DeptUserid =="")
+        {
+            alert("Please Enter Mobile Number..");
+            return false;
+        }
+        $.get('@Url.Action("GetDeptUserByUniqId", "Login")', { Userid: Deptuserid }, function (Res) {
+             
+            if (Res == "0")
+            {
+                alert("User Details Not Found..");
+            }
+            else
+            {
+                if(Res.LandlineNumber !=null)
+                {
+                    var land = Res.LandlineNumber.split("-");
+                    $("#Code").val(land[0]);
+                    $("#Landline").val(land[1]);
+                }
+                $("#Userid").val(Res.Userid);
+                $("#FirstName").val(Res.Firstname);
+                $("#LastName").val(Res.Lastname);
+                $("#Designation").val(Res.Designation);
+                $("#MobileNumber").val(Res.Mobileno);
+                $("#typeid").val(Res.UserType);
+                $("#Email").val(Res.Email);
+                loadusertype()
+                $("#disid").val(Res.DistId);
+                $("#subdivid").val(Res.SubDivId);
+                $(".Location").val(Res.Location);
+                $.get('@Url.Action("GetMultipleLoca", "Registration")', { Uid: Res.Userid }, function (dat) {
+                    $("#Location").find("option").remove();
+                    $.each(dat, function (i, data) {
+                         
+                        $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    });
+                    $("#Location").attr("multiple", "multiple");
+                    $('#Location').multiselect({
+                        columns: 3,
+                        placeholder: 'Select Languages',
+                        search: true,
+                        selectAll: true
+                    })
+                    $("#Location").multiselect('rebuild');
+                });
+            }
+        });
+    });
+    $("#disid").change(loadSubdiv);
+    function loadSubdiv() {
+        $.get('@Url.Action("GetSubdivisionJSON", "Login")', { ID: $("#disid").val() }, function (dat) {
+            $("#subdivid").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    $("#subdivid").change(loadBlock);
+    function loadBlock() {
+        $.get('@Url.Action("GetblockbySubdivJSON", "Registration")', { ID: $("#subdivid").val() }, function (dat) {
+             
+            $("#Location").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            $("#Location").attr("multiple", "multiple");
+            $('#Location').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                selectAll: true
+            })
+            $("#Location").multiselect('rebuild');
+        });
+    }
+    function Validateall() {
+         
+        $("#UserTypeId").val($("#typeid").val());
+        if ($("#typeid").val() == "" || $("#typeid").val() == null || $("#typeid").val() == 0) {
+            alert("Please select UserType");
+            $("#typeid").focus();
+            return false;
+        }
+        if ($("#FirstName").val() == "" || $("#FirstName").val() == null) {
+            alert("Please Enter First Name");
+            $("#FirstName").focus();
+            return false;
+        }
+        if ($("#LastName").val() == "" || $("#LastName").val() == null) {
+            alert("Please Enter Last Name");
+            $("#LastName").focus();
+            return false;
+        }
+        if ($("#Designation").val() == "" || $("#Designation").val() == null) {
+            alert("Please Enter Designation");
+            $("#Designation").focus();
+            return false;
+        }
+        if ($("#MobileNumber").val() == "" || $("#MobileNumber").val() == null) {
+            alert("Please Enter Mobile Number");
+            $("#MobileNumber").focus();
+            return false;
+        }
+        if ($("#MobileNumber").val().length != 10) {
+            alert("Please Enter 10 digit Mobile Number");
+            $("#MobileNumber").focus();
+            return false;
+        }
+        if ($("#Code").val() == "" || $("#Code").val() == null) {
+            alert("Please Enter Code");
+            $("#Code").focus();
+            return false;
+        }
+        if ($("#Landline").val() == "" || $("#Landline").val() == null) {
+            alert("Please Enter LandLine number");
+            $("#Landline").focus();
+            return false;
+        }
+        if ($("#Email").val() == "" || $("#Email").val() == null) {
+            alert("Please Enter Email");
+            $("#Email").focus();
+            return false;
+        }
+        if ($("#typeid").val() == 5) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == 0 || $("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == 0 || $("#Location").val() == "" || $("#Location").val() == null) {
+                alert("Please select Location");
+                $("#Location").focus();
+                return false;
+            }
+        }
+        if ($("#typeid").val() == 6) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == 0 || $("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+        }
+        if ($("#typeid").val() == 7) {
+            alert($("#disid").val());
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please select District");
+                $("#disid").focus();
+                return false;
+            }
+        }
+        if($("#typeid").val() == 7)
+        {
+             
+            var SubDistrictselected = $(".District option:selected");
+            var SubDistrictmessage = "0";
+            SubDistrictselected.each(function () {
+                SubDistrictmessage += "," +$(this).val();
+            });
+            $("#MultiDis").val(SubDistrictmessage);
+        }
+        if($("#typeid").val() == 5)
+        {
+             
+            var SubLocationselected = $("#Location option:selected");
+            var SubLocationmessage = "0";
+            SubLocationselected.each(function () {
+                SubLocationmessage +="," + $(this).val() ;
+            });
+            $("#MultiLoca").val(SubLocationmessage);
+        }
+        if($("#typeid").val() == 6)
+        {
+            var SubSubdivisionselected = $(".Subdivision option:selected");
+            var SubSubdivisionmessage = "0";
+            SubSubdivisionselected.each(function () {
+                SubSubdivisionmessage += "," +$(this).val();
+            });
+            $("#MultiSubdiv").val(SubSubdivisionmessage);
+        }
+    }
+    function validateEmail() {
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test($("#Email").val())) {
+            alert("Invalid email address.");
+            $("#Email").focus();
+            return false;
+        }
+    }
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57));
+        return ret;
+    }
+    function IsCharsOnly(e) {
+         
+        var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+        var ret = (((keyCode == 46) || (keyCode == 32) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122)))
+        return ret;
+    }
+    function ClearAll() {
+        alert("");
+         
+        $(':input', '#sign').val('').removeAttr('checked').removeAttr('selected');
+    }
+    $("#typeid").change(loadusertype)
+    function loadusertype() {
+    }
+</script>

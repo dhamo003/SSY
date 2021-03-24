@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "DivistionWiseStatus";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<style>
+    .dataTables_length, .dataTables_filter {
+        display: none !important;
+    }
+    
+    #example
+    {
+        font-family : Calibri !important;
+    }
+</style>
+
+<script>
+    var DistrictId=@Html.Raw(Json.Encode(ViewBag.DistrictId))
+    var fromDate=@Html.Raw(Json.Encode(ViewBag.fromDate))
+    var toDate=@Html.Raw(Json.Encode(ViewBag.toDate))
+</script>
+
+<div class="welcome-bg-inside">
+    <div class="row">
+    
+        <div class="col-sm-12">
+            <div class="content-box-inner">
+              <center><h1>General Report</h1></center>  
+                <input type="button" class="btn btn-primary pull-right" onclick="DistrictWise();" name="btnBack" value="Back" />
+                <div id="Activeloaderdiv" style="display:none;"> <center><img src="  /Content/images/ColorProcessing.gif" /> </center> </div>
+               
+                <br class="clearfix">
+                <div id="datatable-1_wrapper" class="dataTables_wrapper tbldivision" role="grid" style="display:none;">
+                    <input type="button" class="btn btn-primary" id="btnExport" style="display:none;" value="Export Excel" />
+
+                    <table id="example" class="table table-striped table-bordered DivisionWiseStatus dt-responsive" cellspacing="0" width="100%">
+                        <thead style="background-color:#87CEEB">
+                            <tr>
+                                <th>Name of the sub division</th>
+                                <th>Total no of SSIN generated from unique legacy data</th>
+                                <th>Total no of fresh applications received</th>
+                                <th>Total no of fresh applications approved and SSIN generated</th>
+                                <th>Total no of fresh applications sent back for correction</th>
+                                <th>Total no of fresh applications rejected</th>
+                                <th>Total no of fresh applications pending with Office</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#Activeloaderdiv").show();
+
+        $('.DivisionWiseStatus').DataTable({
+        });
+
+        $('#btnExport').css('display','block');
+
+        $.get('@Url.Action("Get_DivisionWiseStatus", "Home")', {DistrictId:DistrictId, fromDate: fromDate, toDate:toDate }, function (data) {
+            var table = $('.DivisionWiseStatus').DataTable();
+            table.destroy();
+            $('.DivisionWiseStatus tbody').empty();
+            var res = JSON.stringify(data);
+
+            $("#Activeloaderdiv").hide();
+            $(".tbldivision").show();
+
+
+            $('.DivisionWiseStatus').DataTable({
+                "bSort": false,
+                "aaData": JSON.parse(res),
+                "columns": [
+                    { "data": "SubDivisionName" },
+                    { "data": "LegacyData" },
+                    { "data": "AppReceived" },
+                    { "data": "AppApproved" },
+                    { "data": "AppForCorrection" },
+                    { "data": "AppRejected" },
+                    { "data": "AppPending" }]
+            });
+        });
+    });
+    $("#btnExport").click(function(e) {
+
+        var Tmptbl=$('.DivisionWiseStatus').html();
+                
+        //Tmptbl=Tmptbl.replace('<a href="#" ','<p');
+        //Tmptbl=Tmptbl.replace('</a>','</p>');
+        
+        var tbldata='<table border=1>'+ Tmptbl+'</table>';
+
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tbldata));
+
+        e.preventDefault();
+    });
+    function DistrictWise()
+    {
+        //alert("DistrictWiseStatus");
+        window.location.href="DistrictWiseStatus";
+    }
+
+</script>

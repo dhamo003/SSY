@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "Deduplication Groups";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+@*<script src="~/Content/usermodule/jquery.min.js"></script>
+    <script src="~/Content/usermodule/grid.locale-en.js"></script>
+    <script src="~/Content/usermodule/jquery.jqGrid.js"></script>
+    <link href="~/Content/usermodule/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/usermodule/ui.jqgrid.css" rel="stylesheet" />*@
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+@*<script>
+        $.jgrid.defaults.width = 1120;
+    </script>*@
+<style>
+    hr {
+        margin-top: 3px !important;
+        margin-bottom: -5px !important;
+    }
+
+    .dataTables_length, .dataTables_filter {
+        display: none !important;
+    }
+</style>
+
+
+    <!-- uiView:  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 pull-left">
+                <b>Groups Information</b>
+                <hr />
+            </div>
+            <div class="col-md-6 pull-left">
+                <b>Records Information</b>
+                <hr />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-2 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Total
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="huge">@ViewBag.TotalGroups</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Reviewed
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="huge">@ViewBag.GroupsReviewed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Pending
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="huge">@ViewBag.GroupsPending</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Total
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="huge">@ViewBag.TotalRecords</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Reviewed
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="huge">@ViewBag.RecordsReviewed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Pending
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="huge">@ViewBag.RecordsPending</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="input-group" style="width: 250px; margin-top: 1px;">
+                    <input type="Search" placeholder="Enter Group No" class="form-control grpsearchval"
+                           onkeydown="return IsAlphaNumaric(event)" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-info getInspDetGrp" style="background-color:#1a2c6f;">
+                            <span class="glyphicon glyphicon-search" style="height: 19px;"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group" style="width: 250px; margin-top: 1px;">
+                    <input type="Search" placeholder="Enter Reg. No" class="form-control regsearchval"
+                           onkeydown="return IsAlphaNumaric(event)" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-info getInspDetReg" style="background-color:#1a2c6f;">
+                            <span class="glyphicon glyphicon-search" style="height: 19px;"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                @*<table id="jqGrid"></table>
+                    <div id="jqGridPager"></div>*@
+                <table class="table table-striped table-bordered tblGroups" cellspacing="0" width="100%">
+                    <thead style="background-color:#87CEEB">
+                        <tr>
+                            <th>SNo.</th>
+
+                            <th>Group No</th>
+                            <th>No.of Records</th>
+                            <th>View</th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1 pull-right" style="padding-right:-15px;padding-top:5px; padding-bottom:5px;">
+                <div class="input-group input-group-sm">
+                    <input type="text" id="txtPaging" class="form-control" placeholder="Jump to Page..">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" id="btnPaging">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+
+        $('.tblGroups').DataTable({
+
+
+            "processing": true,
+            "serverSide": true,
+          
+
+            "ajax": {
+                "url": "/Home/GetGroupWiseSummary",
+                "type": "POST",
+                "data": {},
+                "dataType": "JSON"
+            },
+            "ordering": false,
+       
+            "columns": [
+
+
+                { "data": "GNo", "ordering": false },
+                { "data": "GroupID" },
+                { "data": "NoofRecords" },
+                {
+                    "data": "GroupID", 'render': function (data, type, row) {
+                        return '<td><a href="#" class="btn btn-sm btn-success" onclick="GetGroupID(' + row.GroupID + ')"><b>View Details</b></a></td>';
+                    },
+                }
+            ],
+    
+
+
+        });
+
+    });
+
+  
+    $(".getInspDetGrp").click(function () {
+        window.location = '/Home/DeDupGroup/?grpId=' + $(".grpsearchval").val() + '&type=GROUP';
+    });
+    $(".getInspDetReg").click(function () {
+        window.location = '/Home/DeDupGroup/?grpId=' + $(".regsearchval").val() + '&type=REG';
+    });
+    function GetGroupID(GroupID) {
+         
+        window.location = '/Home/DeDuplication?grpNo=' + GroupID;
+    }
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+            e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+            (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+            ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+            return false;
+        }
+    }
+    $('#btnPaging').click(function () {
+        var val = $('#txtPaging').val();
+        if (val != "" && val != 0) {
+
+            val = val - 1;
+            var table = $('.tblGroups').DataTable();
+            table.page(parseInt(val)).draw('page');
+        }
+        else {
+            alert('Requested page number not valid');
+            $('#txtPaging').focus();
+        }
+    });
+</script>

@@ -1,0 +1,811 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+	ViewBag.Title = "EditBeneAddressDetails";
+	Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    var benSno = @Html.Raw(Json.Encode(ViewBag.Bensno))
+    var Count = @Html.Raw(Json.Encode(ViewBag.Count))
+
+    var Status = @Html.Raw(Json.Encode(ViewBag.Status))
+
+    var StatusName = @Html.Raw(Json.Encode(ViewBag.StatusName))
+
+
+
+</script>
+<div class="row" style="margin-left: 20px">
+
+	<form role="form" id="form">
+		<div class="row">
+			<div class="col-md-4">
+				<b>Permanent Address</b>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4" style="display:none;">
+				<div class="form-group">
+					<label>PermanetId</label>
+					@Html.TextBox("permid", "", new { })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>State <span style="color: red">*</span></label>
+					@Html.TextBox("state", "West Bengal", new { text = "", @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>District <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control paddistid", id = "perdistid" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Sub Division <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control persubdivid", id = "persubdivid" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label style="" class="">Block/Municipality/Corporation <span style="color: red">*</span></label>
+					@Html.DropDownList("ddlBMC", new List<SelectListItem>
+							{
+								 new SelectListItem{ Text="-- Select Type --", Value = "0" },
+								new SelectListItem{ Text="Block", Value = "1" },
+								new SelectListItem{ Text="Muncipality", Value = "2" },
+								new SelectListItem{ Text="Corporation", Value = "3" },
+							}, new { @class = "col-md-2 pull-left form-control", id = "peraddBMC" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Name of Block/Municiplaity/Corporation <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control peraddblock", id = "peraddblock" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>P.S <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.ps, new SelectList(Model.psname, "Value", "Text"), new { @class = "form-control perpsid", id = "perpsid" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>P.O <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.po, new SelectList(Model.poname, "Value", "Text"), new { @class = "form-control perPOid", id = "perPOid" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>PIN code <span style="color: red">*</span></label>
+					@Html.TextBoxFor(m => m.pincode, null, new { @class = "form-control", @maxlength = 6, onkeypress = "return onlynumber(event,this)" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="">GP/Ward <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.ward, new SelectList(Model.wardname, "Value", "Text"), new { @class = "form-control ward", id = "ward" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Village/Street/Road <span style="color: red">*</span></label>
+					@Html.TextBoxFor(m => m.vlge1, null, new { @class = "form-control", @maxlength = 50 })
+				</div>
+			</div>
+		</div>
+		<input type="checkbox" id="presauto" name="peraddr" value="permntaddr" style="margin-left: 20px;"> Same as Permanent Address
+		<div class="row">
+			<div class="col-md-4">
+				<b>Present Address</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4" style="display:none;">
+				<div class="form-group">
+					<label>PresentId</label>
+					@Html.TextBox("presid", "", new { })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>State <span style="color: red">*</span></label>
+					@Html.TextBox("state2", "West Bengal", new { text = "", @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>District <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control PreAddrdistid", id = "PreAddrdistid" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Sub Division <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control preAddrsubdiv", id = "preAddrsubdiv" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label style="" class="">Block/Municipality/Corporation <span style="color: red">*</span></label>
+					@Html.DropDownList("ddlBMC", new List<SelectListItem>
+							{
+								new SelectListItem{ Text="-- Select Type --", Value = "0" },
+								new SelectListItem{ Text="Block", Value = "1" },
+								new SelectListItem{ Text="Muncipality", Value = "2" },
+								new SelectListItem{ Text="Corporation", Value = "3" },
+							}, new { @class = "col-md-2 pull-left form-control ", id = "preaddBMC" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Name of Block/Municiplaity/Corporation <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control preaddBlock", id = "preaddBlock" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>P.S <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.ps, new SelectList(Model.psname, "Value", "Text"), new { @class = "form-control preaddPS", id = "preaddPS" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>P.O <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.po, new SelectList(Model.poname, "Value", "Text"), new { @class = "form-control preaddPO", id = "preaddPO" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>PIN code <span style="color: red">*</span></label>
+					@Html.TextBoxFor(m => m.pincode2, null, new { @class = "form-control", @maxlength = 6, onkeypress = "return onlynumber(event,this)" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="">GP/Ward <span style="color: red">*</span></label>
+					@Html.DropDownListFor(m => m.ward, new SelectList(Model.wardname, "Value", "Text"), new { @class = "form-control ward2", id = "ward2" })
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Village/Street/Road <span style="color: red">*</span></label>
+					@Html.TextBoxFor(m => m.vlge2, null, new { @class = "form-control", @maxlength = 50 })
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="">Upload Address Proof<font size="1"> *</font></label>
+					<input type="file" multiple="multiple" name="files[0]" class="form-control" id="addressproofdoc" />
+					<font size="2"> &nbsp;&nbsp;&nbsp;&nbsp; Address Proof limit is upto 2MB, JPEG/PNG/PDF</font>
+					<a href="#" id="dobproofdoc1"><span class="glyphicon glyphicon-remove-circle"></span></a>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="Bensno" value="0" name="Bensno" />
+		<input type="hidden" id="BenPerAddress" value="0" name="BenPerAddress" />
+		<input type="hidden" id="BenPreAddress" value="0" name="BenPreAddress" />
+	</form>
+	
+	</div>
+
+<div class="row" id="divBtn" style="display:none;">
+	<center>
+		<a class="btn btn-primary" onclick="FinalSubmit()">Submit</a>
+		@*<button type="submit" class="btn btn-primary ">Submit</button>*@
+
+	</center>
+</div>
+
+<br />
+
+<br />
+<div>
+	<fieldset class="custom-border">
+		<center><legend class="custom-border color-white"><span class="leg-sty" style="color:green"><h3><b>History</b></h3></span></legend></center>
+
+		<div class="col-md-12">
+
+			<table class="table table-striped table-bordered tblBeneAddressDetHis" cellspacing="0" width="100%">
+				<thead>
+					<tr style="">
+						<th>S.No</th>
+						@*<th>Name</th>*@
+						@*<th>Last Name</th>
+							<th>Middle Name</th>*@
+						@*<th>DOB</th>*@
+						<th>Status</th>
+						<th>Requested Date</th>
+						<th>Verified Date</th>
+						<th>Remarks</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</fieldset>
+</div>
+
+
+
+<script>
+		$(document).ready(function () {
+			//var dat = $("#Bensno").val();
+			GetDetail(benSno);
+			GetHistory(benSno);
+			$("#Bensno").val(benSno);
+			if (Count == 0) {
+
+				$("#divBtn").show();
+			}
+		})
+
+
+		function GetDetail(dat) {
+			$.get('@Url.Action("GetbenAddressDetails", "Registration")', { bensno: dat }, function (res) {
+				 
+				$.each(res, function (i, data) {
+					 
+					if (data.BenAddressType == "Permanent") {
+						$("#permid").val(data.BenAddressSno);
+						$("#perdistid").val(data.BenDistrict);
+						$("#persubdivid").val(data.BenSubDivision);
+						$("#peraddBMC").val(data.LocationType);
+						$("#peraddblock").val(data.BenBmc);
+						$("#perpsid").val(data.BenPs);
+						$("#perPOid").val(data.BenPo);
+						$("#pincode").val(data.BenPincode);
+						if (data.BenGpWard == "0") {
+							$("#ward").find("option").remove();
+							$("#ward").append('<option value=0>All Wards</option>');
+							$("#ward").val(0);
+						}
+						else {
+							$("#ward").val(data.BenGpWard);
+						}
+						if (data.BenGpWard == "9999") {
+							$("#ward").find("option").remove();
+							var BlockName1 = $("#peraddblock option:selected").text();
+							$("#ward").append('<option value=9999>' + BlockName1 + '</option>');
+							$("#ward").val('9999');
+						}
+						$("#vlge1").val(data.BenVsr);
+					}
+					if (data.BenAddressType == "Present") {
+						$("#presid").val(data.BenAddressSno);
+						$("#PreAddrdistid").val(data.BenDistrict);
+						$("#preAddrsubdiv").val(data.BenSubDivision);
+						$("#preaddBMC").val(data.LocationType);
+						$("#preaddBlock").val(data.BenBmc);
+						$("#preaddPS").val(data.BenPs);
+						$("#preaddPO").val(data.BenPo);
+						$("#pincode2").val(data.BenPincode);
+						if (data.BenGpWard == "0") {
+							$("#ward2").find("option").remove();
+							$("#ward2").append('<option value=0>All Wards</option>');
+							$("#ward2").val(0);
+						}
+						else {
+							$("#ward2").val(data.BenGpWard);
+						}
+						if (data.BenGpWard == "9999") {
+							$("#ward2").find("option").remove();
+							var BlockName = $("#preaddBlock option:selected").text();
+							$("#ward2").append('<option value=9999>' + BlockName + '</option>');
+							$("#ward2").val('9999');
+						}
+						$("#vlge2").val(data.BenVsr);
+					}
+				});
+			})
+	}
+	$("#PreAddrdistid").change(loadprePO);
+        function loadprePO() {
+            $.get('@Url.Action("GetPOJSON", "Registration")', {ID :$("#PreAddrdistid").val()}, function (dat) {
+                $("#preaddPO").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preaddPO").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+
+
+        // Present block change
+        $("#preaddBMC").change(loadpreBlock);
+        function loadpreBlock() {
+            $.get('@Url.Action("GetblockJSON", "Registration")', {ID :$("#preAddrsubdiv").val(),typedata :$("#preaddBMC").val()}, function (dat) {
+                $("#preaddBlock").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preaddBlock").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+            var Dist = $("#PreAddrdistid").val();
+            var Blk = $("#preaddBMC").val();
+            if(Blk == "2" ||  Blk == "3")
+            {
+                //$("#ward2").find("option").remove();
+                //$("#ward2").append('<option value=0>All Wards</option>');
+
+                $.get('@Url.Action("GetGPJSON", "Registration")', {ID :0}, function (dat) {
+                    $("#ward2").find("option").remove();
+                    $.each(dat, function (i, data) {
+                         
+                        $("#ward2").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                    });
+                });
+            }
+            else
+            {
+                loadGPre();
+            }
+        }
+        $("#PreAddrdistid").change(loadpreSubdiv);
+        function loadpreSubdiv() {
+            $("#preAddrsubdiv").val("0");
+            $("#preaddBMC").val("0");
+            $("#preaddBlock").val("0");
+            $("#preaddPS").val("0");
+            $("#preaddPO").val("0");
+            $("#pincode2").val("");
+            $("#ward2").val("0");
+            $("#vlge2").val("");
+            loadGPre()
+            loadpreBlock()
+            $.get('@Url.Action("GetSubdivisionJSON", "Registration")', {ID :$("#PreAddrdistid").val()}, function (dat) {
+                $("#preAddrsubdiv").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preAddrsubdiv").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+        $("#perdistid").change(loadSubdiv);
+        function loadSubdiv() {
+            $("#persubdivid").val("0");
+            $("#peraddBMC").val("0");
+            $("#peraddblock").val("0");
+            $("#perpsid").val("0");
+            $("#perPOid").val("0");
+            $("#pincode").val("");
+            $("#ward").val("0");
+            $("#vlge1").val("");
+            loadGP()
+            loadBlock()
+            $.get('@Url.Action("GetSubdivisionJSON", "Registration")', {ID :$("#perdistid").val()}, function (dat) {
+                $("#persubdivid").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#persubdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+                //Present Address
+                $("#preAddrsubdiv").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preAddrsubdiv").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+        $("#peraddBMC").change(loadBlock);
+        function loadBlock() {
+            $.get('@Url.Action("GetblockJSON", "Registration")', {ID :$("#persubdivid").val(),typedata : $("#peraddBMC").val()}, function (dat) {
+                 
+                $("#peraddblock").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#peraddblock").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+                //Present Address Block
+                $("#preaddBlock").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preaddBlock").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+            var perDist = $("#perdistid").val();
+            var perBlk = $("#peraddBMC").val();
+            if( perBlk == "2" ||  perBlk == "3")
+            {
+                //$("#ward").find("option").remove();
+                //$("#ward").append('<option value=0>All Wards</option>');
+                //$("#ward2").find("option").remove();
+                //$("#ward2").append('<option value=0>All Wards</option>');
+
+
+                $.get('@Url.Action("GetGPJSON", "Registration")', {ID :0}, function (dat) {
+                    $("#ward2").find("option").remove();
+                    $("#ward").find("option").remove();
+                    $.each(dat, function (i, data) {
+                         
+                        $("#ward2").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                        $("#ward").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                    });
+                });
+            }
+            else
+            {
+                loadGP();
+            }
+        }
+        //For Present Address
+        $("#preaddBlock").change(loadGPKolkata);
+        function loadGPKolkata(){
+            var DistGPK = $("#PreAddrdistid").val();
+            var BlkGPK = $("#preaddBMC").val();
+            //if(DistGPK == "12" && BlkGPK == "3")
+            //{
+            //    $("#ward2").find("option").remove();
+            //    var BlockName= $("#preaddBlock option:selected").text();
+            //    $("#ward2").append('<option value=9999>'+BlockName+'</option>');
+            //    $("#ward2").val('9999');
+            //}
+        }
+        //Permanent
+        $("#peraddblock").change(loadGPKolkataPer);
+        function loadGPKolkataPer(){
+            var DistGPPer = $("#perdistid").val();
+            var BlkGPPer = $("#peraddBMC").val();
+            //if(DistGPPer == "12" && BlkGPPer == "3")
+            //{
+            //    $("#ward").find("option").remove();
+            //    var BlockName= $("#peraddblock option:selected").text();
+            //    $("#ward").append('<option value=9999>'+BlockName+'</option>');
+            //    $("#ward").val('9999');
+            //    //Present
+            //    $("#ward2").find("option").remove();
+            //    $("#ward2").append('<option value=9999>'+BlockName+'</option>');
+            //    $("#ward2").val('9999');
+            //}
+            // else
+            // {
+            loadGPKolkata();
+            //  }
+        }
+        $("#PreAddrdistid").change(loadprePS);
+        function loadprePS() {
+            $.get('@Url.Action("GetPSJSON", "Registration")', {ID :$("#PreAddrdistid").val()}, function (dat) {
+                $("#preaddPS").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preaddPS").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+        $("#perdistid").change(loadPS);
+        function loadPS() {
+            $.get('@Url.Action("GetPSJSON", "Registration")', {ID :$("#perdistid").val()}, function (dat) {
+                $("#perpsid").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#perpsid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+                //present Address Block
+                $("#preaddPS").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preaddPS").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+        $("#perdistid").change(loadperPO);
+        function loadperPO() {
+            $.get('@Url.Action("GetPOJSON", "Registration")', {ID :$("#perdistid").val()}, function (dat) {
+                $("#perPOid").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#perPOid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+                //Present
+                $("#preaddPO").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#preaddPO").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+	}
+	//PIN Code
+	$('#perPOid').change(function () {
+		var pincode = $("#perPOid").val();
+		var res = pincode.split("-");
+		//alert(res[0]);
+		$("#pincode").val(res[0]);
+	});
+
+        //GP list
+        $("#persubdivid").change(loadGP);
+         
+        function loadGP() {
+            $.get('@Url.Action("GetGPJSON", "Registration")', {ID :$("#persubdivid").val()}, function (dat) {
+                $("#ward").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#ward").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                });
+                //Present Address
+                $("#ward2").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#ward2").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                });
+            });
+	}
+	$('#preaddPO').change(function () {
+		var pincode = $("#preaddPO").val();
+		var res = pincode.split("-");
+		$("#pincode2").val(res[0]);
+	});
+	$('#presauto').change(function () {
+		var res = $(this).is(':checked');
+		if (res == true) {
+			 
+			$("#state2").val($("#state").val());
+			$("#PreAddrdistid").val($("#perdistid").val());
+			$("#PreAddrdistid").attr("readonly", "readonly");
+			$("#PreAddrdistid").attr("disabled", true);
+			$("#preAddrsubdiv").val($("#persubdivid").val());
+			$("#preAddrsubdiv").attr("readonly", "readonly");
+			$("#preAddrsubdiv").attr("disabled", true);
+			$("#preaddBMC").val($("#peraddBMC").val());
+			$("#preaddBMC").attr("readonly", "readonly");
+			$("#preaddBMC").attr("disabled", true);
+			$("#preaddBlock").val($("#peraddblock").val());
+			$("#preaddBlock").attr("readonly", "readonly");
+			$("#preaddBlock").attr("disabled", true);
+			$("#preaddPS").val($("#perpsid").val());
+			$("#preaddPS").attr("readonly", "readonly");
+			$("#preaddPS").attr("disabled", true);
+			$("#preaddPO").val($("#perPOid").val());
+			$("#preaddPO").attr("readonly", "readonly");
+			$("#preaddPO").attr("disabled", true);
+			$("#pincode2").val($("#pincode").val());
+			$("#pincode2").attr("readonly", "readonly");
+			var selward = $("#ward option:selected").text();
+			if (selward == "-- Select GP --") {
+				$("#ward2 option:contains(All Wards)").remove();
+				$("#ward2").val($("#ward").val());
+			}
+			else {
+				$("#ward2 option[value ='0']").remove();
+				$("#ward2").append('<option value=0>All Wards</option>');
+				$("#ward2").val($("#ward").val());
+			}
+			$("#ward2").attr("readonly", "readonly");
+			$("#ward2").attr("disabled", true);
+			$("#vlge2").val($("#vlge1").val());
+			$("#vlge2").attr("readonly", "readonly");
+		}
+		else {
+			$("#PreAddrdistid").val("0");
+			$("#PreAddrdistid").removeAttr("readonly");
+			$("#PreAddrdistid").attr("disabled", false);
+			$("#preAddrsubdiv").val("0");
+			$("#preAddrsubdiv").removeAttr("readonly");
+			$("#preAddrsubdiv").attr("disabled", false);
+			$("#preaddBMC").val("0");
+			$("#preaddBMC").removeAttr("readonly");
+			$("#preaddBMC").attr("disabled", false);
+			$("#preaddBlock").val("0");
+			$("#preaddBlock").removeAttr("readonly");
+			$("#preaddBlock").attr("disabled", false);
+			$("#preaddPS").val("0");
+			$("#preaddPS").removeAttr("readonly");
+			$("#preaddPS").attr("disabled", false);
+			$("#preaddPO").val("0");
+			$("#preaddPO").removeAttr("readonly");
+			$("#preaddPO").attr("disabled", false);
+			$("#pincode2").val("");
+			$("#pincode2").removeAttr("readonly");
+			$("#ward2 option[value ='0']").remove();
+			$("#ward2").append('<option value=0>-- Select GP --</option>');
+			$("#ward2").val("0");
+			$("#ward2").removeAttr("readonly");
+			$("#ward2").attr("disabled", false);
+			$("#vlge2").val("");
+			$("#vlge2").removeAttr("readonly");
+		}
+	});
+
+	function GetHistory(benSno) {
+        $.get('@Url.Action("GetBeneAddressDetEditHistory", "Registration")', { benSno: benSno}, function (result) {
+             
+			var table = $('.tblBeneAddressDetHis').DataTable();
+            table.destroy();
+
+			$('.tblBeneAddressDetHis tbody').empty();
+            $.each(result, function (i, data) {
+
+				if (data.Status == "Pending") {
+					$("#divBtn").hide();
+				}
+				$('.tblBeneAddressDetHis').append('<tr><td>' + data.Sno + '</td><td>' + data.Status + '</td><td>' + data.ReqDate + '</td><td>' + data.VerifiedDate + '</td><td>' + data.Remarks + '</td>')
+            });
+			$('.tblBeneAddressDetHis').DataTable({
+
+            });
+
+        });
+
+	}
+	function FinalSubmit() {
+		if ($("#perdistid").val() == "" || $("#perdistid").val() == null || $("#perdistid").val() == 0) {
+			alert("Please Select Permanent District");
+			$("#perdistid").focus();
+			return false;
+		}
+
+		if ($("#persubdivid").val() == "" || $("#persubdivid").val() == null || $("#persubdivid").val() == 0) {
+			alert("Please Select Permanent Sub Division");
+			$("#persubdivid").focus();
+			return false;
+		}
+		//
+		if ($("#peraddBMC").val() == "" || $("#peraddBMC").val() == null || $("#peraddBMC").val() == 0) {
+			alert("Please Select Permanent BMC");
+			$("#peraddBMC").focus();
+			return false;
+		}
+
+		if ($("#peraddblock").val() == "" || $("#peraddblock").val() == null || $("#peraddblock").val() == 0) {
+			alert("Please Select Permanent Block");
+			$("#peraddblock").focus();
+			return false;
+		}
+		//
+		if ($("#perpsid").val() == "" || $("#perpsid").val() == null || $("#perpsid").val() == 0) {
+			alert("Please Select Permanent PS");
+			$("#perpsid").focus();
+			return false;
+		}
+
+		if ($("#perPOid").val() == "" || $("#perPOid").val() == null || $("#perPOid").val() == 0) {
+			alert("Please Select Permanent PO");
+			$("#perPOid").focus();
+			return false;
+		}
+		if ($("#pincode").val() == "" || $("#pincode").val() == null || $("#pincode").val() == 0) {
+			alert("Please Enter Permanent PIN Code");
+			$("#pincode").focus();
+			return false;
+		}
+
+		if ($("#ward").val() == "" || $("#ward").val() == null || $("#ward").val() == 0) {
+			alert("Please Select Permanent Ward");
+			$("#ward").focus();
+			return false;
+		}
+		if ($("#vlge1").val() == "" || $("#vlge1").val() == null || $("#vlge1").val() == 0) {
+			alert("Please Enter Permanent Village");
+			$("#vlge1").focus();
+			return false;
+		}
+
+		if ($("#PreAddrdistid").val() == "" || $("#PreAddrdistid").val() == null || $("#PreAddrdistid").val() == 0) {
+			alert("Please Select Present District");
+			$("#PreAddrdistid").focus();
+			return false;
+		}
+
+		if ($("#preAddrsubdiv").val() == "" || $("#preAddrsubdiv").val() == null || $("#preAddrsubdiv").val() == 0) {
+			alert("Please Select Present Sub Division");
+			$("#preAddrsubdiv").focus();
+			return false;
+		}
+		//
+		if ($("#preaddBMC").val() == "" || $("#preaddBMC").val() == null || $("#preaddBMC").val() == 0) {
+			alert("Please Select Present BMC");
+			$("#preaddBMC").focus();
+			return false;
+		}
+
+		if ($("#preaddBlock").val() == "" || $("#preaddBlock").val() == null || $("#preaddBlock").val() == 0) {
+			alert("Please Select Present Block");
+			$("#preaddBlock").focus();
+			return false;
+		}
+		//
+		if ($("#preaddPS").val() == "" || $("#preaddPS").val() == null || $("#preaddPS").val() == 0) {
+			alert("Please Select Present PS");
+			$("#preaddPS").focus();
+			return false;
+		}
+
+		if ($("#preaddPO").val() == "" || $("#preaddPO").val() == null || $("#preaddPO").val() == 0) {
+			alert("Please Select Present PO");
+			$("#preaddPO").focus();
+			return false;
+		}
+		if ($("#pincode2").val() == "" || $("#pincode2").val() == null || $("#pincode2").val() == 0) {
+			alert("Please Enter Present PIN Code");
+			$("#pincode2").focus();
+			return false;
+		}
+
+		if ($("#ward2").val() == "" || $("#ward2").val() == null || $("#ward2").val() == 0) {
+			alert("Please Select Present Ward");
+			$("#ward2").focus();
+			return false;
+		}
+		if ($("#vlge2").val() == "" || $("#vlge2").val() == null || $("#vlge2").val() == 0) {
+			alert("Please Enter Present Village");
+			$("#vlge2").focus();
+			return false;
+		}
+		if ($("#addressproofdoc").val() == "" || $("#addressproofdoc").val() == null || $("#addressproofdoc").val() == 0) {
+			alert("Please Upload Address Proof");
+			$("#addressproofdoc").focus();
+			return false;
+		}
+		//alert($("#addressproofdoc").val());
+		// 
+		
+		//Perminent address
+		var Permanentadd = "Permanent" + "$";//0
+		Permanentadd += $("#state").val() + "$";//1
+		Permanentadd += $("#perdistid").val() + "$";//2
+		Permanentadd += $("#persubdivid").val() + "$";//3 
+		Permanentadd += $("#peraddBMC").val() + "$";//4
+		
+		Permanentadd += $("#peraddblock").val() + "$";//4
+		Permanentadd += $("#perpsid").val() + "$";//6
+		var po1 = $("#perPOid").val();
+		var post1 = po1.split("-");
+		Permanentadd += post1[1] + "$";//7
+		Permanentadd += $("#pincode").val() + "$";//8
+		Permanentadd += $("#ward").val() + "$";//9
+		Permanentadd += $("#vlge1").val() + "$";//10
+		$("#BenPerAddress").val(Permanentadd);
+		
+		//present address
+		var Presentadd = "";
+		Presentadd += "Present" + "$";//0
+		Presentadd += $("#state2").val() + "$";//1
+		Presentadd += $(".PreAddrdistid").val() + "$";//2
+		Presentadd += $(".preAddrsubdiv").val() + "$";//3
+		Presentadd += $("#preaddBMC").val() + "$";//4
+		Presentadd += $("#preaddBlock").val() + "$";//5
+		Presentadd += $("#preaddPS").val() + "$";//6
+		var po2 = $("#preaddPO").val();
+		var post2 = po2.split("-");
+		Presentadd += post2[1] + "$";//7
+		Presentadd += $("#pincode2").val() + "$";//8
+		Presentadd += $("#ward2").val() + "$";//9
+		Presentadd += $("#vlge2").val() + "$";//10
+		//Presentadd += $("#peraddBMC").val() + "$";//20
+		//Presentadd += $("#preaddBMC").val() + "$";//21
+		//Presentadd += $("#permid").val() + "$";//22
+		//Presentadd += $("#presid").val() + "$";//23
+		$("#BenPreAddress").val(Presentadd);
+
+		var form = $('#form')[0];
+		var data = new FormData(form);
+
+		$.ajax({
+			url: '/Registration/SubmitBeneAddressDetails',
+			type: 'post',
+			enctype: 'multipart/form-data',
+			processData: false,  // Important!
+			contentType: false,
+			cache: false,
+			data: data,
+			success: function (Res) {
+				alert(Res.Message);
+				if (Res.Code == "000") {
+					window.location.href = "/Registration/EditBeneAddressDetails";
+				}
+			}
+
+		});
+	}
+	function onlynumber(e, t) {
+		if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+			return false;
+		}
+	}
+</script>

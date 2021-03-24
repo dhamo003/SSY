@@ -1,0 +1,183 @@
+
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header><h2>Payment Release </h2></header>
+                <!-- widget div-->
+                <div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form smart-form-main">
+                            
+                            <!--<header>Please select the claims to forward to Tresurer for payment</header>-->
+                            <fieldset>
+                                <section>
+
+                                    <!--<div class="row">
+                <div class="col col-6">
+                    <label class="label"> Payment Process Id <span [style.color]="!paymentIdValid?'red':''"><b>*</b></span></label>
+                    <label class="select">
+                        <select class="form-control select" name="processId" [(ngModel)]="processId" (change)="selectPaymentProcessId(processId)">
+                            <option value="0">Choose a Process Id</option>
+                            <option value="{{process.paymentProcessingID}}" *ngFor="let process of paymentProcessIds"> {{process.rloOfficeName}} - {{process.paymentProcessingID}} </option>
+                        </select> <i></i>
+                    </label>
+
+                </div>
+            </div>-->
+                                </section>
+                            </fieldset>
+                            <div *ngIf="processedClaimsView">
+                                <header>ALC Details </header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row" *ngIf="showErrorMessage">
+                                            <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                                <label>Please select atleast one record to proceed.</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong>ALC Name: </strong>{{officeDetails.userName}} </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>RLO Office Name & Address: </strong>{{RloOfficeAddress.rloOfficeName}} <br /> {{RloOfficeAddress.addressLine1}} &nbsp; {{RloOfficeAddress.addressLine2}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>Payment Processing Date: </strong>{{date | date: 'dd/MM/yyyy'}}</label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+
+                                <fieldset style="display:none">
+                                    <section>
+                                        <header>Fund Status at RLO</header>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong>Balance as on today : </strong>{{RloOfficeAddress.balanceOfTheAmount}}</label>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="widget-body no-padding">
+                                        <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <!--<th><input type="checkbox" name="selectedAll" [(ngModel)]="selectedAll" (change)="selectAll();"></th>-->
+                                                    <th>SSIN</th>
+                                                    <th>Beneficiary Name</th>
+                                                    <th>Beneficiary Type</th>
+                                                    <th>Claim Reference No.</th>
+                                                    <th>Claim Category</th>
+                                                    <th>Submission Date</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!--<tr *ngIf="claimDetails.length==0">
+                        <td colspan="8">
+                            No data available
+                        </td>
+                    </tr>-->
+                                                <tr *ngFor="let claim of claimDetails">
+                                                    <!--<td class="">
+                            <input type="checkbox" name="selected" [(ngModel)]="claim.selected" (change)="checkIfAllSelected(claim);">
+                        </td>-->
+                                                    <td>{{claim.ssin}}</td>
+                                                    <td>{{claim.benName}}</td>
+                                                    <td>{{claim.benType}}</td>
+                                                    <td>{{claim.claimRefernceNo}}</td>
+                                                    <td>{{getTypeName(claim.claimType)}}</td>
+                                                    <td>{{claim.submittedDateString}}</td>
+                                                    <td>{{claim.approvedAmount}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="7"></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+
+                                </fieldset>
+                                <fieldset>
+
+                                    <div class="row">
+                                        <div class="col col-4">
+                                            <label class="control-label">Amount Transferred:</label>
+                                            <label class="form-control" disabled>{{sumofAmount}}</label>
+                                        </div>
+                                        <div class="col col-4 selectContainer">
+                                            <label class="control-label">Source Bank Account:<span [style.color]="!bankIsValid?'red':''"><b>*</b></span></label>
+                                            <select class="form-control" name="rloBankId" [(ngModel)]="rloBankId"
+                                                    [ngClass]="{'invalid-data': (!bankIsValid ), 'valid-data': bankIsValid}"
+                                                    required>
+                                                <option value="" disabled>Choose an Option</option>
+                                                <option value="{{bank.rloOfficeBankId}}" *ngFor="let bank of bankDetails">{{bank.bankAccountNo}}</option>
+                                                <i></i>
+                                            </select>
+                                            <div *ngIf="(!bankIsValid)">
+                                                <span style="color: red;">Bank account is required </span>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col col-4 selectContainer" *ngIf="fundrequestDetails.statusId != 24">
+                <label class="control-label"> Bank Account Name </label> <br />
+                {{fundrequestDetails.rloBankName}}
+            </div>-->
+                                        <!--<div class="col col-4">
+                                            <label class="control-label">Download IFMS Document:</label>
+                                            <i class="fa fa-file-excel-o" aria-hidden="true" style="color: green;zoom: 3;" (click)="downloadNeftDocument()"></i>
+                                        </div>-->
+                                    </div>
+                                </fieldset>
+                                <footer *ngIf="ifmsVisible"><a class="btn btn-success" (click)="downloadNeftDocument()">Download IFMS Document</a></footer>
+                                <footer>
+                                    <a *ngIf="!ifmsVisible" id="btnSava" class="btn btn-success" (click)="paymentRelease()"><i class="fa fa-warning-sign"></i> Release </a>
+                                    <a class="btn btn-danger" (click)="cancelClick()"><i class="fa fa-remove"></i> Cancel</a>
+                                    <!--<a class="btn btn-success" (click)="downloadNeftDocument()" [attr.disabled]="tr">Download IFMS Document</a>-->
+                                </footer>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+    </div>
+
+    <!-- end row -->
+</section>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>-->
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

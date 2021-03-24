@@ -1,0 +1,282 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+
+                <header>
+                    <h2>PF Collection </h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <form class="smart-form smart-form-main">
+                            <header *ngIf="!agentInfo">Agent Details</header>
+                            <fieldset *ngIf="!agentInfo">
+                                <section>
+                                    <div class="row" >
+                                        <div class="col col-6">
+                                            <label><strong>Agent Name: </strong>{{agentUserName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Agent ARN No: </strong>{{agentARNCode}} </label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-4" *ngIf="!isAllDepositsPayInSlipsUploaded">
+                                            <span style="color: red;">Agent didn't upload the PayIn Slips, Can't create Collections </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-4" *ngIf="agentInfo">
+                                            <label>
+                                                <strong>Agent ARN No: </strong>
+                                                <select class="form-control select" name="agentName" id="ddlAgentName" [(ngModel)]="agentUserId"
+                                                        (change)="agentChange($event.target.value)" [disabled]="isAgentLoggedin">
+                                                    <option value="{{agent.userid}}" *ngFor="let agent of agentList">{{agent.userCode}}</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="col col-4" *ngIf="agentInfo">
+                                            <label><strong>Agent Name: </strong>{{agentUserName}}</label>
+                                        </div>
+                                        <!--<div class="col col-4"  *ngIf="agentInfo">
+                                            <label><strong>RLO Office Name & Address: </strong>{{agentRLOOfficeAddress}}</label>
+                                        </div>-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-4">
+                                        <label>
+                                            <strong>Collection Date: </strong><span [style.color]="!collectionDateReq?'red':''"><b>*</b></span>
+                                        </label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="collectionDate" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   [maxDate]="toDayDate"
+                                                   placeholder="DD/MM/YYYY" [(ngModel)]="collectionDate"
+                                                   value="{{collectionDate | date: 'dd/MM/yyyy' }}" [ngClass]="{'invalid-data': (!collectionDateReq), 'valid-data': collectionDateReq}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="!collectionDateReq">
+                                            <span style="color: red;">Collection Date is required </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-4">
+                                            <label>Beneficiary Search(SSIN/Adhar/Reg.No./PF No.) <span [style.color]="!ssinValid?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search" (click)="searchSSINNo($event.target.value)"></i>
+                                                <input class="form-control" type="text" name="benSno" [(ngModel)]="ssin" placeholder="Enter SSIN" (change)="searchSSINNo($event.target.value)"
+                                                       (keydown.enter)="searchSSINNo($event.target.value)" NumbersOnly maxlength="50"
+                                                       #benSno="ngModel"
+                                                       [ngClass]="{'invalid-data': benSno.invalid && (!ssinValid || benSno.touched), 'valid-data': benSno.valid && ssinValid}"
+                                                       required>
+                                            </label>
+                                            <div *ngIf="benSno.invalid && (!ssinValid || benSno.touched)">
+                                                <span style="color: red;">Search criteria is required </span>
+                                            </div>
+                                            <div *ngIf="beneficiary.benSno==0">
+                                                <span style="color: red;">{{beneficiary.errorMessage}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset *ngIf="beneficiary.benSno>0">
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-4 selectContainer">
+                                            <img height="70" width="70" id="benImage" src="{{weburl+beneficiary.benPhoto}}" />
+
+                                        </div>
+                                        <div class="col col-4 selectContainer">
+                                            <label><strong>Beneficiary Name: </strong> {{beneficiary.benFullName}} </label>
+                                            <label><strong>Mobile : </strong> {{beneficiary.benMobileNo}} </label>
+                                        </div>
+                                        <div class="col col-4 selectContainer">
+                                            <label class="control-label">
+                                                <strong>Address: </strong>
+                                                {{beneficiary.benAddress}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-4">
+                                            <label>
+                                                <strong>Last Collection Date: </strong><span [style.color]="!LastCollectionDateReq?'red':''"><b>*</b></span>
+                                            </label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-calendar"></i>
+                                                <input type="text" name="lastCollectionDate" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                       [maxDate]="toDayDate" #lastCollectionDate="ngModel" [disabled]="isbenLastCollectionDate"
+                                                       placeholder="DD/MM/YYYY" [(ngModel)]="benLastCollectionDate"
+                                                       value="{{benLastCollectionDate | date: 'dd/MM/yyyy' }}" [ngClass]="{'invalid-data': (!LastCollectionDateReq), 'valid-data': LastCollectionDateReq}"
+                                                       required>
+                                            </label>
+                                            <div *ngIf="!lastCollectionDateReq">
+                                                <span style="color: red;">Last Collection Date is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col col-4 selectContainer">
+                                                <label><strong>Last Month Paid: </strong></label>
+                                                <select class="form-control" name="lastPaidMonth" id="lastPaidMonth" [(ngModel)]="pfLastPaidMonth" #lastPaidMonth="ngModel" (change)="lastPaidMonthChange($event.target.value)"
+                                                        required>
+                                                    <option value="0" selected>Choose month</option>
+                                                    <option value="{{pf.monthId}}" *ngFor="let pf of collectionMonths">{{pf.monthName + ' ' + (pf.Id > 9 ? this.fEndYear : (pf.Id == 0 ? (this.fStartYear -1) :this.fStartYear)) }}</option>
+                                                </select>
+                                                <i></i>
+                                            </div>
+                                            <div class="col col-4">
+                                                <label><strong>Month up to: </strong><span [style.color]="!pfMonthIsValid?'red':''"><b>*</b></span>  </label>
+                                                <select class="form-control" name="pfselectionmonth" id="selectedMonth" [(ngModel)]="pfSelectedMonth" (change)="pfMonthChange($event.target.value)"
+                                                        #pfselectionmonth="ngModel"
+                                                        [ngClass]="{'invalid-data': pfselectionmonth.invalid && (!pfMonthIsValid || pfselectionmonth.touched),
+                                        'valid-data':pfselectionmonth.valid && pfMonthIsValid }"
+                                                        required>
+                                                    <option value="0" selected disabled>Choose month</option>
+                                                    <option value="{{pf.monthId}}" *ngFor="let pf of pfMonths">{{pf.monthName}}</option>
+                                                </select>
+                                                <div *ngIf="pfselectionmonth.invalid &&(pfselectionmonth.touched || !pfMonthIsValid)">
+                                                    <span style="color: red;">Month is required </span>
+                                                </div>
+                                                <i></i>
+                                            </div>
+                                            <div class="col col-4">
+                                                <label>
+                                                    <strong>Year : </strong>  {{currentyear}}</label>
+                                                <!--<input type="text" class="form-control" name="year" placeholder="Year" [(ngModel)]="currentyear" maxlength="4" width="300px" NumbersOnly readonly>-->
+                                            </div>
+                                        </div>
+                                        <section *ngIf="pfDetailsVisible">
+                                            <div class="row">
+                                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Month</th>
+                                                            <th>Year</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let pf of pfSelectedMonths">
+                                                            <td>{{pf.monthName}}</td>
+                                                            <td>{{pf.year}}</td>
+                                                            <td>{{pf.amount}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-4 selectContainer">
+                                                    <label><strong>Book No.: </strong><span [style.color]="!bookNoIsValid?'red':''"><b>*</b></span></label>
+                                                    <select class="form-control" name="bookNo" [(ngModel)]="pfDetails.bookNo" (change)="bookNoChange($event.target.value)"
+                                                            #bookNo="ngModel"
+                                                            [ngClass]="{'invalid-data': bookNo.invalid && (!bookNoIsValid || bookNo.touched),
+                                        'valid-data':bookNo.valid && bookNoIsValid }"
+                                                            required>
+                                                        <option value="0" selected disabled>Choose book</option>
+                                                        <option value="{{book.id}}" *ngFor="let book of agentReceiptBooks">{{book.bookNo}}</option>
+                                                    </select>
+                                                    <!--<input type="text" class="form-control" name="BookNo" placeholder="Book No" [(ngModel)]="pfDetails.bookNo" maxlength="6"
+                #BookNo="ngModel"
+                [ngClass]="{'invalid-data': BookNo.invalid && (!bookNoIsValid || BookNo.touched), 'valid-data': BookNo.valid && bookNoIsValid}"
+                required />-->
+
+                                                    <div *ngIf="bookNo.invalid && (!bookNoIsValid || bookNo.touched)">
+                                                        <span style="color: red;">Book No. is required </span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col col-4">
+                                                    <label><strong>Receipt No.: </strong><span [style.color]="!receiptNoIsValid?'red':''"><b>*</b></span></label>
+                                                    <label class="input">
+                                                        <input type="text" class="form-control" name="ReceiptNo" placeholder="Receipt No" [(ngModel)]="pfDetails.receiptNo" NumbersOnly maxlength="6"
+                                                               #ReceiptNo="ngModel"
+                                                               [ngClass]="{'invalid-data': ReceiptNo.invalid && (!receiptNoIsValid || ReceiptNo.touched), 'valid-data': ReceiptNo.valid && receiptNoIsValid}"
+                                                               required [disabled]="!receiptGenerated" (change)="checkReceiptNoForAgentBook($event.target.value, pfDetails.bookNo)" />
+                                                    </label>
+                                                    <div *ngIf="ReceiptNo.invalid && (!receiptNoIsValid || ReceiptNo.touched)">
+                                                        <span style="color: red;">Receipt No. is required </span>
+                                                    </div>
+                                                    <div *ngIf="!receiptGenerated">
+                                                        <span style="color: red;">All Receipt No's are generated. Please select another book No. </span>
+                                                    </div>
+                                                    <div *ngIf="receiptValue==1">
+                                                        <span style="color: red;">Receipt No is already generated. </span>
+                                                    </div>
+                                                    <div *ngIf="receiptValue==2">
+                                                        <span style="color: red;">Receipt No is not in the range. </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-4 selectContainer">
+                                                    <label><strong>Amount: </strong> {{pfTotalAmount}} </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div *ngIf="agentPfValidation">
+                                                    <span style="color: red;">Collection amount exceeds</span>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <footer>
+                                            <a *ngIf="isAllDepositsPayInSlipsUploaded" id="btnPfCollect" class="btn btn-primary" (click)="SavePFCollectionDetails(pfDetails)">Submit</a>
+                                            <a class="btn btn-warning" (click)="cancelClick()">Cancel</a>
+                                        </footer>
+</section>
+                            </fieldset>
+                        </form>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    </section>
+    <div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Status Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="mesgSubmit">{{successMessage}}</p>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                        Download Receipt
+                    </button>-->
+                    <button type="button" class="btn btn-primary" (click)="okClick()">
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+   

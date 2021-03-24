@@ -1,0 +1,99 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Rejected </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <!--<div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>-->
+                        <div class="ssv-search">
+                            <input type="text" [(ngModel)]="ssinSearchText" placeholder="SSIN Search.." class="advancedSearchTextbox" NumbersOnly>
+                            <input type="text" [(ngModel)]="claimReferenceNoText" placeholder="Claim Reference No Search.." class="advancedSearchTextbox" NumbersOnly minlength="12" maxlength="12">
+                            <button (click)="GetResults()"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <p></p>
+                        <table class="table table-striped" [mfData]="claimsData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="ssin">SSIN</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="benName">Beneficiary Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="benType">Beneficiary Type</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimRefernceNo">Claim Reference No.</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimType">Claim Category</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="submittedDate">Submission Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimAmount">Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="rejectedDate">Rejected Date</mfDefaultSorter>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of mf.data|grdFilter: {ssin: searchText,claimAmount: searchText,submittedDateString: searchText, rejectedDate: searchText,
+       benName: searchText, claimType: searchText, claimRefernceNo:searchText,  benType: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onTrackClaimClick(user)" title="Track" class="txt-color-red"><i class="fa fa-recycle"></i></a>
+                                        <a (click)="onreviewClick(user)" title="Review" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{user.ssin}}</td>
+                                    <td>{{user.benName}}</td>
+                                    <td>{{user.benType}}</td>
+                                    <td>{{user.claimRefernceNo}}</td>
+                                    <td>{{getTypeName(user.claimType)}}</td>
+                                    <td>{{user.submittedDateString}}</td>
+                                    <td>{{user.claimAmount}}</td>
+                                    <td>{{user.rejectedDate}}</td>
+                                </tr>
+                            </tbody>
+
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="claimsData.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    </div>
+</section>

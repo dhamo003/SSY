@@ -1,0 +1,436 @@
+﻿@{
+	ViewBag.Title = "EditBenePersonalHusbandDetApplications";
+	Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+<style>
+</style>
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+		var benstatus = "";
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<center><h3 class="product-description">Change Requests Details</h3></center>
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">From Date</span>
+							@Html.TextBox("fromdate", "", null, new { @class = "form-control", @readonly = "" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">To Date</span>
+							@Html.TextBox("todate", "", null, new { @class = "form-control", @readonly = "" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">Status</span>
+							@Html.DropDownList("Status", new List<SelectListItem>
+										{
+											new SelectListItem{ Text="All", Value = "0,1,2" },
+											 new SelectListItem{ Text="Pending", Value = "0" },
+											  new SelectListItem{ Text="Approved", Value = "1" },
+											   new SelectListItem{ Text="Rejected", Value = "2" }
+										}, new { @class = "form-control  Dropdwn" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<a class="btn btn-primary" onclick="GetReport()">Submit</a>
+				</div>
+			</div>
+			<br />
+			<div>
+				<table class="table table-striped table-bordered Apllications" cellspacing="0" width="100%">
+					<thead style="background-color:#87CEEB">
+						<tr>
+							<th>S.No</th>
+							<th>Name</th>
+							<th>SSIN</th>
+							<th>Created Date</th>
+							<th>Status</th>
+							<th class="th_hide">Remarks</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="DivBenPersonalDet" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<center>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body" style="height: 300px;overflow-y: auto;">
+
+						<div class="col-md-6">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th colspan="2">New Personal Details</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Husband Name</td>
+										<td><label id="lblNewHusbandName"></label></td>
+
+									</tr>
+									@*<tr>
+										<td>Last Name </td>
+										<td><label id="lblNewBeneLastName"></label></td>
+
+									</tr>
+									<tr>
+										<td>Middle Name</td>
+										<td><label id="lblNewBeneMiddleName"></label></td>
+
+									</tr>
+									<tr id="bengalirow">
+										<td>Bengali Name</td>*@
+										@*<td><label id="lblNewBeneDOB"></label></td>*@
+										@*<td>
+											@Html.TextBox("txtbenname3", "", new { @class = " valid", maxlength = "25", onkeypress = "return onlyAlphabets(event,this)", @readonly = "true" })
+											<label id="lblbengname" class="label-data"></label><a href="#" id="edit" data-toggle="modal" data-target="#divEditbenname"><span class="glyphicon glyphicon-pencil"></span></a>
+										</td>
+									</tr>*@
+								</tbody>
+							</table>
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a>
+											<span class="glyphicon glyphicon-file">
+											</span>New Name/ID Proof
+										</a>
+									</h4>
+								</div>
+
+								<iframe src="" frameborder="0" id="nameidproofnew" style="width: 100%; height: 300px;"></iframe>
+
+							</div>
+						</div>
+						<div class="col-md-6">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th colspan="2">Old Personal Details</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Husbanf Name</td>
+										<td><label id="lblOldHusbandName"></label></td>
+									</tr>
+									@*<tr>
+										<td>Last Name </td>
+										<td><label id="lblOldBeneLastName"></label></td>
+									</tr>
+									<tr>
+										<td>Middle Name</td>
+										<td><label id="lblOldBeneMiddleName"></label></td>
+									</tr>*@
+									@*<tr>
+											<td>Date of Birth</td>
+											<td><label id="lblOldBeneDOB"></label></td>
+										</tr>*@
+								</tbody>
+							</table>
+
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a>
+											<span class="glyphicon glyphicon-file">
+											</span>Old Name/ID Proof
+										</a>
+									</h4>
+								</div>
+
+								<iframe src="" frameborder="0" id="nameidproofold" style="width: 100%; height: 300px;"></iframe>
+
+							</div>
+
+
+						</div>
+
+
+					</div>
+
+
+					<div class="modal-footer">
+						<div style="display:none;margin-right:66px;margin-bottom:-34px;" id="divStstus">
+							<a id="AgentApp" class="btn btn-success" onclick="SubmitStatus('1')">Approve</a>
+							<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#divEditDetRej">Reject</a>
+						</div>
+						<div id="divlbl" style="display:none;">
+							<label id="lblrefid"></label>
+						</div>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</center>
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="divEditDetRej" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content" style="width:580px;margin-left:-580px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Remarks</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									<textarea name="test_field" id="RejectedRemarks" style="width: 544px;height: 104px;"></textarea>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" onclick="SubmitStatus('2')">Submit</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" id="Bennenname" value="NA" name="Bennenname" />
+
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+            $('.Apllications').DataTable({
+        });
+
+        getdates();
+        GetReport()
+        });
+
+    function GetReport() {
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+        var Staus = $("#Status").val();
+
+
+
+		$.get('@Url.Action("GetPersonalHusbandEditAppliation", "Report")', { userId: deptuserid, fromDate: fromdate, toDate: todate, Status: $("#Status").val() }, function (result) {
+             
+            var table = $('.Apllications').DataTable();
+            table.destroy();
+            $('.Apllications tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                 
+                $('.Apllications').append('<tr><td>' + data.Sno + '</td><td><a href="#" data-toggle="modal"  onClick = "GetBenDet('+ data.Id +');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.SSIN+'</td><td>' + data.ReqDate + '</td><td>' + data.Status + '</td><td>'+data.Remarks+'</td></tr>')
+            });
+            $('.Apllications').DataTable({
+            });
+
+        });
+    }
+
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        $("#fromdate,#todate").val(today);
+    }
+
+    function GetBenDet(Id) {
+
+		$.get('@Url.Action("GetPersonalHusbandEditAppliationById", "Report")', { id: Id }, function (result) {
+			 
+
+			if (result.Status == "Pending") {
+				benstatus = result.Status;
+				$("#divStstus").show();
+				$("#bengalirow").show();
+			}
+			else {
+				benstatus = result.Status;
+				$("#divStstus").hide();
+				$("#bengalirow").hide();
+
+			}
+			//New Details
+			$("#lblNewHusbandName").text(result.NewHusbandName);
+			//$("#lblNewBeneLastName").text(result.NewLastName);
+			//$("#lblNewBeneMiddleName").text(result.NewMiddleName);
+			//$("#lblNewBeneDOB").text(result.NewBenDOB);
+
+			//Old Details
+			$("#lblOldBeneFirstName").text(result.OldHusbandName);
+			//$("#lblOldBeneLastName").text(result.OldLastName);
+			//$("#lblOldBeneMiddleName").text(result.OldMiddleName);
+			//$("#lblOldBeneDOB").text(result.OldBeneDOB);
+			 
+			//alert('name ext ' + result.NameProofExtension);
+			//alert('dob ext ' + result.DOBProofExtension);
+			$("#nameidproofold").attr('src', result.OldNameProof);
+			if (result.HusbandProofExtension == "pdf") {
+				if (result.HusbandNameProof.substring(1, 12) == "UploadFiles") {
+					$("#nameidproofnew").attr('src', result.HusbandNameProof);
+				}
+				else {
+					$("#nameidproofnew").attr('src', 'data:application/' + result.HusbandProofExtension + ';base64,' + result.HusbandNameProof); //for pdf file
+				}
+				//$("#nameidproofnew").attr('src', 'data:application/' + result.NameProofExtension + ';base64,' + result.NameProof); //for pdf file
+				//$("#nameidproofnew").attr('src',result.NameProof);
+			}
+			else {
+				if (result.HusbandNameProof.substring(1, 12) == "UploadFiles") {
+					$("#nameidproofnew").attr('src', result.HusbandNameProof);
+				}
+				else {
+					$("#nameidproofnew").attr('src', 'data:image/' + result.HusbandProofExtension + ';base64,' + result.HusbandNameProof); //for image file
+				}
+			}
+				
+
+		});
+		
+
+		$("#DivBenPersonalDet").modal('show');
+
+            $("#lblrefid").text(Id);
+
+        //
+
+
+    }
+	$(function () {
+		$('#txtbenname2').avro({ 'bangla': true },
+			function (isBangla) {
+
+			}
+		);
+	});
+	$("#btnupdate2").click(function () {
+		//alert(benstatus);
+		//if (benstatus == "Pending") {
+		//	return true;
+		//}
+		//else {
+		//	alert("Name Edit is not Available Now");
+		//	return false;
+		//}
+		 
+		$("#Bennenname").val("");
+		var bennamee = $("#txtbenname2").val();
+		//alert(bennamee);
+		$("#Bennenname").val(bennamee);
+					$("#lblbengname").text($("#Bennenname").val());
+					$("#lblbengname").html("bennamee");//
+
+					$("#txtbenname3").val(bennamee);
+
+		//alert($("#Bennenname").val());//
+		//alert($("#lblbengname").val());//
+	});
+				function SubmitStatus(id) {
+
+					var refid = $("#lblrefid").text();
+					var Remarks = $("#RejectedRemarks").val();
+					if (id == 2) {
+						if (Remarks == "" || Remarks == null) {
+							alert("Please Enter Remarks.");
+							$("#RejectedRemarks").focus();
+							return false;
+						}
+					}
+					//if ($("#Bennenname").val() == "" || $("#Bennenname").val() == null) {
+					//	alert("Please Enter Bengali Name.");
+					//	$("#RejectedRemarks").focus();
+					//	return false;
+					//}
+					//var letterNumber = /^[0-9a-zA-Z]+$/;
+													//	if ($("#Bennenname").val() != "" || $("#Bennenname").val() != null) {
+
+													//	var letterNumber = /^[0-9a-zA-Z]+$/;
+													//	if (($("#Bennenname").val().match(letterNumber))) {
+													//		alert("Bengali name contains Letters or Numbers");
+													//		return false;
+													//	}
+													//	//var specialChars = "<>!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
+													//	var specialChars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ";
+													//	var check = function (string) {
+													//		for (i = 0; i < specialChars.length; i++) {
+													//			if (string.indexOf(specialChars[i]) > -1) {
+													//				return true;
+													//			}
+													//		}
+													//		return false;
+													//	}
+
+													//	if (check($("#Bennenname").val()) == true) {
+													//		alert("Bengali name contains Special Characters.");
+													//		return false;
+													//	}
+													//}
+					//if ($("#Bennenname").val() == "" || $("#Bennenname").val() == null || $("#Bennenname").val() == "") {
+					//	$("#Bennenname").val("NA");
+					//}
+        if(id == 1)
+            Remarks = "";
+		 $.get('@Url.Action("VerifyBenePersonalHusbandDetails", "Report")', { id: refid, Remarks: Remarks, Status: id, bengaliName: $("#Bennenname").val()}, function (res) {
+			 alert(res.Message);
+			 $("#divStstus").hide();
+			 $("#bengalirow").hide();
+			 $("#divEditDetRej").modal('hide');
+			 $("#DivBenPersonalDet").modal('hide');
+			 //window.location.href = " /Report/EditBenePersonalHusbandDetApplications";
+			 GetReport()
+
+        });
+    }
+</script>

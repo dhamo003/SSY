@@ -1,0 +1,454 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+
+                <header>
+                    <h2>Fund Request </h2>
+                </header>
+
+
+                <div>
+
+
+                    <div class="jarviswidget-editbox">
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+
+
+                        <form class="smart-form smart-form-main">
+                            <header>ALC Details</header>
+                            <fieldset>
+                                <section>
+
+
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>ALC Name: </strong>{{officeDetails.userName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>RLO Office Name & Address: </strong>{{RloOfficeAddress.rloOfficeName}} <br /> {{RloOfficeAddress.addressLine1}} &nbsp; {{RloOfficeAddress.addressLine2}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Fund Request Date: </strong>{{date | date: 'dd/MM/yyyy'}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section style="display:none">
+                                    <header>  Fund Status at RLO</header>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Balance as on today : </strong>{{RloOfficeAddress.balanceOfTheAmount}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Approved Claims Amount: </strong>{{officeDetails.approvedClaimsAmount}} </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Amount Shortfall: </strong>{{AmountShortfall}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-3">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" checked="checked" (change)="radioChange(1)" />
+                                                <!--[(ngModel)]="fundRequestType" value="claims">-->
+                                                <i></i>Fund Request for Claims
+                                            </label>
+                                        </div>
+                                        <div class="col col-3">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" (change)="radioChange(2)" />
+                                                <!--[(ngModel)]="fundRequestType" value="expenses">-->
+                                                <i></i>Fund Request for Expenses
+                                            </label>
+                                        </div>
+                                        <div class="col col-3">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" disabled>
+                                                <i></i>Advance Fund
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col col-6 selectContainer">
+                                            <label>Board<span [style.color]="!boardIdValid?'red':''"><b>*</b></span></label>
+                                            <select class="form-control" name="boardId" [(ngModel)]="boardId" (change)="selectBoardChange()"
+                                                    [ngClass]="{'invalid-data': ( !boardIdValid  ),
+                                        'valid-data': boardIdValid }"
+                                                    required>
+                                                <option value="0" selected disabled>Choose a Board</option>
+                                                <option value="{{board.boardId}}" *ngFor="let board of boardList">{{board.boardName}}</option>
+                                            </select>
+                                            <div *ngIf=" (!boardIdValid )">
+                                                <span style="color: red;">Board is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6 selectContainer" *ngIf="!viewExpenses">
+                                            <label>Category</label>
+                                            <ng-multiselect-dropdown name="22" [placeholder]="'All'"
+                                                                     [data]="claimTypesList"
+                                                                     [(ngModel)]="claimMasterIds"
+                                                                     [settings]="dropdownSettings"
+                                                                     (onSelect)="onItemSelect($event)"
+                                                                     (onSelectAll)="onSelectAll($event)">
+                                            </ng-multiselect-dropdown>
+                                            <!--<select class="form-control" name="claimMasterId" [(ngModel)]="claimMasterId">
+                <option value="0" selected>All</option>
+                <option value="{{type.claimMasterId}}" *ngFor="let type of claimTypesList">{{type.claimName}}</option>
+
+            </select>-->
+
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;" *ngIf="!viewExpenses">
+
+                                        <div class="col col-6 selectContainer">
+                                            <label>Location</label>
+                                            <ng-multiselect-dropdown name="dd" [placeholder]="'All '"
+                                                                     [data]="LocationList"
+                                                                     [(ngModel)]="locationsIds"
+                                                                     [settings]="locationSettings"
+                                                                     (onSelect)="onItemSelect($event)"
+                                                                     (onSelectAll)="onSelectAll($event)">
+                                            </ng-multiselect-dropdown>
+                                            <!--<select class="form-control" name="locationsIds" [(ngModel)]="locationsIds">
+                <option value="0" selected>All</option>
+                <option value="{{location.blockSno}}" *ngFor="let location of LocationList">{{location.blockName}}</option>
+            </select>-->
+                                        </div>
+                                        <div class="col col-6 selectContainer" style="margin-top:21px !important">
+                                            <a class="btn btn-primary" (click)="GetClaims()"> Get Claims </a>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="showErrorMessage" style="margin-top:10px;">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please select atleast one record to proceed.</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="showErrorMessage1" style="margin-top:10px;">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please add atleast one record to proceed.</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+
+                        </form>
+                        <!--/ Success states for elements -->
+                    </div>
+
+                </div>
+            </div>
+
+            <div *ngIf="viewExpenses" class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+
+                <section id="widget-grid" class="">
+
+
+                    <div class="row">
+
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+
+
+
+                                <div>
+
+                                    <div class="jarviswidget-editbox">
+
+                                    </div>
+                                    <fieldset id="expenses">
+                                        <!--<header>Expenses </header>-->
+                                        <fieldset id="addbutton">
+                                            <div class="row">
+                                                <a class="btn btn-primary" (click)="openModel()" style="width :55px;height:30px;padding:5px;" button> Add </a>
+                                            </div>
+                                            <div class="row">
+                                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Item</th>
+                                                            <th>Fund Required</th>
+                                                            <th>Physical Target</th>
+                                                            <th>Expenditure incurred during last financial year</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngIf="expensesDetailsArray.length==0"><td colspan="6">No expense details</td></tr>
+                                                        <tr *ngFor="let expenses of expensesDetailsArray">
+                                                            <td>{{expenses.itemName}}</td>
+                                                            <td>{{expenses.fundsRequired}}</td>
+                                                            <td>{{expenses.physicalTarget}}</td>
+                                                            <td>{{expenses.expenditureIncurredDuringLastFinYear}}</td>
+                                                            <td>
+                                                                <a class="btn btn-labeled btn-primary" (click)="editExpenseDetails(expenses)" style="margin-right:5px;"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                                                <a class="btn btn-labeled btn-danger" (click)="removeExpenseDetails(expenses)"><i class="glyphicon glyphicon-trash"></i> Remove</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </fieldset>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+                </section>
+            </div>
+            <!-- widget grid -->
+            <div *ngIf="GetClaimVisible" class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+
+                <section id="widget-grid" class="">
+
+
+                    <div class="row">
+
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+
+
+
+                                <div>
+
+                                    <div class="jarviswidget-editbox">
+
+                                    </div>
+                                    <fieldset>
+                                        <div class="widget-body no-padding">
+                                            <table id="datatable_fixed_column" class="table table-striped table-bordered"
+                                                   [mfData]="claimsData" #mf="mfDataTable" [mfRowsOnPage]="10" width="100%">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th><input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();"></th>
+                                                        <th>SSIN</th>
+                                                        <th>Beneficiary Name</th>
+                                                        <th>Beneficiary Type</th>
+                                                        <th>Claim Reference No.</th>
+                                                        <th>Claim Category</th>
+                                                        <th>Submission Date</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr *ngFor="let claim of mf.data">
+                                                        <td class="">
+                                                            <input type="checkbox" [(ngModel)]="claim.selected" (change)="checkIfAllSelected(claim);">
+                                                        </td>
+                                                        <td>{{claim.ssin}}</td>
+                                                        <td>{{claim.benName}}</td>
+                                                        <td>{{claim.benType}}</td>
+                                                        <td><a (click)="viewClaimInfo(claim)">{{claim.claimRefernceNo}}</a> </td>
+                                                        <td>{{getTypeName(claim.claimType)}}</td>
+                                                        <td>{{claim.submittedDateString}}</td>
+                                                        <td>{{claim.approvedAmount}}</td>
+                                                    </tr>
+                                                </tbody>
+
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="8" style="border-bottom:0px !important">
+                                                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <section>
+                                            <div class="row">
+                                                <div class="col col-6">
+                                                    <label><strong>Amount Required: </strong>{{sumofAmount}}</label>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+                </section>
+            </div>
+            <form class="smart-form">
+                <fieldset>
+                    <section>
+                        <label>ALC Comments<span [style.color]="!commentsValid?'red':''"><b>*</b></span></label>
+                        <label class="textarea textarea-resizable">
+                            <textarea rows="3" class="custom-scroll" name="alcComments" [(ngModel)]="alcComments"
+                                      [ngClass]="{'invalid-data': (!commentsValid ), 'valid-data': commentsValid}"
+                                      required></textarea>
+                        </label>
+                        <div *ngIf="(!commentsValid)">
+                            <span style="color: red;">ALC Comments is required </span>
+                        </div>
+                    </section>
+                </fieldset>
+            </form>
+            <form class="smart-form" *ngIf="GetClaimVisible || viewExpenses">
+                <fieldset class="top-10"></fieldset>
+                <footer>
+                    <a class="btn btn-warning" (click)="cancelClick()"> Cancel</a>
+                    <a id="btnSava" class="btn btn-primary" (click)="SubmitRequest()"> Submit </a>
+
+                </footer>
+            </form>
+        </article>
+                    </div>
+            </div>
+            <div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                 aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">Status Message</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="mesgSubmit">{{successMessage}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                        Download Receipt
+                    </button>-->
+                            <button type="button" class="btn btn-primary" (click)="okClick()">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div bsModal #expensesModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                 aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" (click)="expensesModal.hide()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Add Expense Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <fieldset id="divAddExpensesDetails">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="label"> Item <span [style.color]="!expenseTypeValid?'red':''"><b>*</b></span></label>
+                                            <select name="expenseType" class="form-control" [(ngModel)]="expensesDetails.itemId"
+                                                    #expenseType="ngModel"
+                                                    [ngClass]="{'invalid-data': !expenseTypeValid,
+                                        'valid-data': expenseTypeValid }"
+                                                    required>
+                                                <option value="0" selected disabled>Choose Item</option>
+                                                <option value="{{expense.lovDtlId}}" *ngFor="let expense of expensesTypesLov">{{expense.optionName}}</option>
+                                            </select> <i></i>
+                                            <div *ngIf="!expenseTypeValid">
+                                                <span style="color: red;">Select Item </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="label">Fund Required <span [style.color]="!fundRequiredValid?'red':''"><b>*</b></span></label>
+                                            <input type="number" class="form-control" name="fundRequiredAmount" placeholder="Fund Required" [(ngModel)]="expensesDetails.fundsRequired" 
+                                                   #fundRequiredAmount="ngModel" 
+                                                   [ngClass]="{'invalid-data': !fundRequiredValid, 
+                                                   'valid-data': fundRequiredValid}"
+                                                   required>
+                                            <div *ngIf="!fundRequiredValid">
+                                                <span style="color: red;">Fund Required is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="label">Physical Target</label>
+                                            <input type="number" class="form-control" name="physicalTarget" placeholder="Physical Target" [(ngModel)]="expensesDetails.physicalTarget" #physicalTarget="ngModel"  />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="label">Expenditure incurred during last financial year</label>
+                                            <input type="number" class="form-control" name="expenditureIncurredDuringLastFinYear" placeholder="Expenditure incurred" [(ngModel)]="expensesDetails.expenditureIncurredDuringLastFinYear" #expenditureIncurredDuringLastFinYear="ngModel"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" (click)="expensesModal.hide()">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary" (click)="addExpenseDetails(expensesDetails)">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div bsModal #attachModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                 aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" (click)="attachModal.hide()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Claim Details</h4>
+                        </div>
+                        <div class="modal-body" style="max-height:500px">
+                            <div class="row" style="display:inline-flex;width:100%">
+                                <div style="width:50%;padding:5px;overflow:scroll;max-height:470px">
+                                    <app-claimviewdata #child [claimId]="claimId" [claimType]="claimType" [transactionId]="tranctionId"></app-claimviewdata>
+                                </div>
+                                <div style="width:50%;padding:5px;overflow:scroll;max-height:470px;min-height:inherit">
+                                    <accordion>
+                                        <accordion-group heading="{{item.attachmentTypeString}}" *ngFor="let item of attachmentList">
+                                            <div *ngIf="item.fileName.split('.')[item.fileName.split('.').length-1]!='pdf'">
+                                                <img [src]="'data:image/'+item.fileName.split('.')[item.fileName.split('.').length-1]+';base64,'+ item.fileContent" style="max-width:100%" />
+                                            </div>
+                                            <div *ngIf="item.fileName.split('.')[item.fileName.split('.').length-1]=='pdf'">
+                                                <object [attr.data]="item.attachmenturl" style="width:100%;height:400px" type="application/pdf"></object>
+                                            </div>
+                                        </accordion-group>
+                                    </accordion>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" (click)="attachModal.hide()">
+                                    Ok
+                                </button>
+                            </div>
+                    </div>
+                </div>
+            </div>

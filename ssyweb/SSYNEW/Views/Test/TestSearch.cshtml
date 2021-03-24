@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "TestSearch";
+
+    Layout = null;
+}
+
+<h2>TestSearch</h2>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>How to make search input to filter through list using jQuery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            $.get('@Url.Action("GetFiles", "Test")', {}, function (result) {
+                 
+
+                
+             //   alert(result);
+
+                $.each(result, function (i, data) {
+
+                    //alert(data.fileName);
+                     
+                    var link = 
+                    $('.countryList').append('<li><a href= ' + data.filePath + ' target="_blank">' + data.fileName + '</a></li>')
+
+                
+                   
+
+                });
+
+             
+
+            });
+
+
+
+
+
+
+    $('#s').keyup(function () {
+
+         
+
+        var value = $("#s").val();
+
+        if (value == "" || value == null)
+        {
+            $(".countryList").hide();
+
+        }
+        else
+            $(".countryList").show();
+
+       
+
+        var valThis = $(this).val().toLowerCase();
+
+        $('.countryList>li').each(function () {
+             
+        var text = $(this).text().toLowerCase();
+
+        (text.indexOf(valThis) != -1) ? $(this).show() : $(this).hide();
+    });
+
+
+  });
+});
+    </script>
+</head>
+<body>
+    <div style="margin-left: auto;margin-right: auto;width: 200px;">
+        <input placeholder="Search..." id="s" type="text" />
+        <br />
+        <ul class="countryList"  style="display:none;">
+        </ul>
+    </div>
+</body>
+</html>
+

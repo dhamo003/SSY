@@ -1,0 +1,215 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                <header>
+                    <h2>Fund Release View</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form smart-form-main">
+                            <header>ALC Details </header>
+                            <fieldset>
+                                <section>
+                                    <div class="row" *ngIf="showErrorMessage">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please select atleast one record to proceed.</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Alc Name: </strong>{{officeDetails.userName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>RLO Office Name & Address: </strong>{{RloOfficeAddress.rloOfficeName}} <br /> {{RloOfficeAddress.addressLine1}} &nbsp; {{RloOfficeAddress.addressLine2}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Fund Request Date: </strong>{{fundrequestDetails.requestDateString}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset style="display:none">
+                                <section>
+                                    <label class="label">Fund Status at RLO:</label>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Balance as on today : </strong>{{RloOfficeAddress.balanceOfTheAmount}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Approved Claims Amount: </strong>{{officeDetails.approvedClaimsAmount}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Amount Shortfall: </strong>{{AmountShortfall}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Board: </strong>{{fundrequestDetails.boardName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Claim Types: </strong>{{fundrequestDetails.claimTypes}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Locations : </strong>{{fundrequestDetails.locationNames}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section style="display:none">
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <div class="inline-group">
+                                                <label class="radio">
+                                                    <input type="radio" name="radio-inline" checked="checked">
+                                                    <i></i>Fund Request for Claims
+                                                </label>
+                                                <label class="radio">
+                                                    <input type="radio" name="radio-inline" disabled>
+                                                    <i></i>Fund Request for Expenses
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section *ngIf="showReleaseLabel">
+                                    <label><strong>Release Type : </strong>{{fundrequestDetails.releaseTypeName}}</label>
+                                </section>
+                                <section *ngIf="!showReleaseLabel">
+                                    <div class="row">
+                                        <div class="col col-10">
+                                            <div class="inline-group">
+                                                <label class="radio">
+                                                    <input type="radio" name="radio-inline" value="1" (change)="radioChange($event.target.value)" checked="checked">
+                                                    <i></i>Release Against RLO Office
+                                                </label>
+                                                <label class="radio" style="margin-top:10px !important; font-weight:normal!important">
+                                                    <input type="radio" name="radio-inline" value="2" (change)="radioChange($event.target.value)">
+                                                    <i></i>Release Against Beneficiaries
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                        </form>
+                        <!--/ Success states for elements -->
+                    </div>
+                </div>
+            </div>
+            <!-- widget grid -->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                <section id="widget-grid" class="">
+                    <div class="row">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                                <div>
+                                    <div class="jarviswidget-editbox">
+                                    </div>
+                                    <div class="widget-body no-padding">
+                                        <table id="datatable_fixed_column" class="table table-striped table-bordered"
+                                               [mfData]="claimsData" #mf="mfDataTable" [mfRowsOnPage]="10" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>SSIN</th>
+                                                    <th>Beneficiary Name</th>
+                                                    <th>Beneficiary Type</th>
+                                                    <th>Claim Reference No.</th>
+                                                    <th>Claim Category</th>
+                                                    <th>Submission Date</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let claim of mf.data">
+                                                    <td>{{claim.ssin}}</td>
+                                                    <td>{{claim.benName}}</td>
+                                                    <td>{{claim.benType}}</td>
+                                                    <td>{{claim.claimRefernceNo}}</td>
+                                                    <td>{{getTypeName(claim.claimType)}}</td>
+                                                    <td>{{claim.submittedDateString}}</td>
+                                                    <td>{{claim.approvedAmount}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="7"><mfBootstrapPaginator></mfBootstrapPaginator></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <form class="smart-form smart-form-main">
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col col-4">
+                                                    <label><strong>Amount Transferred:</strong>{{sumofamount}}</label>
+                                                    
+                                                </div>
+                                                <div class="col col-4 selectContainer" *ngIf="fundrequestDetails.statusId == 24 && releaseValue == 1">
+                                                    <label><strong>RLO Bank Account:<span [style.color]="!bankIsValid?'red':''"><b>*</b></span></strong></label>
+                                                    <select class="form-control" name="rloBankId" [(ngModel)]="rloBankId"
+                                                            [ngClass]="{'invalid-data': (!bankIsValid ), 'valid-data': bankIsValid}"
+                                                                  required>
+                                                        <option value="0" disabled>Choose an Option</option>
+                                                        <option value="{{bank.rloOfficeBankId}}" *ngFor="let bank of bankDetails">{{bank.bankAccountNo}}</option>
+                                                        <i></i>
+                                                    </select>
+                                                    <div *ngIf="(!bankIsValid)">
+                                                        <span style="color: red;">Bank account is required </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-4 selectContainer" *ngIf="fundrequestDetails.statusId != 24 && releaseValue == 1">
+                                                    <label><strong> Bank Account Name: </strong>{{fundrequestDetails.rloBankName}}</label> 
+                                                    
+                                                </div>
+                                                <div class="col col-4">
+                                                    <label><strong>Download Bank NEFT Document:</strong></label>
+                                                    <i class="fa fa-file-excel-o" aria-hidden="true" style="color: green;zoom: 3;" (click)="download()"></i>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <footer>
+                                            <a class="btn btn-danger" (click)="cancelclick()"> Cancel</a>
+                                            <a class="btn btn-primary" *ngIf="fundrequestDetails.statusId == 24" (click)="updateFundRequest(25)">Release</a>
+                                          
+                                        </footer>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+           
+        </article>
+    </div>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

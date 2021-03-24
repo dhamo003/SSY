@@ -1,0 +1,168 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Sent Back </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+                        <p></p>
+                        <table class="table table-striped" [mfData]="fundRequest" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="fundRequestTypeName">Fund Request Type</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="rloOfficeName">RLO Office</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="requestedBy">Requested By</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="fundRequestNumber">Fund Request No.</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="boardName">Board Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="requestDateString">Request Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="amount">Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="statusName">Status</mfDefaultSorter>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of mf.data|grdFilter: {rloOfficeName: searchText,requestedBy: searchText,fundRequestNumber: searchText,
+                                    refernceNumber: searchText, requestDateString: searchText, amount: searchText, statusName: searchText,boardName: searchText,fundRequestTypeName: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onreviewClick(data)" title="Review" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{data.fundRequestTypeName}}</td>
+                                    <td>{{data.rloOfficeName}}</td>
+                                    <td>{{data.requestedBy}}</td>
+                                    <td><a (click)="getDetails(data.fundRequestTypeName,data.fundRequestNumber)">{{data.fundRequestNumber}}</a> </td>
+                                    <!--<td>{{data.fundRequestNumber}}</td>-->
+                                    <td>{{data.boardName}}</td>
+                                    <td>{{data.requestDateString}}</td>
+                                    <td>{{data.amount }}</td>
+                                    <td>{{data.statusName}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="fundRequest.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+<div bsModal #expensesModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="expensesModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">{{headertext}}</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <table id="id1" *ngIf="!isclaimDta" class="table table-striped table-bordered">
+
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Fund Required</th>
+                            <th>Physical Target</th>
+                            <th>Expenditure incurred during last financial year</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let expense of expensesData">
+                            <td>{{expense.itemName}}</td>
+                            <td>{{expense.fundsRequired}}</td>
+                            <td>{{expense.physicalTarget}}</td>
+                            <td>{{expense.expenditureIncurredDuringLastFinYear}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table id="datatable_fixed_column" *ngIf="isclaimDta" class="table table-striped table-bordered"
+                       width="100%">
+
+                    <thead>
+                        <tr>
+                            <th>SSIN</th>
+                            <th>Beneficiary Name</th>
+                            <th>Beneficiary Type</th>
+                            <th>Claim Reference No.</th>
+                            <th>Claim Category</th>
+                            <th>Submission Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let claim of claimsReqData">
+                            <td>{{claim.ssin}}</td>
+                            <td>{{claim.benName}}</td>
+                            <td>{{claim.benType}}</td>
+                            <td>{{claim.claimRefernceNo}}</td>
+                            <td>{{getTypeName(claim.claimType)}}</td>
+                            <td>{{claim.submittedDateString}}</td>
+                            <td>{{claim.approvedAmount}}</td>
+                            <td>{{claim.paymentStatusName}}</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="8" style="border-bottom:0px !important">
+                                <mfBootstrapPaginator></mfBootstrapPaginator>
+                            </td>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="expensesModal.hide()">
+                    Ok
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

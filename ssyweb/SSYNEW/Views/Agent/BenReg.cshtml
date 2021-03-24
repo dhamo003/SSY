@@ -1,0 +1,139 @@
+﻿@{
+    ViewBag.Title = "BenReg";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<style>
+    label {
+        display: inline-block !important;
+    }
+
+    #idhome {
+        display: none !important;
+    }
+
+    .col-md-12 {
+        width: 103%;
+    }
+
+</style>
+
+<script>
+    //var validation = @Html.Raw(Json.Encode(ViewBag.ExcelExpection))
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+    var page = 0;
+</script>
+<div id="divbackbutton" style="display:none;">
+    <a class="btn btn-primary pull-right btnback" style="margin-right:10px;"> <span class="glyphicon glyphicon-backward"></span> Back</a>
+</div>
+
+
+    <div id="CheckRegType" style="margin-left:500px;width:500px;margin-top:50px;">
+       
+        <center><h3 style="color:white;"> Benificiary Registration</h3> </center>
+        <div style="margin-left:50px;">
+            <input type="radio" name="CheckReg" class="CheckReg" value="Legacy1">
+            <label><h4> Legacy 1 <b>   (Before 31'st March 2017 )</b></h4></label>
+            <br />
+            <br />
+            <input type="radio" name="CheckReg" class="CheckReg" value="Legacy2">
+            <label> <h4>Legacy 2 <b>   (After 1'st April 2017 )</b></h4></label>
+            <br />
+            <br />
+            <input type="radio" name="CheckReg" class="CheckReg" value="NewReg">
+            <label><h4> New Registration</h4></label>
+        </div>
+    </div>
+
+<div id="divIframe">
+
+
+    <iframe src="" class="col-md-12 iframeheight loadurl" id="RegFrame" frameborder="0" width="1200" height="600"></iframe>
+</div>
+<script>
+    $(document).ready(function () {
+
+        var regtype = "";
+
+    });
+
+    $(".btnback").click(function () {
+
+        $("#divIframe").hide(1000);
+        $("#CheckRegType").show(1000);
+       
+        $("#RegFrame").attr("src", "");
+
+        $( ".CheckReg" ).prop( "checked", false );
+
+    });
+
+    function LoadRegPage()
+    {
+        $("#DivTypeReg").hide(1000);
+        $("#divIframe").show(1000);
+        if (regtype == "Legacy1")
+        {
+            $("#RegFrame").attr("src", "/Registration/BeniRegistrationPart1?Status=Legacy1&Id=&CreatedBy="+deptuserid);
+
+        }
+        if (regtype == "Legacy2") {
+            $("#RegFrame").attr("src", "/Registration/BeniRegistrationPart1?Status=Legacy2&Id=&CreatedBy="+deptuserid);
+
+        }
+        if (regtype == "NewReg") {
+            $("#RegFrame").attr("src", "/Registration/BeniRegistrationPart1?Status=NewReg&Id=&CreatedBy="+deptuserid);
+        }
+
+    }
+
+    $(".CheckReg").change(function () {
+
+        $("#CheckRegType").hide();
+        // $("#DivTypeReg").show();
+        $("#divbackbutton").show();
+        regtype = $("input[name='CheckReg']:checked").val()
+
+        LoadRegPage();
+
+    });
+
+
+    //UnUsed Code
+
+    @*function Getunsubmittedapp()
+    {
+        $('.tblunsubmittedapp tbody').empty();
+
+        $.get('@Url.Action("UnsubmittedApp", "Agent")', {}, function (result) {
+
+
+
+
+            $.each(result, function (i, data) {
+
+                var num = i + 1;
+
+
+
+
+
+                $('.tblunsubmittedapp').append('<tr><td>' + num + '</td><td><a href="#"  onClick = "BenficaryDet(' + data.BenSno + ');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.BenMobileNo + '</td><td>' + data.Date + '</td></tr>')
+
+
+
+            });
+
+        });
+
+    }
+
+    function BenficaryDet(id)
+    {
+
+
+        $("#CheckRegType").hide();
+
+        $("#RegFrmae").attr("src", "/Registration/Registration?Status="+"NewReg"+"&Id="+id);
+    }*@
+
+</script>

@@ -1,0 +1,685 @@
+﻿
+@{
+    ViewBag.Title = "MenuManagement";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/SSYCommonStyleSheet.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/blue/jtable.min.css" rel="stylesheet" />
+<link href="http://jtable.org/Content/themes/metroblue/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+
+
+
+<h2>MenuManagement</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn_set" style="float: right;">
+                <button type="submit" class="btn btn-sm card-1 inline btn-primary  clearside" onclick="createNewMenu()">Creat Menu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid" id="Div1" style="margin-top : 10px;">
+    <div id="ID_MenuTable"></div>
+</div>
+
+@*create menu popup start*@
+<div class="popupBody" id="ID_MenuCreationPopup">
+    <div class="popupContent">
+        <div class="popup_title">
+            <div> Create Menu </div>
+        </div>
+
+
+        <div class="popup_feeds">
+            <input type="hidden" id="ID_MId" />
+            <div class="form-group" id="ID_Con_SubMenu">
+                <label for="sel1">Select SubMenu</label>
+                <select class="form-control" id="ID_SubMenu" disabled></select>
+                <input type="hidden" id="ID_SelectedMenuId"/>
+            </div>
+            <div class="form-group">
+                <label for="MenuName">MenuName</label>
+                <input type="text" class="form-control" id="ID_MenuName" placeholder="Enter Menu Name" name="MenuName">
+            </div>
+            <div class="form-group" id="ID_Con_UserTypes">
+                <label for="sel1">Select UserTypes</label>
+                <select class="form-control" id="ID_UserTypes"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="MenuURL">Menu URL</label>
+                <input type="text" class="form-control" id="ID_MenuURL" placeholder="Enter Menu URl" name="MenuURL">
+            </div>
+
+            <div class="form-group">
+                <label for="Class">Class</label>
+                <input type="text" class="form-control" id="ID_Class" placeholder="Enter Class" name="Class">
+            </div>
+            <div class="form-group">
+                <label for="IsActive" style="display: flex !important;line-height: 28px;">IsActive <input type="checkbox" class="form-control" id="ID_IsActive" style="width: 18px;margin: 0px 8px;" placeholder="" name="IsActive" checked></label>
+               
+            </div>
+            <div class="popup_footer"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn_set" style="float: right;">
+                            <button type="submit" class="theme_flotbtn" onclick="closeMenuPopup()">Cancel</button>
+                        </div>
+                        <div id="ID_MenuCollection">
+                            <div class="btn_set" style="float: right;" id="ID_BTNSave">
+                                <button type="submit" class="theme_btn" onclick="saveMenu()" name="Createmenu">Save</button>
+                            </div>
+                            <div class="btn_set" style="float: right;" id="ID_BTNUpdate">
+                                <button type="submit" class="theme_btn" onclick="updateMenu()" name="Updatemenu">Update</button>
+                            </div>
+                        </div>
+
+                        <div id="ID_SubMenuCollection">
+                            <div class="btn_set" style="float: right;" id="ID_BTNSubmenuSave">
+                                <button type="submit" class="theme_btn" onclick="saveSubMenu()" name="CreatSubmenu">Save</button>
+                            </div>
+                            <div class="btn_set" style="float: right;" id="ID_BTNSubmenuUpdate">
+                                <button type="submit" class="theme_btn" onclick="updateSubMenu()" name="UpdateSubmenumenu">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*create menu popup end*@
+
+
+@*Sub menu popup start*@
+<div class="popupBody" id="ID_SubMenutablePopup">
+    <div class="popupContent">
+        <div class="popup_title">
+            <div> Sub Menu Management</div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-sm card-1 inline btn-primary  clearside" onclick="createNewSubMenu()">Create Sub Menu</button>
+        </div>
+        <div class="container-fluid" id="Div1" style="margin-top : 10px;">
+            <div id="ID_SubMenuTable"></div>
+            <button type="submit" class="theme_flotbtn" onclick="closesubMenuPopup()">Cancel</button>
+        </div>
+    </div>
+</div>
+@*create menu popup end*@
+
+
+<script src="~/Scripts/jquery.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<!--Adding jTable Plugin-->
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+
+
+
+
+<script>
+
+    var isnewMenuCreation = false;
+
+    $("#ID_Con_SubMenu").hide();
+
+
+    function createNewMenu() {
+        clearsubmenuData();
+        isnewMenuCreation = true;
+        $("#ID_BTNUpdate").hide();
+        $("#ID_MenuCreationPopup").show();
+        $("#ID_MenuCollection").show();
+        $("#ID_SubMenuCollection").hide();
+        $("#ID_Con_SubMenu").hide();
+    }
+  
+
+    function closesubMenuPopup() {
+        $("#ID_SubMenutablePopup").hide();
+    }
+    function closeMenuPopup() {
+        $("#ID_MenuCreationPopup").hide();
+    }
+
+
+    //Main Management Process Start
+
+    function validatemenuForm() {
+        var menuname = $("#ID_MenuName").val();
+        var menuurl = $("#ID_MenuURL").val();
+        var menuclass = $("#ID_Class").val();
+        if (!menuname) {
+            alert("Menu name is requird");
+            return true;
+        }
+        if (menuname.length > 15) {
+            alert("Menu name must below 15 letters");
+            return true;
+        }
+
+        if (!menuurl) {
+            alert("Menu URL is requird");
+            return true;
+        }
+
+        if (menuurl.length > 50) {
+            alert("MenuURL must below 50 letters");
+            return true;
+        }
+        if (!menuclass) {
+            alert("Class is requird");
+            return true;
+        }
+
+        if (menuclass.length > 10) {
+            alert("Class must below 10 letters");
+            return true;
+        }
+
+        return false;
+    }
+
+    function saveMenu() {
+        if (validatemenuForm()) {
+            return;
+        }
+        var ri = $("#ID_UserTypes").val().join();
+
+        var model = {
+            IsActive: 1,
+            MenuName: $("#ID_MenuName").val(),
+            MenuURL: $("#ID_MenuURL").val(),
+            Class: $("#ID_Class").val(),
+            RoleIds: ri
+        };
+
+        $.ajax({
+            url: "/Home/CreateNewMenu",
+            type: 'POST',
+            data: model,
+            datatype: 'json',
+            success: function (data) {
+                closeMenuPopup();
+                loadMenus();
+                loadMenuTable();
+                clearsubmenuData();
+                alert("Menu Created Successfully");
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+
+    function updateMenu() {
+
+        if (validatemenuForm()) {
+            alert("Please fill the required fields");
+            return;
+        }
+        debugger;
+        var model = {
+            Id: $("#ID_MId").val(),
+            IsActive: 1,
+            MenuName: $("#ID_MenuName").val(),
+            MenuURL: $("#ID_MenuURL").val(),
+            Class: $("#ID_Class").val(),
+            RoleIds: $("#ID_UserTypes").val().join()
+        };
+        alert(JSON.stringify(model));
+        $.ajax({
+            url: "/Home/UpdateExistingMenu",
+            type: 'POST',
+            data: model,
+            datatype: 'json',
+            success: function (data) {
+                if (data.Result == "OK") {
+                    closeMenuPopup();
+                    loadMenus();
+                    loadMenuTable();
+                    clearsubmenuData();
+                    alert("Menu Updated Successfully");
+                } else {
+
+                }
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function loadMenus() {
+        $.ajax({
+            url: "/Home/GetMenuList",
+            type: 'GET',
+            success: function (data) {
+                $.each(data, function (index, re) {
+                    $("#ID_SubMenu").append("<option value=" + re.MenuId + ">" + re.MenuName + "</option>");
+                  
+                });
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    closeMenuPopup();
+    loadMenus();
+
+
+    function EditMenu(menuId) {
+        clearsubmenuData();
+        isnewMenuCreation = true;
+        $("#ID_BTNUpdate").show();
+        $("#ID_BTNSave").hide();
+        $("#ID_SubMenuCollection").hide();
+        $("#ID_MenuCollection").show();
+
+        $.ajax({
+            url: "/Home/GetMenu?mId=" + menuId,
+            type: 'GET',
+            success: function (data) {
+                var model = data.Records;
+                $("#ID_MenuName").val(model.MenuName);
+                $("#ID_MenuURL").val(model.MenuURL);
+                $("#ID_Class").val(model.Class);
+                $("#ID_MId").val(model.Id);
+         
+                var selectedRoles = model.RoleIds.split(",");
+
+                $.each(selectedRoles, function (i, re) {
+                    $("#ID_UserTypes").find(":checkbox[value='" + re + "']").attr("checked", "checked");
+                    $("#ID_UserTypes option[value='" + re + "']").attr("selected", 1);
+                    $("#ID_UserTypes").multiselect("refresh");
+                })
+
+
+                $("#ID_MenuCreationPopup").show();
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+   
+
+
+    //Main Management Process End
+
+
+
+    //Sub menu Management Process Start
+
+    function validatesubmenuForm() {
+        var menuname = $("#ID_MenuName").val();
+        var menuurl = $("#ID_MenuURL").val();
+        var menuclass = $("#ID_Class").val();
+        if (!$("#ID_UserTypes").val()) {
+            alert("User Roles Not Selected");
+            return true;
+        }
+        if (!menuname) {
+            alert("Menu name is requird");
+            return true;
+        }
+        if (menuname.length > 15) {
+            alert("Menu name must below 15 letters");
+            return true;
+        }
+
+        if (!menuurl) {
+            alert("Menu URL is requird");
+            return true;
+        }
+
+        if (menuurl.length > 50) {
+            alert("MenuURL must below 50 letters");
+            return true;
+        }
+        if (!menuclass) {
+            alert("Class is requird");
+            return true;
+        }
+
+        if (menuclass.length > 10) {
+            alert("Class must below 10 letters");
+            return true;
+        }
+
+        return false;
+    }
+    function createNewSubMenu() {
+        clearsubmenuData();
+        isnewMenuCreation = true;
+        $("#ID_BTNSubmenuUpdate").hide();
+        $("#ID_MenuCreationPopup").show();
+        $("#ID_MenuCollection").hide();
+        $("#ID_SubMenuCollection").show();
+        $("#ID_Con_SubMenu").show();
+        closesubMenuPopup();
+    }
+
+    function EditSubMenu(menuId) {
+        clearsubmenuData();
+        isnewMenuCreation = true;
+        $("#ID_Con_SubMenu").show();
+        $("#ID_BTNSubmenuUpdate").show();
+        $("#ID_BTNSubmenuSave").hide();
+        $("#ID_SubMenuCollection").show();
+        $("#ID_MenuCollection").hide();
+
+        $.ajax({
+            url: "/Home/GetMenu?mId=" + menuId,
+            type: 'GET',
+            success: function (data) {
+                closeSubMenu();
+                var model = data.Records;
+                $("#ID_MenuName").val(model.MenuName);
+                $("#ID_MenuURL").val(model.MenuURL);
+                $("#ID_Class").val(model.Class);
+                $("#ID_MId").val(model.Id);
+                var selectedRoles = model.RoleIds.split(",");
+
+                $.each(selectedRoles, function (i, re) {
+                    $("#ID_UserTypes").find(":checkbox[value='" + re + "']").attr("checked", "checked");
+                    $("#ID_UserTypes option[value='" + re + "']").attr("selected", 1);
+                    $("#ID_UserTypes").multiselect("refresh");
+                })
+
+
+                $("#ID_MenuCreationPopup").show();
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function saveSubMenu() {
+        if (validatesubmenuForm()) {
+            return;
+        }
+        var ri = $("#ID_UserTypes").val().join();
+
+        var model = {
+            IsActive: 1,
+            MenuName: $("#ID_MenuName").val(),
+            MenuURL: $("#ID_MenuURL").val(),
+            Class: $("#ID_Class").val(),
+            RoleIds: ri,
+            SubMenuId: $("#ID_SubMenu").val()
+        };
+
+        $.ajax({
+            url: "/Home/CreateNewMenu",
+            type: 'POST',
+            data: model,
+            datatype: 'json',
+            success: function (data) {
+                closeMenuPopup();
+                loadMenus();
+                loadMenuTable();
+                clearsubmenuData();
+                alert("Menu Created Successfully");
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+
+    function updateSubMenu() {
+
+        if (validatesubmenuForm()) {
+            return;
+        }
+        debugger;
+        var model = {
+            Id: $("#ID_MId").val(),
+            IsActive: 1,
+            MenuName: $("#ID_MenuName").val(),
+            MenuURL: $("#ID_MenuURL").val(),
+            Class: $("#ID_Class").val(),
+            RoleIds: $("#ID_UserTypes").val().join()
+        };
+        $.ajax({
+            url: "/Home/UpdateExistingMenu",
+            type: 'POST',
+            data: model,
+            datatype: 'json',
+            success: function (data) {
+                if (data.Result == "OK") {
+                    closeMenuPopup();
+                    loadMenus();
+                    loadMenuTable();
+                    clearsubmenuData();
+                    alert("Menu Updated Successfully");
+                } else {
+
+                }
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function clearsubmenuData() {
+        $("#ID_MenuName").val("");
+        $("#ID_MenuURL").val("");
+        $("#ID_Class").val("");
+        $("#ID_MId").val("");
+        $("#ID_UserTypes").prop("checked", false);
+        loadUserTypes();
+       // $("#ID_SubMenu").val(-1);
+    }
+   
+    function openSubMenutable(menuId) {
+ 
+   
+        $("#ID_SubMenu").val(menuId);
+        $("#ID_SelectedMenuId").val(menuId);
+
+        var table = document.getElementById("ID_SubMenuTable");
+        if (table) {
+            //table.innerHTML = '';
+          //  $('#ID_SubMenuTable').dialog('destroy'); 
+        }
+        $('#ID_SubMenuTable').jtable({
+            title: 'Sub Menu Management',
+            paging: true,
+            sorting: false,
+            actions: {
+                listAction: function (postData, jtParams) {
+                    return $.Deferred(function ($dfd) {
+      $.ajax({
+                            url: //"/Home/GetAllSubMenuList?menuId=" + $("#ID_SubMenu").val() + "&jtStartIndex=" + jtParams.jtStartIndex + "&jtPageSize=" + jtParams.jtPageSize,
+                                "@Url.Action("GetAllSubMenuList", "Home")?menuId=" + $("#ID_SelectedMenuId").val() + "&jtStartIndex=" + jtParams.jtStartIndex + "&jtPageSize=" + jtParams.jtPageSize,
+                            type: 'GET',
+                            success: function (data) {
+                                alert(JSON.stringify(data));
+                                $("#ID_SubMenutablePopup").show();
+                                $dfd.resolve(data);
+
+                            },
+                            error: function () {
+                                $dfd.reject();
+                            }
+                        });
+                    });
+                }
+
+            },
+            recordsLoaded: function (event, data) {
+                $('#ID_SubMenuTable').find('.jtable-toolbar-item jtable-toolbar-item-add-record').remove();
+            },
+            fields: {
+                ID: {
+                    key: true,
+                    list: false
+                },
+                MenuName: {
+                    title: 'MenuName',
+                    width: '30%'
+                    //,
+                    //display: function (data) {
+                    //    return '<td><a href="#"  onClick = "openSubMenutable(' + data.record.MenuId + ');" ' + '>' + data.record.MenuName + '</a></td>';
+                    //}
+                },
+                Order: {
+                    title: 'Order',
+                    width: '5%'
+                },
+                Active: {
+                    title: 'IsActive',
+                    width: '30%',
+                    targets: 0,
+                    checkboxes: {
+                        'selectRow': true
+                    },
+                    display: function (data) {
+                        return '<div class="switch"> <input class="cus_checkboxinput" type = "checkbox" /> <div class="cus_slider round"></div> </div >';
+                    }
+                }
+                , Edit: {
+                    title: 'Edit',
+                    width: '30%',
+                    display: function (data) {
+                        return '<td><a href="#"  onClick = "EditSubMenu(' + data.record.MenuId + ');" ' + '>Edit</a></td>';
+                    }
+                },
+            }
+        });
+
+
+        $('#ID_SubMenuTable').jtable('load');
+        $('.jtable').wrap('<div class="jtable-main-container scroll-content" />');
+
+    }
+
+
+    function closeSubMenu() {
+        $("#ID_SubMenutablePopup").hide();
+    }
+
+
+    //Sub menu Management Process End
+
+    // Load Usertypes
+    function loadUserTypes() {
+        $("#ID_UserTypes").attr("multiple", "multiple");
+        $('#ID_UserTypes').multiselect({
+            columns: 3,
+            placeholder: 'Select UserTypes',
+            search: true,
+            includeSelectAllOption: true
+        })
+        $.ajax({
+            url: "/Home/GetUserList",
+            type: 'GET',
+            success: function (data) {
+                $("#ID_UserTypes").find("option").remove();
+                $.each(data.Records, function (index, re) {
+
+                    $("#ID_UserTypes").append("<option value=" + re.Id + ">" + re.UserTypeName + "</option>");
+
+                });
+                $("#ID_UserTypes").multiselect('rebuild');
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+  
+  
+    // Load menus
+    function loadMenuTable() {
+        $('#ID_MenuTable').jtable({
+            title: 'Menu Management',
+            paging: true,
+            sorting: false,
+            actions: {
+                listAction: function (postData, jtParams) {
+                    return $.Deferred(function ($dfd) {
+                        $.ajax({
+                            url: "/Home/GetAllMenuList?jtStartIndex=" + jtParams.jtStartIndex + "&jtPageSize=" + jtParams.jtPageSize,
+                            type: 'GET',
+                            success: function (data) {
+                                $dfd.resolve(data);
+                            },
+                            error: function () {
+                                $dfd.reject();
+                            }
+                        });
+                    });
+                }
+
+            },
+            recordsLoaded: function (event, data) {
+                $('#ID_MenuTable').find('.jtable-toolbar-item jtable-toolbar-item-add-record').remove();
+            },
+            fields: {
+                ID: {
+                    key: true,
+                    list: false
+                },
+                    Edit: {
+                    title: 'Edit',
+                    width: '30%',
+                    display: function (data) {
+                        return '<td><a href="#"  onClick = "EditMenu(' + data.record.MenuId + ');" ' + '><i class="fa fa-pencil TBL_Edit" aria-hidden="true"></i></a></td>';
+                    }
+                },
+                Active: {
+                    title: 'IsActive',
+                    width: '30%',
+                    targets: 0,
+                    checkboxes: {
+                        'selectRow': true
+                    },
+                    display: function (data) {
+                        return '<div class="switch"> <input class="cus_checkboxinput" type = "checkbox" /> <div class="cus_slider round"></div> </div >';
+                    }
+                },
+                MenuName: {
+                    title: 'MenuName',
+                    width: '30%'
+                    ,
+                    display: function (data) {
+                        return '<td><a href="#"  onClick = "openSubMenutable(' + data.record.MenuId + ');" ' + '>' + data.record.MenuName + '</a></td>';
+                    }
+                },
+                Order: {
+                    title: 'Order',
+                    width: '5%'
+                }
+            }
+        });
+
+
+        $('#ID_MenuTable').jtable('load');
+        $('.jtable').wrap('<div class="jtable-main-container scroll-content" />');
+    }
+
+    loadMenuTable();
+    loadUserTypes();
+    closeSubMenu();
+</script>
+

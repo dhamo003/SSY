@@ -1,0 +1,143 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "DistrictWisePfReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/session.js"></script>
+    <script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>*@
+
+
+
+
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="~/Scripts/session.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+
+
+<style>
+
+    #fromdate, #todate {
+        z-index: 1000;
+    }
+
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        z-index: 9999;
+        max-height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+<div class="container-fliud">
+
+    <div class="row" style="margin-left:20px;margin-top:30px;">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">District</span>
+
+                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District" })
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">From Date</span>
+                    @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">To Date</span>
+                    @Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-primary" onclick="GetRepData()">Submit</a>
+            @*<a class="btn btn-primary" style="margin-left: 10px;" onclick="SaveDownloadReq()">Download</a>*@
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 column">
+            <div class="container-fluid">
+
+                <iframe name="ifr" id="ifr" style="width: 100%;height:500px; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+         
+        $("#disid").removeAttr("multiple");
+
+        $("#disid").attr("multiple", "multiple");
+
+        $('#disid').multiselect({
+            columns: 3,
+            placeholder: 'Select District',
+            search: true,
+            includeSelectAllOption: true
+        })
+
+        $("#disid").multiselect('rebuild');
+
+        $("#disid").val("-1");
+
+        getdates()
+    });
+
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        $("#fromdate,#todate").val(today);
+    }
+
+    function GetRepData() {
+        if ($("#disid").val() == "" || $("#disid").val() == null || $("#disid").val() == "0") {
+            alert("Please Select District");
+            $("#disid").focus();
+            return false;
+        }
+
+
+        var url = "/SSYIDCard/DitrictWisePfReport.aspx?fromdate=" + $("#fromdate").val() + "&todate=" + $("#todate").val() + "&District=" + $("#disid").val();
+
+
+        $('iframe#ifr').attr('src', url);
+    }
+</script>

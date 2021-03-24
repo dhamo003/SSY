@@ -1,0 +1,338 @@
+
+<div id="content">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>PF Deposit </h2>
+                </header>
+                <div>
+
+
+                    <div class="jarviswidget-editbox">
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+
+
+                        <form class="smart-form smart-form-main">
+                            <header>Agent Details</header>
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Agent Name: </strong>{{agentDetails?.userName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>RLO Office Name & Address: </strong>{{agentDetails?.agentRLOInformation?.rloOfficeName}} <br /> {{agentDetails?.agentRLOInformation?.addressLine1}} &nbsp; {{agentDetails?.agentRLOInformation?.addressLine2}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-12">
+                                            <label><strong>Agent ARN No: </strong>{{agentDetails?.userCode}} </label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label>
+                                                <label><strong>Worker Type: </strong></label>
+                                            </label>
+                                            <label class="input">
+                                                <select class="form-control" id="ddlWorkerType" name="workerType" [(ngModel)]="workerTypeId"
+                                                        (change)="workerTypeChange($event.target.value)">
+                                                    <option value="0" selected disabled>Choose an Option</option>
+                                                    <option value="{{type.workerTypeId}}" *ngFor="let type of WorkerTypeList">{{type.workerTypeName}}</option>
+                                                </select>
+                                            </label>
+                                            <div *ngIf="!workerTypeReq">
+                                                <span style="color: red;">Worker Type is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-5">
+                                            <label>
+                                                <strong>Deposit Date: </strong><span [style.color]="!depositDateReq?'red':''"><b>*</b></span>
+                                            </label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-calendar"></i>
+                                                <input type="text" name="depositDate" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                       [maxDate]="toDayDate"
+                                                       placeholder="DD/MM/YYYY" [(ngModel)]="depositDate"
+                                                       value="{{depositDate | date: 'dd/MM/yyyy' }}" [ngClass]="{'invalid-data': (!depositDateReq), 'valid-data': depositDateReq}"
+                                                       required>
+                                            </label>
+                                            <div *ngIf="!depositDateReq">
+                                                <span style="color: red;">Deposit Date is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isWorkerTypeSelected">
+                                        <div class="col col-5">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" checked="checked" (change)="radioChange(1)" />
+                                                <i></i>Non Grips
+                                            </label>
+                                        </div>
+                                        <div class="col col-5">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" (change)="radioChange(2)" />
+                                                <i></i>Grips
+                                            </label>
+                                        </div>
+                                        <div *ngIf="!gripsDeptCodeError">
+                                            <span style="color: red;">Grips is not configured for this worker type </span>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isWorkerTypeSelected">
+                                        <div class="col col-6" *ngIf="!isGrips">
+                                            <label><strong>Deposit Bank: </strong><span [style.color]="!depositBankReq?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <select class="form-control" id="ddlDepositBank" name="depositBank" [(ngModel)]="bankId">
+                                                    <option value="0" disabled>Choose an Option</option>
+                                                    <option value="{{bank.bankCode}}" *ngFor="let bank of bankDetails">{{bank.accountNumber}}</option>
+                                                </select>
+                                            </label>
+                                            <div *ngIf="!depositBankReq">
+                                                <span style="color: red;">Deposit Bank is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-5">
+                                            <label><strong>Amount Pending for deposit: </strong>{{sumofAmount}}</label>
+                                        </div>
+                                    </div>
+
+                                </section>
+                            </fieldset>
+                        </form>
+                        <form method="post" #form1 id="form1" name="form1" style="display:none">
+                            <input type="text" name="ENCDATA" id="ENCDATA">
+                            <input type="text" name="DEPT_CD" id="DEPT_CD">
+                            <button type="submit" (click)="form1.submit()">Submit</button>
+                        </form>
+                        <!--UAT-->
+                        <!--<form action="http://202.61.117.90/GRIPS/v1epay.do" method="post" #form1 id="form1" name="form1" style="display:none">
+                            <input type="text" name="ENCDATA" id="ENCDATA">
+                            <input type="text" name="DEPT_CD" id="DEPT_CD">
+                            <button type="submit" (click)="form1.submit()">Submit</button>
+                        </form>-->
+                        <!--Live-->
+                        <!--<form action="https://wbifms.gov.in/GRIPS/v1epay.do" method="post" #form1 id="form1" name="form1" style="display:none">
+                            <input type="text" name="ENCDATA" id="ENCDATA">
+                            <input type="text" name="DEPT_CD" id="DEPT_CD">
+                            <button type="submit" (click)="form1.submit()">Submit</button>
+                        </form>-->
+
+                    </div>
+
+                </div>
+
+
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+                        <!--<table class="table table-striped" [mfData]="PFCollectionDetails1" #mf="mfDataTable">-->
+                        <table id="datatable_fixed_column" class="table table-striped table-bordered"
+                               [mfData]="PFCollectionDetails1" #mf="mfDataTable" [mfRowsOnPage]="10" width="100%">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();"></th>
+                                    <th>
+                                        <mfDefaultSorter by="ssI_Number">SSIN</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="benFullName">Beneficiary Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="receiptNo">Receipt No</mfDefaultSorter>
+
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="bookNo">Book No</mfDefaultSorter>
+
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="collectionDateString">Collection Date</mfDefaultSorter>
+                                    </th>
+
+                                    <th>
+                                        <mfDefaultSorter by="paidFromMonth">Paid From</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="paidToMonth">Paid To</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="collectionAmount">Amount</mfDefaultSorter>
+                                    </th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let deposits of mf.data|grdFilter: {ssI_Number:searchText, benFullName: searchText, receiptNo: searchText, collectionDateString: searchText, bookNo: searchText, paidFromMonth: searchText,
+           paidToMonth: searchText, collectionAmount: searchText}; let i=index;">
+                                    <td class="">
+                                        <input type="checkbox" [(ngModel)]="deposits.selected" (change)="checkIfAllSelected(deposits);">
+                                    </td>
+                                    <td>{{deposits.ssI_Number}}</td>
+                                    <td>{{deposits.benFullName}}</td>
+                                    <td>{{deposits.receiptNo}}</td>
+                                    <td>{{deposits.bookName}}</td>
+                                    <td>{{deposits.collectionDateString}}</td>
+                                    <td>{{deposits.paidFromMonth}}</td>
+                                    <td>{{deposits.paidToMonth}}</td>
+                                    <td>{{deposits.collectionAmount}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="PFCollectionDetails1 != null && PFCollectionDetails1.length>0">
+                                            <!--<ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>-->
+                                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <!--<table class="table table-striped" [mfData]="PFCollectionDetails.results" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                             <thead>
+                                                 <tr>
+                                                     <th><input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();"></th>
+                                                     <th>
+                                                         <mfDefaultSorter by="ssI_Number">SSIN</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="benFullName">Beneficiary Name</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="receiptNo">Receipt No</mfDefaultSorter>
+
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="bookNo">Book No</mfDefaultSorter>
+
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="collectionDateString">Collection Date</mfDefaultSorter>
+                                                     </th>
+
+                                                     <th>
+                                                         <mfDefaultSorter by="paidFromMonth">Paid From</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="paidToMonth">Paid To</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="collectionAmount">Amount</mfDefaultSorter>
+                                                     </th>
+
+
+
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr *ngFor="let deposits of mf.data|grdFilter: {ssI_Number:searchText, benFullName: searchText, receiptNo: searchText, collectionDateString: searchText, bookNo: searchText, paidFromMonth: searchText,
+                        paidToMonth: searchText, collectionAmount: searchText}; let i=index;">
+                                                     <td class="">
+                                                         <input type="checkbox" [(ngModel)]="deposits.selected" (change)="checkIfAllSelected(deposits);">
+                                                     </td>
+                                                     <td>{{deposits.ssI_Number}}</td>
+                                                     <td>{{deposits.benFullName}}</td>
+                                                     <td>{{deposits.receiptNo}}</td>
+                                                     <td>{{deposits.bookNo}}</td>
+                                                     <td>{{deposits.collectionDateString}}</td>
+                                                     <td>{{deposits.paidFromMonth}}</td>
+                                                     <td>{{deposits.paidToMonth}}</td>
+                                                     <td>{{deposits.collectionAmount}}</td>
+                                                 </tr>
+                                             </tbody>
+                                             <tfoot>
+                                                 <tr>
+                                                     <td colspan="9">
+                                                         <div *ngIf="PFCollectionDetails.results.length>0">
+                                                             <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                                         </div>
+                                                     </td>
+                                                 </tr>
+                                             </tfoot>
+                                         </table>-->
+                        <div class="row" *ngIf="showErrorMessage" style="margin-top:10px;">
+                            <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                <label>Please select atleast one record to proceed.</label>
+                            </div>
+                        </div>
+                        <footer *ngIf="PFCollectionDetails1 != null && PFCollectionDetails1.length>0">
+                            <div class="modal-footer">
+                                <a id="btnPfCollect" class="btn btn-primary" (click)="submitPFDepositDetails(PFCollectionDetails1)">Submit</a>
+
+                                <a id="btnGenerate" class="btn btn-primary" (click)="GenaratePdf()" *ngIf="!isGrips">Generate PayIn-Slip</a>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #pdfModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">PayIn Slip Pdf</h4>
+            </div>
+            <div class="modal-body">
+                PayIn Slip generated, Please print or download.
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf('print')">
+                    Print PayIn Slip
+                </button>
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf('download')">
+                    Download PayIn Slip
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

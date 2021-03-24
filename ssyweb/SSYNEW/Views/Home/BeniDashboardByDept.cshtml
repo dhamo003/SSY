@@ -1,0 +1,862 @@
+﻿@model SSY.Models.BenifSchemesDet
+@{
+    ViewBag.Title = "BeniDashboardByDept";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+    
+}
+<script>
+    var Schemes = @Html.Raw(Json.Encode(ViewBag.BenOccupation))
+    var Benifid = @Html.Raw(Json.Encode(ViewBag.Benid))
+    var status = @Html.Raw(Json.Encode(ViewBag.status))
+    var CheckPaymentSta = @Html.Raw(Json.Encode(ViewBag.chckpaystatus))
+    var ChkScheme = @Html.Raw(Json.Encode(ViewBag.ChkScheme))
+    var  DOB = @Html.Raw(Json.Encode(ViewBag.Dob))
+    var  Schemename = @Html.Raw(Json.Encode(ViewBag.SchemeName))
+    var  Schemestat = @Html.Raw(Json.Encode(ViewBag.SchemeStat))
+    var  PFstat = @Html.Raw(Json.Encode( ViewBag.PfStatus))
+    var  reamrks = @Html.Raw(Json.Encode(ViewBag.reamrks))
+
+    var  VerifyDate = @Html.Raw(Json.Encode(ViewBag.VerifyDate))
+    var  modifieddate = @Html.Raw(Json.Encode(ViewBag.modifieddate))
+    var  createddate = @Html.Raw(Json.Encode(ViewBag.createddate))
+
+    var RegType = @Html.Raw(Json.Encode(ViewBag.Regtype))
+    var IsActive = @Html.Raw(Json.Encode(ViewBag.isactive))
+    var Part2 = @Html.Raw(Json.Encode(ViewBag.Part2))
+    var SMCValid = @Html.Raw(Json.Encode(ViewBag.SMCValid))
+
+
+</script>
+<style>
+    .regpop .label-data {
+        font-size: small !important;
+        font-weight: bold !important;
+    }
+
+    .regpop .label {
+        font-size: small !important;
+        font-weight: initial !important;
+    }
+
+    .custtext {
+        width: 200px;
+    }
+
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    #divfooter {
+        display: none !important;
+    }
+
+    .profile-img {
+        height: 150px !important;
+        margin-left: 20px;
+    }
+
+    fieldset.custom-border1 {
+        border: 1px groove blue !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #f00;
+        box-shadow: 0px 0px 0px 0px #f00;
+        border-radius: 6px;
+    }
+
+    legend.custom-border1 {
+        font-size: 1.1em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    fieldset.custom-border {
+        border: none !important;
+    }
+
+    legend.custom-border {
+    }
+
+    .beniinformation {
+        margin-left: 50px;
+    }
+</style>
+<div class="card" style="margin-left:15px;">
+    <div class="container-fliud">
+        <div class="wrapper row">
+            <div class="preview col-md-2">
+                <div class="preview-pic tab-content">
+                    <div class="tab-pane active" id="pic-1" style=" margin-left: 63px; width: 120px;">
+                        <img src="@ViewBag.image" />
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <table class="table table-bordered" style="text-align:left;background-color:white">
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;width: 100px;"><b>NAME</b></td>
+                            <td style="text-align:left"><label>@ViewBag.Name</label></td>
+                            <td style="text-align:left;width: 100px;"><b>D.O.B</b></td>
+                            <td style="text-align:left"><label id="lbldob">@ViewBag.Dob</label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;width: 135px;"><b>@ViewBag.LName</b></td>
+                            <td style="text-align:left"><label id="lblregno">@ViewBag.ssin</label></td>
+                            <td style="text-align:left;width: 100px;"><b>AGE</b></td>
+                            <td style="text-align:left"><label id="lblBenage"></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;width: 100px;"><b>MOBILE</b></td>
+                            <td style="text-align:left"><label id="lblmobile">@ViewBag.MobileNo</label></td>
+                            <td style="text-align:left;width: 100px;"><b>OCCUPATION</b></td>
+                            <td style="text-align:left"><label id="lbloccupation">@ViewBag.BenOccupation</label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;width: 100px;"><b>STATUS</b></td>
+                            <td style="text-align:left"><label id="lblmobile">@ViewBag.status</label> <a href="/Registration/UserReapply" class="BenReapply" id="reapply" style="display:none;"> Reapply </a> </td>
+                            <td style="text-align:left;width: 100px;"><b>FORM</b></td>
+                            <td style="text-align:left"><a href="#" class="BenCls" data-toggle="modal" data-target=".regpop" onclick="Bentrnasclick(@ViewBag.Benid);"> View </a></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align:left;width: 250px;"><b><label id="lbldate"></label></b></td>
+                            <td style="text-align:left;"><label id="lblstaDate"></label></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered" id="tblSmcCard" style="display:none;">
+                    <tbody>
+                        <tr>
+                            <td style="width:460px;">
+                                <b>If you need SMC card , you should upload your photo and signature</b>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="chkSmc" name="chkSmc"> Click here
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="divsmc">
+                    <iframe src="" frameborder="0" class="col-md-12 iframeheight loadurl" id="frmuploaddocu" width="1200" height="250"></iframe>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="Bendivpendingremark" style="display: none">
+                <center><b> <label id="lblreason"></label><label id="BenlblremarkPend" style="font-size:medium;">@ViewBag.reamrks</label></b></center>
+            </div>
+        </div>
+        <div class="row">
+            <center>
+                <div class="col-md-12" id="idpassbk">
+                    <h3 class="product-description">Identity Card-Cum-Pass Book for Provident Fund</h3>
+                    <table class="table table-striped table-bordered" style="width: 497px;">
+                        <tr>
+                            <td>Identity Card-Cum-Pass Book for Provident Fund</td>
+                            <td>
+                                <a href="#" id="identitycumbook" style="color: black !important; text-decoration: none">Download</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </center>
+        </div>
+        <div class="row">
+            <center>
+                <div class="col-md-12" id="diveschem">
+                    <h3 class="product-description">Eligible Schemes</h3>
+                    <table class="table table-striped table-bordered" id="constructwork" style="display:none;width: 497px;">
+                        <center>
+                            <tbody>
+                                <tr id="trBOCW"><td>BOCWA</td><td><input type="checkbox" name="chkbocw" id="chkbocw" class="bocwchk"> Select the Checkbox</td></tr>
+                                <tr id="trpf1"><td>PF</td><td><input type="checkbox" class="bocwpf" id="pfbocwdet" name="pfbocwdet"> Check Box to Register</td></tr>
+                            </tbody>
+                        </center>
+                    </table>
+                    <table class="table table-striped table-bordered" id="Transportwrk" style="display:none; width: 497px;">
+                        <tbody>
+                            <tr id="trWBTWSSS"><td>WBTWSSS</td><td><input type="checkbox" id="chkregwbtwss" name="chkregwbtwss">Select the checkbox</td></tr>
+                            <tr id="trpf2"><td>PF</td><td><input type="checkbox" class="bocwpf" id="pfwbtdet" name="pfbocwdet"> Check Box to Register</td></tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped table-bordered" id="Others" style="display:none;width: 497px;">
+                        <tbody>
+                            <tr id="trpf3"><td>PF</td><td><input type="checkbox" class="bocwpf" id="pfotherdet" name="pfbocwdet"> Check Box to Register</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </center>
+        </div>
+        <center>
+            <div class="panel panel-info" style="display:none;width: 1000px;" id="divbocw">
+                <div class="panel-heading">BOCWA</div>
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <div class="col-sm-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="">Registration No.of the Establishment</label>
+                                    @Html.TextBoxFor(m => m.registration, new { @class = "form-control", @maxlength = 12, style = "text-transform:uppercase", @tabindex = "3" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="">Name and Address of the Authority</label>
+                                    <textarea name="test_field" id="name" style="width: 410px;height: 67px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">Detailed Description and Address of the Establishment </label>
+                                        <textarea name="test_field" id="description" style="width: 435px;height: 67px;"></textarea>
+                                        (where applicant is working & Worked)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">Post & Nature of Work of the Worker/applicant</label>
+                                        @Html.TextBoxFor(m => m.post, new { @class = "form-control", @maxlength = 12, @tabindex = "4" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">Date of Joining Date</label>
+                                        @Html.TextBoxFor(m => m.DoJ, new { @class = "form-control JoinDate", @tabindex = "5", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">Date of End Date</label>
+                                        @Html.TextBoxFor(m => m.DOE, new { @class = "form-control EndDate", @maxlength = 12, @tabindex = "6", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">Remarks</label>
+                                        <textarea name="test_field" id="remark" style="width: 441px;height: 67px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*Employment History Pending*@
+                        @*<div>
+                                <h3 class="product-description">Employment History</h3>
+                                <table class="table table-striped table-bordered tblemphist">
+                                    <tr>
+                                        <th>Sno</th>
+                                        <th>Name of Establishment</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input id="Sno1" type="text" tabindex="78" name="empSno" class="form-control" value="1" style="width: 39px;" readonly="readonly">
+                                        </td>
+                                        <td>
+                                            <input id="nameEst" type="text" name="nameestablishmnt" tabindex="83" class="form-control" style="width: 150px;">
+                                        </td>
+                                        <td><input id="DoJ" type="text" name="joindate" tabindex="82" class="form-control JoinDate " style="width: 130px;"></td>
+                                        <td><input id="DOE" type="text" name="enddate" tabindex="82" class="form-control EndDate " style="width: 130px;"></td>
+                                    </tr>
+                                </table>
+                                <div class="pull-right">
+                                    <a onclick="Addemphist()" tabindex="77" class="btn btn-primary ">Add</a>
+                                </div>
+                            </div>*@
+                        <div class="row">
+                            <a onclick="AddBocw()" class="btn btn-primary">Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </center>
+        <div class="container-fluid " id="tblbocwdet" style="display:none">
+            <fieldset class="custom-border1">
+                <legend class="custom-border1">BOCW Scheme Details</legend>
+                <table class="table table-bordered tblbocwdet">
+                    <thead>
+                        <tr style="background: #3498DB; color: white; font-size: 14px; font-weight: 700;">
+                            <th class="">S.No</th>
+                            <th class="">Name and address of the authority</th>
+                            <th class="">Detailed description and address of the establishment where applicant is working & Worked. </th>
+                            <th class="">Registration no.of the establishment</th>
+                            <th class="">Post & Nature of Work of the Worker/applicant</th>
+                            <th class="">Date of joining Start date</th>
+                            <th class="">Date of End date</th>
+                            <th class="">Remarks</th>
+                            <th class=""></th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="pull-right">
+                    <a onclick="btnsub()" tabindex="77" class="btn btn-primary ">Submit</a>
+                </div>
+            </fieldset>
+        </div>
+        <center>
+            <div class="container-fluid" id="transwrk" style="display:none; width: 753px;">
+                <fieldset class="custom-border1">
+                    <legend class="custom-border1">WBTWSSS Scheme Details</legend>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="">Transport Worker Status :</label>
+                                <br class="clearfix" />
+                                <input type="radio" class="TransWorkstatus" name="TransWorkstatus" value="1" tabindex="42">
+                                <label style="margin-left: 106px; margin-top: -22px;">Self Emp</label>
+                                <input type="radio" class="TransWorkstatus" name="TransWorkstatus" value="0" tabindex="43">
+                                <label style="margin-left: 119px; margin-top: -22px;">Wage Emp</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="" class="">Nature Of Vehicle :</label>
+                                    <div class="row">
+                                        <div class="col-md-4" style="padding-right: 0px !important;">
+                                            @Html.DropDownList("ddlNtofvehi", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Bus", Value = "1" },
+                                            new SelectListItem{ Text="Mini Bus", Value = "2" },
+                                            new SelectListItem{ Text="Truck", Value = "3" },
+                                            new SelectListItem{ Text="Auto Rickshaw", Value = "4" },
+                                            new SelectListItem{ Text="Van Tempo", Value = "5" },
+                                            new SelectListItem{ Text="Taxi", Value = "6" },
+                                             new SelectListItem{ Text="Luxury Taxi", Value = "7" },
+                                            new SelectListItem{ Text="Others", Value = "8" },
+                                        }, new { @class = "col-md-2 pull-left form-control custtext ", @tabindex = "38" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="" class="">Nature Of Duties :</label>
+                                    <div class="row">
+                                        <div class="col-md-4" style="padding-right: 0px !important;">
+                                            @Html.DropDownList("ddlNtofduty", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Driver", Value = "1" },
+                                            new SelectListItem{ Text="Conductor", Value = "2" },
+                                            new SelectListItem{ Text="Helper", Value = "3" },
+                                            new SelectListItem{ Text="Cleaner", Value = "4" },
+                                            new SelectListItem{ Text="Others", Value = "5" },
+                                        }, new { @class = "col-md-2 pull-left form-control custtext ", @tabindex = "38" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <a onclick="btnsubWbt()" tabindex="77" class="btn btn-primary" style="margin-right: 285px; margin-top: 25px;">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </center>
+        @*  <div class="row">
+                <div class="col-md-12">
+                    <h3 class="product-description">Existing Scheme Details</h3>
+                    <table class="table table-striped table-bordered">
+                        <!--<thead><tr><th></th><th></th></tr></thead>-->
+                        <tbody>
+                            <tr><td>XYZWH</td><td></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>*@
+        <div class="row">
+            <div class="col-md-12" id="idAvailed" style="display:none">
+                <h3 class="product-description">Availed Scheme Details</h3>
+                <table class="table table-striped table-bordered">
+                    <!--<thead><tr><th></th><th></th></tr></thead>-->
+                    <tr>
+                        <th>Description</th>
+                        <th>Scheme Certificate</th>
+                        @*@*<th>Application Details</th>*@
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>SSY</td>
+                        <td><a href="#" id="smccrd">SMC Card Download</a></td>
+                        @*<td><a href="#" id="InspAppform">Application Form Details</a></td>*@
+                        @*@*<td><a href="#" id="schemecert">Download</a></td>*@
+                        <td>@ViewBag.status</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="BenSno" value="0" name="BenSno" />
+@*<input type="hidden" id="SelfEmpNo" value="1112121231" name="SelfEmpNo" />*@
+@Html.Partial("_BenInformation")
+<script>
+    $(document).ready(function(){
+        $('#divsmc').hide();
+
+
+
+        if(SMCValid == "0")
+        {
+            $("#tblSmcCard").show();
+        }
+        else
+        {
+            $("#tblSmcCard").hide();
+
+        }
+
+        if(PFstat == 1)
+        {
+            //$("#trpf1").hide();
+            $("input[name=pfbocwdet]").prop('checked', true);
+        }
+        if(ChkScheme =="1")
+        {
+             
+            $("#diveschem").hide();
+        }
+        else
+        {
+            $("#diveschem").show();
+        }
+
+        if (status == "Pending" ) {
+
+
+            if(RegType == 'N' ){
+
+
+
+                $("#lbldate").text("Date Of Application").addClass('label-data');
+
+                $("#lblstaDate").text(createddate).addClass('label-data');
+            }
+
+            else if(RegType == 'L' && IsActive == true)
+            {
+                $("#lbldate").text("Date Of Updation").addClass('label-data');
+                $("#lblstaDate").text(modifieddate).addClass('label-data');
+            }
+            else
+            {
+                $("#lbldate").text("Date Of Updation").addClass('label-data');
+                $("#lblstaDate").text("ÇAF not filled up").addClass('label-data');
+
+            }
+
+        }
+
+
+        if(status =='Approved')
+        {
+            $("#idAvailed").show();
+            $("#diveschem").show();
+
+            $("#lbldate").text("Date Of Approval").addClass('label-data');
+            $("#lblstaDate").text(VerifyDate).addClass('label-data');
+
+            if(ChkScheme =="1")
+            {
+                 
+                $("#diveschem").hide();
+            }
+        }
+
+        if(status =='Send Back')
+        {
+
+            $("#reapply").show();
+            $("#lblreason").text("Reason For Send Back :");
+            $("#Bendivpendingremark").show()
+            $("#BenlblremarkPend").text(reamrks).addClass('label-data').css({ color: "red!important" });
+            $("#lbldate").text("Date Of SentBack").addClass('label-data');
+            $("#lblstaDate").text(VerifyDate).addClass('label-data');
+        }
+        if(status =='Rejected')
+        {
+            $("#lblreason").text("Reason For Rejected :");
+            $("#Bendivpendingremark").show()
+            $("#BenlblremarkPend").text(reamrks).addClass('label-data').css({ color: "red!important" });
+            $("#lbldate").text("Date Of Rejected").addClass('label-data');
+            $("#lblstaDate").text(VerifyDate).addClass('label-data');
+        }
+        $("#tblbocwdet").hide();
+        $("#transwrk").hide();
+        $("#divbocw").hide();
+        datepicker()
+         
+        var d=   DOB.split("/");
+        var Age = calculateAge($.trim(d[2])+'-'+$.trim(d[0])+'-'+$.trim(d[1]));
+        $("#lblBenage").text(Age);
+        $("input[name=pfbocwdet][value=" + PFstat + "]").prop('checked', true);
+    })
+    function datepicker()
+    {
+        $(".JoinDate,.EndDate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2017",
+            autoclose: true
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $(".JoinDate,.EndDate").val(today);
+    }
+    $('#chkbocw').change(function() {
+        var CheckReg = $(this).is(':checked');
+        if(status !='Approved')
+        {
+            alert("Your Application Is "+status)
+            return false;
+        }
+        if (CheckReg == true) {
+            $("#tblbocwdet").show();
+            $("#divbocw").show();
+            return false;
+        }
+        else
+            $("#tblbocwdet").hide();
+        $("#divbocw").hide();
+        return false;
+    });
+    $('#chkregwbtwss').change(function() {
+        var CheckReg = $(this).is(':checked');
+        if(status !='Approved')
+        {
+            alert("Your Application Is "+status)
+            return false;
+        }
+        if (CheckReg == true) {
+            $("#transwrk").show();
+            return false;
+        }
+        else
+            $("#transwrk").hide();
+        return false;
+    });
+
+    //Upload Documents
+    $('#chkSmc').change(function() {
+        var isvalid = $(this).is(':checked');
+        // alert(isvalid);
+        if(isvalid == true)
+        {
+            $("#frmuploaddocu").attr("src", "/Registration/UploadPhotoSignfromBeni?Bensno="+Benifid+"&CreatedBy="+Benifid);
+
+
+            $('#divsmc').show(1000);
+
+        }
+        else
+        {
+            $('#divsmc').hide(1000);
+        }
+    });
+
+    //For Bocw Submit
+    function btnsub()
+    {
+         
+        var SchemerowCount = $('.tblbocwdet tr').length;
+        var adddoc  =  "";
+        for (i = 1;i < SchemerowCount; i++)
+        {
+            adddoc +=  $("#Nameid"+i).text()+"$";
+            adddoc += $("#Descrid"+i).text()+"$";
+            adddoc +=  $("#regisid"+i).text()+ "$";
+            adddoc +=  $("#postid"+i).text()+ "$" ;
+            adddoc +=  $("#Dojid"+i).text()+"$";
+            adddoc +=  $("#Doeid"+i).text()+"$";
+            adddoc +=  $("#remrkid"+i).text()+"~ ";
+        }
+        adddoc +="";
+        $.get('@Url.Action("SaveBocwScheme", "Home")', {ID :adddoc,SchemerowCount:SchemerowCount,Benifid :Benifid,Createdby :Benifid }, function (dat) {
+            alert(dat);
+        });
+    }
+    //For WBTWSS Submit
+    function btnsubWbt()
+    {
+        var TransWorker = $("input[name='TransWorkstatus']:checked").val();
+        var NatuVehic = $("#ddlNtofvehi").val();
+        var NatuDuty = $("#ddlNtofduty").val();
+        $.get('@Url.Action("SaveWBTScheme", "Home")', {Type:TransWorker,Vehicle:NatuVehic,Duty:NatuDuty,Benifid :Benifid,Createdby :Benifid}, function (dat) {
+            alert(dat);
+            $("#transwrk").hide();
+        });
+    }
+    //Add data to table
+    function AddBocw()
+    {
+        if (($("#name").val()) == "" || ($("#name").val()) == null) {
+            alert("Please Enter Name");
+            $("#name").focus();
+            return false;
+        }
+        if (($("#description").val()) == null || ($("#description").val()) == "") {
+            alert("Please Enter Description");
+            $("#description").focus();
+            return false;
+        }
+        if (($("#registration").val())  == null || ($("#registration").val())  == "") {
+            alert("Please Enter Registration No");
+            $("#registration").focus();
+            return false;
+        }
+        if (($("#post").val()) == null || ($("#post").val()) == "") {
+            alert("Please Enter Post & Nature of Work");
+            $("#post").focus();
+            return false;
+        }
+        if (($("#DoJ").val()) == null || ($("#DoJ").val()) == "") {
+            alert("Please Select Date of Joining");
+            $("#DoJ").focus();
+            return false;
+        }
+        if (($("#DOE").val()) == null || ($("#DOE").val()) == "") {
+            alert("Please Select Date of Relieving Date");
+            $("#DOE").focus();
+            return false;
+        }
+        if (($("#remark").val()) == null || ($("#remark").val()) == "") {
+            alert("Please Enter Remark");
+            $("#remark").focus();
+            return false;
+        }
+        var rowCount = $('.tblbocwdet tr').length;
+        $('.tblbocwdet').append('<tr><td><label class="label-data" id="snoid' + rowCount + '">' + rowCount + ' </label></td><td><label class="label-data" id="Nameid' + rowCount + '">' + ($("#name").val()) + ' </label></td><td><label class="label-data" id="Descrid' + rowCount + '">' + ($("#description").val()) + ' </label></td><td><label class="label-data" id="regisid' + rowCount + '">' + ($("#registration").val()) + ' </label></td><td><label class="label-data" id="postid' + rowCount + '">' + ($("#post").val()) + ' </label></td><td><label class="label-data" id="Dojid' + rowCount + '">' + ($("#DoJ").val()) + ' </label></td><td><label class="label-data" id="Doeid' + rowCount + '">' + ($("#DOE").val()) + ' </label></td><td><label class="label-data" id="remrkid' + rowCount + '">' + ($("#remark").val()) + ' </label></td><td><button type="button" class="removedelbutton" title="Remove this row">X</button></td></tr>')
+        $("#name").val('');
+        $("#description").val('');
+        $("#registration").val('');
+        $("#post").val('');
+        $("#DoJ").val('');
+        $("#DOE").val('');
+        $("#remark").val('');
+    }
+    //function Addemphist()
+    //{
+    //    var rowCount = $('.tblemphist tr').length;
+    //    $('.tblemphist').append('<tr><td><input id="Sno1'+rowCount+'" type="text"  class="form-control" name="empSno" value="'+(rowCount)+'" style="width:39px;" readonly="readonly"></td><td><label class="label-data" id="Nameid' + rowCount + '">' + ($("#name").val()) + ' </label></td><input id="Dojid'+rowCount+'" type="text" name="namdob" class="form-control namdob"  style="width:130px;">
+    //        <td><label class="label-data" id="Dojid' + rowCount + '">' + ($("#DoJ").val()) + ' </label></td><td><label class="label-data" id="Doeid' + rowCount + '">' + ($("#DOE").val()) + ' </label></td><td><button type="button" class="removedelbutton" title="Remove this row">X</button></td></tr>')
+    //}
+    $("#smccrd").click(function(){
+        if(status !='Approved')
+        {
+            alert("Your application is "+status);
+            return false;
+
+
+        }
+        else
+        {
+            if(SMCValid == "0")
+            {
+                alert("Unable generate SMC card, Please fill part II ");
+            }
+            else
+            {
+                window.location.href = "/SSYIDCard/SSYIDCardNew.aspx/?Benifid="+Benifid;
+
+            }
+        }
+    })
+    $("#schemecert").click(function(){
+        //ChkScheme
+        if(ChkScheme == "0")
+        {
+            alert("Scheme certificate will be downloaded when Scheme Applied");
+            return false;
+        }
+        if(CheckPaymentSta =="0")
+        {
+            alert("Scheme certificate will be downloaded after successful payment");
+            return false;
+        }
+        window.location.href = "/Home/SchemeCertificate/?Benifid="+Benifid;
+    })
+    //For deleting
+    $(document).on('click', 'button.removedelbutton', function () { // <-- changes
+        var SchemerowCount = $('.tblbocwdet tr').length;
+        var $tr = $(this).closest('tr');
+        var myRow = $tr.index();
+        if(myRow == SchemerowCount-2)
+        {
+            $(this).closest('tr').remove();
+            return false;
+        }
+        else
+        {
+            alert("Only last row will be deleted");
+            return false;
+        }
+    });
+    var name = Schemes;
+    if(name == "ConstructionWorker")
+    {
+         
+        $("#constructwork").show();
+        $("#Transportwrk").hide();
+        $("#Others").hide();
+    }
+    if(name == "TransportWorker")
+    {
+        $("#Transportwrk").show();
+        $("#constructwork").hide();
+        $("#Others").hide();
+    }
+    if(name == "Others")
+    {
+        $("#Others").show();
+        $("#constructwork").hide();
+        $("#Transportwrk").hide();
+    }
+
+    $("#identitycumbook").click(function()
+    {
+        if(Part2 =='Y')
+        {
+            if(status !='Approved')
+            {
+                alert("Your Application Is "+status)
+                return false;
+
+            }
+            if(PFstat =="0")
+            {
+                alert("PF opt is not selected");
+                return false;
+            }
+
+            window.location.href = "/Home/SchemeCertificate/?Benifid=" + Benifid;
+        }
+        else
+        {
+            alert("remaining information is pending");
+            return false;
+        }
+
+    })
+
+    function DocumnetsFinalSubmit()
+    {
+        if ($("#Photo").val() == "" || $("#Photo").val() == null || $("#Photo").val() == 0) {
+            alert("Please Choose Photo");
+            $("#Photo").focus();
+            return false;
+        }
+        if ($("#Signature").val() == "" || $("#Signature").val() == null || $("#Signature").val() == 0) {
+            alert("Please Choose Signature");
+            $("#Signature").focus();
+            return false;
+        }
+        var form = $('#UploadForm')[0];
+
+        var data = new FormData(form);
+
+        $.ajax({
+            url: '/Registration/SubmitPhotoSign',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function(data) {
+
+                if(data.Code == "000")
+                {
+                    alert(data.Message);
+
+                    //BenSno = data.BenSno;
+                    //$("#divConfirmSmcCard").modal('show');
+                    window.location.href = "/Home/Dashboard";
+
+
+                }
+                else
+                {
+                    alert(data.Message);
+                    return false;
+                    // $("#lblMessage"+data.Value).text(data.Message);
+                }
+
+
+            }
+        });
+    }
+
+    $('INPUT[type="file"]').change(function () {
+         
+
+        var fname  =  "";
+
+        if(this.id == "Photo")
+        {
+            fname ="photo";
+        }
+        if(this.id == "Signature")
+        {
+            fname ="signature";
+        }
+
+
+        if(this.id == "Photo"  || this.id == "Signature")
+        {
+            if (this.files[0].size < 2000000) {
+                var ext = this.value.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                        break;
+                    default:
+
+                        alert('Please choose ' + fname + ' only jpg,jpeg or png,pdf File');
+
+                        this.value = '';
+                        this.focus();
+                }
+            }
+            else {
+                alert('Please choose size of ' + fname + ' file below 2MB');
+                this.value = '';
+                this.focus();
+            }
+        }
+
+    });
+</script>
+
+
+
+

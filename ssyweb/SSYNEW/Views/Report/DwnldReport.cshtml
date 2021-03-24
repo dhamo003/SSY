@@ -1,0 +1,236 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "Download Requests";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+    var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+    var Deptuserid = @Html.Raw(Json.Encode(ViewBag.deptid))
+</script>
+
+<style>
+    th {
+        font-size: 13px;
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    #fromdate, #todate {
+        z-index: 9999;
+    }
+
+    .modal-backdrop.in {
+        opacity: 0;
+    }
+
+   
+</style>
+
+
+
+<div class="container-fliud" id="Div1">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <center><h3 class="product-description">Download Requests</h3></center>
+
+            <table class="table table-striped table-bordered LegacyDwnlRep" cellspacing="0" width="100%">
+                <thead style="background-color:#87CEEB">
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Created Date</th>
+
+                        <th>Report Name</th>
+
+
+                        <th>Requested Date & Time</th>
+                        <th>Completed Date & Time</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="loader" style="display:none;">
+        <center>
+            <div id="loaderdiv" style="display:none;"> <center> <div class="loaderreport"> </div> Please Wait ...</center> </div>
+        </center>
+    </div>
+    <input type="hidden" id="BenSno" value="0" name="BenSno" />
+
+  
+</div>
+<center>
+    <div>
+
+        <div class="row">
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="procid" role="dialog">
+                <div class="modal-dialog" style="margin-top: 202px;">
+
+                    <!-- Modal content-->
+                    <div class="modal-content" style="width: 240px; height: 145px;">
+
+
+                        <div class="modal-body" id="divProcess" style="margin-top:20px;">
+
+                            <img src="~/Content/images/ProcesssImg1.gif" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</center>
+
+<script>
+        $(document).ready(function () {
+
+
+        });
+   
+
+        $.get('@Url.Action("GetLegacyDwnldReport", "Report")', {userid: Deptuserid}, function (result) {
+            var table = $('.LegacyDwnlRep').DataTable();
+            table.destroy();
+            $('.LegacyDwnlRep tbody').empty();
+            debugger;
+            $.each(result, function (i, data) {
+
+                var num = i + 1;
+
+                var value = data.Url;
+                debugger;
+               // alert(data.ReportName);
+                if (data.ReportName == "Detailed Report") {
+                    //   alert("1");
+                    if (data.Status == 0)
+                        $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><font color="red">Request Is Under Process</font></td></tr>')
+                    if (data.Status == 1)
+                        $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><font color="green">' + "Report Is Ready " + "</font><a href='#' onclick='ClickDownlaod(" + data.Id + ")'>Click Here</a>" + '</td></tr>')
+                    if (data.Status == 2) {
+                        if (data.FileSaveStatus == 1) {
+                            $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><a href="DownloadDetailedRepExcelFromService/?RequestId=' + data.Id + '"  onclick="Downlaod()"><img src="/Content/images/Download.png" style="height:45px;margin-top:-10px" /></a></td></tr>')
+                        }
+                        else {
+                            $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><a href="DownloadDetailedRepExcel/?filename=' + value + '"  onclick="Downlaod()"><img src="/Content/images/Download.png" style="height:45px;margin-top:-10px" /></a></td></tr>')
+
+                        }
+                    }
+
+
+                }
+
+                else {
+
+                    if (data.Status == 0)
+                        $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><font color="red">Request Is Under Process</font></td></tr>')
+                    if (data.Status == 1)
+                        $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><font color="green">' + "Report Is Ready " + "</font><a href='#' onclick='DownloadDistrict(" + data.Id + ")'>Click Here</a>" + '</td></tr>')
+                    if (data.Status == 2) {
+                        if (data.FileSaveStatus == 1) {
+                            $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><a href="DownloadDetailedRepExcelFromService/?RequestId=' + data.Id + '"  onclick="Downlaod()"><img src="/Content/images/Download.png" style="height:45px;margin-top:-10px" /></a></td></tr>')
+
+                        }
+                        else {
+                            $('.LegacyDwnlRep').append('<tr><td>' + num + '</td><td>' + data.CreatedDate + '</td><td>' + data.ReportName + '</td><td>' + data.Requested_Date + '</td><td>' + data.Completed_Date + '</td><td><a href="DownloadDetailedRepExcel/?filename=' + value + '"  onclick="Downlaod()"><img src="/Content/images/Download.png" style="height:45px;margin-top:-10px" /></a></td></tr>')
+
+                        }
+                     }
+
+                }
+
+            });
+
+
+
+            $("#loaderdiv").hide();
+            $('.LegacyDwnlRep').DataTable({
+
+             //   "scrollX": true
+            });
+        })
+
+
+    function ClickDownlaod(value){
+
+
+
+        $.get('@Url.Action("SubmitRequestDownlaod", "Report")', {RequestId : value,ReportName : ""}, function (result) {
+
+            $('#procid').modal('hide');
+            if(result.Code == "000")
+            {
+
+
+                window.location.href = "DownloadDetailedRepExcel/?filename="+result.Message;
+            }
+
+            else
+            {
+                alert(result.Message);
+                return false;
+            }
+
+        });
+
+
+    }
+
+
+    function ClickDownlaodRegReport(value){
+
+         
+
+
+        $.get('@Url.Action("SubmitRequestDownlaodRegReport", "Report")', {RequestId : value,ReportName : "Legacy Data Report"}, function (result) {
+
+            $('#procid').modal('hide');
+            if(result.Code == "000")
+            {
+
+
+                window.location.href = "DownloadDetailedRepExcel/?filename="+result.Message;
+            }
+
+            else
+            {
+                alert(result.Message);
+                return false;
+            }
+
+        });
+
+
+    }
+
+    function DownloadDistrict(value)
+    {
+        window.location.href = "/SSYIDCard/DistrictReportDownlaod.aspx/?RequestId="+value;
+
+    }
+
+
+
+
+</script>

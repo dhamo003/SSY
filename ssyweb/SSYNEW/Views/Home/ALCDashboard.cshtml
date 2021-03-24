@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "ALCDashboard";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<div class="container-fluid">
+   
+   
+    <div class="heightoverflow" id="Div1">
+        <div>
+            <div class="container-fliud">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="product-description">Application Status From Month To Date </h3>
+                        <table class="table table-striped table-bordered appstatus">
+                            <thead style="background-color:#87CEEB">
+                                <tr>
+                                    <th></th>
+                                    <th><b>SSY</b></th>
+                                    <th><b>BOCW</b></th>
+                                    <th><b>WBTWSSS</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Recieved</th>
+                                    <th><label id="lblrec">0</label></th>
+                                    <th>0</th>
+                                    <th>0</th>
+                                </tr>
+                                <tr>
+                                    <th>Approved</th>
+                                    <th><label id="lblapp">0</label></th>
+                                    <th>0</th>
+                                    <th>0</th>
+                                </tr>
+                                <tr>
+                                    <th>Rejected</th>
+                                    <th><label id="lblreg">0</label></th>
+                                    <th>0</th>
+                                    <th>0</th>
+                                </tr>
+                                <tr>
+                                    <th>Pending</th>
+                                    <th><label id="lblpen">0</label></th>
+                                    <th>0</th>
+                                    <th>0</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>
+                <span style="color:#e44d26;"><b>NOTE:  This data is generated dynamically based on Alc</b></span> <br>
+            </label>
+        </div>
+    </div>
+    <!-------------------------------------------------->
+    @*Claims*@
+    <div class="heightoverflow claims" style="display:none" id="Div2">
+        <img src="~/Content/images/Underconstruction.png" style="width:900px;" />
+       
+    </div>
+    @*Card Issue Status*@
+    <div class="heightoverflow cards" style="display:none" id="Div3">
+        <div>
+            <div class="container-fliud">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="product-description"></h3>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><b>SSY</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>0</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.get('@Url.Action("GetStatusList", "Home")', {}, function (result) {
+             
+
+            var count = parseInt(0);
+            var RejCount = parseInt(0);
+            var PenCount = parseInt(0);
+            var AppCount = parseInt(0);
+
+            $.get('@Url.Action("GetStatusList", "Home")', {}, function (result) {
+                 
+
+                $.each(result, function (i, data) {
+                    if (data.Status == 0) {
+                        PenCount = PenCount + parseInt(data.appCount);
+                        count = count + parseInt(data.appCount);
+                    }
+                    if (data.Status == 1) {
+                        AppCount = AppCount + parseInt(data.appCount);
+                        count = count + parseInt(data.appCount);
+                    }
+                    if (data.Status == 2) {
+                        RejCount = RejCount + parseInt(data.appCount);
+                        count = count + parseInt(data.appCount);
+                    }
+                });
+                $("#lblpen").text(PenCount);
+                $("#lblapp").text(AppCount);
+                $("#lblreg").text(RejCount);
+                $("#lblrec").text(count);
+            });
+        });
+        $("#App").click(function () {
+            $("#Div1").show();
+            $("#Div2").hide();
+            $("#Div3").hide();
+        });
+        $("#Claims").click(function () {
+            $("#Div1").hide();
+            $("#Div2").show();
+            $("#Div3").hide();
+        });
+        $("#card").click(function () {
+            $("#Div1").hide();
+            $("#Div2").hide();
+            $("#Div3").show();
+        });
+    });
+</script>

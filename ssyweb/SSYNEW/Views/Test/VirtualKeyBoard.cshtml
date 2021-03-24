@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "VirtualKeyBoard";
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+   
+
+
+    <script src="~/Scripts/my_scripts/keyboard.js"></script>
+    <link href="~/Content/my_css/keyboard.css" rel="stylesheet" />
+
+   
+    <title>MOK(Multilingual Onscreen Keyboard) Demos</title>
+</head>
+
+<body>
+    <div class="container" style="margin:100px auto;">
+        <h1>MOK(Multilingual Onscreen Keyboard) Demos</h1>
+        <div class="jquery-script-ads" style="margin:50px auto">
+
+        </div>
+        <label>Login:</label>
+        <input type="text" name="" class="form-control">
+        <label>Password:</label>
+        <input type="password" name="" class="form-control">
+        <br>
+        <br>
+        <p contenteditable="true">This is a content editable paragraph!</p>
+        <br>
+        <br>
+        <label>Phone:</label>
+        <input type="tel" name="" class="form-control">
+        <br>
+        <br>
+        <label>Text Area:</label>
+        <br>
+        <textarea class="form-control">Text areas will be parsed into the keyboard input field as inputs, type=text.</textarea>
+        <br>
+    </div>
+</body>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //$(document).keyboard({
+        //    language: 'Bengali',
+        //    enterKey: function () {
+        //        alert('Hey there! This is a callback function example.');
+        //    },
+        //    keyboardPosition: 'bottom'
+        //});
+
+        $(document).keyboard({
+           
+            // default entry fields
+
+            inputType: 'text, textarea, number, password, search, tel, url, contenteditable',
+      
+        // 'us, spanish, arabic, russian'
+      
+            language: 'Bengali',
+     
+ 
+       
+        // 'top', 'middle', or 'bottom'
+
+        keyboardPosition: 'bottom',
+     
+ 
+
+        // background color of cancel button
+   
+        cancelColor: '#E74C3C',
+   
+ 
+  
+        // text color of cancel button
+        
+        cancelTextColor: '#FFFFFF',
+
+ 
+
+        // background color of accept button
+     
+        acceptColor: '#2ECC71',
+
+ 
+
+        // text color of accept button
+       
+        acceptTextColor: '#FFFFFF',
+     
+       
+        // background color of keys
+    
+        keyColor: '#E0E0E0',
+ 
+ 
+
+        // text color used on keys
+ 
+        keyTextColor: '#555555',
+  
+ 
+  
+        // color and opacity of blackout background
+   
+        blackoutColor: '25, 25, 25, 0.9',
+ 
+ 
+      
+        // cancel keyboard input with hardware keyboard [Escape] key.
+   
+        allowEscapeCancel: true, 
+   
+        // accept keyboard input with hardware keyboard [Enter] key.
+    
+        allowEnterAccept: true,
+
+
+            enterKey: null,
+
+ 
+       
+        // action of [Tab] key
+        
+        tabKey: null,
+      
+ 
+        
+        // action of [Ctrl] key
+        
+        ctrlKey: null,
+     
+ 
+        
+        // action of [Alt] key
+        
+        altKey: null,
+      
+ 
+        
+        // action of [Spare] key
+        
+        spareKey: null,
+      
+ 
+        
+        // action of [Language] key
+        
+        languageKey: null
+
+      
+    });
+
+
+    });
+</script>
+
+
+
+
+
+
+

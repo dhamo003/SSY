@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "DistrictWiseSchemeWiseSSIN";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+
+  
+}
+
+
+<div class="row">
+    <div class="col-md-12 column">
+        <div class="container-fluid" id="tbldistrict" style="height:450px;">
+
+            <iframe name="ifr" id="ifr" style="width: 105%;height:100%; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 600px;overflow-y:auto; border-radius: 0px; "></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var url = "/SSYIDCard/DitrictWiseSchemeWiseSSIN.aspx";
+
+
+        $('iframe#ifr').attr('src', url);
+    });
+</script>
+    
+

@@ -1,0 +1,153 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+    ViewBag.Title = "SubDivisionMaster";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<script src="~/Content/ssy_js/bootstrap-select.min.js"></script>
+<style>
+    th {
+        font-size: 13px;
+        color: white;
+        /*background-color:red;*/
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    .dataTables_length {
+        display: none;
+    }
+
+    .modal-dialog {
+        position: fixed !important;
+        margin-left: -200px !important;
+    }
+</style>
+<div class="container-fluid">
+    <div class="logo" style="text-align: center;"><h3>Sub Division Master</h3></div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="input-group extra-space">
+                <span class="input-group-addon input-label">District <span style="color: red">*</span></span>
+                @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <a id="GetData" class="btn btn-primary">Submit</a>
+        </div>
+    </div>
+    <table class="TblSubdiv  table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th class="no-sort">S.No</th>
+                <th class="no-sort">District Name</th>
+                <th class="no-sort">Sub Division Name</th>
+                <th class="no-sort"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="SubDivModel" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:643px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="height:70px;">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space" style="width:310px;">
+                            <span class="input-group-addon input-label">Sub Division  Name <span style="color: red">*</span></span>
+                            @Html.TextBox("MstSubDivName", "", new { @class = "form-control  valid", maxlength = "50", onkeypress = " return IsCharsOnly(event); " })
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <div style="display:none"><label id="MstSubDivId" style="display:none;"></label></div>
+
+                <a id="UpdateSubDiv" class="btn btn-success">Update</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+        var editor;
+        $(document).ready(function () {
+            $('.District').selectpicker({
+                liveSearch: true,
+                showSubtext: true
+            });
+            loadgrid()
+            $("#UpdateSubDiv").click(function () {
+            //    alert("Clicked");
+                var Name = $("#MstSubDivName").val();
+                var Id = $("#MstSubDivId").text();
+                if (Name == "" || Name == null) {
+                    alert("Please Enter Sub Division Name");
+                    return false;
+                }
+                $.get('@Url.Action("updateDistrictName", "Masters")', { id: Id, Name: Name, Type: 'S' }, function (result) {
+                    if(result =="S")
+                    {
+                        alert("Sub Division Name Updated Succesfully");
+                        $('#SubDivModel').modal('toggle')
+                    }
+                    else
+                    {
+                        alert(result);
+                    }
+                });
+            });
+        });
+    function loadgrid()
+    {
+        $.get('@Url.Action("GetSubDivList", "Masters")', { Name: $("#disid option:selected").text() }, function (result) {
+             
+            var table = $('.TblSubdiv').DataTable();
+            table.destroy();
+            $('.TblSubdiv tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                $('.TblSubdiv').append('<tr><td style="text-align: center !important; ">' + data.SubDivisionSno + '</td><td style="text-align: center !important; ">' + data.DistrictName + '</td><td style="text-align: center !important; ">' + data.SubDivisionName + '</td><td><a href="#" data-toggle="modal" data-target="#SubDivModel"   onClick = "EditSubDiv(' + data.SubDivisionSno + ');" id=' + data.SubDivisionSno + '><span class="glyphicon glyphicon-pencil" ></span></a><label id="lblSName' + data.SubDivisionSno + '" style="display:none">' + data.SubDivisionName + '</label></td></tr>')
+            });
+            $('.TblSubdiv').DataTable({
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['no-sort']
+                }]
+            });
+        });
+    }
+        function EditSubDiv(id) {
+        //    alert(id);
+             
+         //   var value = obj.id;
+            //var Det = value.split('-');
+            var Dname = $("#lblSName" + id).text();
+            $("#MstSubDivName").val(Dname);
+            $("#MstSubDivId").text(id);
+        }
+        $('#GetData').click(function () {
+            loadgrid()
+        });
+</script>

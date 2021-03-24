@@ -1,0 +1,1256 @@
+﻿
+@{
+    ViewBag.Title = "_DedoopPopup";
+}
+
+
+<div class="modal fade dedup" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">Samajik Suraksha Yojana</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 minheightoverflowxy">
+
+
+                        <div class="">
+
+                            @*  style="display: none"*@
+                            <div id="divduppendingremark" style="display:none;">
+
+                                <center><b> <label><font size="4" color="red"> Reason for Rejected :  </font></label><label id="lbldupremarkPend" style="font-size:medium;"></label></b></center>
+                                <iframe src="" frameborder="0" id="dupImgRejectedDoc" style="width: 100%; height: 300px;"></iframe>
+
+                            </div>
+
+                            <div id="divdupSentbackRem" style="display:none;">
+
+                                <center><b> <label><font size="4" color="red"> Reason for SentBack :  </font></label><label id="lbldupSentbackRem" style="font-size:medium;"></label></b></center>
+
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-4">
+
+                                    <div id="dupMainImage">
+                                        @*<img src="@ViewBag.ImageName" />*@
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label style="">Name:</label>
+
+                                        <label id="lbldupusername"></label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label style="" id="lbldupTrname"></label>
+
+                                        <label id="lbldupTempregno"></label>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>বাংলা নাম:</label>
+
+                                        <label id="lbldupbengname"></label><a href="#" id="dupedit"></a>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label style="">Father Name:</label>
+
+                                        <label id="lbldupfathrname"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Date of Birth:</label>
+
+                                        <label id="lbldupdob"></label>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4"> </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Age:</label>
+                                        <label id="lbldupage"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="height: 50px;">
+                                    <div class="form-group">
+                                        <label>Gender:</label>
+
+                                        <label id="lbldupgender"></label>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+                                    <fieldset class="custom-border color-white">
+
+                                        <legend class="custom-border color-white"><span class="leg-sty">Beneficiary Details</span></legend>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label style="">Name:</label>
+
+                                                <label id="lbldupfrstname"></label>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Marital Status:</label>
+
+                                                <label id="lbldupmarital"></label>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4" id="divduphus" style="">
+                                            <div class="form-group">
+                                                <label>Husband Name : </label>
+
+                                                <label id="lblduphusname"></label>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <div class="form-group">
+                                                <label>Religion :</label>
+                                                <label id="lblduprelgn"></label>
+
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Social Category :</label>
+                                                <label id="lbldupsoccat"></label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>BPL No.:</label>
+                                                <label id="lbldupbplno"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Occupation: </label>
+                                                <label id="lbldupoccu"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+
+                                            <div class="form-group">
+                                                <label>Mobile no:</label>
+
+                                                <label id="lbldupmobno"></label>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Email :</label>
+
+                                                <label id="lbldupemail"></label>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <fieldset class="custom-border color-white">
+                                <legend class="custom-border color-white"><span class="leg-sty">Permanent Address</span></legend>
+                                <div class="col-md-4">
+
+
+                                    <div class="form-group">
+                                        <label>State:</label>
+                                        <label id="dupPerState" class="label-data">West Bengal</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>District:</label>
+                                        <label id="dupPerDist"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>Sub Division:</label>
+
+                                        <label id="dupPerSubDiv"></label>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation :</label>
+                                        <label id="dupPerBMC"></label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation (Name):</label>
+                                        <label id="dupPerMunc"></label>
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>P.S:</label>
+                                        <label id="dupPerPs"></label>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>P.O:</label>
+                                        <label id="dupPerPo"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PIN code:</label>
+                                        <label id="dupPerPinCode"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>GP/Ward:</label>
+                                        <label id="dupPerGp"></label>
+
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <div class="col-md-4">
+
+
+
+                                    <div class="form-group">
+                                        <label>Village/Street/Road:</label>
+                                        <label id="dupPerVillage"></label>
+
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-border color-white">
+                                <legend class="custom-border color-white"><span class="leg-sty">Present Address</span></legend>
+                                <div class="col-md-4">
+
+
+                                    <div class="form-group">
+                                        <label>State:</label>
+                                        <label id="dupPreState2" class="label-data">West Bengal</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>District:</label>
+                                        <label id="dupPreDist2"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>Sub Division:</label>
+
+                                        <label id="dupPreSubDiv2"></label>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation :</label>
+                                        <label id="dupPreBMC2"></label>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation (Name):</label>
+                                        <label id="dupPreMunc2"></label>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>P.S:</label>
+                                        <label id="dupPrePs2"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>P.O:</label>
+                                        <label id="dupPrePo2"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PIN code:</label>
+                                        <label id="dupPrePinCode2"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>GP/Ward:</label>
+                                        <label id="dupPreGp2"></label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>Village/Street/Road:</label>
+
+                                        <label id="dupPreVillage2"></label>
+
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white"><span class="leg-sty">Dependent Details</span></legend>
+                                <table class="table table-bordered tbldupfamily">
+                                    <thead>
+                                        <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                            <th>S.No</th>
+                                            <th>Registration No. </th>
+                                            <th>Dependent Name</th>
+                                            <th>Relationship</th>
+                                            <th>Gender</th>
+                                            @* <th>DOB</th>*@
+                                            <th>Age (Years)</th>
+                                            <th>Aadhaar No, if any</th>
+                                            <th>PassBook</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </fieldset>
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white"><span class="leg-sty">Nominee Details </span></legend>
+                                <table class="table table-bordered tbldupNaminee">
+                                    <thead>
+                                        <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                            <th style="display: none"></th>
+
+                                            <th>S.No</th>
+                                            <th>Name</th>
+                                            <th>
+                                                Relation
+                                                <br />ship
+                                            </th>
+                                            <th>Gender</th>
+                                            @*     <th>DOB</th>*@
+                                            <th>
+                                                Age<br />
+                                                (Years)
+                                            </th>
+
+                                            <th>
+                                                Share<br />
+                                                Allocation
+                                            </th>
+                                            <th>Bank Acc No</th>
+                                            <th>Branch Name</th>
+                                            <th style="width:5px;">IFSC<br />Code</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </fieldset>
+
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">Proof Details</legend>
+
+
+                                <div class="col-md-4">
+                                    <label>Aadhaar Card No :</label>
+                                    <label id="lbldupaadharno"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Epic Card :</label>
+                                    <label id="lbldupepiccard"></label>
+                                </div>
+                                <div class="col-md-4" style="display:none;">
+                                    <label>Bank Account No :</label>
+                                    <label id="lbldupbnkaccountno"></label>
+                                </div>
+                            </fieldset>
+
+
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">Form Details</legend>
+
+
+                                <div class="col-md-4">
+                                    <label>Issuing Authority :</label>
+                                    <label id="lbldupissueauth"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Authority Location :</label>
+                                    <label id="lbldupauthortyloc"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Authority Name :</label>
+                                    <label id="lbldupauthname"></label>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">PF/ESI Details</legend>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PF Number :</label>
+                                        <label id="labelduppfnum"></label>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>ESI Number :</label>
+                                        <label id="LbldupESInum"></label>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Pf Option :</label>
+                                        <label id="dupPfOptionBene"> </label>
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">Employee Type</legend>
+                                @*<div class="col-md-12">
+                                        <label>I am a Self-Employed Worker Worker engaged in the scheduled unorganised sector under the scheme</label>
+                                    </div>*@
+                                <br />
+                                <br />
+                                <div class="col-md-4">
+                                    <label>Name of my occupation :</label>
+                                    <label id="dupempoccu"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Self Employment :</label>
+                                    <label id="dupempselfemp"></label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Unorganised :</label>
+                                    <label id="dupempunorganised"></label>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>Establishment Address :</label>
+                                    <label id="dupempestaddr"></label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-border color-white">
+
+                                <legend class="custom-border color-white">Income Details</legend>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>My monthly family income from all sources: Rs. </label>
+                                        <label id="lbldupmnthincme"></label>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <legend class="custom-border color-white"><span class="leg-sty">Bank Details</span></legend>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label>District :</label>
+                                            <label id="dupbnkdis"></label>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label>Bank Name :</label>
+                                            <label id="dupbnkname"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Account Number :</label>
+                                            <label id="dupbnkactnum"></label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Location :</label>
+                                            <label id="dupbnkloc"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Name :</label>
+                                            <label id="dupbrnchname"></label>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>IFSC Code :</label>
+                                            <label id="dupbnkifsc"></label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="divduptblrejApp">
+                                    <legend class="custom-border color-white"><span class="leg-sty">SentBack Details</span></legend>
+                                    <table class="table table-bordered tblduprejectedApp">
+                                        <thead>
+                                            <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                                <th style="display: none"></th>
+
+                                                <th>Rejected Date</th>
+                                                <th>Remarks</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+
+                                <div id="divduptbltblDeedoopDet">
+                                    <legend class="custom-border color-white"><span class="leg-sty">Duplicate Details</span></legend>
+                                    <table class="table table-bordered  tbldupDeedoopDet">
+                                        <thead>
+                                            <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+
+
+                                                <th>Name</th>
+                                                <th>Father Name</th>
+                                                <th>Dob</th>
+                                                <th>Aadhar Card</th>
+                                                <th>Epic Card</th>
+                                                <th>Bank Acc No</th>
+                                                <th>District</th>
+                                                <th>SubDivision</th>
+                                                <th>Block</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+                            </fieldset>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 minheightoverflowxy">
+
+                        @*<fieldset class="custom-border">
+                            <legend class="custom-border color-white">Upload Documents</legend>*@
+
+
+                        <div class="panel-group text-center" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#lbldivphoto">
+                                            <span class="glyphicon glyphicon-credit-card">
+                                            </span>Photo
+                                        </a>
+                                    </h4>
+                                </div>
+                                @*<div id="pancard" class="panel-collapse collapse">*@
+                                <div class="panel-collapse collapse" id="lbldivphoto">
+
+                                    <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwndupPhoto" download>Download</a>
+
+                                    <div id="BendupPhoto"></div>
+                                    @*  <a href="slo/GopalKrishna/pancard.jpg" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=600px'); return false;">
+                                        <img src="slo/GopalKrishna/pancard.jpg" class="img-responsive" alt="..." style="width:100%;padding:15% 0;"></a>*@
+                                    @*</div>*@
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#dupsignature">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Signature
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    <div id="dupsignature" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwndupsign" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lbldupsig" style="width: 100%; height: 300px;"></iframe>
+
+
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#dupaadhar">
+                                                <span class="glyphicon glyphicon-credit-card">
+                                                </span>Aadhaar Card
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="dupaadhar" class="panel-collapse collapse">
+
+
+                                        <b>Aadhaar Number :</b>  <label id="lbldupadharno"></label>
+                                        <br />
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwndupAadhar" download>Download</a>
+
+
+
+
+                                        <iframe src="" frameborder="0" id="lbldupadharnoproof" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#duppassbuk">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Bank Passbook
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="duppassbuk" class="panel-collapse collapse">
+
+                                        <b>Account Number :</b>  <label id="lbldupaccno"></label>
+                                        <br />
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwndupPassBook" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lbldupbnkpassbk" style="width: 100%; height: 300px;"></iframe>
+
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#dupepicid">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Epic Card
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="dupepicid" class="panel-collapse collapse">
+                                        <b>Epic Card  Number :</b>  <label id="lbldupEpicno"></label>
+                                        <br />
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwndupIdproof" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lbldupidproof" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#dupForm">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Form-1
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="dupForm" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dupdwnform" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lbldupform" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-default divdupSchemeCerti" style="display:none;">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#dupSchemeCert">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Scheme Certificate
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="dupSchemeCert" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwndupCertificate" download>Download</a>
+                                        <iframe src="" frameborder="0" id="dupBeniSchemeCert" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#dupDepForm">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Dependency PassBook
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="dupDepForm" class="panel-collapse collapse">
+
+
+                                        <iframe src="" frameborder="0" id="dupDependentForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $(".dedup").draggable({
+            handle: ".modal-header"
+        });
+    })
+
+    function dedoopclick(id) {
+    
+        $.get('@Url.Action("GetbenDetails", "Registration")', { bensno: id }, function (res) {
+      
+
+            //if (res.BenSno == )
+
+            // alert(res.Status);
+
+            if (res.Status == 3) {
+                $("#divdupSentbackRem").show()
+
+                $("#lbldupSentbackRem").text(res.Remarks).addClass('label-data').css({ color: "red!important" });
+
+                $("#divduppendingremark").hide()
+            }
+
+            if (res.Status == 2) {
+                 
+                //  alert(res.Remarks);
+                $("#divduppendingremark").show()
+
+                $("#divdupSentbackRem").hide()
+
+                $("#lbldupremarkPend").text(res.Remarks).addClass('label-data').css({ color: "red!important" });
+
+                //alert(res.RejectedDocumnet);
+                if (res.RejectedDocumnet != "") {
+                    //$("#ImgRejectedDoc").show();
+                    $("#dupImgRejectedDoc").attr('src', res.RejectedDocumnet);
+
+                }
+                else {
+                    $("#dupImgRejectedDoc").hide();
+                }
+            }
+
+            if (res.Status == "0" || res.Status == "1") {// alert("Enter");
+                $("#divduppendingremark").hide()
+                $("#divdupSentbackRem").hide()
+
+
+            }
+
+            //$("#BenSno").val(res.BenSno);
+
+            $('#dupMainImage').empty();
+
+
+            $('#lbldupidproof').empty();
+            $('#lbldupsig').empty();
+            $('#BendupPhoto').empty();
+            $('#lbldupbnkpassbk').empty();
+            $('#lbldupform').empty();
+
+            $("#dupDependentForm").empty();
+
+            $('#dupBeniSchemeCert').empty();
+            //$('#MainImage').prepend('<img class="profile-img" src="SSYDEMO' + "/" + res.BenPhoto + '" />')
+
+
+            $('#dupMainImage').prepend('<img  class="profile-img" src="' + res.BenPhoto + '" />')
+
+
+            $("#lbldupidproof").attr('src', res.BenIdentity);
+            $("#dwndupIdproof").attr("href", res.BenIdentity)
+
+
+
+            $("#lbldupsig").attr('src', res.BenSignature);
+
+            $("#dwndupsign").attr("href", res.BenSignature)
+
+
+
+            $('#BendupPhoto').prepend('<img  src="' + res.BenPhoto + '" />')
+
+
+            $("#dwnPhoto").attr("href", res.BenPhoto)
+
+            $("#lbldupbnkpassbk").attr('src', res.BenPassBook);
+
+
+
+            $("#dwndupPassBook").attr("href", res.BenPassBook)
+            //$('#lblbnkpassbk').prepend('<img src="' + res.BenPassBook + '" />')
+
+            $("#lbldupadharnoproof").attr('src', res.BenAadhar);
+
+            $("#dwndupAadhar").attr("href", res.BenAadhar)
+
+
+
+            //$('#lbladharnoproof').prepend('<img src="' + res.BenAadhar + '" />')
+
+            $("#lbldupform").attr('src', res.BenForm);
+
+            $("#dupdwnform").attr("href", res.BenForm)
+
+
+
+
+            //  if()
+
+            if (res.SchemeCertificate.indexOf("/UploadFiles/SchemeCertificate/") >= 0) {
+                // alert("Enter Scheme Certificate");
+                $(".divdupSchemeCerti").show();
+                $("#dupBeniSchemeCert").attr('src', res.SchemeCertificate);
+                $("#dwndupCertificate").attr("href", res.SchemeCertificate)
+            }
+            else {
+                $(".divdupSchemeCerti").hide();
+            }
+
+
+            //$('#lblformid').prepend('<img src="' + res.BenForm + '" />')
+
+
+
+
+
+            $("#lbldupfrstname").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+            $("#lbldupfathrname").text(res.BenFatherFirstName).addClass('label-data');
+
+
+            $("#lbldupdob").text(res.BenDob).addClass('label-data');
+            $("#lbldupage").text(res.BenAge).addClass('label-data');
+            $("#lbldupgender").text(res.BenGender).addClass('label-data');
+            $("#lbldupmarital").text(res.MaritualName).addClass('label-data');
+            $("#lbldupemail").text(res.Email).addClass('label-data');
+            $("#lbldupbengname").text(res.BengaliName).addClass('label-data');
+
+
+            $("#lbldupadharno,#lbldupaadharno").text(res.AadharCard).addClass('label-data');
+
+
+            if (res.AadharCard == "") {
+                $("#dwndupAadhar").hide();
+
+
+            }
+
+            else {
+                $("#dwndupAadhar").show();
+
+            }
+
+
+            if (res.EpicCard == "") {
+                $("#dwnIdproof").hide();
+
+
+            }
+
+            else {
+                $("#dwnIdproof").show();
+
+            }
+            $("#lbldupaccno,#lbldupbnkaccountno").text(res.BankAccNo).addClass('label-data');
+            $("#lbldupEpicno,#lbldupepiccard").text(res.EpicCard).addClass('label-data');
+
+            if (res.BenGender == "Male") {
+                $("#divduphus").hide();
+            }
+
+            else {
+                if (res.MaritualName == "Married" && res.BenGender == "Female") {
+                    $("#divduphus").show();
+
+                    $("#lblduphusname").text(res.HusbandName).addClass('label-data');
+                }
+
+            }
+
+
+            if (res.BenIdCardType == "1")
+                $("#lblIC").text('Aadhar Card' + '-' + res.BenIdCardNo).addClass('label-data');
+            else
+
+                $("#lblIC").text('Epic Card' + '-' + res.BenIdCardNo).addClass('label-data');
+
+            $("#lblduprelgn").text(res.ReligionName).addClass('label-data');
+            $("#lbldupsoccat").text(res.Social_Name).addClass('label-data');
+            $("#lbldupbplno").text(res.BenBplNo).addClass('label-data');
+            $("#lbldupoccu").text(res.BenOccupation).addClass('label-data');
+            $("#lbldupmobno").text(res.BenMobileNo).addClass('label-data');
+
+
+            $("#lbldupissueauth").text(res.IssAuthName).addClass('label-data');
+            $("#lbldupauthortyloc").text(res.AuthorityLocation).addClass('label-data');
+            $("#lbldupauthname").text(res.BenIssuingAuthName).addClass('label-data');
+            $("#labelduppfnum").text(res.BenProvisionNo).addClass('label-data');
+
+            $("#LbldupESInum").text(res.BenEsiNumber).addClass('label-data');
+
+            $("#lbldupmnthincme").text(res.BenMonthlyIncom).addClass('label-data');
+            $("#dupempoccu").text(res.BenEmpType).addClass('label-data');
+            if (res.IndType == 1) {
+
+                $("#dupempselfemp").text(res.IndustryName).addClass('label-data');
+
+                $("#dupempunorganised").text('NA').addClass('label-data');
+
+
+
+            }
+
+
+            if (res.IndType == 2) {
+
+                $("#dupempunorganised").text(res.IndustryName).addClass('label-data');
+                $("#dupempselfemp").text('NA').addClass('label-data');
+
+
+            }
+            $("#dupempestaddr").text(res.BenEstablishedAddress).addClass('label-data');
+
+            $("#dupbnkifsc").text(res.BenBankIfscCode).addClass('label-data');
+
+            $("#dupbnkdis").text(res.DistrictName).addClass('label-data');
+            $("#dupbnkname").text(res.BankName).addClass('label-data');
+            //alert(res.Location);
+            $("#dupbnkloc").text(res.LocName).addClass('label-data');
+            $("#dupbnkactnum").text(res.BenBankAccNo).addClass('label-data');
+            $("#dupbrnchname").text(res.BankBranchName).addClass('label-data');
+
+            var pfoption = "";
+
+            if (res.BenPFStatus == true)
+                pfoption = "Yes";
+
+            if (res.BenPFStatus == false)
+                pfoption = "No";
+
+            $("#dupPfOptionBene").text(pfoption).addClass('label-data');
+
+
+
+            $("#lbldupusername").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+
+            if (res.SSIN == null || res.SSIN == "" || res.SSIN == "NA") {
+
+                $("#lbldupTempregno").text(res.BenTempRegNo).addClass('label-data');
+
+                $("#lbldupTrname").text("Temporary SSIN");
+
+            }
+            else {
+                $("#lbldupTempregno").text(res.SSIN).addClass('label-data');
+
+                $("#lbldupTrname").text("SSIN");
+            }
+
+
+
+
+
+        });
+        $.get('@Url.Action("GetbenAddressDetails", "Registration")', { bensno: id }, function (res) {
+
+            $.each(res, function (i, data) {
+
+                if (data.BenAddressType == "Permanent") {
+
+                    $("#dupPerDist").text(data.DistrictName).addClass('label-data');
+                    $("#dupPerSubDiv").text(data.SubDivisionName).addClass('label-data');
+                    $("#dupPerMunc").text(data.BlockName).addClass('label-data');
+                    $("#dupPerPs").text(data.PsName).addClass('label-data');
+                    $("#dupPerPo").text(data.PoName).addClass('label-data');
+                    $("#dupPerBMC").text(data.LocTypeName).addClass('label-data');
+                    $("#dupPerPinCode").text(data.BenPincode).addClass('label-data');
+                    $("#dupPerGp").text(data.GPName).addClass('label-data');
+                    $("#dupPerVillage").text(data.BenVsr).addClass('label-data');
+                }
+                if (data.BenAddressType == "Present") {
+
+                    $("#dupPreDist2").text(data.DistrictName).addClass('label-data');
+                    $("#dupPreSubDiv2").text(data.SubDivisionName).addClass('label-data');
+
+                    $("#dupPreBMC2").text(data.LocTypeName).addClass('label-data');
+
+                    $("#dupPreMunc2").text(data.BlockName).addClass('label-data');
+
+                    $("#dupPrePs2").text(data.PsName).addClass('label-data');
+
+                    $("#dupPrePo2").text(data.PoName).addClass('label-data');
+
+                    $("#dupPrePinCode2").text(data.BenPincode).addClass('label-data');
+
+                    $("#dupPreGp2").text(data.GPName).addClass('label-data');
+
+                    $("#dupPreVillage2").text(data.BenVsr).addClass('label-data');
+
+
+
+                }
+
+            });
+
+
+
+        })
+
+        $.get('@Url.Action("GetFamilyDetails", "Registration")', { bensno: id }, function (res) {
+
+            $('.tbldupfamily tbody').empty();
+
+             
+            $.each(res, function (i, data) {
+
+                var rowCount = $('.tbldupfamily tr').length;
+
+                var Sno = i + 1;
+
+                // alert(i);
+
+
+                if (data.SchemePassBook != "")
+                    $('.tbldupfamily').append('<tr><td><label class="label-data" id="FamSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="FamWRU' + rowCount + '">' + data.BenFamilySchRegNo + '</label></td><td><label class="label-data" id="FamDept' + rowCount + '">' + data.BenDependentName + '</label></td><td><label class="label-data" id="DDLFamRel' + rowCount + '">' + data.BenDependentRelation + ' </label></td><td><label class="label-data" id="DDLFamGender' + rowCount + '">' + data.BenFamilyGender + '</label></td><td><label class="label-data" id="FamAge' + rowCount + '">' + data.BenFamilyAge + ' </label></td><td><label class="label-data" id="AdhNoFam' + rowCount + '">' + data.BenFamilyAadhaarNo + '</label></td><td><a href="#" id=' + data.BenSno + ' rel="noreferrer" onClick = "LoadPassBook(' + data.BenFamilyMemSno + '); ">View</a></td></tr>')
+
+                else
+                    $('.tbldupfamily').append('<tr><td><label class="label-data" id="FamSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="FamWRU' + rowCount + '">' + data.BenFamilySchRegNo + '</label></td><td><label class="label-data" id="FamDept' + rowCount + '">' + data.BenDependentName + '</label></td><td><label class="label-data" id="DDLFamRel' + rowCount + '">' + data.BenDependentRelation + ' </label></td><td><label class="label-data" id="DDLFamGender' + rowCount + '">' + data.BenFamilyGender + '</label></td><td><label class="label-data" id="FamAge' + rowCount + '">' + data.BenFamilyAge + ' </label></td><td><label class="label-data" id="AdhNoFam' + rowCount + '">' + data.BenFamilyAadhaarNo + '</label></td><td></td></tr>')
+
+            });
+
+        });
+
+        $.get('@Url.Action("GetNamineeDetails", "Registration")', { bensno: id }, function (res) {
+            $('.tbldupNaminee tbody').empty();
+            $.each(res, function (i, data) {
+
+                var rowCount = $('.tbldupNaminee tr').length;
+
+                var Sno = i + 1;
+
+                $('.tbldupNaminee').append('<tr><td style="display:none"><label class="label-data" id="namid' + rowCount + '">' + data.BenNomineeSno + '</label></td><td><label class="label-data" id="NamiSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="NamiName' + rowCount + '">' + data.BenNomineeName + '</label></td><td><label class="label-data" id="DDLNamRel' + rowCount + '">' + data.BenNomineeRelation + '</label></td><td><label class="label-data" id="DDLNamGender' + rowCount + '">' + data.BenNomineeGender + '</label></td><td><label class="label-data" id="NamAge' + rowCount + '">' + data.BenNomineeAge + '</label></td><td><label  class="label-data" id="SahreAlo' + rowCount + '">' + data.BenNomineeShareAllocation + '</label></td><td><label class="label-data" id="BankActNo' + rowCount + '">' + data.BenNomineeBankAccNo + '</label></td><td><label class="label-data" id="BranchName' + rowCount + '">' + data.BenNomineeBankBranch + '</label></td><td><label class="label-data" id="NamIfscCode' + rowCount + '">' + data.BenNomineeBankIfscCode + ' </label></td></tr>');
+
+
+            });
+
+        });
+
+      
+
+        $.get('@Url.Action("GetRejectedDetails", "Home")', { bensno: id }, function (res) {
+            // alert(res);
+            $('.tblduprejectedApp tbody').empty();
+            if (res == "") {
+
+                $("#divduptblrejApp").hide();
+            }
+            else {
+                $("#divduptblrejApp").show();
+                $.each(res, function (i, data) {
+
+                    var rowCount = $('.tblduprejectedApp tr').length;
+
+                    //$("#SchemeBenId").val(data.SchemeBenId);
+
+                    $('.tblduprejectedApp').append('<tr><td>' + data.Date + '</td><td>' + data.Remarks + '</td></tr>')
+
+                });
+            }
+        });
+
+        $.get('@Url.Action("GetDedoopDetails", "Home")', { bensno: id }, function (res) {
+            // alert(res);
+            $('.tbldupDeedoopDet tbody').empty();
+
+            if (res == "") {
+
+                $("#divduptbltblDeedoopDet").hide();
+            }
+
+            else {
+
+                $("#divduptbltblDeedoopDet").show();
+
+                $.each(res, function (i, data) {
+
+                    var rowCount = $('.tbldupDeedoopDet tr').length;
+
+                    //$("#SchemeBenId").val(data.SchemeBenId);
+
+                 
+
+                    $('.tbldupDeedoopDet').append('<tr><td>' + data.ApplicantName + '</td><td>' + data.FatherName + '</td><td>' + data.BenDOB + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td>' + data.BankAccNo + '</td><td>' + data.DistrictName + '</td><td>' + data.SubDivisionName + '</td><td>' + data.BlockName + '</td></tr>')
+                    //$('.tblDeedoopDet').append('<tr><td><a href="#" data-toggle="modal" data-target=".dedup" onClick = "dedoopclick(' + 5774990 + ');" id=' + data.ApplicantName + '>' + data.ApplicantName + '</a></td><td>' + data.FatherName + '</td><td>' + data.BenDOB + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td>' + data.BankAccNo + '</td><td>' + data.DistrictName + '</td><td>' + data.SubDivisionName + '</td><td>' + data.BlockName + '</td></tr>')
+
+                });
+            }
+        });
+
+    }
+  
+</script>

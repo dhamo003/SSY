@@ -1,0 +1,300 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "EditPfDetReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+</script>
+
+<style>
+     #fromdate, #todate {
+        /*position:absolute;*/
+        z-index: 1000;
+    }
+
+         .modal-backdrop.in {
+        opacity: 0;
+    }
+    .modal-backdrop {
+        position: relative !important;
+    }
+
+      /*.btnapprove, .btnReject { width: 80px;}*/
+</style>
+
+<div class="container-fluid">
+   
+       
+            <center><h3 class="product-description">Change PF Requests Details</h3></center>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">From Date</span>
+                              @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+
+                            @*@Html.TextBox("txtFDate", null, new { @class = "form-control" })*@
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">To Date</span>
+                                @Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+                            @*@Html.TextBox("txtToDate", null, new { @class = "form-control" })*@
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Status</span>
+                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="All", Value = "0,1,2" },
+                                             new SelectListItem{ Text="Pending", Value = "0" },
+                                              new SelectListItem{ Text="Approved", Value = "1" },
+                                               new SelectListItem{ Text="Rejected", Value = "2" }
+                                        }, new { @class = "form-control  Dropdwn" })
+                        </div>
+                    </div>
+                </div>
+                  <div class="col-md-2">
+                        <a class="btn btn-primary" onclick="GetReport()">Submit</a>
+                    </div>
+
+                <div class="col-md-4"></div>
+               
+            </div>
+           
+               <div class="row">
+                <table class="table table-striped table-bordered pfApllications" cellspacing="0" width="100%" >
+                    <thead style="background: #87CEEB; color: white;">
+                          <tr>
+                        <th colspan="3">
+                           
+                        </th>
+                        <th colspan="3">
+                            <center>Old PF Details</center>
+                        </th>
+                        <th colspan="3">New PF Details</th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                    </tr>
+                        <tr >
+                            @* <th style="display:none">Id</th>*@
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Mobile No</th>
+                            <th>PF Num</th>
+                            <th>ESI Num</th>
+                            <th>PF Option</th>
+                            <th>PF Num</th>
+                            <th>ESI Num</th>
+                            <th>PF Option</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        
+    
+</div>
+
+<div class="modal fade" id="divEditPfRej" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:570px;margin-left:-500px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Remarks</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                <textarea name="test_field" id="RejectPfRemarks" style="width: 544px;height: 104px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+              
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" onclick="SubmitStatus('2')">Submit</a>
+            @*    style="display:none;"*@
+                <div style="display:none;">
+                            <label id="lblid"></label>
+                       
+                        </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  
+</div>
+<script>
+    $(document).ready(function () {
+        getdates()
+        GetReport()
+     
+    })
+
+    function getdates() {
+
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        // alert(dat + month + day + today);
+        $("#fromdate,#todate").val(today);
+
+    }
+    //$("#Status").change(function(){
+    //    GetReport()
+    //})
+    function GetReport()
+    {
+        var c = $("#Status").val();
+        $.get('@Url.Action("GetEditPfDetReport", "Report")', { deptuserid: deptuserid, Status: $("#Status").val(),fromdate:$("#fromdate").val(),todate:$("#todate").val() }, function (result) {
+             
+           
+            var table = $('.pfApllications').DataTable();
+            table.destroy();
+            $('.pfApllications tbody').empty();
+            $.each(result, function (i, data) {
+
+                var pfsta="";
+
+                if(data.BenPFStatus == "0")
+                {
+                    pfsta="No";
+                }
+                else
+                {
+                    pfsta="Yes";
+                }
+
+                var pfopt="";
+
+                if(data.PfOption == "0")
+                {
+                    pfopt="No";
+                }
+                else
+                {
+                    pfopt="Yes";
+                }
+
+            
+                var num = i + 1;
+
+				if (data.ReqStatus == "Pending") 
+                {
+                  
+					$('.pfApllications').append('<tr><td>' + num + '</td><td>' + data.Name + '</td><td>' + data.BenMobileNo + '</td><td>' + data.BenProvisionNo + '</td><td>' + data.BenEsiNumber + '</td><td>' + pfsta + '</td><td>' + data.PfNum + '</td><td>' + data.EsiNum + '</td><td>' + pfopt  + '</td><td>' + data.ReqStatus + '</td><td >' +"Verification Pending" + '</td><td><a class="btn btn-primary btnapprove"  onClick = Approveclick(' + data.ID + ');>Approve</a></td><td><a href="#"  class="btn btn-primary btnReject" onClick = Rejectclick(' + data.ID + ');>Reject</a></td></tr>')
+         
+                }
+                if(data.ReqStatus == "Approved")
+                {
+					$('.pfApllications').append('<tr><td>' + num + '</td><td>' + data.Name + '</td><td>' + data.BenMobileNo + '</td><td>' + data.BenProvisionNo + '</td><td>' + data.BenEsiNumber + '</td><td>' + pfsta + '</td><td>' + data.PfNum + '</td><td>' + data.EsiNum + '</td><td>' + pfopt + '</td><td>' + data.ReqStatus + '</td><td>' + "Approved" + '</td><td></td><td></td></tr>')
+         
+                }
+
+                if(data.ReqStatus == "Rejected")
+                {
+					$('.pfApllications').append('<tr><td>' + num + '</td><td>' + data.Name + '</td><td>' + data.BenMobileNo + '</td><td>' + data.BenProvisionNo + '</td><td>' + data.BenEsiNumber + '</td><td>' + pfsta + '</td><td>' + data.PfNum + '</td><td>' + data.EsiNum + '</td><td>' + pfopt + '</td><td>' + data.ReqStatus + '</td><td>' + data.Remarks + '</td><td></td><td></td></tr>')
+         
+                    //  $('.thver_hide,.threj_hide').hide();
+
+                }
+          
+           
+            });
+
+           
+
+            $('.pfApllications').DataTable({
+            });
+            //if(c == "0" || c == "1")
+            //{
+            //    $('.th_hide,.tr_hide').hide();
+            //}
+            //else
+            //{
+            //    $('.th_hide,.tr_hide').show();
+            //}
+        });
+    }
+    function Rejectclick(id)
+    {
+       
+       
+        $("#lblid").text(id);
+        $('#divEditPfRej').modal('show');
+
+    }
+
+    function Approveclick(id)
+    {
+       // var refid = $("#lblid").text();
+       // var Remark =  $("#RejectPfRemarks").val();
+       // if(id == 1)
+           // Remarks = "";
+        $.get('@Url.Action("EditPfVerfication", "Report")', { Id:id,Status: 1,Remarks : ""}, function (res) {
+            alert(res);
+            window.location.href = "/Report/EditPfDetReport";
+        });
+    }
+    function SubmitStatus(id)
+    {
+         
+        var refid = $("#lblid").text();
+        var Remark =  $("#RejectPfRemarks").val();
+        if(id == 2)
+        {
+            if(Remark == "" || Remark == null)
+            {
+                alert("Please Enter Remarks.");
+                $("#RejectPfRemarks").focus();
+                return false;
+            }
+        }
+     
+        
+            $.get('@Url.Action("EditPfVerfication", "Report")', { Id:refid,Status: id,Remarks : Remark}, function (res) {
+            alert(res);
+            window.location.href = "/Report/EditPfDetReport";
+        });
+    }
+</script>

@@ -1,0 +1,203 @@
+﻿@{
+    ViewBag.Title = "UploadPhotoSign";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script>
+    var BenSno = @Html.Raw(Json.Encode(ViewBag.BenSno))
+    var CreatedBy = @Html.Raw(Json.Encode(ViewBag.CreatedBy))
+
+
+</script>
+@using (Html.BeginForm("UploadPhotoSign", "Registration", FormMethod.Post, new { id = "UploadForm", onsubmit = "return FinalSubmit()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <fieldset class="custom-border" style="margin-top:120px;">
+        <legend class="custom-border ">Upload Documents</legend>
+        <div class="row">
+            <table>
+                <tr>
+                    <td class="">Photo of the Applicant <span style="color: red">*</span></td>
+                    <td>
+                        <input type="file" multiple="multiple" name="files[0]" class="form-control" id="Photo" style=" margin-left:81px; width:309px;" />
+                    </td>
+                    <td class=""><font size="2"> &nbsp; Photo limit is upto 2MB, JPEG/PNG</font></td>
+                </tr>
+            </table>
+            <br />
+            <table>
+                <tr>
+                    <td class="">Signature of the Applicant <span style="color: red">*</span></td>
+                    <td>
+                        <input type="file" multiple="multiple" name="files[1]" class="form-control" id="Signature" style="margin-left: 60px; width: 309px;" />
+                    </td>
+                    <td class=""><font size="2"> &nbsp; Signature limit is upto 2MB, JPEG/PNG/PDF</font></td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div class="row">
+            <center>
+                <a class="btn btn-primary finalsub" onclick="FinalSubmit()">Submit</a>
+            </center>
+        </div>
+
+        <div class="row divpart2" style="display:none;">
+            <div class="form-group divconf">
+                <label class="">Part-II . Do you want to fill up right nowor later</label>
+                <input type="radio" class="conexistreglst" name="conexistregstatus" value="Yes" onclick="ConfirmDet()" tabindex="98">
+                <label>Yes</label>
+                <input type="radio" class="conexistreglst" name="conexistregstatus" value="No" onclick="ConfirmDet()" tabindex="99">
+                <label>No</label>
+            </div>
+        </div>
+
+        <input type="hidden" id="BenSno" value="0" name="BenSno" />
+    </fieldset>
+
+}
+
+<script>
+    $( document ).ready(function() {
+        $("#BenSno").val(BenSno);
+        $("#Photo").focus();
+
+    });
+
+    function FinalSubmit()
+    {
+        if ($("#Photo").val() == "" || $("#Photo").val() == null || $("#Photo").val() == 0) {
+            alert("Please Choose Photo");
+            $("#Photo").focus();
+            return false;
+        }
+        if ($("#Signature").val() == "" || $("#Signature").val() == null || $("#Signature").val() == 0) {
+            alert("Please Choose Signature");
+            $("#Signature").focus();
+            return false;
+        }
+        var form = $('#UploadForm')[0];
+
+        var data = new FormData(form);
+
+        $.ajax({
+            url: '/Registration/SubmitPhotoSign',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function(data) {
+
+                if(data.Code == "000")
+                {
+                    alert(data.Message);
+                    $(".divpart2").show();
+                    //BenSno = data.BenSno;
+                    //$("#divConfirmSmcCard").modal('show');
+                    window.location.href = "/SSYIDCard/SSYIDCardNew.aspx/?Benifid="+BenSno;
+
+
+                }
+                else
+                {
+                    alert(data.Message);
+                    return false;
+                    // $("#lblMessage"+data.Value).text(data.Message);
+                }
+
+
+            }
+        });
+    }
+
+    $('INPUT[type="file"]').change(function () {
+         
+
+        var fname  =  "";
+
+        if(this.id == "Photo")
+        {
+            fname ="photo";
+        }
+        if(this.id == "Signature")
+        {
+            fname ="signature";
+        }
+
+
+        if(this.id == "Photo"  || this.id == "Signature")
+        {
+            if (this.files[0].size < 2000000) {
+				//var ext = this.value.match(/\.(.+)$/)[1];
+				var ext = this.value.match(/\.(.+)$/)[1];
+				var ext2 = this.value.substr((this.value.lastIndexOf('.') + 1));
+                switch (ext2) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                        break;
+                    default:
+
+                        alert('Please choose ' + fname + ' only jpg,jpeg or png,pdf File');
+
+                        this.value = '';
+                        this.focus();
+                }
+            }
+            else {
+                alert('Please choose size of ' + fname + ' file below 2MB');
+                this.value = '';
+                this.focus();
+            }
+        }
+
+    });
+    function ConfirmDet()
+    {
+        var conexistreg = $("input[name='conexistregstatus']:checked").val()
+
+        $("#divConfirmexistng").modal('hide');
+        if(conexistreg == "Yes")
+        {
+            //$('#divConfirmexistng').modal('hide');
+            // $(".existreglst").prop('checked', false);
+            //  $('#divexistng').modal('show');
+
+
+            window.location.href = "/Registration/BeniPart2?BeniSno="+BenSno;
+
+            return false;
+        }
+        else
+        {
+            Endform()
+            ///var url = "/SSYIDCard/SmcCardView.aspx/?Benifid="+BenSno;
+            //$('iframe#ifr').attr('src', url);
+            //$('#myModal').modal('show');
+        }
+    }
+    function Endform()
+    {
+
+
+        //  alert("close click");
+        if(CreatedBy == "1"){
+
+            window.location.href = "/Registration/BeniRegistrationPart1?Status=&Id=&CreatedBy=1";
+        }
+        else
+        {
+            window.location.href = "/Agent/BenReg";
+
+
+
+        }
+    }
+</script>

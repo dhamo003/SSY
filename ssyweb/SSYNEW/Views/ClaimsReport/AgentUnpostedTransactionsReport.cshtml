@@ -1,0 +1,408 @@
+﻿
+@model SSY.Models.Reports
+@{
+    ViewBag.Title = "AgentUnpostedTransactionsReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="~/Scripts/session.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+
+<style>
+    /*#fromdate, #todate {
+        z-index: 1000;
+    }*/
+
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        z-index: 9999;
+        max-height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+<script>
+    var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+    var Deptid = @Html.Raw(Json.Encode(ViewBag.deptid))
+    var RepSubDVision ="";
+    var RepLocation ="";
+    var SendSubDiv ="";
+    var ReportDistrics = "";
+    var sendrlos = "";
+    var senddistricts = "";
+    var sendblocks = "";
+
+</script>
+<div class="container-fliud">
+    <div class="" style="text-align: center"><h4><b>Agent Unposted Transactions Report</b></h4></div>
+    <br />
+    <div class="col-sm-12">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">District</span>
+
+                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divsub">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">RLO</span>
+                    @Html.DropDownListFor(m => m.rloid, new SelectList(Model.rlo, "Value", "Text"), new { @class = "form-control RLO", @tabindex = "7" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divloc">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Location</span>
+                    @Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location ", id = "Location", @tabindex = "8" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="col-md-3" id="divloc">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Agent ARN No</span>
+                    @Html.DropDownListFor(m => m.agentid, new SelectList(Model.agent, "Value", "Text"), new { @class = "form-control AgentARNNo ", @tabindex = "8" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" style="margin-left:25px;">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">From Date</span>
+                    @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">To Date</span>
+                    @Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-12">
+
+        <div class="col-md-3">
+            <a class="btn btn-primary" onclick="GetRepData()">Submit</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 column">
+            <div class="container-fluid">
+
+                <iframe name="ifr" id="ifr" style="width: 100%;height:500px; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        if (UserTypeid == "1" || UserTypeid == "21" || UserTypeid == "22" || UserTypeid == "23" || UserTypeid == "24")
+        {
+            //$("#disid").removeAttr("multiple");
+
+            //$("#disid").attr("multiple", "multiple");
+
+            //$('#disid').multiselect({
+            //    columns: 3,
+            //    placeholder: 'Select Languages',
+            //    search: true,
+            //    includeSelectAllOption: true
+            //})
+
+            //$("#disid").multiselect('rebuild');
+
+            $('option', $('#disid')).each(function (element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+            $("#disid").multiselect('refresh');
+
+            $("#disid").val("-1");
+            $("#rloid").val("-1");
+            $("#muncorp").val("-1");
+        }
+        if(UserTypeid == "6")
+        {
+            $("#rloid").attr("disabled", true);
+            $.get('@Url.Action("GetMultipleRLO", "ClaimsReport")', { Uid: Deptid, Utype: UserTypeid }, function (dat) {
+                $("#rloid").find("option").remove();
+                RepSubDVision = "";
+                $.each(dat, function (i, data) {
+                     
+                    $("#rloid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+
+                    RepSubDVision +=  data.Value +"," ;
+                });
+                loadblocks();
+            });
+        }
+        if(UserTypeid == "7" || UserTypeid == "3" || UserTypeid == "4")
+        {
+            $.get('@Url.Action("GetMultipleDistricts", "Registration")', { Uid: Deptid }, function (dat) {
+                 
+                var disticts ="";
+                $("#disid").find("option").remove();
+                $("#disid").append("<option value="+-1+"> " + " -- Select District --" + " </option>");
+                //$("#disid").append("<option value="+0+"> " + "ALL" + " </option>");
+                ReportDistrics = "";
+                $.each(dat, function (i, data) {
+                    $("#disid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    ReportDistrics += data.Value+",";
+                });
+            });
+        }
+        getdates()
+
+    });
+
+    $("#disid").change(loadrlo);
+    function loadrlo() {
+
+		var Districtselected = $("#disid option:selected");
+		var Districtmessage = "0";
+		Districtselected.each(function () {
+			 
+			var res = $(this).val();
+
+			Districtmessage += "," + $(this).val();
+		});
+
+        $.get('@Url.Action("GetRLOByDistrictJSON", "ClaimsReport")', { IDs: Districtmessage }, function (dat) {
+				$("#rloid").find("option").remove();
+				$.each(dat, function (i, data) {
+					 
+                    $("#rloid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+				});
+
+                $("#rloid").removeAttr("multiple");
+
+                $("#rloid").attr("multiple", "multiple");
+                $('#rloid').multiselect({
+					columns: 3,
+					placeholder: 'Select Languages',
+					search: true,
+					includeSelectAllOption: true
+				})
+                $("#rloid").multiselect('rebuild');
+
+                $('option', $('#rloid')).each(function (element) {
+					$(this).removeAttr('selected').prop('selected', false);
+				});
+                $("#rloid").multiselect('refresh');
+
+			});
+	}
+    $("#rloid").change(loadblocks);
+    function loadblocks() {
+       
+        var rloselected = $("#rloid option:selected");
+		var rlomessage = "0";
+        rloselected.each(function () {
+			 
+			var res = $(this).val();
+
+            rlomessage += "," + $(this).val();
+		});
+
+        $.get('@Url.Action("GetBlocksByRLOJSON", "ClaimsReport")', { IDs: rlomessage }, function (dat) {
+            $("#Location").find("option").remove();
+				$.each(dat, function (i, data) {
+					 
+                    $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+				});
+
+            $("#Location").removeAttr("multiple");
+
+            $("#Location").attr("multiple", "multiple");
+            $('#Location').multiselect({
+					columns: 3,
+					placeholder: 'Select Languages',
+					search: true,
+					includeSelectAllOption: true
+				})
+            $("#Location").multiselect('rebuild');
+
+            $('option', $('#Location')).each(function (element) {
+					$(this).removeAttr('selected').prop('selected', false);
+				});
+            $("#Location").multiselect('refresh');
+
+			});
+    }
+    $("#Location").change(loadagents);
+    function loadagents() {
+
+        var blockselected = $("#Location option:selected");
+		var blockmessage = "0";
+        blockselected.each(function () {
+			 
+			var res = $(this).val();
+
+            blockmessage += "," + $(this).val();
+		});
+
+        $.get('@Url.Action("GetAgentsByBlockJSON", "ClaimsReport")', { IDs: blockmessage }, function (dat) {
+            $("#agentid").find("option").remove();
+				$.each(dat, function (i, data) {
+					 
+                    $("#agentid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+				});
+
+            $("#agentid").removeAttr("multiple");
+
+            $("#agentid").attr("multiple", "multiple");
+            $('#agentid').multiselect({
+					columns: 3,
+					placeholder: 'Select Languages',
+					search: true,
+					includeSelectAllOption: true
+				})
+            $("#agentid").multiselect('rebuild');
+
+            $('option', $('#agentid')).each(function (element) {
+					$(this).removeAttr('selected').prop('selected', false);
+				});
+            $("#agentid").multiselect('refresh');
+
+			});
+	}
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        $("#fromdate,#todate").val(today);
+    }
+    //Get Report
+    function GetRepData() {
+
+        if ($("#disid").val() == "" || $("#disid").val() == null || $("#disid").val() == "-1") {
+            alert("Please Select District");
+            $("#disid").focus();
+            return false;
+        }
+        if ($("#rloid").val() == "" || $("#rloid").val() == null || $("#rloid").val() == "-1") {
+            alert("Please Select RLO Office");
+            $("#rloid").focus();
+            return false;
+        }
+        if ($("#Location").val() == "" || $("#Location").val() == null || $("#Location").val() == "-1") {
+            alert("Please Select Location");
+            $("#Location").focus();
+            return false;
+        }
+        if ($("#agentid").val() == "" || $("#agentid").val() == null || $("#agentid").val() == "-1") {
+            alert("Please Enter Agent ARN No");
+            $("#agentid").focus();
+            return false;
+        }
+        if ($("#fromdate").val() == "" || $("#fromdate").val() == null) {
+            alert("Please Select From Date");
+            $("#fromdate").focus();
+            return false;
+        }
+        if ($("#todate").val() == "" || $("#todate").val() == null) {
+            alert("Please Select To Date");
+            $("#todate").focus();
+            return false;
+        }
+
+        // Date validations
+        var arr1 = $('#fromdate').val().split('-');
+        var arr2 = $('#todate').val().split('-');
+        var startDate = new Date(arr1[1] +"-"+arr1[0] + "-"+arr1[2]);
+        var endDate = new Date(arr2[1] +"-"+arr2[0] + "-"+arr2[2]);
+
+        var diffDate = (endDate - startDate)/1000/60/60/24;
+
+        //if (diffDate > 31 || diffDate < 0){
+
+        //    alert("Report can be viewed for a date range of one Month");
+
+        //    return false;
+
+        //}
+
+        if ($("#disid").val() != 0)
+            senddistricts = $("#disid").val();
+        var SelectedDistricts = $("#disid option:selected");
+        var ValueDistrictSend = "";
+        SelectedDistricts.each(function () {
+             
+
+            ValueDistrictSend += $(this).val()+",";
+        });
+
+        if ($("#rloid").val() != 0)
+            sendrlos = $("#rloid").val();
+        var Selectedrlos = $("#rloid option:selected");
+        var ValuerlosSend = "";
+        Selectedrlos.each(function () {
+             
+
+            ValuerlosSend += $(this).val() + ",";
+        });
+
+        if ($("#Location").val() != 0)
+            sendblocks = $("#Location").val();
+        var Selectedblocks = $("#Location option:selected");
+        var ValueblocksSend = "";
+        Selectedblocks.each(function () {
+             
+
+            ValueblocksSend += $(this).val() + ",";
+        });
+
+        if ($("#agentid").val() != 0)
+            sendagents = $("#agentid").val();
+        var Selectedagents = $("#agentid option:selected");
+        var ValueagentsSend = "";
+        Selectedagents.each(function () {
+             
+
+            ValueagentsSend += $(this).val() + ",";
+        });
+
+         
+        var url = "/SSYIDCard/AgentUnPostedTransactionsReport.aspx?usertype=" + UserTypeid + "&district=" + ValueDistrictSend + "&rlo=" + ValuerlosSend + "&fromdate=" + $('#fromdate').val() + "&todate=" + $('#todate').val() + "&userid=" + Deptid + "&agentno=" + ValueagentsSend + "&block=" + ValueblocksSend;
+        $('iframe#ifr').attr('src', url);
+
+
+    }
+
+</script>
+
+

@@ -1,0 +1,1237 @@
+﻿@model SSY.Models.Reports
+
+@{
+	ViewBag.Title = "DeathPendingApp";
+	Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+@*<script src="https://cdn.datatables.net/plug-ins/1.10.15/pagination/input.js"></script>*@
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@*<link rel="stylesheet" href="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.css">*@
+<!---------------------------------------->
+
+
+<script>
+    var UserType = @Html.Raw(Json.Encode(ViewBag.UserType))
+    var DeptUserid = @Html.Raw(Json.Encode(ViewBag.DeptUserid))
+    var sendloactions = "";
+    var sendloactionsDis = "";
+    var RepSubDVision = "";
+    var RepLocation = "";
+    var SendSubDiv = "";
+    var ReportDistrics = "";
+</script>
+<style>
+	th {
+		/*font-size: 12px;*/
+	}
+
+	td {
+		font-size: 12px;
+	}
+
+	.pdfobject-container {
+		height: 500px;
+	}
+
+	.pdfobject {
+		border: 1px solid #666;
+	}
+
+	#fromdate, #todate {
+		z-index: 9999;
+	}
+
+	/*.dataTables_filter {
+		margin-left: 280px !important;
+	}*/
+
+	/*.dataTables_length, .dataTables_filter {
+		display: none !important;
+	}*/
+</style>
+<div class="container-fluid" style="margin-left:25px;margin-top:-29px;">
+
+	<!--------------------------------------------------------------->
+	<div class="wizard-inner" style="margin-left:15px;display:none;">
+		<ul class="breadcrumb2">
+			<li class="completed"><a href="#" id="ssy">SSY</a></li>
+			<li class="active"><a href="#" id="wbtwss">WBTWSSS</a></li>
+			<li class=""><a href="#" id="bocw">BOCW</a></li>
+		</ul>
+	</div>
+	<div class="" style="margin-left:10px">
+
+		<div class="card">
+			<div class="container-fliud" id="Div1">
+				<div class="row">
+					<center><h3 class="product-description">SSY Death Pending Application Summary </h3></center>
+
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<div class="input-group extra-space">
+								<span class="input-group-addon input-label">District</span>
+
+								@Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District" })
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3" id="divsub">
+						<div class="form-group">
+							<div class="input-group extra-space">
+								<span class="input-group-addon input-label">Sub Division</span>
+								@Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3" id="divloc">
+						<div class="form-group">
+							<div class="input-group extra-space">
+								<span class="input-group-addon input-label">Location</span>
+								@Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location ", id = "Location", @tabindex = "8" })
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<div class="input-group extra-space">
+								<span class="input-group-addon input-label">Worker Type</span>
+								@Html.DropDownList("schemeid", new List<SelectListItem>
+												{
+													 //new SelectListItem{ Text="-- Select Worker Type --", Value = "0" },
+													  new SelectListItem{ Text="ALL", Value = "ConstructionWorker,TransportWorker,Others" },
+													new SelectListItem{ Text="Construction Worker", Value = "ConstructionWorker" },
+													 new SelectListItem{ Text="Transport Worker", Value = "TransportWorker" },
+													  new SelectListItem{ Text="Other Worker", Value = "Others" }
+												}, new { @class = "form-control" })
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-sm-12">
+
+
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									<span class="input-group-addon input-label">From Date</span>
+									@Html.TextBox("fromdate", "", null, new { @class = "form-control" })
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									<span class="input-group-addon input-label">To Date</span>
+									@Html.TextBox("todate", "", null, new { @class = "form-control" })
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<a class="btn btn-primary" onclick="GetReportByClick()">Submit</a>
+						</div>
+						@*<div class="col-md-3">
+								<div class="input-group pull-right" style="align-content:flex-end; width:280px;">
+									<input type="Search" placeholder="" class="form-control searchval" onkeydown="return IsAlphaNumaric(event)" />
+									<div class="input-group-btn">
+										<button class="btn btn-info getSearchDet" style="background-color:#094c86;">
+											<span class="glyphicon glyphicon-search" style="height: 19px;"></span>
+										</button>
+									</div>
+								</div>
+							</div>*@
+					</div>
+					<br />
+					<br />
+
+					<div class="row">
+						@*   <div id="divnote" > <b>Revive Records</b><div style="background-color:#CDBB79;height:10px;width:50px;"></div></div>*@
+
+						<div class="col-md-12" style="margin-top:-50px;">
+
+							@*<div class="input-group pull-left" style="width:300px;margin-top:-41px;margin-left:788px;" >
+									<input type="Search" placeholder="Search..." class="form-control" />
+									<div class="input-group-btn">
+										<button class="btn btn-info">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</div>
+								</div>*@
+							<br />
+							<div style="margin-top:-20px;">
+                                <table class="table table-striped table-bordered Apllications" id="" cellspacing="0" width="100%">
+                                    <thead style="background-color:#87CEEB">
+                                        <tr>
+                                            <th>S.No</th>
+
+                                            <th>Provisional/SSIN Number</th>
+
+                                            <th>Reg.No</th>
+                                            <th>Applicant Name</th>
+                                            <th>Date Of Application</th>
+                                            @*<th>Status</th>*@
+                                            <th>Age(In Days)</th>
+                                            <th>Enclosed Document</th>
+                                            <th class="td_hide">Duplication</th>
+                                            <th class="td1_hide">Action History</th>
+                                        </tr>
+                                    </thead>
+                                    <div id="DataTables_Table_0_processing" class="dataTables_processing panel panel-default" style="display: none;">Processing...</div>
+                                    <tbody></tbody>
+
+                                </table>
+
+							</div>
+
+							<div class="col-lg-2 col-md-2 col-sm-1 pull-right" style="margin-right:-15px;padding-top:5px;">
+								<div class="input-group input-group-sm">
+									<input type="text" id="txtPaging" class="form-control" placeholder="Jump to Page..">
+									<span class="input-group-btn">
+										<button class="btn btn-primary" type="button" id="btnPaging">Go!</button>
+									</span>
+								</div>
+							</div>
+
+						</div>
+						<div id="loaderdiv" style="display:none;">
+							<center>
+								<img src="/Content/images/loadingData.gif" style="height:100px;margin-top:-55px;" />
+								@* <div class="loaderreport"> </div> Please Wait ...*@
+							</center>
+
+						</div>
+					</div>
+					@*WBTWSSS*@
+					<div class="container-fliud" id="Div2" style="display:none">
+						<div class="row">
+							<div class="col-md-12">
+								<center><h3 class="product-description">WBTWSSS Pending Application Summary </h3></center>
+								<table class="table table-striped table-bordered WBTWSSSApllications" cellspacing="0" width="100%">
+									<thead style="background-color:#87CEEB">
+										<tr>
+											<th>S.No</th>
+											<th>Applicant Name</th>
+											<th>Date Of Application</th>
+											<th>Status</th>
+											<th>Age(In Days)</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+
+
+								</table>
+							</div>
+						</div>
+					</div>
+					@*Bocw*@
+					<div class="container-fliud" id="Div3" style="display:none">
+						<div class="row">
+							<div class="col-md-12">
+								<center>
+									<h3 class="product-description">Bocw Pending Application Summary </h3>
+								</center>
+								<table class="table table-striped table-bordered BocwApllications" cellspacing="0" width="100%">
+									<thead style="background-color:#87CEEB">
+										<tr>
+											<th>S.No</th>
+											<th>Applicant Name</th>
+											<th>Date Of Application</th>
+											<th>Status</th>
+											<th>Age(In Days)</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-------------------------------------------------->
+		</div>
+		<input type="hidden" id="BenSno" value="0" name="BenSno" />
+		<input type="hidden" id="Schemeid" value="0" style="margin-left:50px;">
+		<input type="hidden" id="AcDepUserId" value="0" name="AcDepUserId" />
+
+		<input type="hidden" id="SchemeBenId" value="0" style="margin-left:50px;">
+		<input type="hidden" id="AcUserType" value="0" name="AcUserType" />
+		<input type="hidden" id="pageval" value="1" name="pageval" />
+		<input type="hidden" id="BeniAppSt" value="0" name="BeniAppSt" />
+		<!---------------------------------------->
+	</div>
+	<script>
+        $(document).ready(function () {
+
+            //Change
+            $("#revived").remove();
+
+            $("#AcDepUserId").val(DeptUserid);
+            $("#AcUserType").val(UserType);
+
+            if (UserType == "1" || UserType == "21" || UserType == "22" || UserType == "23")
+        {
+            $("#disid").val("-1");
+            $("#subdivid").val("-1");
+            $("#Location").val("-1");
+        }
+            if (UserType == "6")
+        {
+
+        }
+               // New Changes
+            if (UserType == "5")
+        {
+             
+            $("#disid").attr("disabled", true);
+            $("#subdivid").attr("disabled", true);
+                $.get('@Url.Action("GetMultipleLoca", "Registration")', { Uid: DeptUserid }, function (dat) {
+                $("#Location").find("option").remove();
+
+                $.each(dat, function (i, data) {
+                     
+                    $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+
+                });
+                $("#Location").attr("multiple", "multiple");
+                $('#Location').multiselect({
+                    columns: 3,
+                    placeholder: 'Select Languages',
+                    search: true,
+                    includeSelectAllOption: true
+                })
+                $("#Location").multiselect('rebuild');
+            });
+        }
+            if (UserType == "6")
+        {
+            $("#disid").attr("disabled", true);
+                $.get('@Url.Action("GetMultipleSubDiv", "Registration")', { Uid: DeptUserid }, function (dat) {
+                $("#subdivid").find("option").remove();
+                $("#subdivid").append("<option value=-1> " + " -- Select Subdivision --" + " </option>");
+              //  $("#subdivid").append("<option value=0> " + "ALL" + " </option>");
+                RepSubDVision = "";
+                $.each(dat, function (i, data) {
+                     
+                    $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+
+                    RepSubDVision +=  data.Value +"," ;
+                });
+
+            });
+        }
+            if (UserType == "7" || UserType == "3" || UserType == "4")
+        {
+                $.get('@Url.Action("GetMultipleDistricts", "Registration")', { Uid: DeptUserid}, function (dat) {
+                 
+                var disticts ="";
+                $("#disid").find("option").remove();
+                $("#disid").append("<option value="+-1+"> " + " -- Select District --" + " </option>");
+              //  $("#disid").append("<option value="+0+"> " + "ALL" + " </option>");
+                ReportDistrics = "";
+                $.each(dat, function (i, data) {
+                    $("#disid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    ReportDistrics += data.Value+",";
+});
+//$("#disid").attr("multiple", "multiple");
+//$('#disid').multiselect({
+// columns: 3,
+// placeholder: 'Select Districts',
+// search: true,
+// includeSelectAllOption: true
+//})
+//$("#disid").multiselect('rebuild');
+            });
+        }
+        getdates()
+
+
+
+
+        // New Changes
+         //   getdates()
+
+            if(UserType !="5")
+            {
+                $("#divfooter").hide();
+                $("#divfooter").empty();
+            }
+            else
+            {
+                $("#divfooter").show();
+            }
+
+
+
+            if (UserType == 5) {
+                $('.td1_hide').hide();
+            }
+
+            //if(UserType !="5")
+            //{
+
+
+            //
+
+            //    //Except Super Admin and Inspector Hide Duplication Coulmn
+            //    if(UserType !="5" && UserType !="1")
+            //    {
+            //        $('.td_hide,.tr_hide').hide();
+            //    }
+
+            //}
+            //// for inspector hide actionhistory
+            //if(UserType  == 5)
+            //{
+
+            //    $('.td1_hide,.tr1_hide').hide();
+            //}
+
+            $('.Apllications').DataTable({
+
+            });
+            // GetReport()
+        });
+
+         $("#disid").change(loadSubdiv);
+    function loadSubdiv() {
+
+        if ($("#disid").val() == "0") {
+			if (UserTypeid == "1" || UserTypeid == "2" || UserTypeid == "21" || UserTypeid == "22" || UserTypeid == "23" || UserTypeid == "24")
+            {
+                $.get('@Url.Action("GetSubdivisionAllJSON", "Report")', { ID: 0 }, function (dat) {
+                    $("#subdivid").find("option").remove();
+
+                    RepSubDVision = "";
+                    $.each(dat, function (i, data) {
+                         
+
+                        if (data.Value != "-1")
+                            $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        RepSubDVision += data.Value + ",";
+                    });
+                });
+                $.get('@Url.Action("GetLocationAllJSON", "Report")', { ID: 0 }, function (dat) {
+                     
+                    $("#Location").find("option").remove();
+
+                    sendloactions = "";
+                    $.each(dat, function (i, data) {
+                         
+                        if (data.Value != "-1" && data.Value != "0" )
+
+                            $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        sendloactions += data.Value + ",";
+                    });
+                    $("#Location").attr("multiple", "multiple");
+                    $('#Location').multiselect({
+                        columns: 3,
+                        placeholder: 'Select Languages',
+                        search: true,
+
+                        includeSelectAllOption: true
+                    })
+                    $("#Location").multiselect('rebuild');
+
+
+                    $('option', $('#Location')).each(function (element) {
+                        $(this).removeAttr('selected').prop('selected', false);
+                    });
+                    $("#Location").multiselect('refresh');
+                });
+            }
+            else
+            {
+                $.get('@Url.Action("GetSubDivByDistrict", "Report")', { ID: ReportDistrics }, function (dat) {
+                    $("#subdivid").find("option").remove();
+
+                    $("#subdivid").append("<option value="+0+"> " + "ALL" + " </option>");
+                    RepSubDVision = "";
+                    $.each(dat, function (i, data) {
+                         
+
+                        if (data.Value != "-1")
+                            $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        RepSubDVision += data.Value + ",";
+                    });
+                    GetAlcLocations();
+                });
+            }
+        }
+        else {
+            $.get('@Url.Action("GetSubdivisionJSON", "Login")', { ID: $("#disid").val() }, function (dat) {
+                $("#subdivid").find("option").remove();
+                $("#subdivid").append("<option value=0>ALL</option>");
+                RepSubDVision = "";
+                $.each(dat, function (i, data) {
+                     
+
+                    if (data.Value != "0")
+                        $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    RepSubDVision += data.Value + ",";
+                });
+            });
+            $.get('@Url.Action("GetblockforDisRepJSON", "Report")', { ID: $("#disid").val() }, function (dat) {
+                 
+                $("#Location").find("option").remove();
+
+                sendloactions = "";
+                $.each(dat, function (i, data) {
+                     
+                    if (data.Value != "-1" && data.Value != "0")
+                        $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    sendloactions += data.Value + ",";
+                });
+                $("#Location").attr("multiple", "multiple");
+                $('#Location').multiselect({
+                    columns: 3,
+                    placeholder: 'Select Languages',
+                    search: true,
+                    includeSelectAllOption: true
+                })
+                $("#Location").multiselect('rebuild');
+
+                $('option', $('#Location')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#Location").multiselect('refresh');
+            });
+        }
+
+    }
+    //Load Locations
+    $("#subdivid").change(loadBlock);
+    function loadBlock() {
+         
+        if($("#subdivid").val() == "0")
+        {
+            GetAlcLocations();
+        }
+
+        else
+        {
+            $.get('@Url.Action("GetblockforSubRepJSON", "Report")', { ID: $("#subdivid").val() }, function (dat) {
+                 
+                $("#Location").find("option").remove();
+
+                sendloactions = "";
+                $.each(dat, function (i, data) {
+                     
+                    if (data.Value != "0")
+                        $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    sendloactions += data.Value + ",";
+                });
+                $("#Location").attr("multiple", "multiple");
+                $('#Location').multiselect({
+                    columns: 3,
+                    placeholder: 'Select Languages',
+                    search: true,
+                    includeSelectAllOption: true
+                })
+                $("#Location").multiselect('rebuild');
+                $('option', $('#Location')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#Location").multiselect('refresh');
+            });
+        }
+    }
+
+        //Get Report
+        function GetReportByClick()
+        {
+            var arr1 = $('#fromdate').val().split('-');
+            var arr2 = $('#todate').val().split('-');
+            var startDate = new Date(arr1[1] +"-"+arr1[0] + "-"+arr1[2]);
+            var endDate = new Date(arr2[1] +"-"+arr2[0] + "-"+arr2[2]);
+
+            // alert(endDate - startDate);
+
+            var diffDate = (endDate - startDate)/1000/60/60/24;
+
+            //alert(diffDate);
+
+            if (diffDate > 31 || diffDate < 0){
+
+                alert("Report can be viewed for a date range of one Month");
+
+                return false;
+
+            }
+            if ($("#disid").val() == "" || $("#disid").val() == null || $("#disid").val() == "-1") {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == "" || $("#subdivid").val() == null || $("#subdivid").val() == "-1") {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == "" || $("#Location").val() == null || $("#Location").val() == "-1") {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null || $("#schemeid").val() == "0") {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+
+            else
+            {
+                GetReport()
+            }
+        }
+
+
+
+        //Click Search Button
+
+        $(".getSearchDet").click(function () {
+             
+            var value = $(".searchval").val();
+
+            if (value == "" || value == null) {
+                alert("Please Enter Search Value");
+                return false;
+            }
+
+            GetReport()
+        })
+
+        function UpdateStatus(id) {
+             
+
+            var schemid = $("#Schemeid").val();
+            var remark = $("#rejremk").val();
+            var Deedoopremark = $("#Deedoopremk").val();
+            var Sendbackremark = $("#Sendbackremk").val();
+            var CheckUnique = $("#checkUniq").text();
+
+            if(id == 1 && CheckUnique == "N")
+            {
+
+                if(Deedoopremark.trim() == "" ||Deedoopremark == null)
+                {
+                    alert("Please Enter Remarks");
+                    $("#Deedoopremk").focus();
+                    return false;
+                }
+            }
+            var Reason = "";
+            var Type = "";
+            var benid = "";
+
+            if (id==2) {
+                if (remark == null || remark.trim() == "" ) {
+                    alert("please enter remark");
+                    $("#rejremk").focus();
+                    return false;
+                }
+                Type = "Rejected";
+                Reason = remark;
+            }
+
+            if (id==3) {
+                if (Sendbackremark == null || Sendbackremark.trim() == "" ) {
+                    alert("please enter remark");
+                    $("#Sendbackremk").focus();
+                    return false;
+                }
+                Type = "SentBack";
+                Reason = Sendbackremark;
+                remark = Sendbackremark;
+            }
+
+            if (id==1)
+            {
+                Type = "Approved";
+                Reason =  "Approved";
+            }
+
+            var userid = $("#BenSno").val();
+            if(id == 1 && CheckUnique == "N")
+            {
+                remark = Deedoopremark;
+            }
+            if(id == 1 && CheckUnique == "Y")
+            {
+                remark = "";
+            }
+            $.get('@Url.Action("BenSaveActionHistory", "Home")', { UserId: $("#AcDepUserId").val(), BenUserId: userid, Reason: Reason, Type: Type,Schemeid :schemid  }, function (res) {
+
+            });
+            if (schemid == 0)
+            {
+
+
+                //Approved
+                if(id == 1)
+                {
+
+
+                    //if($("#lblRegType").text() == "L")
+                    //{
+                    //    var regdate = $("#RegDatelbl").val();
+
+                    //    if(regdate == "" || regdate == null)
+                    //    {
+                    //        alert("Please select registartion date");
+                    //        return false;
+                    //    }
+                    //}
+                    var bengaliName = $("#lblbengname").text();
+                    $.get('@Url.Action("StatusChange", "Home")', { benSno: userid, status: id, remarks: remark ,fileName :"",value : bengaliName,regDate :"",deptUserId :$("#AcDepUserId").val()}, function (res) {
+
+
+                        if(res.Code == "999")
+                        {
+                            alert(res.Message);
+                            return false;
+                        }
+                        else
+                        {
+                            alert(res.Message);
+                            $("#divDeedoopremrk").modal('hide');
+                            $(".regpop ").modal('hide');
+
+                            GetReport()
+                        }
+
+
+                    });
+                }
+                //SendBack
+                if(id == 3)
+                {
+
+                    $.get('@Url.Action("RequiredDocuments", "Home")', { bsno: userid,BenPhoto: $("#chckPhoto").prop('checked'), BenSignature: $("#chckSign").prop('checked'), BenPassBook: $("#chckPassbook").prop('checked') ,BenAadhar :$("#chckAadhaar").prop('checked'),BenIdentity : $("#chckEpic").prop('checked'),BenForm :$("#chckForm1").prop('checked'),BenOtherDoc :$("#chckOther").prop('checked'),SchemeCertificate : $("#chckSchemeCert").prop('checked')}, function (res) {
+
+                        if(res.Code == "000")
+                        {
+
+                            $.get('@Url.Action("StatusChange", "Home")', { benSno: userid, status: id, remarks: remark ,fileName :"",value : "",regDate :"",deptUserId :$("#AcDepUserId").val()}, function (res) {
+                                alert(res.Message);
+                                //SSYDEMO
+                                //window.location.href = "/Home/PendingApp";
+
+
+                                $("#divSendbackremrk").modal('hide');
+                                $(".regpop ").modal('hide');
+                                GetReport()
+                            });
+                        }
+                        else
+                        {
+                            alert(res.Message);
+                            return false;
+
+
+                        }
+                    });
+
+
+                }
+                //Rejected
+                if(id == 2)
+                {
+
+                    //File Upload Code Start
+                    var fileUpload = $("#RejectedDoc").get(0);
+                    var files = fileUpload.files;
+
+                    // Create FormData object
+                    var fileData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+
+                    // Adding one more key to FormData object
+                    fileData.append('username', 'Manas');
+
+                    $.ajax({
+                        url: '/Home/UploadFiles',
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+                        success: function (result) {
+                            //  alert(result);
+                            if(result =="0")
+                            {
+                                result = null;
+                            }
+                            if(result =="Error")
+                            {
+                                alert("Error In Upload Document");
+                                return false;
+                            }
+
+                            $.get('@Url.Action("StatusChange", "Home")', { benSno: userid, status: id, remarks: remark,fileName : result,value : "",regDate :"",deptUserId :$("#AcDepUserId").val() }, function (res) {
+                                alert(res.Message);
+                                //SSYDEMO
+                                //window.location.href = "/Home/PendingApp";
+                                $("#divremrk").modal('hide');
+                                $(".regpop ").modal('hide');
+                                GetReport()
+                            });
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+                //File Upload  End
+
+
+                benid = userid;
+            }
+            if (schemid == 2 || schemid == 3) {
+                var SchemeBenId = $("#SchemeBenId").val();
+                $.get('@Url.Action("SchemeStatus", "Home")', { schemebenid: SchemeBenId, status: id, remarks: remark, bsno: userid }, function (res) {
+                    alert(res);
+                    //SSYDEMO
+                    //window.location.href = "/Home/PendingApp";
+                    GetReport()
+                });
+                benid = SchemeBenId;
+            }
+
+        }
+        function GetReport()
+        {
+             
+
+            var value = $(".searchval").val();
+
+            $('.Apllications tbody').empty();
+            //Get SSY Application Summerys
+            //  $.get('@Url.Action("GetApplicationSum", "Home")', { status: 0,fromdate : $("#fromdate").val(),todate : $("#todate").val() }, function (result) {
+             
+
+            var table = $('.Apllications').DataTable();
+            table.destroy();
+            $('.Apllications tbody').empty();
+
+
+            var SubLocationselected = $("#Location option:selected");
+            var SubLocationmessage = "0";
+            SubLocationselected.each(function () {
+                SubLocationmessage += "," + $(this).val();
+            });
+
+          //  alert(SubLocationmessage);
+          //  alert($("#schemeid").val());
+            //$("#MultiLoca").val(SubLocationmessage);
+
+            //if ($("#Location").val() != 0)
+            //    sendloactions = $("#Location").val();
+            //var SelectedLocation = $("#Location option:selected");
+            //var ValueSend = "";
+            //SelectedLocation.each(function () {
+            //     
+
+            //    ValueSend += $(this).val() + ",";
+            //});
+                    $('#DataTables_Table_0_processing').show();
+
+            $.post('@Url.Action("GetApplicationSum", "Home")', { status: 0, fromdate: $("#fromdate").val(), todate: $("#todate").val(), SearchValue: value, Locations: SubLocationmessage, WorkerType: $("#schemeid").val(), BenRegType: 1 }, function (result) {
+
+                $('.Apllications').dataTable().fnDestroy();
+                $('.Apllications tbody').empty();
+
+                if (UserType == 5) {
+
+
+
+                      $('.Apllications').DataTable({
+
+                          //"pagingType": "input",
+                          // "processing": true,
+                          // "serverSide": true,
+
+
+                          "data": result,
+
+                          "columns": [
+                              { "data": "Sno" },
+                              { "data": "SSI_Number" },
+                              { "data": "RegNumber" },
+
+                              {
+                                  "data": "BenSno", 'render': function (data, type, row) {
+                                      return '<td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + row.BenSno + ');" id=' + row.Name + '>' + row.Name + '</a></td>';
+
+                                  }
+                              },
+                              { "data": "Date" },
+                              { "data": "DiffDate" },
+                              { "data": "UploadDocument" },
+
+
+                              {
+                                  "data": "IsUnique", 'render': function (data, type, row) {
+                                      if (row.IsUnique == "P")
+                                          return '<td class="Pending tr_hide"><font color="#DAA520"><strong>PENDING</strong></font></td>';
+                                      if (row.IsUnique == "Y")
+                                          return '<td class="Approved tr_hide"><font color="#008000"><strong>UNIQUE</strong></font></td>';
+                                      if (row.IsUnique == "N")
+                                          return '<td class="Rejected tr_hide"><font color="#FF0000"><strong>DUPLICATE</strong></font></td>';
+                                  }
+                              },
+
+                              {
+                                  "data": "BenSno", "visible": false, 'render': function (data, type, row) {
+                                      return '<td class="tr1_hide"><a href="#" data-toggle="modal" data-target=".ActionHispop" onclick="BenActionHistory(' + row.BenSno + ');">' + "View" + '</a></td>';
+
+                                  }
+                              },],
+
+                          "rowCallback": function (row, data, index) {
+
+
+                              if (data.ReviveStatus == 1) {
+                                  $('td', row).css('background-color', '#CDBB79');
+                              }
+                          }
+
+
+                      });
+
+
+                  }
+                  else {
+
+
+
+                      $('.Apllications').DataTable({
+
+                          //"pagingType": "input",
+                          // "processing": true,
+                          //"serverSide": true,
+
+                          "data": result,
+
+                          "columns": [
+                              { "data": "Sno" },
+                              { "data": "SSI_Number" },
+                              { "data": "RegNumber" },
+
+                              {
+                                  "data": "BenSno", 'render': function (data, type, row) {
+                                      return '<td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + row.BenSno + ');" id=' + row.Name + '>' + row.Name + '</a></td>';
+
+                                  }
+                              },
+                              { "data": "Date" },
+                              { "data": "DiffDate" },
+                              { "data": "UploadDocument" },
+
+
+                              {
+                                  "data": "IsUnique", 'render': function (data, type, row) {
+                                      if (row.IsUnique == "P")
+                                          return '<td class="Pending tr_hide"><font color="#DAA520"><strong>PENDING</strong></font></td>';
+                                      if (row.IsUnique == "Y")
+                                          return '<td class="Approved tr_hide"><font color="#008000"><strong>UNIQUE</strong></font></td>';
+                                      if (row.IsUnique == "N")
+                                          return '<td class="Rejected tr_hide"><font color="#FF0000"><strong>DUPLICATE</strong></font></td>';
+                                  }
+                              },
+
+                              {
+                                  "data": "BenSno", 'render': function (data, type, row) {
+                                      return '<td class="tr1_hide"><a href="#" data-toggle="modal" data-target=".ActionHispop" onclick="BenActionHistory(' + row.BenSno + ');">' + "View" + '</a></td>';
+
+                                  }
+                              },],
+
+                          "rowCallback": function (row, data, index) {
+
+                              //ReviveStatus
+                              if (data.ReviveStatus == 1) {
+                                  $('td', row).css('background-color', '#CDBB79');
+                              }
+                          }
+
+
+                      });
+
+                      //var oTable = $('.Apllications').DataTable();
+                      //oTable.fnPageChange(3);
+
+                }
+
+                $('#DataTables_Table_0_processing').hide();
+        });
+
+      //      if (UserType == 5) {
+
+
+
+      //          $('.Apllications').DataTable({
+
+      //              //"pagingType": "input",
+      //             // "processing": true,
+      //             // "serverSide": true,
+
+
+      //              "ajax":{
+      //                  "url": "/Home/GetApplicationSum",
+      //                  "type": "POST",
+						//"data": { status: 0, fromdate: $("#fromdate").val(), todate: $("#todate").val(), SearchValue: value, Locations: SubLocationmessage, WorkerType: $("#schemeid").val(), BenRegType: 1},
+      //                  "dataType": "JSON"
+      //              },
+
+      //              "columns": [
+      //                  {"data" : "Sno"},
+      //                  { "data": "SSI_Number" },
+      //                   { "data": "RegNumber" },
+
+      //                   { "data": "BenSno",'render': function (data, type, row) {
+      //                       return '<td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + row.BenSno + ');" id=' + row.Name + '>' + row.Name + '</a></td>';
+
+      //                   }},
+      //                  { "data": "Date" },
+      //                  { "data":  "DiffDate" },
+      //                   { "data":  "UploadDocument" },
+
+
+      //                   { "data": "IsUnique",'render': function (data, type, row) {
+      //                       if(row.IsUnique == "P")
+      //                           return '<td class="Pending tr_hide"><font color="#DAA520"><strong>PENDING</strong></font></td>';
+      //                       if(row.IsUnique == "Y")
+      //                           return '<td class="Approved tr_hide"><font color="#008000"><strong>UNIQUE</strong></font></td>';
+      //                       if(row.IsUnique == "N")
+      //                           return '<td class="Rejected tr_hide"><font color="#FF0000"><strong>DUPLICATE</strong></font></td>';} },
+
+      //                { "data": "BenSno","visible": false,'render': function (data, type, row) {
+      //                    return '<td class="tr1_hide"><a href="#" data-toggle="modal" data-target=".ActionHispop" onclick="BenActionHistory(' + row.BenSno + ');">' + "View" + '</a></td>';
+
+      //                }},],
+
+      //              "rowCallback": function( row, data, index ) {
+
+
+      //                  if ( data.ReviveStatus == 1 ) {
+      //                      $('td', row).css('background-color', '#CDBB79' );
+      //                  }
+      //              }
+
+
+      //          });
+
+
+      //      }
+      //      else {
+
+
+
+      //          $('.Apllications').DataTable({
+
+      //              //"pagingType": "input",
+      //             // "processing": true,
+      //              //"serverSide": true,
+
+      //              "ajax":{
+      //                  "url": "/Home/GetApplicationSum",
+      //                  "type": "POST",
+						//"data": { status: 0, fromdate: $("#fromdate").val(), todate: $("#todate").val(), SearchValue: value, Locations: SubLocationmessage, WorkerType: $("#schemeid").val(), BenRegType: 1},
+      //                  "dataType": "JSON"
+      //              },
+
+      //              "columns": [
+      //                  {"data" : "Sno"},
+      //                  { "data": "SSI_Number" },
+      //                   { "data": "RegNumber" },
+
+      //                   { "data": "BenSno",'render': function (data, type, row) {
+      //                       return '<td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + row.BenSno + ');" id=' + row.Name + '>' + row.Name + '</a></td>';
+
+      //                   }},
+      //                  { "data": "Date" },
+      //                  { "data":  "DiffDate" },
+      //                   { "data":  "UploadDocument" },
+
+
+      //                   { "data": "IsUnique",'render': function (data, type, row) {
+      //                       if(row.IsUnique == "P")
+      //                           return '<td class="Pending tr_hide"><font color="#DAA520"><strong>PENDING</strong></font></td>';
+      //                       if(row.IsUnique == "Y")
+      //                           return '<td class="Approved tr_hide"><font color="#008000"><strong>UNIQUE</strong></font></td>';
+      //                       if(row.IsUnique == "N")
+      //                           return '<td class="Rejected tr_hide"><font color="#FF0000"><strong>DUPLICATE</strong></font></td>';} },
+
+      //                { "data": "BenSno",'render': function (data, type, row) {
+      //                    return '<td class="tr1_hide"><a href="#" data-toggle="modal" data-target=".ActionHispop" onclick="BenActionHistory(' + row.BenSno + ');">' + "View" + '</a></td>';
+
+      //                }},],
+
+      //              "rowCallback": function( row, data, index ) {
+
+      //                  //ReviveStatus
+      //                  if ( data.ReviveStatus == 1 ) {
+      //                      $('td', row).css('background-color', '#CDBB79' );
+      //                  }
+      //              }
+
+
+      //          });
+
+      //          //var oTable = $('.Apllications').DataTable();
+      //          //oTable.fnPageChange(3);
+
+      //      }
+
+
+
+
+
+        }
+        @*//Get Bocw Application Summerys
+    $.get('@Url.Action("GetSchemeApplicationSum", "Home")', { status: 0,schemid:2 }, function (result) {
+         
+        var table = $('.BocwApllications').DataTable();
+        table.destroy();
+        $('.BocwApllications tbody').empty();
+        $.each(result, function (i, data) {
+            var num = i + 1;
+            $('.BocwApllications').append('<tr><td>' + num + '</td><td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + data.BenSno + ');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.Date + '</td><td>' + "Pending" + '</td><td>' + data.DiffDate + '</td></tr>')
+        });
+        $('.BocwApllications').DataTable({
+
+        });
+    });
+    //Get WBTSS Application Summerys
+    $.get('@Url.Action("GetSchemeApplicationSum", "Home")', { status: 0, schemid: 3 }, function (result) {
+         
+        var table = $('.WBTWSSSApllications').DataTable();
+        table.destroy();
+        $('.WBTWSSSApllications tbody').empty();
+        $.each(result, function (i, data) {
+            var num = i + 1;
+            $('.WBTWSSSApllications').append('<tr><td>' + num + '</td><td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + data.BenSno + ');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.Date + '</td><td>' + "Pending" + '</td><td>' + data.DiffDate + '</td></tr>')
+        });
+        $('.WBTWSSSApllications').DataTable({
+
+        });
+    });*@
+        function DeDubclick(id) {
+             
+            $('.loader').show();
+            $(".modal-dialog").css("display","none");
+            $('.Dedupcheckdata tbody').empty();
+            $.get('@Url.Action("GetDeDupdata", "Home")', {Bensno:id }, function (result) {
+                $('.Dedupcheckdata').hide();
+                $('.Dedupcheckdata tbody').empty();
+                $.each(result, function (i, data) {
+                    var num = i + 1;
+                    $('.Dedupcheckdata').append('<tr><td>' + num + '</td><td>' + data.SSIorProvisionalNo + '</td><td>' + data.Scheme + '</td><td>' + data.RegNumber + '</td><td>' + data.BenRegDate + '</td><td>' + data.ApplicantName + '</td><td>' + data.FatherName + '</td><td>' + data.BenDOB + '</td><td>' + data.BenMobileNo + '</td><td>' + data.DistrictName + '</td><td>' + data.SubDivisionName + '</td><td>' + data.BlockName + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td>' + data.BankAccNo + '</td></tr>')
+                });
+                $('.loader').hide();
+                $('.Dedupcheckdata').show();
+                $(".modal-dialog").css("display","block");
+            });
+        }
+        $("#ssy").click(function () {
+            $("#Schemeid").val("0");
+            $("#Div1").show();
+            $("#Div2").hide();
+            $("#Div3").hide();
+            $("#divbocw").hide();
+            $("#divwbtss").hide();
+        });
+        $("#wbtwss").click(function () {
+            $("#Schemeid").val("3");
+            $("#Div1").hide();
+            $("#Div2").show();
+            $("#divbocw").hide();
+            $("#divwbtss").show();
+            $("#Div3").hide();
+        });
+        $("#bocw").click(function () {
+            $("#Schemeid").val("2");
+            $("#Div1").hide();
+            $("#Div2").hide();
+            $("#Div3").show();
+            $("#divbocw").show();
+            $("#divwbtss").hide();
+        });
+
+        //For Uploading File
+        $('INPUT[type="file"]').change(function () {
+             
+            if (this.files[0].size < 2000000) {
+                var ext = this.value.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'pdf':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                    case 'PDF':
+                        break;
+                    default:
+                        alert('Please choose only jpg,jpeg or png,pdf File');
+                        this.value = '';
+                }
+            }
+            else {
+                alert('Please choose File Size below 2MB');
+                this.value = '';
+            }
+        });
+        function getdates() {
+            $("#fromdate,#todate").datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                yearRange: "1960:2020",
+                autoclose: true,
+                maxDate: new Date()
+            })
+            var dat = new Date();
+            var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+            var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+            var today = day + "-" + month + "-" + dat.getFullYear();
+
+            $("#fromdate,#todate").val(today);
+        }
+
+
+        $('#btnPaging').click(function(){
+
+            var val=$('#txtPaging').val();
+            if (val!="" && val!=0) {
+
+                val=val-1;
+                var table=$('.Apllications').DataTable();
+                table.page(parseInt(val)).draw('page');
+            }
+            else
+            {
+                alert('Requested page number not valid');
+                $('#txtPaging').focus();
+            }
+        });
+
+        function IsAlphaNumaric(e) {
+            if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+        e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+        (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+        ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+                return false;
+            }
+        }
+	</script>

@@ -1,0 +1,229 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                <header>
+                    <h2>Utilization Certificate </h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form smart-form-main">
+                            <header>ALC Details</header>
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>ALC Name: </strong>{{officeDetails.userName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>RLO Office Name & Address: </strong>{{RloOfficeAddress.rloOfficeName}} <br /> {{RloOfficeAddress.addressLine1}} &nbsp; {{RloOfficeAddress.addressLine2}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col col-6 selectContainer">
+                                                <label>Board<span [style.color]="!boardIdValid?'red':''"><b>*</b></span></label>
+                                                <label class="select">
+                                                    <select class="form-control select" name="boardId" [(ngModel)]="utilizationCertificate.boardId" #boardId="ngModel"
+                                                            [ngClass]="{'invalid-data':boardId.invalid && (!boardIdValid ||  boardId.touched), 'valid-data': boardId.valid && boardIdValid}"
+                                                            required [disabled]="viewMode">
+                                                        <option value="0" selected disabled>Choose a Board</option>
+                                                        <option value="{{board.boardId}}" *ngFor="let board of boardList">{{board.boardName}}</option>
+                                                    </select> <i></i>
+                                                </label>
+                                                <div *ngIf=" (!boardIdValid )">
+                                                    <span style="color: red;">Board is required </span>
+                                                </div>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label>Financial Year <span [style.color]="!financialYearValid?'red':''"><b>*</b></span></label>
+                                                <label class="select">
+                                                    <select class="form-control select" name="financialYear" (change)="financialYearChange($event.target.value)"
+                                                            [(ngModel)]="utilizationCertificate.financialYearId"
+                                                            #financialYear="ngModel"
+                                                            [ngClass]="{'invalid-data':financialYear.invalid && (!financialYearValid ||  financialYear.touched), 'valid-data': financialYear.valid && financialYearValid}"
+                                                            required [disabled]="viewMode">
+                                                        <option value="0" disabled selected>Choose an Option</option>
+                                                        <option value="{{year.financialYearId}}" *ngFor="let year of financialYears">{{year.financialYear}}</option>
+                                                    </select> <i></i>
+                                                </label>
+                                                <div *ngIf="financialYear.invalid && (!financialYearValid ||  financialYear.touched)">
+                                                    <span style="color: red;">Financial Year is required </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label>Utilization Certificate Date <span [style.color]="!utilizationCertificateDateValid?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-calendar"></i>
+                                                    <input type="text" name="utilizationCertificateDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                           placeholder="DD/MM/YYYY"
+                                                           readonly #utilizationCertificateDate="ngModel" [(ngModel)]="utilizationCertificate.date"
+                                                           value="{{ utilizationCertificate.date | date: 'dd/MM/yyyy' }}"
+                                                           [ngClass]="{'invalid-data':utilizationCertificateDate.invalid && (!utilizationCertificateDateValid), 'valid-data': utilizationCertificateDate.valid && utilizationCertificateDateValid}"
+                                                           required [disabled]="viewMode">
+                                                </label>
+                                                <div *ngIf="utilizationCertificateDate.invalid && (!utilizationCertificateDateValid)">
+                                                    <span style="color: red;">Utilization Certificate Date is required </span>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+</section>
+                                <section>
+                                    <div class="row" *ngIf="showErrorMessage" style="margin-top:10px;">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please select atleast one record to proceed.</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="certificatesVisible" class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                <section id="widget-grid" class="">
+                    <div class="row">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                                <div>
+                                    <div class="jarviswidget-editbox">
+                                    </div>
+                                    <fieldset>
+                                        <div class="widget-body no-padding">
+                                            <table id="datatable_fixed_column" class="table table-striped table-bordered"
+                                                   [mfData]="fundReleaseOrder" #mf="mfDataTable" [mfRowsOnPage]="10" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th><input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();" [disabled]="viewMode"></th>
+                                                        <th>Fund Request Type</th>
+                                                        <th>Fund Release Order</th>
+                                                        <th>Request Date</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let order of mf.data">
+                                                        <td class="">
+                                                            <input type="checkbox" [(ngModel)]="order.selected" (change)="checkIfAllSelected(order);" [disabled]="viewMode">
+                                                        </td>
+                                                        <td>{{order.fundRequestTypeName}}</td>
+                                                        <td>{{order.fundReleaseOrderHdrId}}</td>
+                                                        <td>{{order.requestDateString}}</td>
+                                                        <td>{{order.sanctionedAmount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="8" style="border-bottom:0px !important">
+                                                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+                </section>
+            </div>
+            <div *ngIf="certificatesVisible">
+                <div class="jarviswidget-editbox">
+                </div>
+                <div class="widget-body no-padding">
+                    <form class="smart-form smart-form-main">
+                        <fieldset>
+                            <section>
+                                <div class="row">
+                                    <div class="col col-6">
+                                        <label>Opening Balance <span [style.color]="!openingBalanceValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="text" name="openingBalance" placeholder="Opening Balance" NumbersOnly [(ngModel)]="utilizationCertificate.openingBalance"
+                                                   #openingBalance="ngModel" [ngClass]="{'invalid-data': openingBalance.invalid && ( !openingBalanceValid || openingBalance.touched ),
+                                                        'valid-data': otherHospitalValid && otherHospital.valid  }" required (change)="getBalance($event)" [disabled]="viewMode">
+                                        </label>
+                                        <div *ngIf="openingBalance.invalid && (!openingBalanceValid || openingBalance.touched)">
+                                            <span style="color: red;">Opening Balance is required </span>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6">
+                                        <label>Received During</label>
+                                        <label class="input">
+                                            <input type="text" name="receivedDuring" placeholder="Received During" NumbersOnly [(ngModel)]="utilizationCertificate.fundRecieved"
+                                                   #receivedDuring="ngModel" disabled="disabled">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-6">
+                                        <label>Utilized <span [style.color]="!utilizedValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="text" name="utilized" placeholder="Utilized" NumbersOnly [(ngModel)]="utilizationCertificate.fundUtilized"
+                                                   #utilized="ngModel" [ngClass]="{'invalid-data': utilized.invalid && ( !utilizedValid || utilized.touched ),
+                                                        'valid-data': utilizedValid && utilized.valid  }" required (change)="getBalance($event)" [disabled]="viewMode">
+                                        </label>
+                                        <div *ngIf="utilized.invalid && (!utilizedValid || utilized.touched)">
+                                            <span style="color: red;">Utilized is required </span>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6">
+                                        <label>Balance</label>
+                                        <label class="input">
+                                            <input type="text" name="balance" placeholder="Balance" NumbersOnly [(ngModel)]="utilizationCertificate.balance"
+                                                   #balance="ngModel" disabled="disabled">
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <!-- widget grid -->
+            <form class="smart-form" *ngIf="certificatesVisible">
+                <fieldset class="top-10"></fieldset>
+                <footer>
+                    <a class="btn btn-warning" (click)="cancelClick()"> Cancel</a>
+                    <a *ngIf="!viewMode" id="btnSava" class="btn btn-primary" (click)="SubmitRequest()"> Submit </a>
+
+                </footer>
+            </form>
+        </article>
+    </div>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

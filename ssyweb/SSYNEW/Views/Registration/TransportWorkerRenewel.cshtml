@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "TransportWorkerRenewel";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" rel="stylesheet">
+<script src="~/Scripts/my_scripts/toaster.js"></script>
+<script src="~/Scripts/my_scripts/Validations.js"></script>
+<script>
+    var userId = @Html.Raw(Json.Encode(ViewBag.userId))
+    var regId = @Html.Raw(Json.Encode(ViewBag.TRegId))
+</script>
+<style>
+    .text-on-pannel {
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        margin-left: 20px;
+        padding: 3px 5px;
+        position: absolute;
+        margin-top: -47px;
+        border: 1px solid #337ab7;
+        border-radius: 8px;
+    }
+
+    .panel {
+        /* for text on pannel */
+        margin-top: 27px !important;
+    }
+
+    .panel-body {
+        padding-top: 30px !important;
+    }
+
+    label {
+        font-weight: bold !important;
+    }
+
+    .primarybtn {
+        width: 114px !important;
+        background-color: #3d7ede !important;
+    }
+
+    .addbtn {
+        width: 114px !important;
+        background-color: blueviolet !important;
+    }
+
+    .lblValue {
+        font-size: smaller !important;
+    }
+
+    .divHistory {
+        /*width: 110px;*/
+        height: 300px;
+        overflow: auto;
+    }
+</style>
+
+@using (Html.BeginForm("TransportWorkerRenewel", "Registration", FormMethod.Post, new { onsubmit = "return submitForm()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <form role="form">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <h5 class="text-on-pannel text-primary"><strong class="text-uppercase">Scheme Subscription Renewel</strong></h5>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Beneficiary Name
+                                </label>
+                                <input type="text" class="form-control" id="txtbeneName" name="txtbeneName">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Registration Number
+                                </label>
+                                <input type="text" class="form-control" id="txtRegNumber" name="txtRegNumber">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    SSI Number
+                                </label>
+                                <input type="text" class="form-control" id="txtSSINumber" name="txtSSINumber">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Date of Registration
+                                </label>
+                                @*<input type="text" class="form-control" id="txtSubscriptionYear">*@
+                                @Html.TextBox("registrationdate", "", new { @class = "form-control datepicker", @readonly = true, id = "registrationdate" })
+
+                            </div>
+                        </div>
+
+                    </div>
+                    @*<div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Last Subscription/Renewel Date
+                                    </label>
+
+                                    @Html.TextBox("Lastsubsdate", "", new { @class = "form-control datepicker", @readonly = true, id = "Lastsubsdate" })
+                                </div>
+                            </div>
+
+
+                        </div>*@
+                    <div class="row" style="margin-left:20px">
+                        <br />
+                        <input type="checkbox" id="lstcheckagree" name="agree" value="agresamajk">  <label id="lblfinalagree">The above Information is correct and there are no changes made.</label>
+
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @*<center> <button type="button" class="btn btn-primary primarybtn" onclick="submitForm()">Submit</button></center>*@
+                <center><button type="submit" class="btn btn-primary " tabindex="119">Submit</button></center>
+            </div>
+        </form>
+    </div>
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        $(".ApplicationDate,.Lastsubsdate,.registrationdate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "1960:2019",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $(".ApplicationDate,.Lastsubsdate,.registrationdate").val(today);
+    });
+function submitForm() {
+
+
+    if ($("#txtbeneName").val() == "" || $("#txtbeneName").val() == "0" || $("#txtbeneName").val() == null) {
+        alert("Please Enter Beneficiary Name");
+        $("#txtbeneName").focus();
+        return false;
+    }
+    if ($("#txtRegNumber").val() == "" || $("#txtRegNumber").val() == "0" || $("#txtRegNumber").val() == null) {
+        alert("Please Enter Registration Number");
+        $("#txtRegNumber").focus();
+        return false;
+    }
+    if ($("#txtSSINumber").val() == "" || $("#txtSSINumber").val() == "0" || $("#txtSSINumber").val() == null) {
+        alert("Please Enter SSI Number");
+        $("#txtSSINumber").focus();
+        return false;
+    }
+    var lstcheckagree = $("#lstcheckagree").is(':checked');
+    if (lstcheckagree == false) {
+        alert("Please check on the confirmation box");
+        $("#lstcheckagree").focus();
+        return false;
+    }
+
+
+
+}
+</script>
+

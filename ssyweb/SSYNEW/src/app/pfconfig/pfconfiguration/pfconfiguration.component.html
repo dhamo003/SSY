@@ -1,0 +1,307 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>PF Configuration</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <!-- Success states for elements -->
+                        <form class="smart-form">
+                            <header>Contribution</header>
+                            <fieldset id="contribution">
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Effective From Date <span [style.color]="!effectiveFromDateValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   placeholder="DD/MM/YYYY" value="{{ configuration.dateEffectiveFrom | date: 'dd/MM/yyyy' }}" [(ngModel)]="configuration.dateEffectiveFrom"
+                                                   readonly
+                                                   #effectiveFromDate="ngModel" required
+                                                   [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid}" />
+                                            <i></i>
+                                        </label>
+                                        <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid)">
+                                            <span style="color: red;">Effective From Date is required </span>
+                                        </div>
+
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Effective To Date <span [style.color]="!effectiveToDateValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   placeholder="DD/MM/YYYY" value="{{ configuration.dateEffectiveTo | date: 'dd/MM/yyyy' }}" [(ngModel)]="configuration.dateEffectiveTo"
+                                                   readonly
+                                                   #effectiveToDate="ngModel" required
+                                                   [ngClass]="{'invalid-data':effectiveToDate.invalid && (!effectiveToDateValid), 'valid-data': effectiveToDate.valid && effectiveToDateValid}" />
+                                            <i></i>
+                                        </label>
+                                        <div *ngIf="effectiveToDate.invalid && (!effectiveToDateValid)">
+                                            <span style="color: red;">Effective To Date is required </span>
+                                        </div>
+
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Beneficiary Monthly Contribution <span [style.color]="!benMonthlyContributionValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="benMonthlyContribution" placeholder="Beneficiary Monthly Contribution" NumbersOnly [(ngModel)]="configuration.beneficiaryPFContribution">
+                                        </label>
+                                        <div *ngIf="!benMonthlyContributionValid">
+                                            <span style="color: red;">Beneficiary Monthly Contribution is required </span>
+                                        </div>
+                                    </section>
+
+                                    <section class="col col-6">
+
+                                        <label class="label">Government Monthly Contribution <span [style.color]="!govMonthlyContributionValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="govMonthlyContribution" placeholder="Government Monthly Contribution" NumbersOnly [(ngModel)]="configuration.governmentPFContribution">
+                                        </label>
+                                        <div *ngIf="!govMonthlyContributionValid">
+                                            <span style="color: red;">Government Monthly Contribution is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset id="beneficiaryEligibilityFS">
+                                <header>Beneficiary Eligibility</header>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Minimum Age in year <span [style.color]="!minAgeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="minAge" placeholder="Minimum Age in year" NumbersOnly [(ngModel)]="configuration.minAge">
+                                        </label>
+                                        <div *ngIf="!minAgeValid">
+                                            <span style="color: red;">Minimum Age in year is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Maximum Age in year <span [style.color]="!maxAgeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="maxAge" placeholder="Maximum Age in year" NumbersOnly [(ngModel)]="configuration.maxAge">
+                                        </label>
+                                        <div *ngIf="!maxAgeValid">
+                                            <span style="color: red;">Maximum Age in year is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Maximum Average Monthly Family Income <span [style.color]="!avgFamilyIncomeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="avgFamilyIncome" placeholder="Maximum Average Monthly Family Income" NumbersOnly [(ngModel)]="configuration.averageMonthlyIncome">
+                                        </label>
+                                        <div *ngIf="!avgFamilyIncomeValid">
+                                            <span style="color: red;">Maximum Average Monthly Family Income is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset id="closureFS">
+                                <header>Closure/Maturity </header>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Lock in Period (Months) <span [style.color]="!lockPeriodValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="lockPeriod" placeholder="Lock in Period (Months)" NumbersOnly [(ngModel)]="configuration.pfLockingPeriodMonths">
+                                        </label>
+                                        <div *ngIf="!lockPeriodValid">
+                                            <span style="color: red;">Lock in Period is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Inactive Period (months)  <span [style.color]="!inactivePeriodValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="inactivePeriod" placeholder="Inactive Period (months) " NumbersOnly [(ngModel)]="configuration.inActivePeriodMonths">
+                                        </label>
+                                        <div *ngIf="!inactivePeriodValid">
+                                            <span style="color: red;">Inactive Period is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">A/c Maturity Age (Years) <span [style.color]="!maturityAgeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="maturityAge" placeholder="A/c Maturity Age (Years)" NumbersOnly [(ngModel)]="configuration.maturityAge">
+                                        </label>
+                                        <div *ngIf="!maturityAgeValid">
+                                            <span style="color: red;">A/c Maturity Age is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">A/c Maturity Age Condition:<span [style.color]="!logic2Valid?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic" [(ngModel)]="configuration.maturityAgeLogic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logic2Valid">
+                                            <span style="color: red;">A/c Maturity Age Condition is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset id="interestFS">
+                                <header>Interest </header>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Collection CutOff:<span [style.color]="!collectionCutOffValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="collectionCutOff" placeholder="Collection CutOff" [(ngModel)]="configuration.collectionCutoff"
+                                                   #collectionCutOff="ngModel" [ngClass]="{'invalid-data': collectionCutOff.invalid && ( !collectionCutOffValid || collectionCutOff.touched ),
+                                                        'valid-data': collectionCutOffValid && collectionCutOff.valid  }" required max="30" min="1" maxlength="2">
+                                        </label>
+                                        <div *ngIf="collectionCutOff.invalid && (!collectionCutOffValid || collectionCutOff.touched)">
+                                            <span style="color: red;">Collection CutOff is required </span>
+                                        </div>
+                                        <div *ngIf="!collectionCutOffRange">
+                                            <span style="color: red;">Collection CutOff should be in the (1-30) range </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Interest Rate(%):<span [style.color]="!interestRateValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="interestRate" placeholder="Interest Rate" [(ngModel)]="configuration.pfInterestRate"
+                                                   #interestRate="ngModel" [ngClass]="{'invalid-data': interestRate.invalid && ( !interestRateValid || interestRate.touched ),
+                                                        'valid-data': interestRateValid && interestRate.valid  }" required>
+                                        </label>
+                                        <div *ngIf="interestRate.invalid && (!interestRateValid || interestRate.touched)">
+                                            <span style="color: red;">Interest Rate is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset id="agentFS">
+                                <header>Agent Collection Limit </header>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Agent Collection Limit:<span [style.color]="!agentCollectionLimitValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="agentCollectionLimit" placeholder="Agent Collection Limit" [(ngModel)]="configuration.agentCollectionLimit"
+                                                   #agentCollectionLimit="ngModel" [ngClass]="{'invalid-data': agentCollectionLimit.invalid && ( !agentCollectionLimitValid || agentCollectionLimit.touched ),
+                                                        'valid-data': agentCollectionLimitValid && agentCollectionLimit.valid  }" required >
+                                        </label>
+                                        <div *ngIf="agentCollectionLimit.invalid && (!agentCollectionLimitValid || agentCollectionLimit.touched)">
+                                            <span style="color: red;">Agent Collection Limit is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <a *ngIf="mode != 'view'" class="btn btn-primary" (click)="saveContribution(configuration)">Submit</a>
+                                <a class="btn btn-primary" (click)="showHistory()">History</a>
+                                <a *ngIf="mode != 'view'" class="btn btn-default" (click)="clearContribution()">Reset</a>
+                                <a class="btn btn-danger" (click)="cancelClick()">Cancel</a>
+                            </footer>
+                        </form>
+                        <!--/ Success states for elements -->
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- WIDGET END -->
+    </div>
+    <!-- end row -->
+</section>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div bsModal #historyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="historyModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Configuration List</h4>
+            </div>
+            <div class="modal-body" style="max-height:500px; overflow-x:scroll">
+                    <table class="table table-striped" [mfData]="configurationData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <mfDefaultSorter>Action</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="effectiveFromDateString">Effective From Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="effectiveToDateString">Effective To Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="beneficiaryPFContribution">Beneficiary PF Contribution</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="governmentPFContribution">Government PF Contribution</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="pfLockingPeriodMonths">Lock in Period (Months)</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inActivePeriodMonths">InActive Period</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let config of mf.data|grdFilter: {effectiveFromDateString: searchText,effectiveToDateString: searchText, beneficiaryPFContribution: searchText,
+       governmentPFContribution: searchText, pfLockingPeriodMonths: searchText, inActivePeriodMonths:searchText,  maturityAge: searchText, averageMonthlyIncome: searchText}; let i=index;">
+                                <td class="">
+                                    <a (click)="onEditClick(config)" title="Edit" class="txt-color-red"><i class="fa fa-recycle"></i></a>
+                                    <a (click)="onViewClick(config)" title="View" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                </td>
+                                <td>{{config.effectiveFromDateString}}</td>
+                                <td>{{config.effectiveToDateString}}</td>
+                                <td>{{config.beneficiaryPFContribution}}</td>
+                                <td>{{config.governmentPFContribution}}</td>
+                                <td>{{config.pfLockingPeriodMonths}}</td>
+                                <td>{{config.inActivePeriodMonths}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot><tr><td colspan="4"><mfBootstrapPaginator></mfBootstrapPaginator></td></tr></tfoot>
+                    </table>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="submitClick()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>-->

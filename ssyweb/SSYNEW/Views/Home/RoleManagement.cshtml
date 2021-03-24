@@ -1,0 +1,312 @@
+﻿
+@{
+    ViewBag.Title = "RoleManagement";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/SSYCommonStyleSheet.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+
+
+<h2>RoleManagement</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn_set" style="float: right;">
+                <button type="submit" class="btn btn-sm card-1 inline btn-primary  clearside" onclick="createNewUserType()">Creat New UserType</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="Div1" style="margin-top : 10px;">
+    <table id="ID_RoleTable">
+        <thead style="background-color:#87CEEB">
+            <tr>
+                <th>Edit</th>
+                <th>Active Status</th>
+                <th>User Type Name</th>
+                <th>User CategoryName</th>
+                <th>Order</th>
+                <th>Is Active</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+
+@*create Role popup start*@
+<div class="popupBody" id="ID_RoleCreationPopup">
+    <div class="popupContent">
+        <div class="popup_title">
+            <div> Create Role </div>
+        </div>
+
+
+        <div class="popup_feeds">
+            <input type="hidden" id="ID_UserTypeId" />
+
+            <div class="form-group">
+                <label for="MenuName">User Type Name</label>
+                <input type="text" class="form-control" id="ID_RoleName" placeholder="Enter User Type Name">
+            </div>
+            <div class="form-group" id="ID_Con_UserTypes">
+                <label for="sel1">Select User Category</label>
+                <select class="form-control" id="ID_UserCategory"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="sel1">Select Registration Type</label>
+                <select class="form-control" id="ID_UserReg">
+                    <option value="-1">  --- Select Reg type ---  </option>
+                    <option value="SA">SA</option>
+                    <option value="AL">AL</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="IsActive" style="display: flex !important;line-height: 28px;">
+                    IsActive
+                    <input type="checkbox" class="form-control" id="ID_IsActive" style="width: 18px;margin: 0px 8px;" placeholder="" name="IsActive" checked>
+                </label>
+
+            </div>
+
+            <div class="popup_footer"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn_set" style="float: right;">
+                            <button type="submit" class="theme_flotbtn" onclick="closeRolePopup()">Cancel</button>
+                        </div>
+                        <div>
+                            <div class="btn_set" style="float: right;" id="ID_BTNSave">
+                                <button type="submit" class="theme_btn" onclick="saveRole()">Save</button>
+                            </div>
+                            <div class="btn_set" style="float: right;" id="ID_BTNUpdate">
+                                <button type="submit" class="theme_btn" onclick="updateRole()">Update</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*create Role popup end*@
+
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+
+<script>
+
+    $("#ID_RoleCreationPopup").hide();
+
+
+    function validateRoleForm() {
+        var roleame = $("#ID_RoleName").val();
+        var rolecategory = $("#ID_UserCategory").val();
+        var reg = $("#ID_UserReg").val();
+
+        if (!roleame) {
+            alert("User type name is requird");
+            return true;
+        }
+        if (roleame.length > 35) {
+            alert("User type name must below 15 letters");
+            return true;
+        }
+
+        if (reg == -1 ) {
+            alert("Reg Type is requird");
+            return true;
+        }
+
+        if (rolecategory == -1 ) {
+            alert("MenuURL must below 50 letters");
+            return true;
+        }
+
+        return false;
+    }
+
+    function clearroleData() {
+        $("#ID_RoleName").val("");
+        $("#ID_UserCategory").val(-1);
+        $("#ID_UserReg").val(-1);
+        $("#ID_UserTypeId").val(-1);
+    }
+
+    function   createNewUserType() {
+        clearroleData();
+        $("#ID_BTNSave").show();
+        $("#ID_BTNUpdate").hide();
+        $("#ID_RoleCreationPopup").show();
+
+    }
+
+    function loadUserCategories() {
+          $.ajax({
+              url: "/Home/GetAlluserCategories",
+            type: 'GET',
+              success: function (data) {
+                  $("#ID_UserCategory").append("<option value='-1'>  --- Select user Categoru --- </option>");
+                  $.each(data.Records, function (index, re) {
+                    $("#ID_UserCategory").append("<option value=" + re.Id + ">" + re.Categoryname + "</option>");
+
+                });
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function editUserType(id) {
+
+        $("#ID_BTNSave").hide();
+        $("#ID_BTNUpdate").show();
+        $.get('@Url.Action("GetRole", "Home")' + '?rId=' + id, function (result) {
+            var d = result.Records;
+            alert(JSON.stringify(d));
+            $("#ID_RoleName").val(d.UserTypeName);
+            $("#ID_UserCategory").val(d.UserCategoryId);
+            $("#ID_UserReg").val(d.Reg);
+            $("#ID_UserTypeId").val(d.UserTypeId);
+            if (d.IsActive) {
+                $("#ID_IsActive").prop('checked', true);
+            }
+            else {
+                $("#ID_IsActive").prop('checked', false);
+            }
+            $("#ID_RoleCreationPopup").show();
+        });
+    }
+    function closeRolePopup() {
+        $("#ID_RoleCreationPopup").hide();
+    }
+
+    function saveRole() {
+        if (validateRoleForm()) {
+            return;
+        }
+
+
+        var model = {
+            UserTypeId: 1,
+            UserTypeName: $("#ID_RoleName").val(),
+            Reg: $("#ID_UserReg").val(),
+            UserCategoryId: $("#ID_UserCategory").val()
+        };
+        if ($("#ID_IsActive").is(":checked")) {
+            model.IsActive = true;
+        }
+        else if ($("#ID_IsActive").is(":not(:checked)")) {
+            model.IsActive = false;
+        }
+        $.ajax({
+            url: "/Home/CreateNewRole",
+            type: 'POST',
+            data: model,
+            datatype: 'json',
+            success: function (data) {
+
+                closeRolePopup();
+                loadRolestable();
+                clearroleData();
+                alert("User type created successfully");
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+
+
+
+
+    function updateRole() {
+        if (validateRoleForm()) {
+            return;
+        }
+
+
+        var model = {
+            UserTypeId: $("#ID_UserTypeId").val(),
+            UserTypeName: $("#ID_RoleName").val(),
+            Reg: $("#ID_UserReg").val(),
+            UserCategoryId: $("#ID_UserCategory").val()
+        };
+        if ($("#ID_IsActive").is(":checked")) {
+            model.IsActive = true;
+        }
+        else if ($("#ID_IsActive").is(":not(:checked)")) {
+            model.IsActive = false;
+        }
+        $.ajax({
+            url: "/Home/UpdateRole",
+            type: 'POST',
+            data: model,
+            datatype: 'json',
+            success: function (data) {
+                closeRolePopup();
+                loadRolestable();
+                clearroleData();
+                alert("User type updated successfully");
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function loadRolestable() {
+
+        $.get('@Url.Action("GetAllRoleList", "Home")', function (result) {
+            if ($.fn.DataTable.isDataTable('#ID_RoleTable')) {
+                $('#ID_RoleTable').DataTable().destroy();
+            }
+
+            $('#ID_RoleTable tbody').empty();
+            $('#ID_RoleTable').DataTable({
+                "data": result.Records,
+                "columns": [
+
+                    {
+                        "data": "UserTypeId", 'render': function (data, type, row) {
+                            debugger;
+                            return '<td><button href="#"  onclick="editUserType(' + data+')">Edit</button></td>';
+
+                        }
+                    },
+                    {
+                        "data": "UserTypeId", 'render': function (data, type, row) {
+                            return '<td><a href="#"    > Check </a></td>';
+
+                        }
+                    },
+                    { "data": "UserTypeName" },
+                    { "data": "UserCategoryId" },
+                    { "data": "Order" },
+                    { "data": "IsActive" }
+                ],
+            });
+        });
+        }
+
+
+    loadRolestable();
+    loadUserCategories();
+</script>
+

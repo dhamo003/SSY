@@ -1,0 +1,124 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>PF Interest Configuration</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <fieldset>
+
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Interest Code:<span [style.color]="!interestCodeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="text" name="interestCode" placeholder="Interest Code" [(ngModel)]="pfConfig.interestCode"
+                                                   #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !interestCodeValid || interestCode.touched ),
+                                                        'valid-data': interestCodeValid && interestCode.valid  }" required>
+                                        </label>
+                                        <div *ngIf="interestCode.invalid && (!interestCodeValid || interestCode.touched)">
+                                            <span style="color: red;">Interest Code is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="pfConfig.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Interest Calculation Day:<span [style.color]="!interestCalculationDayValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="interestCalculationDay" placeholder="Interest Calculation Day" [(ngModel)]="pfConfig.interestCalculationDay"
+                                                   #interestCalculationDay="ngModel" [ngClass]="{'invalid-data': interestCalculationDay.invalid && ( !interestCalculationDayValid || interestCalculationDay.touched ),
+                                                        'valid-data': interestCalculationDayValid && interestCalculationDay.valid  }" required>
+                                        </label>
+                                        <div *ngIf="interestCalculationDay.invalid && (!interestCalculationDayValid || interestCalculationDay.touched)">
+                                            <span style="color: red;">Interest Calculation Day is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Interest Rate(%):<span [style.color]="!interestRateValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="interestRate" placeholder="Interest Rate" [(ngModel)]="pfConfig.interestRate"
+                                                   #interestRate="ngModel" [ngClass]="{'invalid-data': interestCalculationDay.invalid && ( !interestRateValid || interestRate.touched ),
+                                                        'valid-data': interestRateValid && interestRate.valid  }" required>
+                                        </label>
+                                        <div *ngIf="interestRate.invalid && (!interestRateValid || interestRate.touched)">
+                                            <span style="color: red;">Interest Rate is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   placeholder="DD/MM/YYYY" value="{{ pfConfig.effectiveDateFrom | date: 'dd/MM/yyyy' }}"
+                                                   [(ngModel)]="pfConfig.effectiveDateFrom" readonly
+                                                   #effectiveFromDate="ngModel"
+                                                   [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid)">
+                                            <span style="color: red;">Effective From Date is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Effective To Date:</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   placeholder="DD/MM/YYYY" value="{{ pfConfig.effectiveToDate | date: 'dd/MM/yyyy' }}"
+                                                   [(ngModel)]="pfConfig.effectiveDateTo" readonly
+                                                   #effectiveFromDate="ngModel"
+                                                   required>
+                                        </label>
+                                    </section>
+                                </div>
+
+
+                            </fieldset>
+                            <footer class="modal-footer">
+                                <a class="btn btn-primary" (click)="getHistoryData()">History</a>
+                                <a class="btn btn-default" *ngIf="isSaveVisible" (click)="clearData()">Reset</a>
+                                <a class="btn btn-success" *ngIf="isSaveVisible" (click)="saveClaimsData(pfConfig)">Save</a>
+                                <a class="btn btn-danger" (click)="cancelClick()"> Cancel</a>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+                </div>
+        </article>
+    </div>
+</section>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

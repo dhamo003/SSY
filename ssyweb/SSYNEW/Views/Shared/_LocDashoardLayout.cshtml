@@ -1,0 +1,2158 @@
+﻿@{
+
+    var UserType = Convert.ToString(Session["UserType"]);
+    var UserName = Convert.ToString(Session["UserName"]);
+    var checkRegType = Convert.ToString(Session["CheckRegType"]);
+    int ChkAddData = Convert.ToInt16(Session["ChkAddData"]);
+    int DiffDate = Convert.ToInt16(Session["DiffDate"]);
+    var CheckPassWord = Convert.ToString( Session["ChangePwd"]);
+    int RoleId = Convert.ToInt16(Session["UserType"]);
+
+    var result = SSY.Data.HomeData.GetMenuList(RoleId).ToList();
+
+
+    int submenuid = 0;
+}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <title> SSY Admin </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/bootstrap.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/font-awesome.min.css")" />
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-production-plugins.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-production.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-skins.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/admin-styles.css")">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-rtl.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/demo.min.css")">
+
+    <link href="@Url.Content("~/Content/ssy_css/dataTables.bootstrap.min.css")" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/custom-div.css")">
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="@Url.Content("~/Content/images/favicon/favicon.ico")" type="image/x-icon">
+    <link rel="icon" href="@Url.Content("~/Content/images/favicon/favicon.ico")" type="image/x-icon">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" )"></script>
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+</head>
+
+<body class="">
+	@Html.Partial("_BenInformation")
+	<header id="header">
+		<div id="logo-group">
+			<span id="logo"> <img src="@Url.Content("~/Content/images/3lionshead-white.png")" alt="SmartAdmin"> </span>
+
+		</div>
+
+		<div class="logo-cation">
+			<h2 style="font-family: 'Exo', sans-serif;font-weight:bold;">SSY -<span style="">Samajik Suraksha Yojana</span></h2>
+			<h5>Social Security for Unorganised workers</h5>
+		</div>
+
+		<!-- pulled right: nav area -->
+		<div class="pull-right head-right">
+			@if (UserType != "1")
+			{
+				<a class=" text-white updatenoty"><span class="glyphicon glyphicon-bell "></span> @Session["UnReadNotyCount"]</a>
+			}
+			<div class="welcome-dropdown">
+				<button type="button"><i class="fa fa-user"></i>Welcome @Session["UserTypeName"] <span class="caret"></span></button>
+				<ul class="welcome-dropdown-menu">
+
+
+					@if (UserType == "8" || UserType == "9" || UserType == "11" || UserType == "10")
+					{
+
+
+						if (CheckPassWord == "0" && ChkAddData == 0 && UserType != "10")
+						{
+							<li><a href="~/Agent/EditProfile"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-pencil"></span>Edit Profile</a></li>
+						}
+						else
+						{
+							<li><a href="~/Agent/ViewProfile"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-pencil"></span>View Profile</a></li>
+
+						}
+
+
+					}
+					else
+					{
+						<li><a href="~/Home/personalEditUserDetails"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-pencil"></span>Edit Profile</a></li>
+
+					}
+					<li><a href="~/Login/PersonalPassWordChange"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-eye-close"></span>Change Password</a></li>
+					<li><a href="~/Home/Logout"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-off"></span>Logout</a></li>
+
+				</ul>
+			</div>
+			<!-- collapse menu button -->
+			@*<div id="hide-menu" class="btn-header pull-right">
+					<span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+				</div>*@
+			<!-- end collapse menu -->
+			<!-- #MOBILE -->
+			<!-- Top menu profile link : this shows only when top menu is active -->
+			<ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+				<li class="">
+					<a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
+						<img src="@Url.Content("~/Content/images/avatars/sunny.png")" alt="John Doe" class="online" />
+					</a>
+					<ul class="dropdown-menu pull-right">
+						<li>
+							<a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> Setting</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="profile.html" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> <u>P</u>rofile</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="toggleShortcut"><i class="fa fa-arrow-down"></i> <u>S</u>hortcut</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i> Full <u>S</u>creen</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							@Html.ActionLink("LogOut", "Index", "Home")
+							<a href="@Url.Action("LogOut", "Home")" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<!-- logout button -->
+			@*<div id="logout" class="btn-header transparent pull-right">
+					<span> <a href="@Url.Action("LogOut", "Home")" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+				</div>*@
+			<!-- end logout button -->
+			<!-- fullscreen button -->
+			@*<div id="fullscreen" class="btn-header transparent pull-right">
+					<span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+				</div>*@
+			<!-- end fullscreen button -->
+			<!-- multiple lang dropdown : find all flags in the flags page -->
+			@*<ul class="header-dropdown-list hidden-xs">
+					<li>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
+						<ul class="dropdown-menu pull-right">
+							<li class="active">
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-us" alt="United States"> English (US)</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-fr" alt="France"> Français</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-es" alt="Spanish"> Español</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-de" alt="German"> Deutsch</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-jp" alt="Japan"> 日本語</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-cn" alt="China"> 中文</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-it" alt="Italy"> Italiano</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-pt" alt="Portugal"> Portugal</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-ru" alt="Russia"> Русский язык</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-kr" alt="Korea"> 한국어</a>
+							</li>
+
+						</ul>
+					</li>
+				</ul>*@
+			<!-- end multiple lang -->
+
+		</div>
+		<!-- end pulled right: nav area -->
+
+	</header>
+	<!-- END HEADER -->
+	<!-- Left panel : Navigation area -->
+	<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+	@if (ChkAddData == 1)
+	{
+		if (@Session["DiffDate"].ToString().Contains('-'))
+		{
+			<center> <label><font color="red" size="3"> <strong>Please update your application details for approval <strong></font></label></center>
+
+		}
+		else
+		{
+			<center> <label><font color="red" size="3"> <strong>Please update your application details for approval within  @Session["DiffDate"]   Days<strong></font></label></center>
+
+		}
+	}
+	else
+	{
+		<aside id="left-panel">
+
+			<!-- User info -->
+			@*<div class="login-info">
+					<span>
+						<!-- User image size is adjusted inside CSS, it should stay as it -->
+						<img src="@Url.Content("~/Content/images/avatars/sunny.png")" alt="me" class="online" />
+						<span>
+							Welcome, @Session["UserName"]
+						</span>
+					</span>
+				</div>*@
+			<!-- end user info -->
+			<!-- NAVIGATION : This navigation is also responsive-->
+
+			@foreach (var k in result)
+			{
+				<nav id="additional-lc">
+					<ul>
+
+						@if (k.SubMenuId == 0)
+						{
+							<li>
+								<a href="@k.MenuUrl" title="Dashboard">
+									<span class="glyphicon @k.Class"></span>
+									<span class="menu-item-parent">@k.MenuName</span>
+
+								</a>
+							</li>
+						}
+
+						@if (k.SubMenuId != 0)
+						{
+							if (submenuid != k.SubMenuId)
+							{
+								var res = (from x in result where x.SubMenuId == k.SubMenuId select x).ToList();
+
+								submenuid = k.SubMenuId ?? 0;
+
+								<li class="top-menu-invisible">
+									<a href="#">
+
+										<span class="menu-item-parent" title="Dashboard"> @k.SubMenuName</span>
+
+									</a>
+									<ul>
+										@foreach (var x in res)
+										{
+											<li><a href="@x.MenuUrl" title="Dashboard"><i class="@x.Class"></i><span class="menu-item-parent">@x.MenuName </span></a></li>
+
+										}
+
+									</ul>
+
+								</li>
+							}
+
+						}
+					</ul>
+				</nav>
+			}
+
+			<span class="minifyme" data-action="minifyMenu">
+				<i class="fa fa-arrow-circle-left hit"></i>
+			</span>
+
+		</aside>
+		<span class="minifyme" data-action="minifyMenu">
+			<i class="fa fa-arrow-circle-left hit"></i>
+		</span>
+	}
+
+	<!-- END NAVIGATION -->
+	<!-- MAIN PANEL -->
+	<div id="main" role="main">
+		@if (ChkAddData != 1)
+		{
+			<!-- RIBBON -->
+			<div id="ribbon">
+
+				<span class="ribbon-button-alignment">
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+						<i class="fa fa-refresh"></i>
+					</span>
+				</span>
+
+				<!-- breadcrumb -->
+				@*<ol class="breadcrumb">
+						<li>Home</li>
+						<li>Dashboard</li>
+					</ol>*@
+				<!-- end breadcrumb -->
+				<!-- You can also add more buttons to the
+				ribbon for further usability
+
+				Example below:
+
+				<span class="ribbon-button-alignment pull-right">
+				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
+				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
+				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
+				</span> -->
+
+			</div>
+		}
+		<!-- END RIBBON -->
+		<!-- MAIN CONTENT -->
+		<div id="content">
+			@RenderBody()
+		</div>
+		<!-- END MAIN CONTENT -->
+
+	</div>
+	<!-- END MAIN PANEL -->
+	<!-- PAGE FOOTER -->
+	<div class="page-footer">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<span class="txt-color-white">Copy right for Labour Department, Govt. of West Bengal</span>
+			</div>
+
+			<div class="col-xs-6 col-sm-6 text-right hidden-xs">
+				<div class="txt-color-white inline-block">
+					<i class="txt-color-blueLight hidden-mobile">Developed by  <a target="_blank" href="#" class="text-white">Webel Technology Limited</a></i>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END PAGE FOOTER -->
+	<!-- SHORTCUT AREA : With large tiles (activated via clicking user name tag)
+	Note: These tiles are completely responsive,
+	you can add as many as you like
+	-->
+	<div id="shortcut">
+		<ul>
+			<li>
+				<a href="inbox.html" class="jarvismetro-tile big-cubes bg-color-blue"> <span class="iconbox"> <i class="fa fa-envelope fa-4x"></i> <span>Mail <span class="label pull-right bg-color-darken">14</span></span> </span> </a>
+			</li>
+			<li>
+				<a href="calendar.html" class="jarvismetro-tile big-cubes bg-color-orangeDark"> <span class="iconbox"> <i class="fa fa-calendar fa-4x"></i> <span>Calendar</span> </span> </a>
+			</li>
+			<li>
+				<a href="gmap-xml.html" class="jarvismetro-tile big-cubes bg-color-purple"> <span class="iconbox"> <i class="fa fa-map-marker fa-4x"></i> <span>Maps</span> </span> </a>
+			</li>
+			<li>
+				<a href="invoice.html" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-book fa-4x"></i> <span>Invoice <span class="label pull-right bg-color-darken">99</span></span> </span> </a>
+			</li>
+			<li>
+				<a href="gallery.html" class="jarvismetro-tile big-cubes bg-color-greenLight"> <span class="iconbox"> <i class="fa fa-picture-o fa-4x"></i> <span>Gallery </span> </span> </a>
+			</li>
+			<li>
+				<a href="profile.html" class="jarvismetro-tile big-cubes selected bg-color-pinkDark"> <span class="iconbox"> <i class="fa fa-user fa-4x"></i> <span>My Profile </span> </span> </a>
+			</li>
+		</ul>
+	</div>
+	<!-- /.modal-dialog -->
+	<!-- /Dublicate Popup -->
+	<div class="modal fade dubpop" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width: 100%;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Samajik Suraksha Yojana</h4>
+				</div>
+				<div class="modal-body">
+					@*style="width:940px;margin-left:5px;overflow-x:auto;"*@
+
+					<div class="">
+
+
+
+
+						<div class="row back1">
+
+
+
+							@*<fieldset class="custom-border">*@
+							@*  <legend class="custom-border color-white"><span class="leg-sty">Duplicate Data</span></legend>*@
+							<table class="table table-striped table-bordered Dedupcheckdata" cellspacing="0" width="100%">
+								<thead style="background-color:#87CEEB">
+									<tr>
+
+										<th>S.No</th>
+										<th>SSIN No / Provisional No</th>
+										<th>Scheme</th>
+										<th>Registration Number</th>
+										<th>Registration Date</th>
+										<th>Applicant Name</th>
+										<th>Father Name</th>
+										<th> Date of Birth</th>
+										<th>Mobile No</th>
+										<th>District</th>
+										<th>RLO</th>
+										<th>Location</th>
+										<th>Aadhar No</th>
+										<th>Bank Account No</th>
+										<th>Epic No</th>
+
+
+
+
+									</tr>
+								</thead>
+								<tbody></tbody>
+
+							</table>
+
+							@*</fieldset>*@
+
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					@*<button type="button" class="btn btn-primary">Approved</button>
+						<button type="button" class="btn btn-primary">Rejected</button>*@
+				</div>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+
+		<div class="loader" style="display:none;">
+			<center>
+				<img class="loading-image" src="~/Content/images/ajax-loader.gif" alt="loading.." style="width:30px;height:30px;">
+			</center>
+		</div>
+
+
+
+	</div>
+
+	@*SendBack Popup*@
+	<div class="modal fade" id="divSendbackremrk" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content" style="width:570px;margin-left:-250px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title">Remarks</h4>
+
+				</div>
+				<div class="modal-body">
+
+
+					<div class="row">
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									@* <span class="input-group-addon input-label">Remarks</span>*@
+									@*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+									@*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+									<textarea name="test_field" id="Sendbackremk" style="width: 544px;height: 104px;"></textarea>
+									<br />
+									<br />
+									<h5>Documents to be reuploaded</h5>
+									<table class="table table-bordered" id="tblDocumnets">
+										<tbody>
+											<tr>
+												<td>Photo of the Applicant</td>
+												<td>
+													<input type="checkbox" id="chckPhoto" />
+												</td>
+											</tr>
+											<tr>
+												<td>Signature of the Applicant</td>
+												<td>
+													<input type="checkbox" id="chckSign" />
+												</td>
+											</tr>
+											<tr>
+												<td>Aadhaar Card</td>
+												<td>
+													<input type="checkbox" id="chckAadhaar" />
+												</td>
+											</tr>
+											<tr>
+												<td>Bank Passbook</td>
+												<td>
+													<input type="checkbox" id="chckPassbook" />
+												</td>
+											</tr>
+											<tr>
+												<td>Epic Card</td>
+												<td>
+													<input type="checkbox" id="chckEpic" />
+												</td>
+											</tr>
+											<tr>
+												<td>Other Document</td>
+												<td>
+													<input type="checkbox" id="chckOther" />
+												</td>
+											</tr>
+											<tr>
+												<td>Form-1</td>
+												<td>
+													<input type="checkbox" id="chckForm1" />
+												</td>
+											</tr>
+											<tr>
+												<td>Front page of the pass book under SASPFUW/ Identity Card issued to the construction worker/ Identity Card issued to the transport worker</td>
+												<td>
+													<input type="checkbox" id="chckSchemeCert" />
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									@*</textarea>*@
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" onclick="UpdateStatus(3)" id="RejSubmit">Submit</a>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- /Remarks Popup -->
+
+	<div class="modal fade" id="divremrk" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content" style="width:570px;margin-left:-250px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title">Remarks</h4>
+
+				</div>
+				<div class="modal-body">
+
+
+					<div class="row">
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									@* <span class="input-group-addon input-label">Remarks</span>*@
+									@*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+									@*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+									<textarea name="test_field" id="rejremk" style="width: 544px;height: 104px;"></textarea>
+									<br />
+									<br />
+									<input type="file" multiple="multiple" name="files[0]" class="form-control" id="RejectedDoc" />
+
+									@*</textarea>*@
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" onclick="UpdateStatus(2)" id="RejSubmit">Submit</a>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	@*Deedoop Remarks*@
+	<div class="modal fade" id="divDeedoopremrk" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content" style="width:570px;margin-left:-250px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title">Remarks</h4>
+
+				</div>
+				<div class="modal-body">
+
+
+					<div class="row">
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									@* <span class="input-group-addon input-label">Remarks</span>*@
+									@*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+									@*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+									<textarea name="test_field" id="Deedoopremk" style="width: 544px;height: 104px;"></textarea>
+									@*</textarea>*@
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" onclick="UpdateStatus(1)">Submit</a>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	@*Create New Role Popup*@
+	<div class="modal fade" id="NewRole" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+
+
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									<span class="input-group-addon input-label">Role Name </span>
+									@Html.TextBox("RoleName", "", null, new { @class = "form-control ", placeholder = "Role Name ", req = "Req", style = "width:175px" })
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" id="CreateRole">Submit</a>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	@*District Name Change PopUp*@
+
+
+	@*SubDivision Name Change*@
+
+
+	@*Location Name Change*@
+
+
+	@*Payment Reciept*@
+	<div class="modal fade reciept" id="divreciept" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content" style="height:600px;width:900px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title">Reciept</h4>
+
+				</div>
+				<div class="modal-body">
+
+
+					@*<div class="row" id="prntrecipt">*@
+
+					<!-- ngRepeat: g in bene --><div class="receipt-main col-xs-12 col-sm-12 col-md-12" style="height:494px;width:870px;margin-top:-12px;">
+						<div class="row">
+							<div class="receipt-header">
+								<!--<div class="col-xs-6 col-sm-6 col-md-1">
+									<div class="receipt-left">
+										<img class="img-responsive" alt="iamgurdeeposahan" src="images/passport-100.jpg" style="width: 71px; margin-left:0 !important;">
+									</div>
+								</div>-->
+								<div class="col-xs-6 col-sm-6 col-md-4">
+									<div class="receipt-right">
+										@*   <h5>bhaskar&nbsp;r</h5>*@
+										<label style="">Applicant Name:</label>
+
+										<label id="lblreciptname"></label>
+										<br />
+										<label style=""> SSIN Number:</label>
+
+										<label id="lblssin"></label>
+										<br />
+										<label style=""> Mobile:</label>
+
+										<label id="lblmob"></label>
+										<br />
+										<label style=""> Email:</label>
+
+										<label id="lblpayemail"></label>
+										<br />
+										<label style=""> Occupation:</label>
+
+										<label id="lblocc"></label>
+										<br />
+										@*
+
+											<p>SSIN Number : <b>SSIN5609010</b></p>
+											<p>Mobile :<b> 88888 88888</b></p>
+											<p>Email :<b> bene@wb.com</b></p>
+											<p>Occupation: <b>Transport Worker</b></p>*@
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-4 text-center">
+									<div class="receipt-left">
+										@*<h1>Receipt</h1>*@
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-4 text-right">
+									<div class="receipt-right">
+										<h5>Location Name.</h5>
+										<p>Location Number</p>
+										<p>+91 12345-6789 <i class="fa fa-phone"></i></p>
+										<p>info@wblabour.com <i class="fa fa-envelope-o"></i></p>
+										<p>West Bengal <i class="fa fa-location-arrow"></i></p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Description</th>
+										<th>Amount</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="col-md-9"><label id="lblscheme"></label><span class="pull-right"> Payment for Jun 2017</span></td>
+										<td class="col-md-3"><i class="fa fa-inr"></i> 30/-</td>
+									</tr>
+									<tr>
+										<td class="text-right">
+											<p>
+												<strong>Total Amount: </strong>
+											</p>
+
+											<p>
+												<strong>Payable Amount: </strong>
+											</p>
+											<p>
+												<strong>Balance Due: </strong>
+											</p>
+										</td>
+										<td>
+											@*<label style=""> Occupation:</label>*@
+
+											<label id="lbltotamnt"></label>
+
+											<p>
+												<strong><i class="fa fa-inr"></i> 50/-</strong>
+											</p>
+											<p>
+												<strong><i class="fa fa-inr"></i> 20/-</strong>
+											</p>
+										</td>
+									</tr>
+									<tr>
+
+										<td class="text-right"><h2>Total:</h2></td>
+										<td class="text-left text-danger"><h2><i class="fa fa-inr"></i> 35/- (Paid)</h2></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="row">
+							<div class="receipt-header receipt-header-mid receipt-footer">
+								<div class="col-xs-8 col-sm-8 col-md-8 text-left">
+									<div class="receipt-right">
+
+										<label style=""> Date:</label>
+
+										<label id="lbldate"></label>
+										@*<p><b>Date :</b> 15 JUN 2017</p>*@
+										<h5 style="color: rgb(140, 140, 140);">Thank you for your Payment!</h5>
+									</div>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-4">
+									<div class="receipt-left pull-right">
+										<label style=""> Signature:</label>
+
+										<label id="lblsignature"></label>
+
+										@* <h1>Signature</h1>*@
+										<!--<button class="btn btn-primary">Pay <i class="fa fa-money"></i></button>-->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- end ngRepeat: g in bene -->
+				@*</div>*@
+
+
+				@*</div>*@
+				@*<div class="modal-footer">
+						<a class="btn btn-success" onclick="Recieptsub()" id="RecptSubmit">Submit</a>
+
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>*@
+			</div>
+
+		</div>
+	</div>
+
+
+	@*Agent Applications*@
+	<div class="modal fade" id="AgentApplicationData" role="dialog">
+		<div class="modal-dialog" style="margin-left:-371px;">
+
+			<!-- Modal content-->
+			<div class="modal-content" style="height:900px;width:910px;">
+				<div class="modal-header">
+					<h4 class="modal-title">Agent Details</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<br />
+				<div id="divagentReason">
+					<center><b>  <label id="agentReason" style="font-size:medium"></label> </b></center>
+				</div>
+				<br />
+				<div class="modal-body" style="height:680px;width:900px;overflow-y: scroll;">
+
+					<div class="form-group">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>First Name : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblfname"></label>
+							</div>
+						</div>
+
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Last Name : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblLname"></label>
+
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="margin-top:50px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Marital Status : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblMarSt"></label>
+							</div>
+						</div>
+
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label id="lbdhfname">Father Name : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblHFName"></label>
+
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="margin-top:100px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Mobile Number : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblMobileNumber"></label>
+							</div>
+						</div>
+
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Land Line : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblLandLine"></label>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group" style="margin-top:150px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>District : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lbldist"></label>
+							</div>
+						</div>
+
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Sub Division : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblsubdiv"></label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group" style="margin-top:200px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Location : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lbllocation"></label>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Gp/Ward : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblGpward"></label>
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:250px;">
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Address </label>
+							</div>
+							<div class="col-md-4">
+								<label id="LblAddress"></label>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>PinCode :  </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblpincode"></label>
+							</div>
+						</div>
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:300px;">
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Gender: </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblAgentgender"></label>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Dob : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblDob"></label>
+							</div>
+						</div>
+
+
+
+					</div>
+
+
+					<div class="form-group" style="margin-top:350px;">
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Bank Name : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblBankName"></label>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Branch Name: </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblBranch"></label>
+							</div>
+						</div>
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:400px;">
+
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>IFSC CODE :  </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblifsc"></label>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Account Number: </label>
+							</div>
+							<div class="col-md-4">
+								<label id="lblActNumber"></label>
+							</div>
+						</div>
+
+
+
+					</div>
+
+
+
+					<div class="form-group" style="margin-top:450px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Pan Number : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="LblPan"></label>
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:500px;">
+						<div class="control-group">
+
+							<div class="col-md-2">
+								<label>Pan Proof : </label>
+							</div>
+							<div class="col-md-6">
+								<iframe src="" frameborder="0" id="pandoc" style="width:100%;height:300px;"></iframe>
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+
+					<div class="form-group" style="margin-top:840px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Aadhar Number : </label>
+							</div>
+							<div class="col-md-4">
+								<label id="LblAadhar"></label>
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:900px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Aadhar Proof : </label>
+							</div>
+							<div class="col-md-6">
+								<iframe src="" frameborder="0" id="AadharDoc" style="width:100%;height:300px;"></iframe>
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:1220px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label> Security Deposit Proof:</label>
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:1000px;">
+						<div class="control-group">
+							<div class="col-md-6">
+								<iframe src="" frameborder="0" id="DDDoc" style="width:100%;height:300px;"></iframe>
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group" style="margin-top:1521px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Photo :</label>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="form-group" style="margin-top:1100px;">
+						<div class="control-group">
+							<div class="col-md-6">
+								<iframe src="" frameborder="0" id="DDPhoto" style="width:100%;height:300px;"></iframe>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="form-group" style="margin-top:1900px;">
+						<div class="control-group">
+							<div class="col-md-2">
+								<label>Signature :</label>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="form-group" style="margin-top:1200px;">
+						<div class="control-group">
+							<div class="col-md-6">
+								<iframe src="" frameborder="0" id="DDSignature" style="width:100%;height:300px;"></iframe>
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+				</div>
+
+				<div class="modal-footer" id="modelfooter">
+					<label id="AgentStId" style="display:none;"></label>
+
+					<a href="#" class="btn btn-success" data-toggle="modal" data-target="#divagentslocode">Approved</a>
+
+					<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#divagentremrk">Rejected</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	@*Agent Remarks Popup*@
+	<div class="modal fade" id="divagentremrk" role="dialog">
+
+		<center>
+			<div class="modal-dialog" style="margin-left:-370px;">
+
+				<!-- Modal content-->
+
+				<div class="modal-content" style="width: 534px;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						<h4 class="modal-title">Remarks</h4>
+
+					</div>
+					<div class="modal-body">
+
+
+						<div class="row">
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<div class="input-group extra-space">
+										@* <span class="input-group-addon input-label">Remarks</span>*@
+										@*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+										@*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+										<textarea name="test_field" id="Agentrejremk" style="width: 492px;height: 104px;"></textarea>
+										@*</textarea>*@
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4"></div>
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<a id="AgentRej" class="btn btn-danger" onclick="AgentStChange('2')">Rejected</a>
+
+
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</center>
+
+	</div>
+
+	@*Review Remarks*@
+	<div class="modal fade" id="divReview" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content" style="width:570px;margin-left:250px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title">Review</h4>
+
+				</div>
+				<div class="modal-body">
+
+
+					<div class="row">
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+
+									<textarea name="test_field" id="txtReview" style="width: 544px;height: 104px;"></textarea>
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" onclick="BenReview()">Submit</a>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	@*Agent Approve for SLO code  Popup*@
+	<div class="modal fade" id="divagentslocode" role="dialog">
+		<div class="modal-dialog" style="margin-left:-370px">
+
+			<!-- Modal content-->
+			<center>
+				<div class="modal-content" style="width: 414px;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						<h4 class="modal-title">Agent Registration Number</h4>
+
+					</div>
+					<div class="modal-body">
+
+
+						<div class="row">
+
+							<div class="form-group" style="width: 279px;">
+								<div class="input-group extra-space">
+									<span class="input-group-addon input-label">ARN</span>
+
+
+									@Html.TextBox("txtarnnum", "", new { @class = "form-control", @maxlength = 7, onkeypress = "return onlynumber(event,this)" })
+
+
+								</div>
+							</div>
+							<div class="col-md-4"></div>
+						</div>
+
+
+					</div>
+
+
+					<div class="modal-footer">
+						<a id="AgentApp" class="btn btn-success" onclick="AgentStChange('1')">Submit</a>
+
+
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+
+			</center>
+
+		</div>
+	</div>
+
+
+	@*DeeDoop Actions*@
+	@*Action History*@
+
+	<div class="modal fade DeeDoopActionHispop" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-left:-630px !important;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Action History</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4" style="width:140px;"><label><b> Group Number </b></label></div>
+						<div class="col-xs-4">  <label id="lblSchemeGroupNo"></label> </div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" style="width:140px;"><label><b>Scheme </b></label></div>
+						<div class="col-xs-4"> <label id="lblSchemeName"></label></div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" style="width:141px;"><label><b>RegNo </b></label></div>
+						<div class="col-xs-4"> <label id="lblSchemeRegNo"></label></div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" style="width:140px;"><label><b>Name </b></label></div>
+						<div class="col-xs-4"> <label id="lblchemeUserName"></label></div>
+					</div>
+					<div class="">
+						<center>
+							<div id="DivDeeDoop" style="width:600px;">
+								<div class="col-sm-10">
+									<div class="form-group">
+										<div class="input-group extra-space">
+											<span class="input-group-addon input-label">Action</span>
+											@Html.TextArea("DeeDoopaction", "", new { @class = "form-control", @id = "DeeDoopaction" })
+										</div>
+									</div>
+								</div>
+								<br />
+								<a class="btn btn-primary" id="DeeDoopactsub">Submit</a>
+								<div style="display:none;">
+									<label id="DeeDoopHiddenId"></label>
+								</div>
+							</div>
+						</center>
+						<div class="row back1">
+							<center>
+
+								<table class="table table-striped table-bordered DeeDoopActionHistory" cellspacing="0" style="width:1000px;">
+									<thead style="background-color:#87CEEB">
+										<tr>
+											@* <th>Applicant Id</th>*@
+											<th>User Name</th>
+											@* <th>User Type</th>*@
+											@* <th>Type</th>*@
+											<th>Actions</th>
+											<th>Date & Time</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</center>
+							@*</fieldset>*@
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+
+	<script data-pace-options='{ "restartOnRequestAfter": true }' src="@Url.Content("~/Scripts/plugin/pace/pace.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/app.config.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js")"></script>
+
+	<script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/notification/SmartNotification.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/smartwidgets/jarvis.widget.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/sparkline/jquery.sparkline.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/jquery-validate/jquery.validate.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/masked-input/jquery.maskedinput.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/select2/select2.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/fastclick/fastclick.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/app.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/smart-chat-ui/smart.chat.ui.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/smart-chat-ui/smart.chat.manager.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.cust.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.resize.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.time.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.tooltip.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/vectormap/jquery-jvectormap-1.2.2.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js")"></script>
+
+	<link href="@Url.Content("~/Content/ssy_css/bootstrap-multiselect.css")" rel="stylesheet" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<link href="@Url.Content("~/Content/ssy_css/dataTables.bootstrap.min.css")" rel="stylesheet" />
+	<link href="@Url.Content("~/Content/ssy_css/bootstrap.min.css")" rel="stylesheet" />
+	<link href="@Url.Content("~/Content/my_css/buttons.dataTables.min.css")" rel="stylesheet" />
+	<script src="@Url.Content("~/Content/ssy_js/jquery.dataTables.min.js")"></script>
+	<script src="@Url.Content("~/Content/ssy_js/dataTables.bootstrap.min.js")"></script>
+	<script src="@Url.Content("~/Content/jquery-ui.js")"></script>
+
+	<script src="@Url.Content("~/Content/ssy_js/dataTables.buttons.min.js")"></script>
+	<script src="@Url.Content("~/Content/ssy_js/buttons.flash.min.js")"></script>
+
+	<script src="@Url.Content("~/Content/ssy_js/bootstrap-multiselect.js")"></script>
+	<!-- Full Calendar -->
+	<script src="@Url.Content("~/Scripts/plugin/moment/moment.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/plugin/fullcalendar/fullcalendar.min.js")"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.0.201604172/pdfobject.js"></script>
+	<script src="@Url.Content("~/Scripts/Common.js")"></script>
+	<script src="@Url.Content("~/Scripts/Convertjs.js")"></script>
+
+	<script src="@Url.Content("~/Scripts/my_scripts/reg-bread.js")"></script>
+	<script src="@Url.Content("~/Scripts/DisableEvents.js")"></script>
+
+
+	<script src="@Url.Content("~/Content/avro-v1.1.4.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/customjs.js")"></script>
+	<script src="~/Scripts/libs/ceo-ceo-module.js"></script>
+	<script src="~/Scripts/libs/pfconfig-pfconfig-module.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/alc-alc-module.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/inspector-inspector-module.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/dlc-dlc-module.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/tresurer-tresurer-module.js"></script>
+	@*<script type="text/javascript" src="~/Scripts/libs/default~alc-alc-module~claim-claim-module~dlc-dlc-module~inspector-inspector-module.js"></script>*@
+
+	<script src="~/Scripts/libs/default~alc-alc-module~ceo-ceo-module.js"></script>
+	<script src="~/Scripts/libs/default~alc-alc-module~ceo-ceo-module~claim-claim-module~dlc-dlc-module~inspector-inspector-module~t~fef680f5.js"></script>
+
+	@*<script type="text/javascript" src="~/Scripts/libs/default~alc-alc-module~claim-claim-module~dlc-dlc-module~inspector-inspector-module.js"></script>*@
+	<script type="text/javascript" src="~/Scripts/libs/claim-claim-module.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/runtime.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/polyfills.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/styles.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/vendor.js"></script>
+	<script type="text/javascript" src="~/Scripts/libs/main.js"></script>
+
+	<script>
+        $(document).ready(function () {
+
+            // DO NOT REMOVE : GLOBAL FUNCTIONS!
+            pageSetUp();
+
+            /*
+             * PAGE RELATED SCRIPTS
+             */
+
+            $(".js-status-update a").click(function () {
+                var selText = $(this).text();
+                var $this = $(this);
+                $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+                $this.parents('.dropdown-menu').find('li').removeClass('active');
+                $this.parent().addClass('active');
+            });
+          $(".updatenoty").click(function () {
+            //alert("dfdsfd");
+            $.get('@Url.Action("ReadNotifications", "Home")', function (result) {
+                window.location.href = "/Home/Getnotifications";
+            });
+        })
+
+
+        $("#DeeDoopactsub").click(function () {
+             
+            //  DeeDoopaction
+            var Value = $("#DeeDoopaction").val();
+            //   alert(Value);
+            if (Value == "" || Value == null) {
+                alert("Please Enter Action");
+                $("#DeeDoopaction").focus();
+                return false;
+            }
+
+            var HiddenId = $("#DeeDoopHiddenId").text();
+            $.get('@Url.Action("SaveDeeDoopActionhis", "Home")', { Message: Value, Id: HiddenId }, function (result) {
+                // alert(result);
+                if (result == "0") {
+                    alert("Action Submitted Successfully.");
+                    $('.DeeDoopActionHispop').modal('hide');
+                    jQuery("#ssyDupGrid").trigger("reloadGrid")
+                }
+                else {
+                    alert(result);
+                    return false;
+                }
+                // window.location.href = "/Home/Getnotifications";
+            });
+
+        });
+
+         // DO NOT REMOVE : GLOBAL FUNCTIONS!
+            pageSetUp();
+
+            /*
+             * PAGE RELATED SCRIPTS
+             */
+
+            $(".js-status-update a").click(function () {
+                var selText = $(this).text();
+                var $this = $(this);
+                $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+                $this.parents('.dropdown-menu').find('li').removeClass('active');
+                $this.parent().addClass('active');
+            });
+
+            /*
+            * TODO: add a way to add more todo's to list
+            */
+
+            // initialize sortable
+            $(function () {
+                $("#sortable1, #sortable2").sortable({
+                    handle: '.handle',
+                    connectWith: ".todo",
+                    update: countTasks
+                }).disableSelection();
+            });
+
+            // check and uncheck
+            $('.todo .checkbox > input[type="checkbox"]').click(function () {
+                var $this = $(this).parent().parent().parent();
+
+                if ($(this).prop('checked')) {
+                    $this.addClass("complete");
+
+                    // remove this if you want to undo a check list once checked
+                    //$(this).attr("disabled", true);
+                    $(this).parent().hide();
+
+                    // once clicked - add class, copy to memory then remove and add to sortable3
+                    $this.slideUp(500, function () {
+                        $this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
+                        $this.remove();
+                        countTasks();
+                    });
+                } else {
+                    // insert undo code here...
+                }
+
+            })
+            // count tasks
+            function countTasks() {
+
+                $('.todo-group-title').each(function () {
+                    var $this = $(this);
+                    $this.find(".num-of-tasks").text($this.next().find("li").size());
+                });
+
+            }
+
+            /*
+            * RUN PAGE GRAPHS
+            */
+
+            /* TAB 1: UPDATING CHART */
+            // For the demo we use generated data, but normally it would be coming from the server
+
+            var data = [], totalPoints = 200, $UpdatingChartColors = $("#updating-chart").css('color');
+
+            function getRandomData() {
+                if (data.length > 0)
+                    data = data.slice(1);
+
+                // do a random walk
+                while (data.length < totalPoints) {
+                    var prev = data.length > 0 ? data[data.length - 1] : 50;
+                    var y = prev + Math.random() * 10 - 5;
+                    if (y < 0)
+                        y = 0;
+                    if (y > 100)
+                        y = 100;
+                    data.push(y);
+                }
+
+                // zip the generated y values with the x values
+                var res = [];
+                for (var i = 0; i < data.length; ++i)
+                    res.push([i, data[i]])
+                return res;
+            }
+
+            // setup control widget
+            var updateInterval = 1500;
+            $("#updating-chart").val(updateInterval).change(function () {
+
+                var v = $(this).val();
+                if (v && !isNaN(+v)) {
+                    updateInterval = +v;
+                    $(this).val("" + updateInterval);
+                }
+
+            });
+
+            // setup plot
+            var options = {
+                yaxis: {
+                    min: 0,
+                    max: 100
+                },
+                xaxis: {
+                    min: 0,
+                    max: 100
+                },
+                colors: [$UpdatingChartColors],
+                series: {
+                    lines: {
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.4
+                            }, {
+                                opacity: 0
+                            }]
+                        },
+                        steps: false
+
+                    }
+                }
+            };
+
+            var plot = $.plot($("#updating-chart"), [getRandomData()], options);
+
+            /* live switch */
+            $('input[type="checkbox"]#start_interval').click(function () {
+                if ($(this).prop('checked')) {
+                    $on = true;
+                    updateInterval = 1500;
+                    update();
+                } else {
+                    clearInterval(updateInterval);
+                    $on = false;
+                }
+            });
+
+            function update() {
+                if ($on == true) {
+                    plot.setData([getRandomData()]);
+                    plot.draw();
+                    setTimeout(update, updateInterval);
+
+                } else {
+                    clearInterval(updateInterval)
+                }
+
+            }
+
+            var $on = false;
+
+            /*end updating chart*/
+
+            /* TAB 2: Social Network  */
+
+            $(function () {
+                // jQuery Flot Chart
+                var twitter = [[1, 27], [2, 34], [3, 51], [4, 48], [5, 55], [6, 65], [7, 61], [8, 70], [9, 65], [10, 75], [11, 57], [12, 59], [13, 62]], facebook = [[1, 25], [2, 31], [3, 45], [4, 37], [5, 38], [6, 40], [7, 47], [8, 55], [9, 43], [10, 50], [11, 47], [12, 39], [13, 47]], data = [{
+                    label: "Twitter",
+                    data: twitter,
+                    lines: {
+                        show: true,
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.1
+                            }, {
+                                opacity: 0.13
+                            }]
+                        }
+                    },
+                    points: {
+                        show: true
+                    }
+                }, {
+                    label: "Facebook",
+                    data: facebook,
+                    lines: {
+                        show: true,
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.1
+                            }, {
+                                opacity: 0.13
+                            }]
+                        }
+                    },
+                    points: {
+                        show: true
+                    }
+                }];
+
+                var options = {
+                    grid: {
+                        hoverable: true
+                    },
+                    colors: ["#568A89", "#3276B1"],
+                    tooltip: true,
+                    tooltipOpts: {
+                        //content : "Value <b>$x</b> Value <span>$y</span>",
+                        defaultTheme: false
+                    },
+                    xaxis: {
+                        ticks: [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4, "APR"], [5, "MAY"], [6, "JUN"], [7, "JUL"], [8, "AUG"], [9, "SEP"], [10, "OCT"], [11, "NOV"], [12, "DEC"], [13, "JAN+1"]]
+                    },
+                    yaxes: {
+
+                    }
+                };
+
+                var plot3 = $.plot($("#statsChart"), data, options);
+            });
+
+            // END TAB 2
+
+            // TAB THREE GRAPH //
+            /* TAB 3: Revenew  */
+
+            $(function () {
+
+                var trgt = [[1354586000000, 153], [1364587000000, 658], [1374588000000, 198], [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080], [1414592000000, 353], [1424593000000, 749], [1434594000000, 523], [1444595000000, 258], [1454596000000, 688], [1464597000000, 364]], prft = [[1354586000000, 53], [1364587000000, 65], [1374588000000, 98], [1384589000000, 83], [1394590000000, 980], [1404591000000, 808], [1414592000000, 720], [1424593000000, 674], [1434594000000, 23], [1444595000000, 79], [1454596000000, 88], [1464597000000, 36]], sgnups = [[1354586000000, 647], [1364587000000, 435], [1374588000000, 784], [1384589000000, 346], [1394590000000, 487], [1404591000000, 463], [1414592000000, 479], [1424593000000, 236], [1434594000000, 843], [1444595000000, 657], [1454596000000, 241], [1464597000000, 341]], toggles = $("#rev-toggles"), target = $("#flotcontainer");
+
+                var data = [{
+                    label: "Target Profit",
+                    data: trgt,
+                    bars: {
+                        show: true,
+                        align: "center",
+                        barWidth: 30 * 30 * 60 * 1000 * 80
+                    }
+                }, {
+                    label: "Actual Profit",
+                    data: prft,
+                    color: '#3276B1',
+                    lines: {
+                        show: true,
+                        lineWidth: 3
+                    },
+                    points: {
+                        show: true
+                    }
+                }, {
+                    label: "Actual Signups",
+                    data: sgnups,
+                    color: '#71843F',
+                    lines: {
+                        show: true,
+                        lineWidth: 1
+                    },
+                    points: {
+                        show: true
+                    }
+                }]
+
+                var options = {
+                    grid: {
+                        hoverable: true
+                    },
+                    tooltip: true,
+                    tooltipOpts: {
+                        //content: '%x - %y',
+                        //dateFormat: '%b %y',
+                        defaultTheme: false
+                    },
+                    xaxis: {
+                        mode: "time"
+                    },
+                    yaxes: {
+                        tickFormatter: function (val, axis) {
+                            return "$" + val;
+                        },
+                        max: 1200
+                    }
+
+                };
+
+                plot2 = null;
+
+                function plotNow() {
+                    var d = [];
+                    toggles.find(':checkbox').each(function () {
+                        if ($(this).is(':checked')) {
+                            d.push(data[$(this).attr("name").substr(4, 1)]);
+                        }
+                    });
+                    if (d.length > 0) {
+                        if (plot2) {
+                            plot2.setData(d);
+                            plot2.draw();
+                        } else {
+                            plot2 = $.plot(target, d, options);
+                        }
+                    }
+
+                };
+
+                toggles.find(':checkbox').on('change', function () {
+                    plotNow();
+                });
+                plotNow()
+
+            });
+
+            /*
+             * VECTOR MAP
+             */
+
+            data_array = {
+                "US": 4977,
+                "AU": 4873,
+                "IN": 3671,
+                "BR": 2476,
+                "TR": 1476,
+                "CN": 146,
+                "CA": 134,
+                "BD": 100
+            };
+
+            $('#vector-map').vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
+                    },
+                    hover: {
+                        "fill-opacity": 1
+                    }
+                },
+                series: {
+                    regions: [{
+                        values: data_array,
+                        scale: ['#85a8b6', '#4d7686'],
+                        normalizeFunction: 'polynomial'
+                    }]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data_array[code] == 'undefined') {
+                        e.preventDefault();
+                    } else {
+                        var countrylbl = data_array[code];
+                        el.html(el.html() + ': ' + countrylbl + ' visits');
+                    }
+                }
+            });
+
+            /*
+             * FULL CALENDAR JS
+             */
+
+            if ($("#calendar").length) {
+                var date = new Date();
+                var d = date.getDate();
+                var m = date.getMonth();
+                var y = date.getFullYear();
+
+                var calendar = $('#calendar').fullCalendar({
+
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
+                    height: "auto",
+
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agenDay' //month, agendaDay,
+                    },
+
+                    select: function (start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: allDay
+                            }, true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },
+
+                    events: [{
+                        title: 'All Day Event',
+                        start: new Date(y, m, 1),
+                        description: 'long description',
+                        className: ["event", "bg-color-greenLight"],
+                        icon: 'fa-check'
+                    }, {
+                        title: 'Long Event',
+                        start: new Date(y, m, d - 5),
+                        end: new Date(y, m, d - 2),
+                        className: ["event", "bg-color-red"],
+                        icon: 'fa-lock'
+                    }, {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d - 3, 16, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-blue"],
+                        icon: 'fa-clock-o'
+                    }, {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d + 4, 16, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-blue"],
+                        icon: 'fa-clock-o'
+                    }, {
+                        title: 'Meeting',
+                        start: new Date(y, m, d, 10, 30),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
+                    }, {
+                        title: 'Lunch',
+                        start: new Date(y, m, d, 12, 0),
+                        end: new Date(y, m, d, 14, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
+                    }, {
+                        title: 'Birthday Party',
+                        start: new Date(y, m, d + 1, 19, 0),
+                        end: new Date(y, m, d + 1, 22, 30),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
+                    }, {
+                        title: 'Smartadmin Open Day',
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        className: ["event", "bg-color-darken"]
+                    }],
+
+
+                    eventRender: function (event, element, icon) {
+                        if (!event.description == "") {
+                            element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
+                        }
+                        if (!event.icon == "") {
+                            element.find('.fc-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
+                        }
+                    }
+                });
+
+            };
+
+            /* hide default buttons */
+            $('.fc-toolbar .fc-right, .fc-toolbar .fc-center').hide();
+
+            // calendar prev
+            $('#calendar-buttons #btn-prev').click(function () {
+                $('.fc-prev-button').click();
+                return false;
+            });
+
+            // calendar next
+            $('#calendar-buttons #btn-next').click(function () {
+                $('.fc-next-button').click();
+                return false;
+            });
+
+            // calendar today
+            $('#calendar-buttons #btn-today').click(function () {
+                $('.fc-button-today').click();
+                return false;
+            });
+
+            // calendar month
+            $('#mt').click(function () {
+                $('#calendar').fullCalendar('changeView', 'month');
+            });
+
+            // calendar agenda week
+            $('#ag').click(function () {
+                $('#calendar').fullCalendar('changeView', 'agendaWeek');
+            });
+
+            // calendar agenda day
+            $('#td').click(function () {
+                $('#calendar').fullCalendar('changeView', 'agendaDay');
+            });
+
+            /*
+             * CHAT
+             */
+
+            $.filter_input = $('#filter-chat-list');
+            $.chat_users_container = $('#chat-container > .chat-list-body')
+            $.chat_users = $('#chat-users')
+            $.chat_list_btn = $('#chat-container > .chat-list-open-close');
+            $.chat_body = $('#chat-body');
+
+            /*
+            * LIST FILTER (CHAT)
+            */
+
+            // custom css expression for a case-insensitive contains()
+            jQuery.expr[':'].Contains = function (a, i, m) {
+                return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+            };
+
+            function listFilter(list) {// header is any element, list is an unordered list
+                // create and add the filter form to the header
+
+                $.filter_input.change(function () {
+                    var filter = $(this).val();
+                    if (filter) {
+                        // this finds all links in a list that contain the input,
+                        // and hide the ones not containing the input while showing the ones that do
+                        $.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
+                        $.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
+                    } else {
+                        $.chat_users.find("li").slideDown();
+                    }
+                    return false;
+                }).keyup(function () {
+                    // fire the above change event after every letter
+                    $(this).change();
+
+                });
+
+            }
+
+            // on dom ready
+            listFilter($.chat_users);
+
+            // open chat list
+            $.chat_list_btn.click(function () {
+                $(this).parent('#chat-container').toggleClass('open');
+            })
+
+            $.chat_body.animate({
+                scrollTop: $.chat_body[0].scrollHeight
+            }, 500);
+
+        });
+
+	</script>
+
+	<!-- Your GOOGLE ANALYTICS CODE Below -->
+	<script>
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+
+		/* Including the header file */
+		$(function () {
+			$('#includedeHeader').load('admin-header.html');
+		});
+
+
+
+
+	</script>
+
+	<!-- Your GOOGLE ANALYTICS CODE Below -->
+	<script>
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+
+		/* Including the header file */
+		//$(function () {
+		//    $('#includedeHeader').load('admin-header.html');
+		//})
+	</script>
+
+	<script>
+		var typeLog = localStorage.getItem("loginType");
+		if (typeLog == 'beneficiary') {
+			$("#divBenDash").css('display', 'block');
+		}
+		else {
+
+			$("#dashboardMain").css('display', 'block');
+		}
+
+										/* based on user type chnage the menu */
+
+
+	</script>
+</body>
+
+</html>

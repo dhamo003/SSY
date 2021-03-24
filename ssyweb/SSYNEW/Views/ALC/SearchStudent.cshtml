@@ -1,0 +1,32 @@
+﻿@{
+	ViewBag.Title = "SearchStudent";
+	Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<script>
+    var baseUrl = 'searchstudent';
+    var userTpe = '@Session["UserType"]';
+    var userid = '@Session["Userid"]';
+    var userMobileNo = '@Session["UserMobileNo"]';
+    var loginType = '@Session["LoginType"]';
+    var benName = '@Session["BenName"]';
+    var userTypeName = '@Session["UserTypeName"]';
+    var userName = '@Session["userName"]';
+    var blocation = '@Session["Location"]';
+    var subDiv = '@Session["SubDiv"]';
+    var district = '@Session["District"]';
+    var checkRegType = '@Session["CheckRegType"]';
+    var skipAdditionaldata = '@Session["SkipAdditionaldata"]';
+    var chkAddData = '@Session["ChkAddData"]';
+    var deptUserid = '@Session["DeptUserid"]';
+        var token = '@Session["token"]';
+
+</script>
+<head>
+	<meta charset="utf-8">
+	<base href="/">
+</head>
+<app-root></app-root>
+
+
+

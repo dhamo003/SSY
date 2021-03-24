@@ -1,0 +1,72 @@
+﻿ @model SSY.Models.Reports
+@{
+    ViewBag.Title = "PfRep";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@*For Arrow mark setting*@
+<link href="~/Content/ssy_css/smoothness.jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link href="~/Content/my_css/buttons.dataTables.min.css" rel="stylesheet" />
+@*For Arrow mark setting end*@
+<link href="~/Content/ssy_css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Content/ssy_js/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.jqueryui.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.buttons.min.js"></script>
+<script src="~/Content/ssy_js/jszip.min.js"></script>
+<script src="~/Content/ssy_js/pdfmake.min.js"></script>
+<script src="~/Content/ssy_js/vfs_fonts.js"></script>
+<script src="~/Content/ssy_js/buttons.html5.min.js"></script>
+<script src="~/Content/ssy_js/buttons.print.min.js"></script>
+<style>
+    .Dropdwn {
+        width: 238px;
+        height: 33px;
+    }
+      th { font-size: 13px; }
+td { font-size: 13px; }
+</style>
+<br />
+<br />
+<div class="container-fluid" id="pay">
+    <div class="col-md-4"></div>
+     <div class="container-fliud" id="Div1" style="margin-left:38px;">
+                <div class="row">
+                    <div class="col-md-12">
+                    
+                     
+                        <table  class="pfpaymntAppl table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                  
+                                    <th>Sno</th>
+                                    <th>Name</th>
+                                    <th>Financial Year Closing Balance</th>
+                                    <th>Month</th>
+                                    <th>Benificiary Contribution</th>
+                                    <th>Govt Contribution</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+           
+</div>
+<script>
+    $(document).ready(function () {
+        $('.pfpaymntAppl').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'excelHtml5'
+            ]
+        });
+        $('th').css("background", "#87CEEB");
+        $('th').css("color", "#ffffff");
+    })
+</script>

@@ -1,0 +1,438 @@
+﻿@model SSY.Models.SignUpUser
+@{
+    ViewBag.Title = "NotificationsSubmit";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script>
+    var Result = @Html.Raw(Json.Encode(ViewBag.Messeage))
+</script>
+<style>
+    th {
+        font-size: 13px;
+        color: white;
+        /*background-color:red;*/
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    .dataTables_length {
+        display: none;
+    }
+
+    .success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+        /*display: none;*/
+    }
+
+    .alert-box {
+        padding: 15px;
+        /*margin-bottom: 20px;*/
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    /*.fg-toolbar {
+        display:none;
+    }*/
+</style>
+@using (Html.BeginForm("NotificationsSubmit", "Home", FormMethod.Post, new { onsubmit = "return FinalSubmit()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="panel-group">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Notification</div>
+                <div class="panel-body" style="overflow-y: scroll; height: 400px">
+                    <div style="margin-left:25px;">
+                        <br />
+                        <br />
+
+                        @*<div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group extra-space">
+                                        <label><b>Send To  : </b>  </label>
+                                        <input type="radio" name="msg" class="clmsg" value="Portal" tabindex="1" style="margin-left:5px;">
+                                        <label style="margin-left:5px;">Portal</label>
+                                        <input type="radio" name="msg" value="DepartMent" class="clmsg" tabindex="2" style="margin-left:5px;">
+                                        <label style="margin-left:5px;">Department</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="usertype" class="col-md-4" style="display:none">
+                                <div class="form-group">
+                                    <div class="input-group extra-space">
+                                        <span class="input-group-addon input-label">User Type <span style="color: red">*</span></span>
+                                        @Html.DropDownListFor(m => m.typeid, new SelectList(Model.typename, "Value", "Text"), new { @class = "form-control", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="form-group">
+                            <div class="control-group">
+                                <div class="col-md-2">
+                                    <label>Send To : </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="radio" name="msg" class="clmsg" value="Portal" tabindex="1" style="margin-left:5px;">
+                                    <label style="margin-left: 30px;margin-top: -14px;">Portal</label>
+                                    <input type="radio" name="msg" value="DepartMent" class="clmsg" tabindex="2" style="margin-left: 84px;margin-top: -20px;">
+                                    <label style="margin-left: 106px; margin-top: -22px;">Department</label>
+                                </div>
+                            </div>
+                            <div class="control-group" id="usertype" style="display:none">
+                                <div class="col-md-2">
+                                    <label>User Type * : </label>
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.typeid, new SelectList(Model.typename, "Value", "Text"), new { @class = "form-control", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+
+
+                        <div class="form-group">
+                            <div class="control-group">
+                                <div class="col-md-2">
+                                    <label>Start Date * : </label>
+                                </div>
+                                <div class="col-md-4">
+
+                                    @Html.TextBox("txtstartdate", null, new { @class = "form-control startdate" })
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="control-group">
+                                <div class="col-md-2">
+                                    <label>End Date * : </label>
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBox("txtenddate", null, new { @class = "form-control enddate" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <br />
+                        <br />
+
+                        <div class="form-group">
+                            <div class="control-group">
+                                <div class="col-md-2">
+                                    <label>Notification * : </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <textarea rows="4" id="NotyMessage" name="NotyMessage" cols="0" class="form-control col-md-6"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="control-group">
+                                <div class="col-md-2">
+                                    <label class="">Document : </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="file" multiple="multiple" name="files[0]" class="form-control" id="NotyDoc" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <div class="control-group">
+                                <div class="col-md-2">
+                                    <label>Active/Deactive : </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="checkbox" id="chkactive" class="clschkactive" name="actdeactive" value="Active">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <center>
+
+                            @*<b> Note: The information will be shared only to internal staff members</b>*@
+                        </center>
+                        <br />
+                        <div class="row" style=" margin-right 15px; margin-left -15px;">
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top:20px;">
+                            <center>
+                                <button type="submit" class="btn btn-primary" id="btnsubbit">Insert</button>
+                                <a id="idclear" onclick="ClearAll()" class="btn btn-danger  clearside">Clear</a>
+                            </center>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
+                        @*<img src="/Content/images/Underconstruction.png" style="width:900px;" />*@
+                        <div class="col-md-12">
+                            @*<center><h3 class="product-description">WBTWSSS Pending Application Summary </h3></center>*@
+
+                            <table class="table table-striped table-bordered tblnotify" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr style="background-color:#33E3FF;">
+                                        <th>S.No</th>
+                                        <th>User Type</th>
+                                        <th>Notification</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                        <th>Path</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-1 pull-right" style=" padding-top:5px; padding-bottom:5px;">
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="txtPaging" class="form-control" placeholder="Jump to Page..">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button" id="btnPaging">Go!</button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <input type="hidden" id="Isactive" value="0" name="Isactive" />
+
+    <input type="hidden" id="Status" value="0" name="Status" />
+    <input type="hidden" id="editid" value="0" name="editid" />
+    @*
+        </div>*@
+}
+<script>
+
+    $(document).ready(function () {
+        var message = Result;
+
+
+        if(message !="" )
+        {
+
+            alert(message);
+            window.location.href = "/Home/NotificationsSubmit";
+        }
+
+        $.get('@Url.Action("GetNotificatioDetails", "Home")', { id:"0"}, function (result) {
+             
+            var table = $('.tblnotify').DataTable();
+            table.destroy();
+
+            $('.tblnotify tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+
+
+                if (data.Path == "" || data.Path == null)
+                {
+                    $('.tblnotify').append('<tr><td>' + num + '</td><td>' + data.UserTypeName + '</td><td>' + data.Notification + '</td><td>' + data.StartDate + '</td><td>' + data.EndDate + '</td><td><a class="btn btn-primary"  onClick = Editclick(' + data.Id + ');>Edit</a></td><td><a class="btn btn-primary"  onClick = Deleteclick(' + data.Id + ');>Delete</a></td><td>No File</td></tr>')
+
+                }
+
+                else
+
+                {
+                    var File = "'" + data.Path + "'";
+
+                    $('.tblnotify').append('<tr><td>' + num + '</td><td>' + data.UserTypeName + '</td><td>' + data.Notification + '</td><td>' + data.StartDate + '</td><td>' + data.EndDate + '</td><td><a class="btn btn-primary"  onClick = Editclick(' + data.Id + ');>Edit</a></td><td><a class="btn btn-primary"  onClick = Deleteclick(' + data.Id + ');>Delete</a></td><td><a class="btn btn-primary" href=' + File + ' target="_blank"  download>Download</a></td></tr>')
+
+                }
+            });
+            $('.tblnotify').DataTable({
+
+            });
+        });
+        getdates()
+    });
+    function ClearAll()
+    {
+        window.location.href = "/Home/NotificationsSubmit";
+    }
+    function FinalSubmit()
+    {
+         
+        var gettype = $("input[name='msg']:checked").val()
+        if(gettype == null || gettype == undefined)
+        {
+
+            alert("Select Whom to notify");
+            $(".clmsg").focus();
+            return false;
+        }
+
+
+
+        if($("#txtstartdate").val() == "" || $("#txtstartdate").val() == null || $("#txtstartdate").val() == "0")
+        {
+             
+            alert("Please Select Start Date");
+            $("#txtstartdate").focus();
+            return false;
+        }
+
+
+        if($("#txtenddate").val() == "" || $("#txtenddate").val() == null || $("#txtenddate").val() == "0")
+        {
+            alert("Please Select End Date");
+            $("#txtenddate").focus();
+            return false;
+        }
+        var Info = $("#NotyMessage").val();
+        if(Info == "" || Info == null || Info == undefined)
+        {
+            alert("Please enter text for notification");
+            $("#NotyMessage").focus();
+            return false;
+        }
+
+        var checked =    $("#chkactive").is(':checked');
+         
+        if(checked == false){
+            $("#Isactive").val('0');
+
+        }
+        if(checked == true){
+            $("#Isactive").val('1');
+
+        }
+
+    }
+    $(".clmsg").change(function () {
+
+         
+        var gettype = $("input[name='msg']:checked").val()
+        if (gettype == "DepartMent") {
+            $("#usertype").show();
+
+        }
+        else
+        {
+            $("#usertype").hide();
+        }
+    });
+
+    function Editclick(id) {
+         
+
+        $("#editid").val(id);
+        $.get('@Url.Action("GetNotificatioDetails", "Home")', { id:id}, function (result) {
+             
+            $("#Status").val("1");
+
+
+            $.each(result, function (i, data) {
+
+                $("#NotyMessage").val(data.Notification);
+                $("#txtstartdate").val(data.StartDate);
+                $("#txtenddate").val(data.EndDate);
+                $("#typeid").val(data.UserType);
+                //chkactive
+                if(data.Isactive == 1)
+                {
+                    $('#chkactive').attr('checked', true);
+                }
+                else{
+                    $('#chkactive').attr('checked', false);
+                }
+                if(data.UserType =="20")
+                {
+                    $("input[name=msg][value=Portal]").prop('checked', true);
+                    $("#usertype").hide();
+                }
+                else
+                {
+                    $("input[name=msg][value=DepartMent]").prop('checked', true);
+                    $("#usertype").show();
+                    $("#usertype").val(data.UserType);
+                }
+
+            });
+
+
+            $("#btnsubbit").text('Update');
+        });
+    }
+    function Deleteclick(id,status) {
+         
+
+
+        $.get('@Url.Action("GetDeleteNotiDetails", "Home")', { id:id, Status:0}, function (result) {
+             
+
+
+            alert(result);
+            window.location.href = "/Home/NotificationsSubmit";
+
+        });
+    }
+
+    function getdates()
+    {
+        $(".startdate,.enddate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1920:2020",
+            autoclose: true,
+            minDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $(".startdate,.enddate").val(today);
+
+
+        //$(".enddate").datepicker({
+        //    dateFormat: "dd-mm-yy",
+        //    changeYear: true,
+        //    yearRange: "1920:2020",
+        //    autoclose: true,
+        //    minDate: new Date()
+        //})
+        //var dat = new Date();
+        //var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        //var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        //var today = day + "-" + month + "-" + dat.getFullYear();
+       // $(".enddate").val(today);
+    }
+    $('#btnPaging').click(function(){
+        var val=$('#txtPaging').val();
+        if (val!="" && val!=0) {
+
+            val=val-1;
+            var table=$('.tblnotify').DataTable();
+            table.page(parseInt(val)).draw('page');
+        }
+        else
+        {
+            alert('Requested page number not valid');
+            $('#txtPaging').focus();
+        }
+    });
+
+</script>

@@ -1,0 +1,300 @@
+﻿@{
+	ViewBag.Title = "CommCalculation";
+	//Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+	Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<link href="~/Content/ssy_css/smoothness.jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link href="~/Content/my_css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+    @*var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+    var Deptid = @Html.Raw(Json.Encode(ViewBag.deptid))*@
+    var RepSubDVision ="";
+    var RepLocation ="";
+    var SendSubDiv ="";
+    var SendLocation ="";
+    var LoadRoles ="";
+    var    path ="";
+    var ValuSend = "";
+    var SelUserid = 0;
+    var Value = "";
+    var disticts = "";
+
+    var GpList = "";
+    var PsList = "";
+    var PoList = "";
+
+
+    var SendGp = "";
+    var SendPs = "";
+    var SendPo = "";
+
+</script>
+
+<style>
+	#fromdate {
+		/*position:absolute;*/
+		z-index: 1000;
+	}
+
+	.Dropdwn {
+		width: 185px;
+		height: 33px;
+	}
+
+	th {
+		font-size: 13px;
+	}
+
+	td {
+		font-size: 13px;
+	}
+
+	.dt-buttons a {
+		background: #8BC34A !important;
+	}
+
+	.dropdown-toggle, .dropdown-menu {
+		width: 200px !important;
+	}
+
+	.dropdown-menu {
+		position: absolute;
+		z-index: 9999;
+		max-height: 250px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	#loading-img {
+		/*background : url('/Content/pleasewait.gif') center center no-repeat;*/
+		height: 100%;
+		z-index: 20;
+		width: 100%;
+	}
+
+	#Div1 {
+		width: 1220px !important;
+		height: 500px !important;
+		overflow: scroll;
+		white-space: nowrap;
+		margin-left: 35px;
+	}
+
+	.loader {
+		background: #e9e9e9;
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		opacity: 0.5;
+	}
+
+	.dataTables_filter {
+		display: none;
+	}
+
+	.dataTables_processing {
+		background-color: green !important;
+		color: black !important;
+		border-color: white !important;
+	}
+</style>
+
+@*<style>
+		th {
+			/*font-size: 12px;*/
+		}
+
+		td {
+			font-size: 12px;
+		}
+
+		.pdfobject-container {
+			height: 500px;
+		}
+
+		.pdfobject {
+			border: 1px solid #666;
+		}
+
+		#fromdate {
+			z-index: 9999;
+		}
+
+	</style>*@
+
+<div class="loader">
+	<div id="loading-img">
+		<center><img src="~/Content/pleasewait.gif" /></center>
+	</div>
+</div>
+
+<div class="container-fluid" id="sign">
+	<div class="logo" style="text-align: center;"><h3><b>Commission Calculation Rate</b></h3></div>
+	<div class="col-sm-12">
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Worker Type</span>
+					@Html.DropDownList("schemeid", new List<SelectListItem>
+										{
+											 new SelectListItem{ Text="-- Select Worker Type --", Value = "0" },
+											  //new SelectListItem{ Text="ALL", Value = "ConstructionWorker,TransportWorker,Others" },
+											new SelectListItem{ Text="Construction Worker", Value = "ConstructionWorker" },
+											 new SelectListItem{ Text="Transport Worker", Value = "TransportWorker" },
+											  new SelectListItem{ Text="Other Worker", Value = "Others" }
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Registration Type</span>
+					@Html.DropDownList("Regeid", new List<SelectListItem>
+										{
+											 new SelectListItem{ Text="-- Select Registration Type --", Value = "0" },
+											 new SelectListItem{ Text="CAF Updated", Value = "CAF Updated" },
+											 new SelectListItem{ Text="CAF not Updated", Value = "CAF not Updated" },
+											  new SelectListItem{ Text="Partially Filled", Value = "Partially Filled" },
+											  new SelectListItem{ Text="Completely Filled", Value = "Completely Filled" }
+											  //new SelectListItem{ Text="ALL", Value = "ConstructionWorker,TransportWorker,Others" },
+											//new SelectListItem{ Text="Construction Worker", Value = "ConstructionWorker" },
+											// new SelectListItem{ Text="Transport Worker", Value = "TransportWorker" },
+											//  new SelectListItem{ Text="Other Worker", Value = "Others" }
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">From Date</span>
+					@*@Html.TextBox(m => m.fromdate, new { @class = "form-control" })*@
+					@*@Html.TextBox("fromdate", "", new { text = "", @class = "form-control" })*@
+					@Html.TextBox("fromdate", "", null, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Commission Rate</span>
+					@*@Html.TextBox(m => m.todate, new { @class = "form-control" })*@
+					@Html.TextBox("CommissRate", "", null, new {@class = "form-control", onkeypress = "return onlynumber(event,this)" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<a class="btn btn-primary" onclick="FinalSubmitData()">Submit</a>
+			@*<a class="btn btn-primary" style="margin-left: 10px;" onclick="GetDwnld()">Download</a>*@
+
+		</div>
+
+		<br />
+		<div>
+			<table class="table table-striped table-bordered CommissionRate">
+				<thead>
+					<tr style="background-color:#87CEEB;">
+						<th>S.No</th>
+						<th>Worker Type</th>
+						<th>Registration Type</th>
+						<th>Effective Date</th>
+						<th>Commission Rate</th>
+						@*<th style="display:block;"></th>*@
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+	</div>
+
+	@*<div class="container-fluid" id="Div1" style="margin-top : 10px;">
+			<div class="row">
+				<div class="col-md-12">
+
+					<div id="tbldistrict" style="height:350px;">
+						<iframe name="ifr" id="ifr" style="width: 103%;height:100%; position: relative; border: none; margin-bottom:5%;margin-left:22px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+					</div>
+				</div>
+			</div>
+
+			<input type="hidden" id="BenSno" value="0" name="BenSno" />
+		</div>*@
+
+	<br />
+	<br />
+
+
+</div>
+
+<script>
+	$(document).ready(function () {
+		$('.CommissionRate').DataTable({
+		});
+		getdates();
+
+
+	});
+
+	function getdates() {
+		$("#fromdate").datepicker({
+			dateFormat: "dd-mm-yy",
+			changeYear: true,
+			yearRange: "1960:2020",
+			autoclose: true,
+			maxDate: new Date()
+		})
+		var dat = new Date();
+		var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+		var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+		var today = day + "-" + month + "-" + dat.getFullYear();
+		$("#fromdate").val(today);
+	}
+
+	function FinalSubmitData() {
+		if ($("#schemeid").val() == "" || $("#schemeid").val() == "0") {
+			alert("Please Select Worker Type");
+			$("#schemeid").focus();
+			return false;
+		}
+		if ($("#Regeid").val() == "" || $("#Regeid").val() == "0") {
+			alert("Please Select Registration Type");
+			$("#Regeid").focus();
+			return false;
+		}
+
+		if ($("#fromdate").val() == "" || $("#fromdate").val() == null) {
+			alert("Please Select Date");
+			$("#fromdate").focus();
+			return false;
+		}
+
+		if ($("#CommissRate").val() == "" || $("#CommissRate").val() == null) {
+			alert("Please Enter Commission Rate");
+			$("#CommissRate").focus();
+			return false;
+		}
+
+
+	}
+
+</script>

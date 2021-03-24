@@ -1,0 +1,527 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+
+                <header>
+                    <h2>Legacy PF Data Entry </h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <section class="col col-4" *ngIf="isDepartmentUser">
+                                            <label class="input">
+                                                <strong>ARN Number: </strong><span [style.color]="!ARNReq?'red':''"><b>*</b></span>
+                                                <select class="form-control select" name="agentName" id="ddlAgentName" [(ngModel)]="agentUserId"
+                                                        (change)="agentChange($event.target.value)" [disabled]="pfLegacyDtl1List.length>0" tabindex="1">
+                                                    <option value="0" selected disabled>Choose ARN</option>
+                                                    <option value="{{agent.userid}}" *ngFor="let agent of agentList">{{agent.userCode}}</option>
+                                                </select>
+                                            </label>
+                                            <div *ngIf="!ARNReq">
+                                                <span style="color: red;">ARN Number is required </span>
+                                            </div>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label><strong>Agent Name: </strong>{{agentName}}</label>
+                                        </section>
+
+                                        <section class="col col-4">
+                                            <label><strong>Location Name: </strong>{{locationName}}</label>
+                                        </section>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label><strong>Worker Type: </strong><span [style.color]="!workerTypeReq?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <select class="form-control" id="ddlWorkerType" name="workerType" [(ngModel)]="workerTypeId"
+                                                        (change)="workerTypeChange($event.target.value)" [disabled]="pfLegacyDtl1List.length>0" tabindex="2">
+                                                    <option value="0" selected disabled>Choose an Option</option>
+                                                    <option value="{{type.workerTypeId}}" *ngFor="let type of WorkerTypeList">{{type.workerTypeName}}</option>
+                                                </select>
+                                            </label>
+                                            <div *ngIf="!workerTypeReq">
+                                                <span style="color: red;">Worker Type is required </span>
+                                            </div>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label>
+                                                <strong>Deposit Date: </strong><span [style.color]="!depositDateReq?'red':''"><b>*</b></span>
+                                            </label>
+                                            <label class="input">
+                                                <!--autocomplete="off"-->
+                                                <i class="icon-append fa fa-calendar"></i>
+                                                <input type="text" name="depositedDate" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                       [maxDate]="toDayDate" (bsValueChange)="depositDateChange($event)" [disabled]="pfLegacyDtl1List.length>0"
+                                                       placeholder="DD/MM/YYYY" [(ngModel)]="depositDate" tabindex="3"
+                                                       value="{{depositDate | date: 'dd/MM/yyyy' }}">
+                                            </label>
+                                            <div *ngIf="!depositDateReq">
+                                                <span style="color: red;">Deposit Date is required </span>
+                                            </div>
+                                            <div *ngIf="todayMinDepositDateReq">
+                                                <span style="color: red;">Deposit Date should be less than or equal to Today Date </span>
+                                            </div>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label><strong>Financial Year: </strong><span [style.color]="!financialYearValid?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <select class="form-control" id="ddlFinanacialYear" name="finanacialYear" [(ngModel)]="financialYearId"
+                                                        [disabled]="pfLegacyDtl1List.length>0" tabindex="4">
+                                                    <option value="0" selected disabled>Choose an Option</option>
+                                                    <option value="{{type.financialYearId}}" *ngFor="let type of finanacialYearList">{{type.financialYear}}</option>
+                                                </select>
+                                            </label>
+                                            <div *ngIf="!financialYearValid">
+                                                <span style="color: red;">Financial Year is required </span>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label><strong>Deposit Amount: </strong><span [style.color]="!depositedAmountReq?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" name="depositedAmount" placeholder="Deposit Amount" [(ngModel)]="depositedAmount"
+                                                       (change)="depositedAmountChange($event.target.value)" (keydown.enter)="depositedAmountChange($event.target.value)"
+                                                       NumbersOnly min="=1" tabindex="5"/>
+                                            </label>
+                                            <div *ngIf="!depositedAmountReq">
+                                                <span style="color: red;">Deposit Amount is required </span>
+                                            </div>
+                                            <!--<div *ngIf="agentDepositAmountValidation">
+                                                <span style="color: red;">Deposit amount allow only {{pfMasterConfig.agentCollectionLimit}} </span>
+                                            </div>-->
+                                        </section>
+                                        <section class="col col-4">
+                                            <label><strong>Payin Slip: </strong></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" name="payinSlip" placeholder="Payin Slip" [(ngModel)]="payinSlip" tabindex="6"/>
+                                            </label>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label><strong>Upload PayIn Slip: </strong> <span [style.color]="!payInSlipUploaded?'red':''"><b>*</b></span></label>
+                                            <div class="input input-file">
+                                                <span class="button"><input type="file" id="file" (change)="onFileChanged($event)" tabindex="7">Browse</span>
+                                                <input type="text" readonly>
+
+                                            </div>
+                                            <div *ngIf="(!payInSlipUploaded) && (payInSlipCertificate.fileName =='' || payInSlipCertificate.fileName == undefined )">
+                                                <span style="color: red;">Upload PayIn Slip is required </span>
+                                            </div>
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td>{{payInSlipCertificate.fileName}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label><strong>Deposit A/c Number: </strong><span [style.color]="!depositBankValid?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <select class="form-control" id="ddlDepositBank" name="depositBank" [(ngModel)]="bankId"
+                                                       tabindex="8">
+                                                    <option value="0" selected disabled>Choose an Option</option>
+                                                    <option value="{{bank.bankCode}}" *ngFor="let bank of bankDetails">{{bank.accountNumber}}</option>
+                                                </select>
+                                            </label>
+                                            <div *ngIf="!depositBankValid">
+                                                <span style="color: red;">Deposit A/c Number is required </span>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section>
+                                    <div class="modal-footer" *ngIf="isDepartmentUser">
+                                        <div class="row">
+                                            <button type="button" class="btn btn-primary" (click)="addReceiptBook()">
+                                                Add Receipt Book
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-striped table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        SSIN/PF No
+                                                    </th>
+                                                    <th>
+                                                        Beneficiary Name
+                                                    </th>
+                                                    <th>
+                                                        Beneficiary SSIN/PF No.
+                                                    </th>
+                                                    <th>
+                                                        Collection Date
+                                                    </th>
+                                                    <th width="300">
+                                                        Month
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                    <th>
+                                                        Book No
+                                                    </th>
+                                                    <th>
+                                                        Receipt No
+                                                    </th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let field of pfLegacyMaster.pfLegacyDtl1List; let i = index">
+                                                    <td width="130">
+                                                        <section *ngIf="!field.isEdit">
+                                                            <label class="input">
+                                                                <span>{{field.ssI_Number}}</span>
+                                                            </label>
+                                                        </section>
+                                                        <section *ngIf="field.isEdit">
+                                                            <label class="input">
+                                                                <input type="text" id="benSno" name="{{field.ssI_Number}}" [(ngModel)]="field.ssI_Number" placeholder="Beneficiary SSIN"
+                                                                       (change)="searchSSINNo($event.target.value)" (keydown.enter)="searchSSINNo($event.target.value)" maxlength="50"
+                                                                       [ngClass]="{'invalid-data':!ssinValid, 'valid-data': ssinValid}"
+                                                                       required tabindex="1">
+                                                            </label>
+                                                            <div *ngIf="(!ssinValid )">
+                                                                <span style="color: red;">Beneficiary SSIN is required </span>
+                                                            </div>
+                                                            <!--<div *ngIf="(!validPFNo )">
+                                                                <span style="color: red;">Beneficiary doesn't have PF Account NO. </span>
+                                                            </div>-->
+                                                            <div *ngIf="validWTBen">
+                                                                <span style="color: red;">Beneficiary SSIN/PF No. doesn't belong to selected Worker Type </span>
+                                                            </div>
+                                                            <div *ngIf="benRegDateMinFinancialYear">
+                                                                <span style="color: red;">Beneficiary Registration Date later to the selected Financial year </span>
+                                                            </div>
+                                                            <div *ngIf="validBenLocation">
+                                                                <span style="color: red;">Beneficiary doesn't belong to selected location </span>
+                                                            </div>
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{field.benFullName}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{field.benSSINOrPFAccountNo}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <section *ngIf="!field.isEdit">
+                                                            <label class="input">
+                                                                {{field.collectionDate | date: 'dd/MM/yyyy' }}
+                                                            </label>
+                                                        </section>
+                                                        <section *ngIf="field.isEdit">
+                                                            <label class="input">
+                                                                <input type="text" name="{{field.collectionDate}}" bsDatepicker [bsConfig]="datePickerConfig"
+                                                                       [maxDate]="collectionMinDt" [minDate]="minDt" [disabled]="disableCollectionDate" (bsValueChange)="collectionDateChange($event)"
+                                                                       placeholder="DD/MM/YYYY" [(ngModel)]="field.collectionDate"
+                                                                       value="{{field.collectionDate | date: 'dd/MM/yyyy' }}" [ngClass]="{'invalid-data': (!collectionDateReq), 'valid-data': collectionDateReq}"
+                                                                       required tabindex="2">
+                                                            </label>
+                                                            <div *ngIf="!collectionDateReq">
+                                                                <span style="color: red;">Collection Date is required </span>
+                                                            </div>
+                                                            <div *ngIf="DepositMinDateReq">
+                                                                <span style="color: red;">Collection Date should be less than or equal to Deposit Date </span>
+                                                            </div>
+                                                            <div *ngIf="todayMinCollectionDateReq">
+                                                                <span style="color: red;">Collection Date should be less than or equal to Today Date </span>
+                                                            </div>
+                                                            <div *ngIf="isColDateinRangeYear">
+                                                                <span style="color: red;">Collection Date should be in between Financial Year</span>
+                                                            </div>
+                                                            <div *ngIf="benRegDateMinCollectionDate">
+                                                                <span style="color: red;">Collection Date should be in greater than to Beneficiary Registration Date</span>
+                                                            </div>
+                                                        </section>
+                                                    </td>
+                                                    <td width="230" style="padding-right:3%">
+                                                        <section *ngIf="!field.isEdit">
+                                                            <label class="input">
+                                                                {{field.monthName}}
+                                                            </label>
+                                                        </section>
+                                                        <section *ngIf="field.isEdit">
+                                                            <ng-multiselect-dropdown name="editMonths" [placeholder]="'All'"
+                                                                                     [data]="pfMonths"
+                                                                                     [(ngModel)]="field.selectedMonths"
+                                                                                     [settings]="monthSettings"
+                                                                                     (onSelect)="onItemSelect($event, field,i)"
+                                                                                     (onDeSelect)="onItemDeSelect($event, field)"
+                                                                                     style="height:36%" tabindex="3">
+                                                            </ng-multiselect-dropdown>
+                                                            <div *ngIf="!pfMonthIsValid">
+                                                                <span style="color: red;">Month is required </span>
+                                                            </div>
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section *ngIf="!field.isEdit">
+                                                            <label class="input">
+                                                                {{field.amountPaid}}
+                                                            </label>
+                                                        </section>
+                                                        <section *ngIf="field.isEdit">
+                                                            <label class="input">
+                                                                <input type="text" name="{{field.amountPaid}}" placeholder="Amount" [(ngModel)]="field.amountPaid" NumbersOnly
+                                                                       required tabindex="4"/>
+                                                            </label>
+                                                            <div *ngIf="!amountReq">
+                                                                <span style="color: red;">Amount is required </span>
+                                                            </div>
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section *ngIf="!field.isEdit">
+                                                            <label class="input">
+                                                                {{field.bookName}}
+                                                            </label>
+                                                        </section>
+                                                        <section *ngIf="field.isEdit">
+                                                            <label class="input">
+                                                                <select name="{{field.bookNo}}" [(ngModel)]="field.bookNo"
+                                                                        [ngClass]="{'invalid-data': !bookNoIsValid, 'valid-data': bookNoIsValid }"
+                                                                        required (change)="bookChange($event)" tabindex="5">
+                                                                    <option value="0" selected disabled>Choose book</option>
+                                                                    <option value="{{book.id}}" *ngFor="let book of agentReceiptBooks">{{book.bookNo}}</option>
+                                                                </select>
+                                                            </label>
+                                                            <div *ngIf="!bookNoIsValid">
+                                                                <span style="color: red;">Book No. is required </span>
+                                                            </div>
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section *ngIf="!field.isEdit">
+                                                            <label class="input">
+                                                                {{field.receiptNo}}
+                                                            </label>
+                                                        </section>
+                                                        <section *ngIf="field.isEdit">
+                                                            <label class="input">
+                                                                <input type="text" name="{{field.receiptNo}}" placeholder="Receipt No" [(ngModel)]="field.receiptNo" NumbersOnly
+                                                                       (change)="receiptNoChange(field.bookNo, $event.target.value)" (keydown.enter)="receiptNoChange(field.bookNo,$event.target.value)"
+                                                                       [ngClass]="{'invalid-data':!receiptNoIsValid, 'valid-data':receiptNoIsValid}"
+                                                                       required tabindex="6"/>
+                                                            </label>
+                                                            <div *ngIf="!receiptNoIsValid">
+                                                                <span style="color: red;">Receipt No. is required </span>
+                                                            </div>
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <!--<a *ngIf="!field.isEdit" (click)="editFieldValue(i,field)" title="Edit" class="txt-color-red"><i class="fa fa-edit fa-lg"></i></a>
+                                                        <a *ngIf="field.isEdit" (click)="saveFieldValue(i,field)" title="Save" class="txt-color-blue"><i class="glyphicon glyphicon-save"></i></a>-->
+                                                        <a (click)="deleteFieldValue(i,field)" title="Delete" class="txt-color-red"><i class="glyphicon glyphicon-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="showAddRow">
+                                                    <td width="130">
+                                                        <label class="input">
+                                                            <input type="text" id="benSno" name="benSno" [(ngModel)]="newAttribute.ssI_Number" placeholder="Beneficiary SSIN/PF No."
+                                                                   (change)="searchSSINNo($event.target.value)" (keydown.enter)="searchSSINNo($event.target.value)" maxlength="50"
+                                                                   #benSno="ngModel" [ngClass]="{'invalid-data':!ssinValid, 'valid-data': ssinValid}"
+                                                                   required tabindex="9">
+                                                        </label>
+                                                        <div *ngIf="(!ssinValid )">
+                                                            <span style="color: red;">Beneficiary SSIN is required </span>
+                                                        </div>
+                                                        <!--<div *ngIf="(!validPFNo )">
+                                                            <span style="color: red;">Beneficiary doesn't have PF Account NO. </span>
+                                                        </div>-->
+                                                        <div *ngIf="validWTBen">
+                                                            <span style="color: red;">Beneficiary SSIN/PF No. doesn't belong to selected Worker Type </span>
+                                                        </div>
+                                                        <div *ngIf="beneficiary.benSno==0">
+                                                            <span style="color: red;">{{beneficiary.errorMessage}}</span>
+                                                        </div>
+                                                        <div *ngIf="isInterestCalculated">
+                                                            <span style="color: red;">You can not enter transaction has interest already calculated for this Beneficiary SSIN/PF No.</span>
+                                                        </div>
+                                                        <div *ngIf="benRegDateMinFinancialYear">
+                                                            <span style="color: red;">Beneficiary Registration Date later to the selected Financial year </span>
+                                                        </div>
+                                                        <div *ngIf="validBenLocation">
+                                                            <span style="color: red;">Beneficiary doesn't belong to selected location </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{beneficiary.benFullName}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{beneficiary.benSSINOrPFAccountNo}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <label class="input">
+                                                            <input type="text" name="collectionDate" bsDatepicker [bsConfig]="datePickerConfig"
+                                                                   [maxDate]="collectionMinDt" [minDate]="minDt" [disabled]="disableCollectionDate" (bsValueChange)="collectionDateChange($event)"
+                                                                   placeholder="DD/MM/YYYY" [(ngModel)]="newAttribute.collectionDate"
+                                                                   value="{{newAttribute.collectionDate | date: 'dd/MM/yyyy' }}" [ngClass]="{'invalid-data': (!collectionDateReq), 'valid-data': collectionDateReq}"
+                                                                   required tabindex="10">
+                                                        </label>
+                                                        <div *ngIf="!collectionDateReq">
+                                                            <span style="color: red;">Collection Date is required </span>
+                                                        </div>
+                                                        <div *ngIf="DepositMinDateReq">
+                                                            <span style="color: red;">Collection Date should be less than or equal to Deposit Date </span>
+                                                        </div>
+                                                        <div *ngIf="todayMinCollectionDateReq">
+                                                            <span style="color: red;">Collection Date should be less than or equal to Today Date </span>
+                                                        </div>
+                                                        <div *ngIf="isColDateinRangeYear">
+                                                            <span style="color: red;">Collection Date should be in between Financial Year</span>
+                                                        </div>
+                                                        <div *ngIf="benRegDateMinCollectionDate">
+                                                            <span style="color: red;">Collection Date should be in greater than to Beneficiary Registration Date</span>
+                                                        </div>
+                                                    </td>
+                                                    <td width="230" style="padding-right:3%">
+                                                        <ng-multiselect-dropdown name="pfselectionmonth" [placeholder]="'All'"
+                                                                                 [data]="pfMonths"
+                                                                                 [(ngModel)]="newAttribute.selectedMonths"
+                                                                                 [settings]="monthSettings"
+                                                                                 (onSelect)="onItemSelect($event, newAttribute, -1)" (onDeSelect)="onItemDeSelect($event, newAttribute)"
+                                                                                 style="height:36%" tabindex="11">
+                                                        </ng-multiselect-dropdown>
+                                                        <div *ngIf="!pfMonthIsValid">
+                                                            <span style="color: red;">Month is required </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <label class="input">
+                                                            <input type="text" name="amount" placeholder="Amount" [(ngModel)]="newAttribute.amountPaid" NumbersOnly
+                                                                   #amount="ngModel" required tabindex="12" />
+                                                        </label>
+                                                        <div *ngIf="!amountReq">
+                                                            <span style="color: red;">Amount is required </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <label class="input">
+                                                            <select name="bookNo" [(ngModel)]="newAttribute.bookNo"
+                                                                    #bookNo="ngModel" [ngClass]="{'invalid-data': !bookNoIsValid, 'valid-data': bookNoIsValid }"
+                                                                    required (change)="bookChange($event)" tabindex="13">
+                                                                <option value="0" selected disabled>Choose book</option>
+                                                                <option value="{{book.id}}" *ngFor="let book of agentReceiptBooks">{{book.bookNo}}</option>
+                                                            </select>
+                                                        </label>
+                                                        <div *ngIf="!bookNoIsValid">
+                                                            <span style="color: red;">Book No. is required </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <label class="input">
+                                                            <input type="text" name="ReceiptNo" placeholder="Receipt No" [(ngModel)]="newAttribute.receiptNo" NumbersOnly
+                                                                   #ReceiptNo="ngModel" (change)="receiptNoChange(newAttribute.bookNo, $event.target.value)" (keydown.enter)="receiptNoChange(newAttribute.bookNo,$event.target.value)"
+                                                                   [ngClass]="{'invalid-data':!receiptNoIsValid, 'valid-data':receiptNoIsValid}"
+                                                                   required  tabindex="14"/>
+                                                        </label>
+                                                        <div *ngIf="!receiptNoIsValid">
+                                                            <span style="color: red;">Receipt No. is required </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button (click)="addFieldValue()" title="Add" class="txt-color-green" tabindex="15" (keydown.enter)="addFieldValue()">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row" *ngIf="!noRecords">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Add atleast one entry</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isReceiptNoRange">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Receipt No. not in the range</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label>
+                                                <strong>Remaining Amount: </strong>{{remainingAmount}}
+                                            </label>
+                                        </section>
+                                        <section class="col col-4"> <label><strong>Total: </strong>{{total}}</label></section>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <footer>
+                                <button type="button" [disabled]="!(pfLegacyDtl1List.length>0 && total==depositedAmount)" name="submit" class="btn btn-success" (click)="saveLegacyPFDetails(pfLegacyMaster,2)">
+                                    Submit
+                                </button>
+                                <!--<a *ngIf="pfCollectionDetailsList.length>0 && total==depositedAmount" name="save" class="btn btn-success" (click)="saveLegacyPFDetails(pfCollectionDetailsList,2)">Submit</a>-->
+                                <a class="btn btn-danger" (click)="cancleClick()">Cancel</a>
+                                <!--<a class="btn btn-warning">Verify</a>-->
+                                <!--<a *ngIf="pfCollectionDetailsList.length>0" class="btn btn-primary" (click)="saveLegacyPFDetails(pfCollectionDetailsList,1)">Save as Draft</a>-->
+                                <button type="button" [disabled]="pfLegacyDtl1List.length<=0" name="save" class="btn btn-primary" (click)="saveLegacyPFDetails(pfLegacyMaster,1)">
+                                    Save as Draft
+                                </button>
+                            </footer>
+                        </form>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+</section>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

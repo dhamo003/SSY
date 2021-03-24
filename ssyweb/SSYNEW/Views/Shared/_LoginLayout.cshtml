@@ -1,0 +1,115 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>Dashboard</title>
+       @System.Web.Optimization.Scripts.Render("~/Scripts/jquery")
+	<!-- Bootstrap -->
+    <link href="~/Content/css1/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="css1/bootstrap.min.css" rel="stylesheet">*@
+    <link href="~/Content/css1/newstyle.css" rel="stylesheet" />
+	@*<link href="css1/newstyle.css" rel="stylesheet">*@
+	<!--<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">-->
+	<!-- Material Design icon font -->
+ 
+	<link href="~/Content/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
+	<!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link href="css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="css/buttons.dataTables.min.css" rel="stylesheet"> </head>
+
+<body>
+	<div class="body-layer1">
+        @*<img src="~/Content/img/backgrounds1.jpg" />*@
+	</div>
+	<div class="body-layer-left">
+		<div class="logo">
+			@*<div class="logoicon"></div>*@
+			<h4 style="color:white"><b>SSY</b></h4></div>
+		<div class="navigation">
+			
+		</div>
+       
+		 <div class="footer text-center">
+
+
+              
+                <p class="text" style="margin-left:24px;">
+                    &copy; Copyright 2017
+				<br />
+                  
+                </p>
+               
+            </div>
+           
+	</div>
+	<div class="body-layer-right">
+		<div class="top-head">
+			<div class="pull-left">
+				<h3 class="h3-overwrite"></h3></div>
+			<div class="pull-right">
+				<div class="nav-horz">
+					
+				</div>
+			</div>
+		</div>
+		@RenderBody()
+		<div class="middle  back-white">
+			<div class="row">
+				
+			</div>
+			</div>
+		<div class="top-bottom">
+			<div class="pull-left" style="margin-left: -76px;">
+			 <footer class="footer" style="height: 23px">
+        <div class="container text-right">
+           <b>Designed, Developed & Maintained By <a href="http://www2.raminfo.com/"></b> 
+                <img src="~/Content/img/RamInfoLogo.png" style="height: 30px; width: 100px; margin-bottom: 7px" /></a>
+        </div>
+    </footer>
+			<div class="pull-right">
+				<div class="nav-horz">
+					<ul>
+						@*<li><a href=""><i class="fa fa-exclamation fa-1x"></i>Help</a></li>
+						<li><a href=""><i class="fa fa-check fa-1x"></i>Complaint</a></li>*@
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+        </div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+	
+	<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+	<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+	<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+	<script>$(document).ready(function() {
+    $('#example,#example1').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print','search'
+        ]
+    } );
+} );</script>
+</body>
+
+</html>
+

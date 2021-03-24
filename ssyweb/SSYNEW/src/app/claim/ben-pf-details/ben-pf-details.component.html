@@ -1,0 +1,112 @@
+
+<div id="content">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Beneficiary PF Details </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">SSIN/PF No.: <span [style.color]="!ssnNoValid?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search" (click)="searchSSINNo(ssin)"></i>
+                                                <input type="text" name="benSno" class="form-control" [(ngModel)]="ssin" placeholder="Enter SSIN/PF No."
+                                                       (change)="searchSSINNo($event.target.value)"
+                                                       (keydown.enter)="searchSSINNo($event.target.value)" NumbersOnly maxlength="50"
+                                                       #benSno="ngModel"
+                                                       [ngClass]="{'invalid-data': benSno.invalid && (!ssnNoValid || benSno.touched), 'valid-data': benSno.valid && ssnNoValid}"
+                                                       required>
+                                            </label>
+                                            <div *ngIf="benSno.invalid && (!ssnNoValid ||benSno.touched)">
+                                                <span style="color: red;">SSIN/PF No. is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <section>
+                                    <div class="row" *ngIf="isMessageVisible ">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>SSIN/PF No. is not exists.</label>
+                                        </div>
+                                    </div>
+                                    </section>
+                                </fieldset>
+                                    <p></p>
+                                    <div class="row" *ngIf="isVisibleBenPFDetails">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <!--<th>
+                                Beneficiary Name
+                            </th>
+                            <th>
+                                SSIN No.
+                            </th>
+                            <th>
+                                PF Account Id
+                            </th>-->
+                                                    <th>
+                                                        Month
+                                                    </th>
+                                                    <th>
+                                                        Year
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                    <th>
+                                                        Description
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let pf of benPFDetails">
+                                                    <!--<td>{{pf.benFullName}}</td>
+                            <td>{{pf.ssI_Number}}</td>
+                            <td>{{pf.benPFAccountId}}</td>-->
+                                                    <td>{{pf.monthName}}</td>
+                                                    <td>{{pf.financialYearString}}</td>
+                                                    <td>{{pf.collectionDateString}}</td>
+                                                    <td>{{pf.collectionAmount}}</td>
+                                                    <td>{{pf.description}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <div *ngIf="benPFDetails.length>0">
+                                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changePage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <footer class="modal-footer">
+                                        <a class="btn btn-danger" (click)="cancelClick()"> Cancel</a>
+                                    </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

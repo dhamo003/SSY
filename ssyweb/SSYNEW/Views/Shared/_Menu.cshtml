@@ -1,0 +1,128 @@
+﻿@{
+
+    var UserType = Session["UserType"].ToString();
+
+    var UserName = Session["UserName"].ToString();
+
+    int RoleId = Convert.ToInt16(Session["UserType"]);
+
+
+    var result = SSY.Data.HomeData.GetMenuList(RoleId).ToList();
+
+    int submenuid = 0;
+                                    
+
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        <aside>
+            <div id="nav" class="navbar sidebar" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                       @* <h3 class="text-white" href="#">MENU</h3>*@
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+                        <ul class="nav navbar-nav aside-nav" style="margin-top: 5px;">
+                            @*Menu Binding*@
+                            @{
+
+                                foreach (var k in result)
+                                {
+
+
+                                    if (k.SubMenuId == 0)
+                                    {
+
+                                        <li class="active"><a href=@k.MenuUrl>@k.MenuName<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon @k.Class"></span></a></li>
+                                    }
+                                    if (k.SubMenuId != 0)
+                                    {
+                                        if (submenuid != k.SubMenuId)
+                                        {
+                                            var res = (from x in result where x.SubMenuId == k.SubMenuId select x).ToList();
+
+                                            submenuid = k.SubMenuId ?? 0;
+
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="width:190px !important;">
+                                                    @k.SubMenuName <span class="caret pull-right" style="margin-top:10px;"></span>
+                                                </a>
+
+
+                                                <ul class="dropdown-menu forAnimate" role="menu" style="width:190px !important;">
+                                                    @foreach (var x in res)
+                                                    {
+                                                        <li><a href="@x.MenuUrl">@x.MenuName </a></li>
+
+                                                    }
+
+                                                </ul>
+
+                                            </li>
+                                        }
+
+                                    }
+                                }
+                            }
+
+
+                        </ul>
+
+                    </div>
+                </div>
+                <div class='row' style="margin-top: 151px;display:none;">
+                    <div class='col-md-12'>
+
+                        <div class="carousel slide updates-carousel" id="updates">
+                            <h4 class="text-white">Latest Updates</h4>
+                            <div class="carousel-inner">
+
+                                <div class="item  active">
+                                    <div class="row">
+                                        <div class="">
+
+                                            <p class="text-white">Lorem ipsum lorem ipsum lorem ipsum lorem ipsum.</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="row">
+                                        @*<div class="">
+
+                                            <p class="text-white">Lorem ipsum lorem ipsum lorem ipsum lorem ipsum.</p>
+                                        </div>*@
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <a data-slide="prev" href="#updates" class="updatesleft carousel-control">‹</a>
+                            <a data-slide="next" href="#updates" class="updatesright carousel-control">›</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <!-- Content Here -->
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Health&Family Configuration</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <header>Date of First Appointment Exceeding</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic" [(ngModel)]="helConfig.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value" placeholder="Value" [(ngModel)]="helConfig.value"
+                                                   #value="ngModel" [ngClass]="{'invalid-data': value.invalid && ( !valueValid || value.touched ),
+                                                        'valid-data': valueValid && value.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value.invalid && (!valueValid || value.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="helConfig.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid || interestCode.touched ),
+                                'valid-data': ruleValid && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="helConfig.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <!--<div class="row">
+            <section class="col col-6">
+                <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid?'red':''"><b>*</b></span> </label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ helConfig.dateEffectiveFrom | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="helConfig.dateEffectiveFrom" readonly
+                           #effectiveFromDate="ngModel"
+                           [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid}"
+                           required>
+                </label>
+                <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid)">
+                    <span style="color: red;">Effective From Date is required </span>
+                </div>
+            </section>
+            <section class="col col-6">
+                <label class="label">Effective To Date:</label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ helConfig.dateEffectiveTo | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="helConfig.dateEffectiveTo" readonly
+                           #effectiveFromDate="ngModel"
+                           required>
+                </label>
+            </section>
+        </div>-->
+                            </fieldset>
+                            <header>Date of Discharge Exceeding</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid1?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic1" [(ngModel)]="helConfig1.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid1">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid1?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value1" placeholder="Value" [(ngModel)]="helConfig1.value"
+                                                   #value1="ngModel" [ngClass]="{'invalid-data': value1.invalid && ( !valueValid1 || value1.touched ),
+                                                        'valid-data': valueValid1 && value1.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value1.invalid && (!valueValid1 || value1.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid1?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="helConfig1.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid1 || interestCode.touched ),
+                                'valid-data': ruleValid1 && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid1 || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="helConfig1.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                                <!--<div class="row">
+            <section class="col col-6">
+                <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid1?'red':''"><b>*</b></span> </label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ helConfig1.dateEffectiveFrom | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="helConfig1.dateEffectiveFrom" readonly
+                           #effectiveFromDate="ngModel"
+                           [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid1), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid1}"
+                           required>
+                </label>
+                <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid1)">
+                    <span style="color: red;">Effective From Date is required </span>
+                </div>
+            </section>
+            <section class="col col-6">
+                <label class="label">Effective To Date:</label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ helConfig1.dateEffectiveTo | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="helConfig1.dateEffectiveTo" readonly
+                           #effectiveFromDate="ngModel"
+                           required>
+                </label>
+            </section>
+        </div>-->
+                            </fieldset>
+                            <header>Loss Of Employment Date Differnce</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid2?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic2" [(ngModel)]="helConfig2.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid2">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid2?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value2" placeholder="Value" [(ngModel)]="helConfig2.value"
+                                                   #value2="ngModel" [ngClass]="{'invalid-data': value2.invalid && ( !valueValid2 || value2.touched ),
+                                                        'valid-data': valueValid2 && value2.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value2.invalid && (!valueValid2 || value2.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid2?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="helConfig2.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid2 || interestCode.touched ),
+                                'valid-data': ruleValid2 && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid2 || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="helConfig2.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <header>Loss Of Employment Amount Exceeding</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid3?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic3" [(ngModel)]="helConfig3.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid3">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid3?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value3" placeholder="Value" [(ngModel)]="helConfig3.value"
+                                                   #value3="ngModel" [ngClass]="{'invalid-data': value3.invalid && ( !valueValid3 || value3.touched ),
+                                                        'valid-data': valueValid3 && value3.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value3.invalid && (!valueValid3 || value3.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid3?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="helConfig3.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid3 || interestCode.touched ),
+                                'valid-data': ruleValid3 && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid3 || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="helConfig3.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <header>Reason For Delay Submission</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid4?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic4" [(ngModel)]="helConfig4.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid4">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid4?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value4" placeholder="Value" [(ngModel)]="helConfig4.value"
+                                                   #value4="ngModel" [ngClass]="{'invalid-data': value4.invalid && ( !valueValid4 || value4.touched ),
+                                                        'valid-data': valueValid4 && value4.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value4.invalid && (!valueValid4 || value4.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid4?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="helConfig4.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid4 || interestCode.touched ),
+                                'valid-data': ruleValid4 && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid4 || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="helConfig4.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid2?'red':''"><b>*</b></span> </label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                               placeholder="DD/MM/YYYY" value="{{ helConfig2.dateEffectiveFrom | date: 'dd/MM/yyyy' }}"
+                                               [(ngModel)]="helConfig2.dateEffectiveFrom" readonly
+                                               #effectiveFromDate="ngModel"
+                                               [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid2), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid2}"
+                                               required>
+                                    </label>
+                                    <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid2)">
+                                        <span style="color: red;">Effective From Date is required </span>
+                                    </div>
+                                </section>
+                                <section class="col col-6">
+                                    <label class="label">Effective To Date:</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                               placeholder="DD/MM/YYYY" value="{{ helConfig2.dateEffectiveTo | date: 'dd/MM/yyyy' }}"
+                                               [(ngModel)]="helConfig2.dateEffectiveTo" readonly
+                                               #effectiveFromDate="ngModel"
+                                               required>
+                                    </label>
+                                </section>
+                            </div>
+                            <footer class="modal-footer">
+                                <a class="btn btn-primary" (click)="getHistoryData()">History</a>
+                                <a class="btn btn-default" *ngIf="isSaveVisible" (click)="clearData()">Reset</a>
+                                <a class="btn btn-success" *ngIf="isSaveVisible" (click)="saveHealthFamilyConfigData(helConfig,helConfig1,helConfig2,helConfig3,helConfig4)">Save</a>
+                                <a class="btn btn-danger" (click)="cancelClick()"> Cancel</a>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

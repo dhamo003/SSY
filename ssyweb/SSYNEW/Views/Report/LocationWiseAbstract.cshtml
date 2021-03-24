@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "LocationWiseAbstract";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<style>
+    
+    .dataTables_length {
+        display: none;
+    }
+   
+
+    .dataTables_filter {
+        margin-left:1000px;
+    }
+
+      .dt-buttons a {
+        background: #094c86 !important;
+        color:white !important;
+    }
+      .TblLocationAbstract{
+          font-size : 13px !important;
+      }
+</style>
+<script>
+    var SubDivId = @Html.Raw(Json.Encode(ViewBag.SubDivId))
+    var ditrictId = @Html.Raw(Json.Encode(@Session["RepDistrictId"]))
+</script>
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+
+<link href="~/Content/my_css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<script src="~/Content/ssy_js/jszip.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.buttons.min.js"></script>
+<script src="~/Content/ssy_js/buttons.flash.min.js"></script>
+<script src="~/Content/ssy_js/jszip.min.js"></script>
+<script src="~/Content/ssy_js/pdfmake.min.js"></script>
+<script src="~/Content/ssy_js/vfs_fonts.js"></script>
+<script src="~/Content/ssy_js/buttons.html5.min.js"></script>
+<script src="~/Content/ssy_js/buttons.print.min.js"></script>
+
+
+
+<div class="container-fluid" style="margin-left:25px;">
+    <a href="#" class="btn btn-primary glyphicon glyphicon-fast-backward" id="lBack" style="margin-left: 1101px;margin-bottom: 15px;">  Back</a>
+    <center><font size="4"><b>Location Wise Abstract</b></font></center>
+
+    <table class="TblLocationAbstract  table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                
+                <th>Location Name</th>
+                <th>SSIN Count</th>
+                <th>Applications Received</th>
+                <th>Applications Approved</th>
+                <th>Applications Rejected</th>
+                <th>Applications Pending</th>
+                <th>Applications Sent Back</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+    <div class="loader" style="display:none;">
+            <center>
+                <img class="loading-image" src="~/Content/images/ajax-loader.gif" alt="loading.." style="width:30px;height:30px;">
+            </center>
+        </div>
+<script>
+    $(document).ready(function () {
+
+
+        $(".loader").show();
+       
+        $('#lBack').attr('href','/Report/Subdivabstractreport?DistrictId='+ ditrictId);
+        $.get('@Url.Action("GetLocationreport", "Report")', {SubDivId :SubDivId}, function (result) {
+             
+            var table = $('.TblLocationAbstract').DataTable();
+            table.destroy();
+            $('.TblLocationAbstract tbody').empty();
+            var Recieved = 0;
+            var Approved = 0;
+            var Rejected = 0;
+            var SentBack = 0;
+            var Pending = 0;
+            var ssincnt = 0;
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                Recieved = Recieved + data.Received;
+                Approved = Approved + data.Approved;
+                Rejected = Rejected + data.Rejected;
+                SentBack = SentBack + data.SentBack;
+                Pending = Pending + data.Pending;
+                ssincnt = ssincnt + data.SsinGen;
+                $('.TblLocationAbstract').append('<tr><td class="thtext">' + data.BlockName + '</td><td class="thnum">' + data.SsinGen + '</td><td class="thnum"><a href="#" onClick = "GetReportRecived(' + data.BlockSno + ');">'+ data.Received + '</a></td><td class="thnum"><a href="#" onClick = "GetReportApproved(' + data.BlockSno + ');">' + data.Approved + '</a></td><td class="thnum"><a href="#" onClick = "GetReportRejected(' + data.BlockSno + ');">' + data.Rejected + '</a></td><td class="thnum"><a href="#" onClick = "GetReportPending(' + data.BlockSno + ');">' + data.Pending + '</a></td><td class="thnum"><a href="#" onClick = "GetReportSentback(' + data.BlockSno + ');">' + data.SentBack + '</a></td></tr>')
+            });
+            $('.TblLocationAbstract').append('<tr><td class="thtext"> TOTAL </td><td class="thnum">' + ssincnt + '</td><td class="thnum">' + Recieved + '</td><td class="thnum">' + Approved + '</td><td class="thnum">' + Rejected + '</td><td class="thnum">' + Pending + '</td><td class="thnum">' + SentBack + '</td></tr>')
+            $(".loader").hide();
+            $('.TblLocationAbstract').DataTable({
+              
+                    dom: 'Bfrtip',
+                    "ordering": false,
+                    buttons: [
+
+            {
+
+                   
+                extend :  'excel',
+                text: 'Download Excel'
+            }
+                    
+                    ]
+               
+            });
+           // $('th').css("background", "#87CEEB");
+           // $('th').css("color", "#ffffff");
+        });
+    });
+    //Recived tot
+    function GetReportRecived(id)
+    {
+       
+        window.location.href = "DetailedAbstractReport?Locationid=" + id+"&status=" + "4" ;
+    }
+   
+    //Recived 1
+    function GetReportApproved(id)
+    {
+       
+        
+        window.location.href = "DetailedAbstractReport?Locationid=" + id+"&status=" + "1" ;
+    }
+    //Rejected 2
+    function GetReportRejected(id)
+    {
+        window.location.href = "DetailedAbstractReport?Locationid=" + id+"&status=" + "2" ;
+    }
+  
+    function GetReportPending(id)
+    {
+       
+        window.location.href = "DetailedAbstractReport?Locationid=" + id+"&status=" + "0" ;
+    }
+
+    function GetReportSentback(id)
+    {
+       
+        window.location.href = "DetailedAbstractReport?Locationid=" + id+"&status=" + "3" ;
+    }
+</script>

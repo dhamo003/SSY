@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    @*   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />*@
+
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/Content/my_css/backgrounds.css">
+    @* <link href="~/Content/bootstrapv3/bootstrap-datepicker.css" rel="stylesheet" />*@
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <link rel="stylesheet" href="~/Content/my_css/breadcrumbs.css">
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <!------------------------------------------------------------------------>
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Conten/timages/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/images/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <link href="~/Content/my_css/jquery-confirm.css" rel="stylesheet" />
+    <meta name="msapplication-TileImage" content="~/Content/images/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        .col-md-5, .col-md-7 {
+            border: 0px solid #333;
+        }
+
+        .registration .glyphicon {
+            font-size: 22px;
+        }
+    </style>
+    <style>
+        body {
+            color: black !important;
+            /*background-size: cover;
+                   width: 100%;
+                   height: 100%;
+                   background: url("/Content/Images/8c9c4f9d9305496ae5164b271ca4be03.jpg") 50% 35%;*/
+            font-weight: 100 !important;
+        }
+
+        .content-back {
+            margin: auto;
+            padding-top: 5px;
+            /*background: #314755;*/
+            background: #ffffff;
+            /*background: -webkit-linear-gradient(to left, #314755, #26a0da);
+               background: linear-gradient(to left, #314755, #26a0da);*/
+            height: 630px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+            /*
+        *  STYLE 3
+        */
+
+            .content-back::-webkit-scrollbar-track {
+                /*background: #314755;*/
+                background: #ffffff;
+            }
+
+            .content-back::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .content-back::-webkit-scrollbar-thumb {
+                background-color: #ffffff;
+            }
+
+        .overlay-black {
+            background: rgba(0,0,0,0.6);
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+
+
+        .leg-sty {
+            color: black;
+        }
+
+
+        .footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+            .footer p {
+                line-height: 0px;
+                color: #fff !important;
+            }
+
+        b {
+            font-weight: 100 !important;
+        }
+
+        .block-left {
+            /*background: #81D4FA;*/
+            height: 100%;
+            position: fixed;
+            text-align: center;
+        }
+
+        legend {
+            border-bottom: none !important;
+            padding-left: 20px;
+            font-weight: 100 !important;
+        }
+
+        .custom-border {
+            /*border-top: 1px solid #ccc !important;
+                       border-bottom: 1px solid #ccc !important;*/
+        }
+
+        input, select {
+        }
+
+        header {
+            /*height: 100px;
+            top: 10px;
+            right: 5%;
+            position: fixed;*/
+            padding: 5px !important;
+            z-index: 99;
+        }
+
+
+        footer p {
+            margin-bottom: 5px !important;
+        }
+
+        label {
+            color: #000000 !important;
+        }
+
+        .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+        }
+
+        .fileUpload {
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+            .fileUpload input.upload {
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                cursor: pointer;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+
+        .input-label {
+            min-width: 120px;
+        }
+
+        .input-select {
+            width: 250px;
+        }
+
+        fieldset.custom-border {
+            border: 1px groove blue !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #f00;
+            box-shadow: 0px 0px 0px 0px #f00;
+            border-radius: 6px;
+        }
+
+        legend.custom-border {
+            font-size: 1.1em !important;
+            font-weight: bold !important;
+            text-align: left !important;
+            width: auto;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        .selectboxit-container .selectboxit, .selectboxit-container .selectboxit-options {
+            width: 600px; /* Width of the dropdown button */
+            border-radius: 0;
+            max-height: 240px;
+        }
+
+        .selectboxit-options .selectboxit-option .selectboxit-option-anchor {
+            white-space: normal;
+            min-height: 30px;
+            height: auto;
+        }
+
+        .regheightoverflow {
+            max-height: 570px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            z-index: -1;
+            margin: 10px auto !important;
+            width: calc(100% - 3%);
+            margin-left: 3%;
+        }
+
+        /*storage alert start*/
+        .memory_alert {
+            border: 1px solid #f95454;
+            display: flex !important;
+            /* margin: 10% auto; */
+            background-color: #fff;
+            width: 100%;
+            margin: 0px;
+            text-align: center;
+        }
+
+            .memory_alert i {
+                width: 50px;
+                height: 52px;
+                text-align: center;
+                line-height: 50px;
+                background-color: #f95454;
+                margin-right: 14px;
+                color: #fff;
+                font-size: 22px;
+            }
+
+            .memory_alert div {
+                color: #3a3a3a;
+                font-weight: 600;
+                flex-grow: 1;
+                padding: 5px 0px 0px 0px;
+            }
+
+                .memory_alert div > p {
+                    margin: 0;
+                    font-size: 11px;
+                    color: #888;
+                }
+
+        .memory_alert_close {
+            flex-grow: unset !important;
+        }
+
+            .memory_alert_close i {
+                margin: 0;
+                font-size: 14px;
+                height: 30px;
+                width: 30px;
+                margin: 6px 7px;
+                line-height: 30px;
+                border-radius: 20px;
+                cursor: pointer;
+            }
+
+        .memory_alert_popup {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999999;
+        }
+        /*storage alert end*/
+    </style>
+</head>
+
+<body id="style-3" class="registration">
+
+
+
+    @*storage alert Start*@
+    <div class="memory_alert_popup" style="display:none;" id="Storage_alert">
+        <div class="memory_alert" style="display: none;">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            <div>
+                Storage Almost Full
+                <p>Storage full please add storage and try again </p>
+            </div>
+            @*<div class="memory_alert_close" id="Storage_alert_close"><i class="fa fa-times" aria-hidden="true"></i></div>*@
+        </div>
+    </div>
+    @*storage alert End*@
+
+    @*<div class="fixedlayoutwindow whatliesbeyond"></div>*@
+    <div class="modal fade" id="WaitModal" role="dialog" style="margin-top:150px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <p><img src="~/Content/images/RegWait1.gif" style="height:50px;width:50px;margin-left:100px;" /></p>
+                    <b style="margin-left:80px;">Please Wait</b>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <section>
+
+
+        <!---------------------------------------->
+        <div class="container-fluid regheightoverflow">
+
+            @RenderBody()
+        </div>
+        <!---------------------------------------->
+
+
+    </section>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="~/Scripts/Common.js"></script>
+
+    <script src="~/Scripts/Convertjs.js"></script>
+    <script src="~/Scripts/my_scripts/reg-bread.js"></script>
+    <script src="~/Scripts/my_scripts/jquery-confirm.js"></script>
+
+
+</body>
+</html>
+<script>
+    $(document).keydown(function (event) {
+
+
+
+ 
+    $(".form-control").bind("cut copy paste", function (e) {
+
+        e.preventDefault();
+    });
+});
+
+</script>

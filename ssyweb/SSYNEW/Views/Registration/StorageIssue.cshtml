@@ -1,0 +1,29 @@
+﻿@model SSY.Models.RegResponse
+@{
+    ViewBag.Title = "StorageIssue";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+    .Storage_Alt {
+        text-align: center;
+        margin: 12% auto;
+    }
+        .Storage_Alt i {
+            font-size: 70px;
+            color: #b83b5e;
+            margin-bottom: 0px;
+        }
+</style>
+<div class="Storage_Alt">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    <h1>Error 0324:</h1>
+    <h4>Storage is full to save documents, please contact administrator.</h4>
+</div>
+
+<script>
+    alert("Error 0324");
+    //window.top.location.href = "/Home/Index";
+</script>
+

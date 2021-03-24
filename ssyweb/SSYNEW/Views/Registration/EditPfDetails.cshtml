@@ -1,0 +1,354 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+    ViewBag.Title = "EditPfDetails";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<script>
+    var UserId = @Html.Raw(Json.Encode(ViewBag.UserId))
+</script>
+
+<div id="div1" style="display:none;">
+    <div style="width: 685px; margin-left: 331px;">
+        <div class="panel panel-default" id="divPf" disabled>
+
+            <div class="panel-heading">PF/ESI Details</div>
+
+            <div class="panel-body">
+                <div class="form-group" id="divpfesidet" style="margin-bottom: -33px; margin-left: 40px;">
+                    <label>
+                        <input type="checkbox" id="chkpf" class="pfesilst" name="pfesidet" value="PF">PF under EPF & MP Act 1952
+                    </label>
+                </div>
+                <div class="form-group" id="divesidet" style="margin-left: 385px;">
+                    <label>
+                        <input type="checkbox" id="chkesi" class="clschkesi" name="esidet" value="ESI">ESI under ESI Act 1948
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+
+
+
+                        <label>PF Number</label>
+                        @Html.TextBoxFor(m => m.esinum, null, new { style = "width: 260px; text-transform:uppercase", @class = "form-control", @maxlength = "17", @tabindex = "100", onkeypress = "return IsAlphaNumaric(event)", })
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-left: 134px;">
+                    <div class="form-group">
+                        <label>ESI Number</label>
+                        @Html.TextBoxFor(m => m.esi, null, new { style = "width: 260px; text-transform:uppercase", @class = "form-control", @maxlength = "17", @tabindex = "100", onkeypress = "return IsAlphaNumaric(event)", @onchange = "checkpf()", })
+                    </div>
+                </div>
+                <div class="col-md-4" style="width: 100%;" id="divPFOpt">
+                    <div class="form-group">
+                        <label class="">I would like to opt PF </label>
+                        <input type="radio" class="Pf" name="pfsta" value="1">
+                        <label>Yes</label>
+                        <input type="radio" class="Pf" name="pfsta" value="0">
+                        <label>No</label>
+                    </div>
+                </div>
+
+                <div style="display: none;">
+
+                    @Html.TextBoxFor(m => m.BenifId, null, new { @class = "form-control  valid", minlength = "3", maxlength = "50", req = "Req", onkeypress = " return IsCharsOnly(event); " })
+                </div>
+
+                <div class="col-md-4">
+                    @*<button type="submit" class="btn btn-primary" id="btnsubmit">Insert</button>*@
+                    <a class="btn btn-primary" onclick="btnInsert()" tabindex="68" style="margin-top: 40px; margin-left: 280px;">Submit</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div style="margin-left: 10px;">
+        <div class="col-md-12">
+
+            <table class="table table-striped table-bordered tblPfdet" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="">
+                        <th>S.No</th>
+                        <th>PF Number</th>
+                        <th>ESI Number</th>
+                        <th>CreatedDate</th>
+                        <th>Status</th>
+
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="div2" style="display:none;">
+    <center><h4><b>Please fill remaining information</b></h4></center>
+</div>
+
+<script>
+
+    $(document).ready(function(){
+        $("#BenifId").val(UserId);
+      
+        var Bensno = $("#BenifId").val();
+
+
+        $.get('@Url.Action("GetPFDetails", "Registration")', { id:Bensno}, function (result) {
+             
+
+           
+            var table = $('.tblPfdet').DataTable();
+            table.destroy();
+    
+            $('.tblPfdet tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+
+              
+                if (data.EditStatus == "Pending")
+                {
+
+                    $('#divPf').hide();
+
+                  
+                }
+                else
+                {
+                    $('#divPf').show();
+                }
+                
+             
+                $('.tblPfdet').append('<tr><td>' + num + '</td><td>' + data.PfNum + '</td><td>' + data.EsiNum + '</td><td>' + data.CreatedDate + '</td><td>' + data.EditStatus + '</td></tr>')
+            });
+            $('.tblPfdet').DataTable({
+               
+            });
+          
+        });
+      
+       
+        BindPfData(Bensno)
+
+    
+
+    });
+    function BindPfData(Bensno)
+    {
+        $.get('@Url.Action("GetbenDetails", "Registration")', {bensno : Bensno}, function (res) {
+         
+
+            if(res.Part2 =="Y")
+            {
+                $("#div1").show();
+            }
+            else
+            {
+                $("#div2").show();
+
+            }
+            // $("#esinum").val(res.BenEsiNumber);
+            $("input[name=esistatus][value=" + res.BenProvisionType + "]").prop('checked', true);
+            // if(res.BenProvisionType == 1)
+            //  {
+             
+            if(res.BenProvisionNo !=null && res.BenProvisionNo != "")
+            {
+                //$("#esinum").removeAttr("readonly");
+                $("#esinum").val(res.BenProvisionNo);
+
+                $('#chkpf').attr('checked', true);
+            }
+            if(res.BenEsiNumber !=null && res.BenEsiNumber != "")
+            {
+                //$("#esi").removeAttr("readonly");
+                $("#esi").val(res.BenEsiNumber);
+                $('#chkesi').attr('checked', true);
+            }
+            // }
+            $("input[name=pfsta][value=" + res.BenPFStatus + "]").prop('checked', true);
+        });
+    }
+
+    function btnInsert()
+
+    {
+      
+        var ValidPfEsiDet = $("input[name='pfesidet']:checked").val()
+        var ValidEsiStatus = $("input[name='esidet']:checked").val()
+        var validPFSta = $("input[name='pfsta']:checked").val()
+
+
+        if($("#esinum").val() == "" || $("#esi").val() == "")
+        {
+            if(validPFSta == "0")
+            {
+                alert("Please Enter Details");
+                $("#esinum").focus();
+                return false;
+            }
+        }
+
+        // alert(ValidPfEsiDet +" "+ValidEsiStatus);
+        if(ValidPfEsiDet == undefined && ValidEsiStatus == undefined )
+        {
+            if(validPFSta == undefined)
+            {
+                alert("Please Select Yes / No in PF ");
+                $(".Pf").focus();
+                return false;
+            }
+        }
+        if(  (ValidPfEsiDet == "PF"))
+        {
+            if($("#esinum").val() == "" || $("#esinum").val() ==null)
+            {
+                alert("Please Enter PF Number");
+                $("#esinum").focus();
+                return false;
+            }
+            if($("#esinum").val() == "" ||$("#esinum").val() == null)
+            {
+                if (validPFSta == undefined) {
+                    alert("Please Select Yes / No in PF ");
+                    $(".Pf").focus();
+                    return false;
+                }
+            }
+        }
+        if(  (ValidEsiStatus == "ESI" ))
+        {
+            if($("#esi").val() == "" || $("#esi").val() ==null)
+            {
+                alert("Please Enter ESI Number");
+                $("#esi").focus();
+                return false;
+            }
+            if($("#esinum").val() == "" ||$("#esinum").val() == null)
+            {
+                if (validPFSta == undefined) {
+                    alert("Please Select Yes / No in PF ");
+                    $(".Pf").focus();
+                    return false;
+                }
+            }
+        }
+        if(validPFSta == undefined)
+        {
+            $("#CheckPfStatus").val("0");
+        }
+
+
+
+        var Bensno = $("#BenifId").val();
+        var Stat = $("input[name='pfsta']:checked").val();
+
+        $.get('@Url.Action("PfInsert", "Registration")', { bensno: Bensno, pf: $("#esinum").val(), esi: $("#esi").val(), Pfstatus: Stat}, function (res) {
+         
+
+          alert(res);
+          window.location.href = "/Registration/EditPfDetails";
+          return false;
+
+      });
+  }
+
+  $('.pfesilst').change(function() {
+       
+      var PfEsiDet = $("input[name='pfesidet']:checked").val()
+      if(PfEsiDet == "PF")
+      {
+          $("#esinum").removeAttr("readonly");
+          $("#esinum").focus();
+          $("#divPFOpt").hide();
+      }
+      else
+      {
+          $("#esinum").attr("readonly", "readonly");
+          $("#esinum").val('');
+          $("#esi").focus();
+          $("#divPFOpt").show();
+      }
+  })
+  $('.clschkesi').change(function() {
+       
+      var EsiDet = $("input[name='esidet']:checked").val()
+      var pfval = $("input[name='pfesidet']:checked").val()
+      if(EsiDet == "ESI")
+      {
+          $("#esi").removeAttr("readonly");
+          $("#esi").val('');
+          $("#esi").focus();
+          $("#divPFOpt").hide();
+          if(pfval == undefined)
+          {
+              $("#divPFOpt").show();
+          }
+      }
+      else
+      {
+          $("#esi").attr("readonly", "readonly");
+          $("#esi").val('');
+          $("#divPFOpt").show();
+          if(pfval == "PF")
+          {
+              $("#divPFOpt").hide();
+          }
+      }
+  })
+  $('.esilst').change(function() {
+      var EsiStatus = $("input[name='esistatus']:checked").val()
+       
+      $('#chkpf').attr('checked', false);
+      $('#chkesi').attr('checked', false);
+      $(".Pf").attr("checked" , false );
+      if(EsiStatus == "1"){
+          $("#divpfesidet").show();
+          $("#divesidet").show();
+           
+        
+          $("#divPFOpt").hide();
+      }
+      else
+      {
+          $("#esinum").attr("readonly", "readonly");
+          $("#esi").attr("readonly", "readonly");
+          $("#esinum").val('');
+          $("#esi").val('');
+          $("#divpfesidet").hide();
+          $("#divesidet").hide();
+          $("#divPFOpt").show();
+      }
+  });
+
+  function checkpf()
+  {
+      var esinum = $("#esinum").val();
+      var checkPfEsiDet = $("input[name='pfesidet']:checked").val()
+      if((checkPfEsiDet == undefined) && (esinum == "" || esinum == null))
+      {
+          $("#divPFOpt").show();
+         
+      }
+      else
+      {
+          $("#divPFOpt").hide();
+      }
+  }
+
+  function IsAlphaNumaric(e) {
+      if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+  e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+  (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+  ((e.keyCode >= 48 && e.keyCode <= 57)  && e.shiftKey == true)) {
+          return false;
+      }
+  }
+
+</script>

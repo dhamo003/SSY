@@ -1,0 +1,237 @@
+﻿@{
+    ViewBag.Title = "AgentApllications";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<style>
+    th {
+        font-size: 13px;
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    .pdfobject-container {
+        height: 500px;
+    }
+
+    .pdfobject {
+        border: 1px solid #666;
+    }
+</style>
+<script>
+
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+</script>
+<div class="container-fliud" id="Div1">
+    <div class="row">
+        <div class="col-md-12">
+            <center><h3 class="product-description">Service Provider Application Report </h3></center>
+
+            <div class="row" style="margin-left : 150px;">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group" style="width:180px;">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Status</span>
+                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="All", Value = "3" },
+                                             new SelectListItem{ Text="Pending", Value = "0" },
+                                              new SelectListItem{ Text="Approved", Value = "1" },
+                                               new SelectListItem{ Text="Rejected", Value = "2" }
+                                        }, new { @class = "form-control  Dropdwn" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+
+            <br />
+            <br />
+            <table class="table table-striped table-bordered Apllications" cellspacing="0" width="100%">
+                <thead style="background-color:#87CEEB">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Arn</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th> Mobile Number</th>
+                        <th>Email</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div id="loaderdiv" style="display:none;"> <center> <div class="loaderreport"> </div> Please Wait ...</center> </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetData()
+        var AgentMobile = "";
+        var AgentEmail = "";
+    });
+    $("#Status").change(function(){
+        $('.Apllications tbody').empty();
+
+        GetData()
+    })
+    function GetData()
+    {
+        $("#loaderdiv").show();
+        $.get('@Url.Action("GetAgentApllications", "Agent")', { deptuserid: deptuserid,Status :$("#Status").val() }, function (result) {
+             
+            var table = $('.Apllications').DataTable();
+            table.destroy();
+            $('.Apllications tbody').empty();
+
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                 
+
+                if(data.Status == 0)
+                    $('.Apllications').append('<tr><td>' + num + '</td><td>' + "NA" + '</td><td><a href="#" data-toggle="modal" data-target="#AgentApplicationData" onclick="Pendingclick('+ data.Id +');" id=' + data.Id + '>' + data.Firstname +" "+data.Lastname+ '</a></td><td>' + data.Designation + '</td><td>' + data.Mobileno + '</td><td>' + data.Email + '</td><td>' + data.CreatedDate + '</td><td style="background-color:lightgray">Pending</td></tr>')
+                if(data.Status == 1)
+                    $('.Apllications').append('<tr><td>' + num + '</td><td>' + data.UserCode + '</td><td><a href="#" data-toggle="modal" data-target="#AgentApplicationData" onclick="approvedclick(' + data.Id + ');" id=' + data.Id + '>' + data.Firstname +" "+data.Lastname+ '</a></td><td>' + data.Designation + '</td><td>' + data.Mobileno + '</td><td>' + data.Email + '</td><td>' + data.CreatedDate + '</td><td style="background-color:green">Approved</td></tr>')
+                if(data.Status == 2)
+                    $('.Apllications').append('<tr><td>' + num + '</td><td>' + "NA" + '</td><td><a href="#" data-toggle="modal" data-target="#AgentApplicationData" onclick="rejectedclick(' + data.Id + ');" id=' + data.Id + '>' + data.Firstname +" "+data.Lastname+ '</a></td><td>' + data.Designation + '</td><td>' + data.Mobileno + '</td><td>' + data.Email + '</td><td>' + data.CreatedDate + '</td><td style="background-color:red">Rejected</td></tr>')
+            });
+            $("#loaderdiv").hide();
+            $('.Apllications').DataTable({
+
+            });
+        });
+    }
+    function Pendingclick(id)
+    {
+
+        $("#divagentReason").hide();
+
+        $("#modelfooter").show();
+        trnasclick(id)
+    }
+    function approvedclick(id)
+    {
+        $("#divagentReason").show();
+        $("#agentReason").text("Your Application Is Approved").css({backgroundColor:'green'});
+        $("#modelfooter").hide();
+        trnasclick(id)
+    }
+    function rejectedclick(id)
+    {
+        $("#divagentReason").show();
+        $("#modelfooter").hide();
+        trnasclick(id)
+    }
+    function trnasclick(id)
+    {
+        var userid ="";
+        $("#AgentStId").text(id);
+        $.get('@Url.Action("GetAgentApplicationsById", "Agent")', { Id : id }, function (result) {
+             
+            $("#lblfname").text(result.Firstname);
+            $("#lblLname").text(result.Lastname);
+            $("#lblMobileNumber").text(result.Mobileno);
+            AgentMobile = result.Mobileno;
+            AgentEmil = result.Email;
+            $("#lblLandLine").text(result.LandlineNumber);
+            $("#lbldist").text(result.DistrictName);
+            $("#lblsubdiv").text(result.SubDivisionName);
+            userid = result.UserId;
+            var Location = "";
+            $.get('@Url.Action("GetMultipleLoca", "Registration")', { Uid: userid }, function (dat) {
+                $.each(dat, function (i, data) {
+                     
+                    Location +=data.Text +",";
+                });
+                $("#lbllocation").text(Location);
+            });
+
+            var GpWard = "";
+            $.get('@Url.Action("GetMultipleGpWard", "Registration")', { Uid: userid }, function (dat) {
+                $.each(dat, function (i, data) {
+                     
+                    GpWard +=data.Text +",";
+                });
+                $("#lblGpward").text(GpWard);
+            });
+
+            $("#lblAgentgender").text(result.Gender);
+
+            $("#lblMarSt").text(result.Marital);
+            $("#lblHFName").text(result.RelName);
+            if(result.Gender == "Female" && result.Marital =="Married" )
+            {
+                $("#lblFH").text("Husband Name :");
+            }
+
+            $("#lblDob").text(result.Dob);
+            $("#lblBankName").text(result.BankName);
+            $("#lblBranch").text(result.BranchName);
+            $("#lblifsc").text(result.IfscCode);
+            $("#lblActNumber").text(result.AccountNumber);
+            $("#lblpincode").text(result.Pincode);
+            $("#LblAddress").text(result.Address);
+            $("#LblPan").text(result.PanNumber);
+            $("#pandoc").attr('src', result.PanFile);
+            $("#LblAadhar").text(result.AadharNumber);
+            $("#AadharDoc").attr('src', result.AadharFile);
+            $("#DDDoc").attr('src', result.BankDDFile);
+            $("#DDPhoto").attr('src', result.Photo);
+            $("#DDSignature").attr('src', result.Signature);
+            if(result.Reason !="")
+            {
+
+                $("#agentReason").text("Your Application Is Rejected . Reason  : "+result.Reason).css({backgroundColor:'red'});
+            }
+        });
+    }
+    function AgentStChange(id)
+    {
+
+         
+        var AgentId =  $("#AgentStId").text();
+        var ARNnum = "";
+        var ARNnumber = $("#txtarnnum").val();
+        if(id=="1")
+        {
+            if(ARNnumber =="")
+            {
+                alert("Please Enter ARN Number");
+                $("#txtarnnum").focus();
+                return false;
+            }
+        }
+        var remarks = $("#Agentrejremk").val();
+        if(id == "2")
+        {
+
+            if(remarks == "" || remarks == 0 || remarks == null)
+            {
+                alert("Please Enter Reason");
+                $("#Agentrejremk").focus();
+                return false;
+            }
+        }
+        $.get('@Url.Action("AgentStatusChange", "Agent")', { Status: id,Id : AgentId,Mobile :AgentMobile, Email : AgentEmil,Reason :remarks, ARNumber :ARNnumber }, function (dat) {
+            alert(dat);
+            window.location.href = "/Agent/AgentApllications";
+        });
+    }
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,644 @@
+﻿@model  SSY.Models.SiteSettingsViewModel
+
+<!DOCTYPE html>
+<html>
+<title>SSY</title>
+<meta charset="utf-8" content="SSY Portal" oncontextmenu="SSY Portal">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="material_design/material.css">
+    <link rel="stylesheet" href="my_css/gallery.css">
+    <link rel="stylesheet" href="my_css/windowblocks.css">-->
+    <link rel="stylesheet" href="~/Content/my_css/backgrounds.css">
+    <!------------------------------------------------------------------------>
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/images/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/images/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/Content/images/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+
+        .end-footer {
+            /*position: fixed;*/
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            /*background-color: white !important;*/
+            /*color: white;*/
+            /*text-align: center;*/
+        }
+
+        .fstheader {
+            position: fixed;
+            left: 0;
+            width: 100%;
+        }
+
+        div {
+            border: 0px solid #333;
+        }
+
+        .posabs {
+            /*border: 5px solid rgba(0,0,0,0.6);*/
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            position: absolute;
+            width: 20%;
+            max-height: 200px;
+            overflow-y: auto;
+            right: 35px;
+            top: 270px;
+            z-index: 99;
+        }
+
+            .posabs ul {
+                padding: 10px;
+            }
+
+        .fade-in-on-load {
+            position: fixed;
+            z-index: 999999;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-transition: opacity .09s ease-out;
+            -moz-transition: opacity .09s ease-out;
+            -ms-transition: opacity .09s ease-out;
+            -o-transition: opacity .09s ease-out;
+            transition: opacity .09s ease-out;
+        }
+
+        .flex-list {
+            /*position: relative;
+            margin: 1em;*/
+            overflow: hidden;
+            height: 25px !important;
+        }
+
+            .flex-list ul {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin-left: -1px;
+            }
+
+            .flex-list li {
+                flex-grow: 1;
+                flex-basis: auto;
+                margin: .25em 0;
+                padding: 0 1em;
+                text-align: center;
+                border-left: 1px solid #ccc;
+                background-color: #fff;
+            }
+
+        .headerDiv {
+            background-color: #03a9f4 !important;
+            padding: 0px;
+            margin-top: 0px;
+            border-bottom: 2px solid #333;
+            color: white;
+        }
+
+        .heightImg {
+            height: 120px !important;
+        }
+
+        .clsp1 {
+            font-size: 25px;
+        }
+
+        .clsp2 {
+            font-size: 15px;
+        }
+
+        .clsp30 {
+            font-size: 30PX;
+        }
+
+        .clsp35 {
+            font-size: 35PX;
+        }
+
+        .clsp20 {
+            font-size: 20PX;
+        }
+
+        .clsp15 {
+            font-size: 15px;
+        }
+
+        .mrgntop {
+            margin-top: 30px !important;
+        }
+
+        .ssin-detail {
+            color: #ffffff;
+            padding-top: 10px;
+            /*font: italic 14px Georgia, Courier, monospace;*/
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body id="style-3" class="index">
+
+    @* First Header*@
+    <div id="top" class="header">
+        <div class="row">
+
+            <div class="col-md-5 flex-list">
+                <ul>
+                    <li>
+                        <p class="">Site Counter : <span class="" style="font-size:15Px !important;color:maroon !important;"><b>@Session["sitecount"].ToString()</b> </span></p>
+
+                    </li>
+                    <li> <b> <a href="/Home/SearchSSIN" style="color:darkviolet !important;">Search Your SSIN</a></b></li>
+                    <li> <b> <a href="/Report/DistrictwiseAgentReport" style="color:darkviolet !important;">Agent Search</a></b></li>
+
+
+                </ul>
+            </div>
+
+            <div class="col-md-3 flex-list">
+                <ul>
+                    <li><a href="/Home/TrackClaimNominee" class="text-black">Track Claim</a></li>
+                    <li><a href="/Home/ClaimEntryNominee" class="text-black">Nominee Claim Entry</a></li>
+
+                </ul>
+            </div>
+            <div class="col-md-4 flex-list pull-right">
+                <ul>
+                    <li><a href="/Login/Login">Login</a></li>
+                    <li><a id="btn-decrease" href="#">-A</a></li>
+                    <li><a id="btn-orig" href="#">A</a></li>
+                    <li><a id="btn-increase" href="#">+A</a></li>
+                    <li><button id="btn-color" style="width:20px;height:21px;">A</button></li>
+                    <li><a href="/Home/ScreenReaderAccess">Screen Reader</a></li>
+
+                </ul>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    @*Second Header*@
+    <div class="headerDiv">
+
+        <div class="row bgrcolor">
+            <div class="col-md-1 pull-left">
+                <img src="~/Content/images/3lionshead-white.png" class="img-responsive heightImg">
+
+            </div>
+            <div class="col-md-4 mrgntop">
+                <p class="clsp1">Department of Labour</p>
+                <p class="clsp2">Government of West Bengal</p>
+            </div>
+
+            <div class="col-xs-12 col-md-2 pull-right"> <img src="~/Content/images/biswa-bangla-logo.png" class="img-responsive heightImg"></div>
+            <div class="col-md-4 mrgntop text-center">
+                <p class="clsp1">SSY -<span style="">Samajik Suraksha Yojana</span></p>
+                <p class="clsp2">Social Security for Unorganised workers</p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    @*Menu Bar*@
+    <div class="container-fluid bgrcolor">
+        <div class="row" id="newmenu">
+
+            <div class="col-md-10">
+                <div id="wrapper">
+                    <ul class="nav bgrcolor">
+                        <li>
+                            <a href="~/Home/Index" class=""> <img class="icon hm-green" src="~/Content/images/menu-icons/home-h-w.png" alt=""> <span class="spnColor">Home</span> </a>
+                        </li>
+                        <li>
+                            <a class="link fb" href="#"> <img class="icon fb" src="~/Content/images/menu-icons/Abt-us-w.png" alt=""> <span class="spnColor">About Us</span></a>
+                            <ul class="my-drop fb bgrcolor">
+                                <li>
+                                    <a href="~/Home/OrganizationStructure"> Organization Structure</a>
+                                </li>
+                                <li>
+                                    <a href="~/Home/Functions"> Functions</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="~/Home/rti" class="gp "> <img class="icon gp" src="~/Content/images/menu-icons/RTI-w.png" alt=""> <span class="spnColor">RTI</span></a>
+                        </li>
+                        <li>
+                            <a class="link vo" href="~/Home/Actsrules"> <img class="icon vo" src="~/Content/images/menu-icons/acts-rules-w.png" alt=""> <span class="spnColor">Acts & Rules</span> </a>
+                        </li>
+                        <li>
+                            <a href="~/Home/Contact" class="tw "> <img class="icon tw-blue" src="~/Content/images/menu-icons/contact-msg-w.png" alt=""> <span class="spnColor">Contact Us</span></a>
+                        </li>
+                        <li>
+                            <a class="link cl" href="#"> <img class="icon cl" src="~/Content/images/menu-icons/help-m-w.png" alt=""> <span class="spnColor">Help</span> </a>
+                            <ul class="my-drop cl bgrcolor">
+                                <li>
+                                    <a class="link" href="~/Home/Faqs"> FAQ</a>
+                                </li>
+                                <li>
+                                    <a href="~/Home/UserManual">  User Manual</a>
+                                </li>
+                                @*<li>
+                                        <a class="link" href="~/Home/Grievances"> Grievances</a>
+                                    </li>*@
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="link or" href="#"> <img class="icon voi" src="~/Content/images/menu-icons/abt-ssy-w.png" alt=""> <span class="spnColor">About SSY</span> </a>
+                            <ul class="my-drop voi bgrcolor">
+                                <li>
+                                    <a class="link" href="~/Home/Schemes"> Scheme </a>
+                                </li>
+                                <li>
+                                    <a class="link" href="~/Home/Forms"> Forms </a>
+                                </li>
+
+                                <li>
+
+                                    <a class="link" href="~/Home/DocumentsUploaded">Documents to be Uploaded </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="link or" href="#"> <img class="icon or" src="~/Content/images/menu-icons/media-w.png" alt=""> <span class="spnColor">Media</span> </a>
+                            <ul class="my-drop or bgrcolor">
+
+                                <li>
+                                    <a class="link" href="~/Home/VideoGallery">  Video Gallery </a>
+                                </li>
+                                <li>
+                                    <a class="link" href="~/Home/PressRelease">  Press Release </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class="link or" href="~/Home/PhotoGallery"> <img class="icon or" src="~/Content/images/menu-icons/award.png" alt=""> <span class="spnColor">Awards</span> </a>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2" style="">
+
+                <form class="form-wrapper cf">
+
+                    <input type="text" placeholder="Search here" required style="color:black" id="docSearch">
+                    <button><span class="glyphicon glyphicon-search"></span></button>
+
+                </form>
+
+            </div>
+            <div class="posabs"><ul class="countryList" style="display:none;"></ul></div>
+        </div>
+
+
+        <div class="bgcolor">
+            @RenderBody()
+
+        </div>
+
+
+    </div>
+
+
+    @*Footer*@
+    <footer id="footer" class="clearfix" style="position:relative;margin-top:2px!important;padding-top:0px !important;">
+        <div class="bgrcolor fbgcolor" style="background-color:teal">
+
+            <div class="row" style="margin-top:5px !important;">
+
+                <div class="col-md-12 quicklinks pull-left" style="margin-top:10px;">
+
+                    <div class="col-md-5">
+                        <div id="meta-3" class="widget widgetFooter widget_meta">
+                            <p class="aspnColor" style="color:white;margin-left:10px !important;">Important Page :</p>
+                            <ul>
+                                <li>
+                                    <a href="~/Home/Index" class="spnColor"><i class="fa fa-home fa-fw"></i> Home</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="spnColor"><i class="fa fa-info-circle fa-fw"></i> About Us</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="spnColor"><i class="fa fa-link"></i>   Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="~/Home/Contact" class="spnColor"><i class="fa fa-envelope fa-fw"></i> Contact Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <span class="stat-count">@Session["SSINCount"].ToString()</span>
+                        <p class="ssin-detail spnColor">@*SSIN Generated*@Registered Beneficiaries</p>
+
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="/Home/DistrictWiseStatus" class="aspnColor" style="color:white !important">General Report</a>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <p class="aspnColor" style="color:white;">Our social media :</p>
+                        <ul>
+                            <li>
+                                <a href="#" target="_blank" class="spnColor"><i class="fa fa-facebook"></i> Facebook</a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank" class="spnColor"><i class="fa fa-twitter"></i> Twitter</a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank" class="spnColor"><i class="fa fa-youtube"></i> Youtube</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </footer>
+
+    <div class="bgrcolor end-footer">
+
+        <div class="row">
+            <div class="col-md-8 pull-left"><p>Copy right for Labour Department, Govt. of West Bengal</p></div>
+            <div class="col-md-3"><p> Developed by <a target="_blank" href="#" class="bgrcolor">Webel Technology Limited</a> . </p></div>
+        </div>
+        <!-- end .row -->
+    </div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+    <script defer src="~/Content/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script defer src="~/Scripts/my_scripts/gallery.js"></script>
+    <script defer src="~/Scripts/my_scripts/windowblock.js"></script>
+    <script defer src="~/Scripts/my_scripts/all.js"></script>
+
+
+
+    <link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+
+    <script src="@Url.Content("~/Scripts/DisableEvents.js")"></script>
+    @* <script src="my_scripts/combined.js"></script>*@
+
+
+
+</body>
+
+</html>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        //Disability frendly
+
+        var clickValue = 0;
+        var $affectedElements = $("p"); // Can be extended, ex. $("div, p, span.someClass")
+
+        // Storing the original size in a data attribute so size can be reset
+        $affectedElements.each(function () {
+            var $this = $(this);
+            $this.data("orig-size", $this.css("font-size"));
+        });
+
+        $("#btn-increase").click(function () {
+            changeFontSize(1);
+        })
+
+        $("#btn-decrease").click(function () {
+            changeFontSize(-1);
+        })
+
+        $("#btn-orig").click(function () {
+            $affectedElements.each(function () {
+                var $this = $(this);
+                $this.css("font-size", $this.data("orig-size"));
+            });
+        })
+
+        function changeFontSize(direction) {
+            $affectedElements.each(function () {
+                var $this = $(this);
+                $this.css("font-size", parseInt($this.css("font-size")) + direction);
+            });
+        }
+
+        $("#btn-color").click(function () {
+
+            if (clickValue == 0) {
+                $(".bgrcolor, .aspnColor").css("background", "black").css("color", "yellow");
+                $(".spnColor").css("color", "yellow");
+                $(".clsimg").css("background", "white");
+                $("tr").css("background", "black").css("color", "yellow");
+
+
+                //$(".fbgrcolor").css("color", "black");
+
+                // $(".fontcolor ,.acolor")
+                clickValue = 1;
+            }
+            else {
+
+                $(".bgrcolor,.aspnColor").css("background", "").css("color", "");
+                $(".spnColor").css("color", "");
+                $(".aspnColor").css("color", "white");
+
+                $("tr").css("background", "").css("color", "");;
+                // $(".fontcolor ,.acolor").
+                $(".fbgcolor").css("background", "teal");
+                clickValue = 0;
+            }
+
+        })
+
+
+
+    $(".fade-in-on-load").each(function () {
+            $(this).css('opacity', '1');
+            $(this).css('overflow-y', 'hidden');
+            $("#closeimg").click(function () {
+                $(this).css('display', 'none');
+                $(this).css('overflow-y', 'auto');
+            })
+        });
+
+        $.get('@Url.Action("GetFiles", "Test")', {}, function (result) {
+
+
+
+
+
+            $.each(result, function (i, data) {
+
+
+                var link =$('.countryList').append('<li><a href= ' + data.filePath + ' target="_blank">' + data.fileName + '</a><hr></li>')
+
+
+
+
+
+            });
+
+
+
+        });
+
+
+        $('#docSearch').keyup(function () {
+
+
+
+            var value = $("#docSearch").val();
+
+            if (value == "" || value == null)
+            {
+                $(".countryList").hide();
+
+            }
+            else
+                $(".countryList").show();
+
+
+
+            var valThis = $(this).val().toLowerCase();
+
+            $('.countryList>li').each(function () {
+
+                var text = $(this).text().toLowerCase();
+
+                (text.indexOf(valThis) != -1) ? $(this).show() : $(this).hide();
+            });
+
+
+        });
+
+//Enter keypress
+        $("#login-password").keypress(function(event){
+
+            if(event.keyCode == 13){
+                //e.preventDefault();
+                $("#btn-login").click();
+            }
+        });
+
+
+        $(".loginsub").click(function () {
+
+            LoginSubmit("0");
+        });
+
+
+
+
+    });
+
+
+    $('.rdlogins').change(function () {
+
+        var beniftype = $("input[name='rdlogin']:checked").val()
+
+
+        if (beniftype == "BenLog") {
+            $("#benltype").show();
+        }
+
+        else {
+            $("#benltype").hide();
+        }
+
+    });
+
+
+    //$('body').on('click', '#btnNew1', function () {
+    //    alert("btnNew1 Clicked");
+    //});
+
+
+    //Enter keypress
+    $("#login-password").keypress(function(event){
+
+        if(event.keyCode == 13){
+            //e.preventDefault();
+            $("#btn-login").click();
+        }
+    });
+
+
+    var type = $("input[name='rdlogintype']:checked").val();
+
+
+
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+    e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+    (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+    ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+            return false;
+        }
+    }
+
+</script>

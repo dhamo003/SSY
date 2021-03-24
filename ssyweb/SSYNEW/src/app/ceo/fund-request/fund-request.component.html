@@ -1,0 +1,346 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                <header>
+                    <h2>Fund Request View </h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form smart-form-main">
+                            <div *ngIf="isVisibleCOExceptions">
+                                <header>Chronological Order Exception</header>
+                                <fieldset>
+                                    <section>
+                                        <div [innerHTML]="claimCOExceptionDetails"></div>
+                                    </section>
+                                </fieldset>
+                            </div>
+                            <header>ALC Details </header>
+                            <fieldset>
+                                <section>
+
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>ALC Name: </strong>{{officeDetails.userName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>RLO Office Name & Address: </strong>{{RloOfficeAddress.rloOfficeName}} <br /> {{RloOfficeAddress.addressLine1}} &nbsp; {{RloOfficeAddress.addressLine2}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Fund Request Date: </strong>{{fundrequestDetails.fundRequestDateString}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row" *ngIf="showErrorMessage">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please select atleast one record to proceed.</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset style="display:none">
+                                <section>
+                                    <label class="label">Fund Status at RLO</label>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Balance as on today : </strong>{{RloOfficeAddress.balanceOfTheAmount}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Approved Claims Amount: </strong>{{officeDetails.approvedClaimsAmount}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Amount Shortfall: </strong>{{AmountShortfall}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Board: </strong>{{fundrequestDetails.boardName}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Claim Types: </strong>{{fundrequestDetails.claimTypes}} </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Locations : </strong>{{fundrequestDetails.locationNames}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section style="display:none">
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <div class="inline-group">
+                                                <label class="radio">
+                                                    <input type="radio" name="radio-inline" checked="checked">
+                                                    <i></i>Fund Request for Claims
+                                                </label>
+                                                <label class="radio">
+                                                    <input type="radio" name="radio-inline" disabled>
+                                                    <i></i>Fund Request for Expenses
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section style="display:none">
+                                    <div class="row" style="margin-top:15px;">
+                                        <div class="col col-6 selectContainer">
+                                            <label class="label">Board<span [style.color]="!boardIdValid?'red':''"><b>*</b></span></label>
+
+                                            <select class="form-control" name="boardId" [(ngModel)]="boardId">
+                                                <option value="" selected>Select</option>
+                                                <option value="{{board.boardId}}" *ngFor="let board of boardList">{{board.boardName}}</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col col-6 selectContainer">
+                                            <label class="label">Category</label>
+
+                                            <select class="form-control" name="claimTypeIds" [(ngModel)]="claimTypeIds">
+                                                <option value="0" selected>All</option>
+                                                <option value="{{type.claimTypeId}}" *ngFor="let type of claimTypesList">{{type.claimTypeName}}</option>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="col col-6 selectContainer">
+                                            <label class="label">Location</label>
+                                            <select class="form-control" name="locationsIds" [(ngModel)]="locationsIds">
+                                                <option value="0" selected>All</option>
+                                                <option value="{{location.blockSno}}" *ngFor="let location of LocationList">{{location.blockName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                        </form>
+                        <!--/ Success states for elements -->
+                    </div>
+
+                </div>
+            </div>
+            <!-- widget grid -->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                <section id="widget-grid" class="">
+                    <div class="row">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                                <div>
+                                    <div class="jarviswidget-editbox">
+                                    </div>
+                                    <div class="widget-body no-padding">
+                                        <form class="smart-form smart-form-main">
+                                            <table id="datatable_fixed_column" class="table table-striped table-bordered"
+                                                   [mfData]="claimsData" #mf="mfDataTable" [mfRowsOnPage]="10" width="100%">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th *ngIf="editmode"><input type="checkbox" name="selectedAll" [(ngModel)]="selectedAll" (change)="selectAll();"></th>
+                                                        <th>SSIN</th>
+                                                        <th>Beneficiary Name</th>
+                                                        <!--<th>Beneficiary Type</th>-->
+                                                        <th>Claim Reference No.</th>
+                                                        <th>Claim Category</th>
+                                                        <th>Submission Date by Beneficiary</th>
+                                                        <th>Amount</th>
+                                                        <!--<th>Status</th>-->
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr *ngFor="let claim of mf.data">
+                                                        <td class="" *ngIf="editmode">
+                                                            <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="claim.selected" (change)="checkIfAllSelected(claim);" [disabled]="claim.paymentStatus!= 0">
+                                                        </td>
+                                                        <td>{{claim.ssin}}</td>
+                                                        <td>{{claim.benName}}</td>
+                                                        <!--<td>{{claim.benType}}</td>-->
+                                                        <!--<td>{{claim.claimRefernceNo}}</td>-->
+                                                        <td><a (click)="viewClaimInfo(claim)">{{claim.claimRefernceNo}}</a> </td>
+                                                        <td>{{getTypeName(claim.claimType)}}</td>
+                                                        <td>{{claim.submittedDateString}}</td>
+                                                        <td>{{claim.approvedAmount}}</td>
+                                                        <!--<td>{{claim.paymentStatusName}}</td>-->
+                                                    </tr>
+                                                </tbody>
+
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="9"> <mfBootstrapPaginator></mfBootstrapPaginator></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <fieldset>
+                                                <section>
+                                                    <div class="row">
+                                                        <div class="col col-6">
+                                                            <label><strong>Amount Required: </strong>{{sumofAmount}}</label>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+
+                                            <header>Time Line</header>
+                                            <fieldset>
+                                                <section>
+                                                    <!-- row -->
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="width:98%">
+                                                            <div class="well well-sm">
+                                                                <div class="smart-timeline">
+                                                                    <ul class="smart-timeline-list">
+
+                                                                        <li *ngFor="let item of claimsTrack">
+                                                                            <div class="smart-timeline-icon">
+                                                                                <i class="fa fa-user"></i>
+                                                                            </div>
+                                                                            <div class="smart-timeline-time">
+                                                                                <small>{{formatDate(item.actionDate)}}</small>
+                                                                            </div>
+                                                                            <div class="smart-timeline-content">
+                                                                                <p>
+                                                                                    <a href="javascript:void(0);"><strong>{{item.userName}} - {{item.action}}</strong></a>
+                                                                                </p>
+                                                                                <p>
+                                                                                    {{item.actionComments}}
+                                                                                </p>
+                                                                            </div>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <section>
+                                                    <label>ALC Comments</label>
+                                                    <label class="textarea textarea-resizable">
+                                                        <textarea rows="3" class="custom-scroll" [disabled]="true" name="alcComments" [(ngModel)]="alcComments"></textarea>
+                                                    </label>
+                                                </section>
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <label>DLC Comments</label>
+                                                    <label class="textarea textarea-resizable">
+                                                        <textarea rows="3" class="custom-scroll" [disabled]="true" name="dlcComments" [(ngModel)]="dlcComments"></textarea>
+                                                    </label>
+                                                </section>
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <label>Board Comments<span [style.color]="!commentsValid?'red':''"><b>*</b></span></label>
+                                                    <label class="textarea textarea-resizable">
+                                                        <textarea rows="3" class="custom-scroll" name="boardComments" [disabled]="!isVisible" [(ngModel)]="boardComments"
+                                                                  [ngClass]="{'invalid-data': (!commentsValid ), 'valid-data': commentsValid}"
+                                                                  required></textarea>
+                                                    </label>
+                                                    <div *ngIf="(!commentsValid)">
+                                                        <span style="color: red;">Board Comments is required </span>
+                                                    </div>
+                                                </section>
+
+                                            </fieldset>
+                                            <fieldset *ngIf="isCOExceptionCommentsReq">
+                                                <section>
+                                                    <label>Chronological Order Exception Comments <span [style.color]="!coexceptionCommentsValid?'red':''"><b>*</b></span> </label>
+                                                    <label class="textarea textarea-resizable">
+                                                        <textarea rows="3" class="custom-scroll" name="chronologicOrderExceptionComments" [disabled]="!isVisible" [(ngModel)]="ceoChronologicalOrderComments"
+                                                                  #chronologicOrderExceptionComments="ngModel"
+                                                                  [ngClass]="{'invalid-data': chronologicOrderExceptionComments.invalid && (!coexceptionCommentsValid || chronologicOrderExceptionComments.touched), 'valid-data': chronologicOrderExceptionComments.valid && coexceptionCommentsValid}"
+                                                                  required></textarea>
+                                                    </label>
+                                                    <div *ngIf="chronologicOrderExceptionComments.invalid && (!coexceptionCommentsValid ||chronologicOrderExceptionComments.touched)">
+                                                        <span style="color: red;">Chronological Order Exception Comments is required </span>
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+                                            <fieldset class="top-10"></fieldset>
+                                            <footer>
+                                                <a class="btn btn-danger" (click)="cancelclick()"> Cancel</a>
+                                                <a class="btn btn-warning" *ngIf="fundrequestDetails.statusId == 21 && selectedAll" (click)="updateFundRequest(23,'rejected')"> Reject</a>
+                                                <a class="btn btn-primary" *ngIf="fundrequestDetails.statusId == 21 && selectedAll" (click)="updateFundRequest(22,'send back')"> Send Back</a>
+                                                <a class="btn btn-success" *ngIf="fundrequestDetails.statusId == 21 || allClaimsRequested == 1" (click)="updateFundRequest(24,'approved')">Approve</a>
+                                            </footer>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </article>
+    </div>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+              
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #attachModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="attachModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Claim Details</h4>
+            </div>
+            <div class="modal-body" style="max-height:500px">
+                <div class="row" style="display:inline-flex;width:100%">
+                    <div style="width:50%;padding:5px;overflow:scroll;max-height:470px">
+                        <app-claimviewdata #child [claimId]="claimId" [claimType]="claimType" [transactionId]="tranctionId"></app-claimviewdata>
+                    </div>
+                    <div style="width:50%;padding:5px;overflow:scroll;max-height:470px;min-height:inherit">
+                        <accordion>
+                            <accordion-group heading="{{item.attachmentTypeString}}" *ngFor="let item of attachmentList">
+                                <div *ngIf="item.fileName.split('.')[item.fileName.split('.').length-1]!='pdf'">
+                                    <img [src]="'data:image/'+item.fileName.split('.')[item.fileName.split('.').length-1]+';base64,'+ item.fileContent" style="max-width:100%" />
+                                </div>
+                                <div *ngIf="item.fileName.split('.')[item.fileName.split('.').length-1]=='pdf'">
+                                    <object [attr.data]="item.attachmenturl" style="width:100%;height:400px" type="application/pdf"></object>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="attachModal.hide()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

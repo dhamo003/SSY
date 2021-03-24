@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "PrintFrom";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+<script src="~/Scripts/jquery.min.js"></script>
+<script>
+    var Bensno = @Html.Raw(Json.Encode(ViewBag.Bensno))
+    var SSIN = @Html.Raw(Json.Encode(ViewBag.SSIN))
+
+    
+</script>
+
+
+<div id="divPrint">
+
+    <center><img src="~/Content/images/biswa-bangla-logo.png" /></center>
+
+    <center>
+        <h3 style="font-weight:bold">SSY - Samajik Suraksha Yojana</h3>
+    </center>
+
+    <center>
+
+        <font size="3" style="font-weight:bold">
+
+            Congratulation @ViewBag.Name <br /><br />
+            You have been successfully registered in SSY<br /><br />
+            Your SSIN is @ViewBag.SSIN
+            <br /><br />
+            And your Password is your Date Of Birth (DDMMYYYY)<br /><br />
+            Your User ID is any of SSIN/Aadhar Number/Epic Card Number<br /><br />
+
+            To claim benefit you need to provide remaining information which can be done <br /><br />
+            any time before benefit claim by logging into your SSY Profile
+
+        </font>
+    </center>
+    
+  
+    
+</div>
+
+
+
+<script>
+    $( document ).ready(function() {
+
+        printDiv()
+    });
+
+    function printDiv() {
+        var divToPrint = document.getElementById('divPrint');
+        var newWin = window.open('', 'Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+        newWin.document.close();
+        setTimeout(function() {
+            newWin.close();
+        }, 10);
+    }
+
+  
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

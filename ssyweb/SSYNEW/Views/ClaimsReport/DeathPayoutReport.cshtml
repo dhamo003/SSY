@@ -1,0 +1,380 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "DeathPayoutReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+
+
+
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="~/Scripts/session.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+
+<style>
+    /*#fromdate, #todate {
+        z-index: 1000;
+    }*/
+
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        z-index: 9999;
+        max-height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+<script>
+    var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+    var Deptid = @Html.Raw(Json.Encode(ViewBag.deptid))
+    var RepSubDVision ="";
+    var RepLocation ="";
+    var SendSubDiv ="";
+    var ReportDistrics = "";
+    var sendrlos = "";
+    var senddistricts = "";
+
+</script>
+<div class="container-fliud">
+    <div class="" style="text-align: center"><h4><b>Death Transactions Report</b></h4></div>
+    <br />
+    <div class="col-sm-12">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">District</span>
+
+                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divsub">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">RLO</span>
+                    @Html.DropDownListFor(m => m.rloid, new SelectList(Model.rlo, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" style="margin-left:25px;">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">From Date</span>
+                    @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-12">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">To Date</span>
+                    @Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divloc">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <input type="checkbox" name="includebentransactions" id="includebentransactions" tabindex="10">
+                    <label class="" style="margin-left:20px;margin-top:-14px;">
+                        Include Ben Transactions
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+
+        <div class="col-md-3">
+            <a class="btn btn-primary" onclick="GetRepData()">Submit</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 column">
+            <div class="container-fluid">
+
+                <iframe name="ifr" id="ifr" style="width: 100%;height:500px; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+            </div>
+        </div>
+    </div>
+    @*<input type="hidden" id="MultiLoca" value="" name="MultiLoca" />*@
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        if (UserTypeid == "1" || UserTypeid == "21" || UserTypeid == "22" || UserTypeid == "23" || UserTypeid == "24")
+        {
+            //$("#disid").removeAttr("multiple");
+
+            //$("#disid").attr("multiple", "multiple");
+
+            //$('#disid').multiselect({
+            //    columns: 3,
+            //    placeholder: 'Select Languages',
+            //    search: true,
+            //    includeSelectAllOption: true
+            //})
+
+            //$("#disid").multiselect('rebuild');
+
+            $('option', $('#disid')).each(function (element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+            $("#disid").multiselect('refresh');
+
+            $("#disid").val("-1");
+            $("#rloid").val("-1");
+        }
+        getdates()
+
+    });
+
+    $("#disid").change(loadrlo);
+    function loadrlo() {
+
+		var Districtselected = $("#disid option:selected");
+		var Districtmessage = "0";
+		Districtselected.each(function () {
+			 
+			var res = $(this).val();
+
+			Districtmessage += "," + $(this).val();
+		});
+
+        $.get('@Url.Action("GetRLOByDistrictJSON", "ClaimsReport")', { IDs: Districtmessage }, function (dat) {
+				$("#rloid").find("option").remove();
+				$.each(dat, function (i, data) {
+					 
+                    $("#rloid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+				});
+
+                $("#rloid").removeAttr("multiple");
+
+                $("#rloid").attr("multiple", "multiple");
+                $('#rloid').multiselect({
+					columns: 3,
+					placeholder: 'Select Languages',
+					search: true,
+					includeSelectAllOption: true
+				})
+                $("#rloid").multiselect('rebuild');
+
+                $('option', $('#rloid')).each(function (element) {
+					$(this).removeAttr('selected').prop('selected', false);
+				});
+                $("#rloid").multiselect('refresh');
+
+			});
+
+    }
+    function loadSubdiv1() {
+
+        if ($("#disid").val() == "0") {
+            if (UserTypeid == "1" || UserTypeid == "2" || UserTypeid == "21" || UserTypeid == "22" || UserTypeid == "23" || UserTypeid == "24")
+            {
+                $.get('@Url.Action("GetSubdivisionAllJSON", "Report")', { ID: 0 }, function (dat) {
+                    $("#subdivid").find("option").remove();
+
+                    RepSubDVision = "";
+                    $.each(dat, function (i, data) {
+                         
+
+                        if (data.Value != "-1")
+                            $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        RepSubDVision += data.Value + ",";
+                    });
+                });
+                $.get('@Url.Action("GetLocationAllJSON", "Report")', { ID: 0 }, function (dat) {
+                     
+                    $("#Location").find("option").remove();
+
+                    sendloactions = "";
+                    $.each(dat, function (i, data) {
+                         
+                        if (data.Value != "-1" && data.Value != "0" )
+
+                            $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        sendloactions += data.Value + ",";
+                    });
+                    $("#Location").attr("multiple", "multiple");
+                    $('#Location').multiselect({
+                        columns: 3,
+                        placeholder: 'Select Languages',
+                        search: true,
+
+                        includeSelectAllOption: true
+                    })
+                    $("#Location").multiselect('rebuild');
+
+
+                    $('option', $('#Location')).each(function (element) {
+                        $(this).removeAttr('selected').prop('selected', false);
+                    });
+                    $("#Location").multiselect('refresh');
+                });
+            }
+            else
+            {
+                $.get('@Url.Action("GetSubDivByDistrict", "Report")', { ID: ReportDistrics }, function (dat) {
+                    $("#subdivid").find("option").remove();
+
+                    $("#subdivid").append("<option value="+0+"> " + "ALL" + " </option>");
+                    RepSubDVision = "";
+                    $.each(dat, function (i, data) {
+                         
+
+                        if (data.Value != "-1")
+                            $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        RepSubDVision += data.Value + ",";
+                    });
+                    GetAlcLocations();
+                });
+            }
+        }
+        else {
+            $.get('@Url.Action("GetSubdivisionJSON", "Login")', { ID: $("#disid").val() }, function (dat) {
+                $("#subdivid").find("option").remove();
+                $("#subdivid").append("<option value=0>ALL</option>");
+                RepSubDVision = "";
+                $.each(dat, function (i, data) {
+                     
+
+                    if (data.Value != "0")
+                        $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    RepSubDVision += data.Value + ",";
+                });
+            });
+            $.get('@Url.Action("GetblockforDisRepJSON", "Report")', { ID: $("#disid").val() }, function (dat) {
+                 
+                $("#Location").find("option").remove();
+
+                sendloactions = "";
+                $.each(dat, function (i, data) {
+                     
+                    if (data.Value != "-1" && data.Value != "0")
+                        $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    sendloactions += data.Value + ",";
+                });
+                $("#Location").attr("multiple", "multiple");
+                $('#Location').multiselect({
+                    columns: 3,
+                    placeholder: 'Select Languages',
+                    search: true,
+                    includeSelectAllOption: true
+                })
+                $("#Location").multiselect('rebuild');
+
+                $('option', $('#Location')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#Location").multiselect('refresh');
+            });
+        }
+
+    }
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        $("#fromdate,#todate").val(today);
+    }
+    //Get Report
+    function GetRepData() {
+
+        if ($("#disid").val() == "" || $("#disid").val() == null || $("#disid").val() == "-1") {
+            alert("Please Select District");
+            $("#disid").focus();
+            return false;
+        }
+        if ($("#rloid").val() == "" || $("#rloid").val() == null || $("#rloid").val() == "-1") {
+            alert("Please Select RLO Office");
+            $("#rloid").focus();
+            return false;
+        }
+        if ($("#fromdate").val() == "" || $("#fromdate").val() == null) {
+            alert("Please Select From Date");
+            $("#fromdate").focus();
+            return false;
+        }
+        if ($("#todate").val() == "" || $("#todate").val() == null) {
+            alert("Please Select To Date");
+            $("#todate").focus();
+            return false;
+        }
+
+        // Date validations
+        var arr1 = $('#fromdate').val().split('-');
+        var arr2 = $('#todate').val().split('-');
+        var startDate = new Date(arr1[1] +"-"+arr1[0] + "-"+arr1[2]);
+        var endDate = new Date(arr2[1] +"-"+arr2[0] + "-"+arr2[2]);
+
+        var diffDate = (endDate - startDate)/1000/60/60/24;
+
+        //if (diffDate > 31 || diffDate < 0){
+
+        //    alert("Report can be viewed for a date range of one Month");
+
+        //    return false;
+
+        //}
+
+        if ($("#disid").val() != 0)
+            senddistricts = $("#disid").val();
+        var SelectedDistricts = $("#disid option:selected");
+        var ValueDistrictSend = "";
+        SelectedDistricts.each(function () {
+             
+
+            ValueDistrictSend += $(this).val()+",";
+        });
+
+        if ($("#rloid").val() != 0)
+            sendrlos = $("#rloid").val();
+        var Selectedrlos = $("#rloid option:selected");
+        var ValuerlosSend = "";
+        Selectedrlos.each(function () {
+             
+
+            ValuerlosSend += $(this).val() + ",";
+        });
+
+        var includebentransactions = $("#includebentransactions").is(':checked');
+
+        var url = "/SSYIDCard/DeathPayoutReport.aspx?usertype=" + UserTypeid + "&district=" + ValueDistrictSend + "&rlo=" + ValuerlosSend + "&fromdate=" + $('#fromdate').val() + "&todate=" + $('#todate').val() + "&userid=" + Deptid + "&includebentransactions=" + includebentransactions ;
+        $('iframe#ifr').attr('src', url);
+
+
+    }
+
+</script>
+
+
+
+
+
+
+

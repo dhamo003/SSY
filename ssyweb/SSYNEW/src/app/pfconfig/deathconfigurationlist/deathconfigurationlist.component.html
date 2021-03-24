@@ -1,0 +1,84 @@
+
+<div id="content">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Death Conguration History </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+
+
+                        <p></p>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>
+                                        Rule Name
+                                    </th>
+                                    <th>
+                                        Condition
+                                    </th>
+                                    <th>
+                                        Value
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Effective From Date
+                                    </th>
+                                    <th>
+                                        Effective To Date
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let deathConfig of deathConfigList">
+                                    <td>
+                                        <a *ngIf="deathConfig.status == 1" (click)="onEditClick(deathConfig)" title="Edit" class="txt-color-red"><i class="fa fa-edit fa-lg"></i></a>
+                                        <a (click)="onViewClick(deathConfig)" title="View" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{deathConfig.ruleName}}</td>
+                                    <td>{{deathConfig.logic}}</td>
+                                    <td>{{deathConfig.value}}</td>
+                                    <td>{{deathConfig.description}}</td>
+                                    <td>{{deathConfig.dateEffectiveFromString}}</td>
+                                    <td>{{deathConfig.dateEffectiveToString}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7">
+                                        <div *ngIf="deathConfigList.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changePage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <footer class="modal-footer">
+                            <a class="btn btn-danger" (click)="cancelClick()"> Cancel</a>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

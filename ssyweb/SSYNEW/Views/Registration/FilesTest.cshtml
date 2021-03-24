@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FilesTest</title>
+	<script>
+
+		
+		$("#oldAddressproof").attr('src', 'data:application/' + result.DOBProofExtension + ';base64,' + result.DOBProof); //for pdf file
+			//else {
+			//	//$("#newAddressproof").attr('src', 'data:image/' + result.DOBProofExtension + ';base64,' + result.DOBProof); //for pdf file
+			//	$("#newAddressproof").attr('src', 'data:image/jpg;base64,' + result.ProofString); //for image file
+
+	</script>
+</head>
+<body>
+	<div>
+		<div class="col-md-4">
+			<img src="172.18.117.227/ssyapp/otherDoc/476322_6.jpg" style="height:300px;width:400px" />
+			<iframe src="" frameborder="0" id="oldAddressproof" style="width: 100%; height: 300px;"></iframe>
+			<img src="~/Content/images/Apply Online.jpg" />
+
+		</div>
+		<div class="col-md-4">
+			<input type="file" id="filetest02" src="172.18.117.227/ssyapp/otherDoc/476322_6.jpg" />
+
+		</div>
+		<div class="col-md-4">
+			<input type="file" id="filetest03" src="172.18.117.227/ssyapp/otherDoc/476322_6.jpg" />
+
+		</div>
+
+	</div>
+</body>
+</html>
+
+

@@ -1,0 +1,484 @@
+
+<div id="content" >
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>PF Deposited </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+
+
+                        <p></p>
+
+                        <table class="table table-striped" [mfData]="pFDepositDetails.results" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="pfDepositId">DEPT_REF_NO</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="depositAmount">Deposit Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="depositDateString">Deposit Date</mfDefaultSorter>
+                                    </th>
+                                    <!--<th>
+                                        <mfDefaultSorter by="payinSlipNo">Payin Slip No</mfDefaultSorter>
+
+                                    </th>-->
+                                    <th>
+                                        <mfDefaultSorter by="scrollNumber">Scroll Number</mfDefaultSorter>
+
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="bankDepositDateString">BankDepositDate</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter>PayIn Slip</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="gRN">GRN</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="paymentStatus">Payment Status</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="isGrips">Is Grips</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let deposits of mf.data|grdFilter: {depositAmount:searchText, depositDateString: searchText, payinSlipNo: searchText, scrollNumber: searchText, bankDepositDateString: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onRePayClick(deposits)" title="RePay" class="txt-color-red" *ngIf="deposits.transactionStatus==3 && deposits.isGrips"><i class="fa fa-edit fa-lg"></i></a>
+                                        <a (click)="onVerifyClick(deposits)" title="Verify" class="txt-color-red" *ngIf="(deposits.transactionStatus==2 || deposits.transactionStatus==0)&& deposits.isGrips"><i class="fa fa-eye"></i></a>
+                                        <a (click)="onPDFViewClick(deposits)" title="PDF View" class="txt-color-red" *ngIf="deposits.isGrips"><i class="fa fa-file-pdf-o"></i></a>
+                                        <a (click)="getAttachments(deposits.pfDepositId)" title="View Attachments" class="txt-color-red" *ngIf="deposits.isPayInSlipUploaded"><i class="fa fa-file-o"></i></a>
+                                    </td>
+                                    <td>{{deposits.pfDepositId}}</td>
+                                    <td>{{deposits.depositAmount}}</td>
+                                    <td>{{deposits.depositDateString}}</td>
+                                    <!--<td>{{deposits.payinSlipNo}}</td>-->
+                                    <td>{{deposits.scrollNumber}}</td>
+                                    <td>{{deposits.bankDepositDateString}}</td>
+                                    <td class="">
+                                        <div *ngIf="!deposits.isPayInSlipUploaded">
+                                            <a *ngIf="!deposits.isGrips" (click)="upload(deposits)" title="Upload" class="txt-color-red"><i class="fa fa-upload fa-lg"></i></a>
+                                            <a *ngIf="deposits.isGrips && deposits.transactionStatus==1" (click)="uploadGripsFormIV(deposits)" title="Upload Form IV" class="txt-color-red"><i class="fa fa-upload fa-lg"></i></a>
+                                        </div>
+                                    </td>
+                                    <td>{{deposits.grn}}</td>
+                                    <td>{{deposits.paymentStatus}}</td>
+                                    <td>{{deposits.isGrips}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="11">
+                                        <div *ngIf="pFDepositDetails.results.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+<div>
+    <form method="post" #form1 id="form1" name="form1" style="display:none">
+        <input type="text" name="xmlString" id="xmlString">
+        <input type="text" name="Dept_Cd" id="Dept_Cd">
+        <button type="submit" (click)="form1.submit()">Submit</button>
+    </form>
+
+    <form method="post" #form1 id="form2" name="form2" style="display:none">
+        <input type="text" name="ENCDATA" id="ENCDATA">
+        <input type="text" name="DEPT_CD" id="DEPT_CD">
+        <button type="submit" (click)="form2.submit()">Submit</button>
+    </form>
+    <!--UAT-->
+    <!--<form action="http://202.61.117.90/GRIPS/DeptVarifyPayment.do" method="post" #form1 id="form1" name="form1" style="display:none">
+        <input type="text" name="xmlString" id="xmlString">
+        <input type="text" name="Dept_Cd" id="Dept_Cd">
+        <button type="submit" (click)="form1.submit()">Submit</button>
+    </form>
+
+    <form action="http://202.61.117.90/GRIPS/v1epay.do" method="post" #form1 id="form2" name="form2" style="display:none">
+        <input type="text" name="ENCDATA" id="ENCDATA">
+        <input type="text" name="DEPT_CD" id="DEPT_CD">
+        <button type="submit" (click)="form2.submit()">Submit</button>
+    </form>-->
+    <!--LIVE-->
+    <!--<form action="https://wbifms.gov.in/GRIPS/DeptVarifyPayment.do" method="post" #form1 id="form1" name="form1" style="display:none">
+        <input type="text" name="xmlString" id="xmlString">
+        <input type="text" name="Dept_Cd" id="Dept_Cd">
+        <button type="submit" (click)="form1.submit()">Submit</button>
+    </form>
+
+    <form action="https://wbifms.gov.in/GRIPS/v1epay.do" method="post" #form1 id="form2" name="form2" style="display:none">
+        <input type="text" name="ENCDATA" id="ENCDATA">
+        <input type="text" name="DEPT_CD" id="DEPT_CD">
+        <button type="submit" (click)="form2.submit()">Submit</button>
+    </form>-->
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #payInSlipModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="payInSlipModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <fieldset id="divUploadPayInSlip">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Bank Deposited Date <span [style.color]="!dateOfDepostValid?'red':''"><b>*</b></span></label>
+                            <label class="input">
+                                <!--<i class="icon-append fa fa-calendar"></i>-->
+                                <input type="text" name="depositDate" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                       placeholder="DD/MM/YYYY"
+                                       #depositDate="ngModel"
+                                       [maxDate]="toDayDate"
+                                       [(ngModel)]="bankDepositDate"
+                                       value="{{ depositedDate | date: 'dd/MM/yyyy' }}"
+                                       [ngClass]="{'invalid-data':!dateOfDepostValid, 'valid-data': dateOfDepostValid}"
+                                       required>
+                            </label>
+                            <div *ngIf="!dateOfDepostValid">
+                                <span style="color: red;">Deposited Date is required </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label">Scroll Number </label>  <!--<span [style.color]="!payInSlipNumberValid?'red':''"><b>*</b></span>-->
+                                <input type="text" class="form-control" name="payInSlip" numbersOnly [(ngModel)]="scrollNumber" />
+                                <!--<div *ngIf="!payInSlipNumberValid">
+                                    <span style="color: red;">Scroll Number is required </span>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 smart-form">
+                            <section class="col col-6 top-5">
+                                <label class="label">PayIn Slip <span [style.color]="!payInSlipUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" id="file" (change)="onFileChanged($event, 'payinslip')">Browse</span>
+                                    <input type="text" readonly>
+                                </div>
+                                <div *ngIf="(!payInSlipUploaded) && (payInSlipCertificate.fileName =='' || payInSlipCertificate.fileName == undefined )">
+                                    <span style="color: red;">PayIn Slip is required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>{{payInSlipCertificate.fileName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <section style="padding-top:30px" class="col col-6"><label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-primary" (click)="GenaratePdf()">
+                            Generate Form-IV
+                        </button>
+                        <div *ngIf="!isVisible && (!formIVUploaded) && (formIVCertificate.fileName =='' || formIVCertificate.fileName == undefined )">
+                            <span style="color: red;">Form - IV is required </span>
+                        </div>
+                        <!--<a class="btn btn-success" (click)="GenaratePdf()">Generate Form-IV</a>-->
+                    </div>
+                    <div class="row" *ngIf="isVisible">
+                        <div class="col-12 smart-form">
+                            <section class="col col-6 top-5">
+                                <label class="label">Form - IV <span [style.color]="!formIVUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" id="file" (change)="onFileChanged($event, 'formIV')">Browse</span>
+                                    <input type="text" readonly>
+                                </div>
+                                <div *ngIf="(!formIVUploaded) && (formIVCertificate.fileName =='' || formIVCertificate.fileName == undefined )">
+                                    <span style="color: red;">Form - IV is required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>{{formIVCertificate.fileName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <section style="padding-top:30px" class="col col-6"><label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                        </div>
+                    </div>
+                    <!--<section>
+                        <div class="row">
+                            <div class="col col-6">
+                                <label class="label">Form - IV <span [style.color]="!formIVUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button">
+                                        <input type="file" id="file">Browse
+                                    </span><input type="text" readonly>
+                                </div>
+                                <div *ngIf="(!formIVUploaded) && (formIVCertificate.fileName =='' || formIVCertificate.fileName ==undefined )">
+                                    <span style="color: red;">Form - IV is required </span>
+                                </div>
+                                <div>
+                                    {{formIVCertificate.fileName}}
+                                </div>
+                            </div>
+                        </div>
+                    </section>-->
+                </fieldset>
+            </div>
+
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="savePaySlip()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #gripsFormIVModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="gripsFormIVModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Status Message</h4>
+            </div>
+            <div class="modal-body">
+                <fieldset id="divUploadPayInSlip">
+                    <div class="row">
+                        <button type="button" class="btn btn-primary" (click)="GenarateGripsFormIV()">
+                            Generate Form-IV
+                        </button>
+                        <div *ngIf="!isVisible && (!formIVUploaded) && (formIVCertificate.fileName =='' || formIVCertificate.fileName == undefined )">
+                            <span style="color: red;">Form - IV is required </span>
+                        </div>
+                        <!--<a class="btn btn-success" (click)="GenaratePdf()">Generate Form-IV</a>-->
+                    </div>
+                    <div class="row" *ngIf="isVisible">
+                        <div class="col-12 smart-form">
+                            <section class="col col-6 top-5">
+                                <label class="label">Form - IV <span [style.color]="!formIVUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" id="file" (change)="onFileChanged($event, 'formIV')">Browse</span>
+                                    <input type="text" readonly>
+                                </div>
+                                <div *ngIf="(!formIVUploaded) && (formIVCertificate.fileName =='' || formIVCertificate.fileName == undefined )">
+                                    <span style="color: red;">Form - IV is required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>{{formIVCertificate.fileName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <section style="padding-top:30px" class="col col-6"><label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                        </div>
+                    </div>
+                    <!--<section>
+                        <div class="row">
+                            <div class="col col-6">
+                                <label class="label">Form - IV <span [style.color]="!formIVUploaded?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button">
+                                        <input type="file" id="file">Browse
+                                    </span><input type="text" readonly>
+                                </div>
+                                <div *ngIf="(!formIVUploaded) && (formIVCertificate.fileName =='' || formIVCertificate.fileName ==undefined )">
+                                    <span style="color: red;">Form - IV is required </span>
+                                </div>
+                                <div>
+                                    {{formIVCertificate.fileName}}
+                                </div>
+                            </div>
+                        </div>
+                    </section>-->
+                </fieldset>
+            </div>
+
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="saveGripsFormIV()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #pdfModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="pdfModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Form-IV Pdf</h4>
+            </div>
+            <div class="modal-body">
+                Form-IV generated, Please print or download.
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf('print')">
+                    Print Form-IV
+                </button>
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf('download')">
+                    Download Form-IV
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div bsModal #repayModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="repayModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">RePay</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form action="http://202.61.117.90/GRIPS/DeptVarifyPayment.do" method="post" #form1 id="form1" name="form1" style="display:none">
+                        <input type="text" name="ENCDATA" id="ENCDATA">
+                        <input type="text" name="DEPT_CD" value="050">
+                        <button type="submit" (click)="form1.submit()">Submit</button>
+                    </form>
+                </div>
+                <div>
+                    Are you sure to proceed
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="postData()">
+                    Ok
+                </button>
+                <button type="button" class="btn btn-primary" (click)="repayModal.hide()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div bsModal #pfDepositModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">PF Deposit Details Pdf</h4>
+            </div>
+            <div class="modal-body">
+                PF Deposit Details generated, Please print or download.
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="downLoadPFDetailsPdf('print')">
+                    Print PF Deposit Details
+                </button>
+                <button type="button" class="btn btn-primary" (click)="downLoadPFDetailsPdf('download')">
+                    Download PF Deposit Details
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #attachModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="attachModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Attachment Details</h4>
+            </div>
+            <div class="modal-body" style="max-height:500px">
+                <div class="row" style="display:inline-flex;width:100%">
+                    <div style="width:100%;padding:5px;overflow:scroll;max-height:470px">
+                        <accordion>
+                            <accordion-group heading="{{item?.fileName}}" *ngFor="let item of attachments">
+                                <div *ngIf="item?.fileName.split('.')[item?.fileName.split('.').length-1]!='pdf'">
+                                    <img [src]="'data:image/'+item?.fileName.split('.')[item?.fileName.split('.').length-1]+';base64,'+ item.fileContent" style="max-width:100%" />
+                                </div>
+                                <div *ngIf="item?.fileName.split('.')[item?.fileName.split('.').length-1]=='pdf'">
+                                    <object [attr.data]="item.attachmenturl" style="width:100%;height:400px" type="application/pdf"></object>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="attachModal.hide()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,696 @@
+﻿
+@{
+	ViewBag.Title = "EditBeneAddressDetApplications";
+	Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+<style>
+</style>
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<center><h3 class="product-description">Change Requests Details</h3></center>
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">From Date</span>
+							@Html.TextBox("fromdate", "", null, new { @class = "form-control", @readonly = "" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">To Date</span>
+							@Html.TextBox("todate", "", null, new { @class = "form-control", @readonly = "" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">Status</span>
+							@Html.DropDownList("Status", new List<SelectListItem>
+										{
+											new SelectListItem{ Text="All", Value = "0,1,2" },
+											 new SelectListItem{ Text="Pending", Value = "0" },
+											  new SelectListItem{ Text="Approved", Value = "1" },
+											   new SelectListItem{ Text="Rejected", Value = "2" }
+										}, new { @class = "form-control  Dropdwn" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<a class="btn btn-primary" onclick="GetReport()">Submit</a>
+				</div>
+			</div>
+			<br />
+			<div>
+				<table class="table table-striped table-bordered Apllications" cellspacing="0" width="100%">
+					<thead style="background-color:#87CEEB">
+						<tr>
+							<th>S.No</th>
+							<th>Name</th>
+							<th>SSIN</th>
+							<th>Created Date</th>
+							<th>Status</th>
+							<th class="th_hide">Remarks</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="DivBenPersonalDet" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<center>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body" style="height: 300px;overflow-y: auto;">
+
+						<div class="col-md-6">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th colspan="2">Old Permanent Address Details</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>State</td>
+										<td><label id="lblOldperstate"></label></td>
+
+									</tr>
+									<tr>
+										<td>District</td>
+										<td><label id="lblOldperdist"></label></td>
+
+									</tr>
+									<tr>
+										<td>Sub Division</td>
+										<td><label id="lblOldpersubdiv"></label></td>
+
+									</tr>
+									<tr>
+										<td>BMC</td>
+										<td><label id="lblOldperbmc"></label></td>
+
+									</tr>
+									<tr>
+										<td>Block</td>
+										<td><label id="lblOldperblock"></label></td>
+
+									</tr>
+									<tr>
+										<td>Police Station</td>
+										<td><label id="lblOldperps"></label></td>
+
+									</tr>
+									<tr>
+										<td>Post Office</td>
+										<td><label id="lblOldperpo"></label></td>
+									</tr>
+									<tr>
+										<td>PIN Code</td>
+										<td><label id="lblOldperpin"></label></td>
+									</tr>
+									<tr>
+										<td>Ward</td>
+										<td><label id="lblOldperward"></label></td>
+									</tr>
+									<tr>
+										<td>Village</td>
+										<td><label id="lblOldpervlg"></label></td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th colspan="2">Old Present Address Details</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>State</td>
+										<td><label id="lblOldprestate"></label></td>
+
+									</tr>
+									<tr>
+										<td>District</td>
+										<td><label id="lblOldpredist"></label></td>
+
+									</tr>
+									<tr>
+										<td>Sub Division</td>
+										<td><label id="lblOldpresubdiv"></label></td>
+
+									</tr>
+									<tr>
+										<td>BMC</td>
+										<td><label id="lblOldprebmc"></label></td>
+
+									</tr>
+									<tr>
+										<td>Block</td>
+										<td><label id="lblOldpreblock"></label></td>
+
+									</tr>
+									<tr>
+										<td>Police Station</td>
+										<td><label id="lblOldpreps"></label></td>
+
+									</tr>
+									<tr>
+										<td>Post Office</td>
+										<td><label id="lblOldprepo"></label></td>
+									</tr>
+									<tr>
+										<td>PIN Code</td>
+										<td><label id="lblOldprepin"></label></td>
+									</tr>
+									<tr>
+										<td>Ward</td>
+										<td><label id="lblOldpreward"></label></td>
+									</tr>
+									<tr>
+										<td>Village</td>
+										<td><label id="lblOldprevlg"></label></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a>
+											<span class="glyphicon glyphicon-file">
+											</span>Old Address Proof
+										</a>
+									</h4>
+								</div>
+
+								<iframe src="" frameborder="0" id="oldAddressproof" style="width: 100%; height: 300px;"></iframe>
+
+							</div>
+						</div>
+						<div class="col-md-6">
+							@*<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th colspan="2">New Address Details</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Date of Birth</td>
+					<td><label id="lblNewBeneDOB"></label></td>
+				</tr>
+			</tbody>
+		</table>*@
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th colspan="2">New Permanent Address Details</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>State</td>
+										<td><label id="lblnewperstate"></label></td>
+
+									</tr>
+									<tr>
+										<td>District</td>
+										<td><label id="lblnewperdist"></label></td>
+
+									</tr>
+									<tr>
+										<td>Sub Division</td>
+										<td><label id="lblnewpersubdiv"></label></td>
+
+									</tr>
+									<tr>
+										<td>BMC</td>
+										<td><label id="lblnewperbmc"></label></td>
+
+									</tr>
+									<tr>
+										<td>Block</td>
+										<td><label id="lblnewperblock"></label></td>
+
+									</tr>
+									<tr>
+										<td>Police Station</td>
+										<td><label id="lblnewperps"></label></td>
+
+									</tr>
+									<tr>
+										<td>Post Office</td>
+										<td><label id="lblnewperpo"></label></td>
+									</tr>
+									<tr>
+										<td>PIN Code</td>
+										<td><label id="lblnewperpin"></label></td>
+									</tr>
+									<tr>
+										<td>Ward</td>
+										<td><label id="lblnewperward"></label></td>
+									</tr>
+									<tr>
+										<td>Village</td>
+										<td><label id="lblnewpervlg"></label></td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th colspan="2">New Present Address Details</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>State</td>
+										<td><label id="lblnewprestate"></label></td>
+
+									</tr>
+									<tr>
+										<td>District</td>
+										<td><label id="lblnewpredist"></label></td>
+
+									</tr>
+									<tr>
+										<td>Sub Division</td>
+										<td><label id="lblnewpresubdiv"></label></td>
+
+									</tr>
+									<tr>
+										<td>BMC</td>
+										<td><label id="lblnewprebmc"></label></td>
+
+									</tr>
+									<tr>
+										<td>Block</td>
+										<td><label id="lblnewpreblock"></label></td>
+
+									</tr>
+									<tr>
+										<td>Police Station</td>
+										<td><label id="lblnewpreps"></label></td>
+
+									</tr>
+									<tr>
+										<td>Post Office</td>
+										<td><label id="lblnewprepo"></label></td>
+									</tr>
+									<tr>
+										<td>PIN Code</td>
+										<td><label id="lblnewprepin"></label></td>
+									</tr>
+									<tr>
+										<td>Ward</td>
+										<td><label id="lblnewpreward"></label></td>
+									</tr>
+									<tr>
+										<td>Village</td>
+										<td><label id="lblnewprevlg"></label></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a>
+											<span class="glyphicon glyphicon-file">
+											</span>New Address Proof
+										</a>
+									</h4>
+								</div>
+
+								<iframe src="" frameborder="0" id="newAddressproof" style="width: 100%; height: 300px;"></iframe>
+
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div style="display:none;margin-right:66px;margin-bottom:-34px;" id="divStstus">
+							<a id="AgentApp" class="btn btn-success" onclick="SubmitStatus('1')">Approve</a>
+							<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#divEditDetRej">Reject</a>
+						</div>
+						<div id="divlbl" style="display:none;">
+							<label id="lblrefid"></label>
+						</div>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</center>
+		</div>
+	</div>
+
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="divEditDetRej" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content" style="width:580px;margin-left:-580px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Remarks</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="input-group extra-space">
+									<textarea name="test_field" id="RejectedRemarks" style="width: 544px;height: 104px;"></textarea>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" onclick="SubmitStatus('2')">Submit</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+            $('.Apllications').DataTable({
+        });
+
+        getdates();
+        GetReport()
+        });
+
+    function GetReport() {
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+        var Staus = $("#Status").val();
+
+
+
+		$.get('@Url.Action("GetAddressEditAppliation", "Report")', { userId: deptuserid, fromDate: fromdate, toDate: todate, Status: $("#Status").val() }, function (result) {
+             
+            var table = $('.Apllications').DataTable();
+            table.destroy();
+            $('.Apllications tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+				 
+				//var AddidBensno = data.AddEditID.toString() + '_$' + data.BenSno.toString();
+				//alert(AddidBensno);
+
+				$('.Apllications').append('<tr><td>' + data.Sno + '</td><td><a href="#" data-toggle="modal"  onClick = "GetBenDet(' + data.AddEditID + ');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.SSIN + '</td><td>' + data.ReqDate + '</td><td>' + data.Status + '</td><td>' + data.Remarks + '</td></tr>')
+
+				//<td><input type="hidden" id=' + data.BenSno + ' value="0" name="Bensno" /></td>
+            });
+            $('.Apllications').DataTable({
+            });
+
+        });
+    }
+
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        $("#fromdate,#todate").val(today);
+    }
+
+	function GetBenDet(Id) {
+		 
+		//alert(Id)
+		//var idbensno = Id.toString().split('$');
+		//alert(idbensno[0])
+		//alert(idbensno[1])
+		$.get('@Url.Action("GetAddressEditApplicationBenSno", "Report")', { id: Id }, function (result) {
+			 
+			GetAddressDetail(result.BenSno);
+
+		});
+		//$("#lblnewperdist").val("0102");
+		$.get('@Url.Action("GetPermanentAddressEditAppliationById", "Report")', { id: Id }, function (result) {
+			 
+
+			if (result.Status == "Pending") {
+				$("#divStstus").show();
+			}
+			else {
+
+				$("#divStstus").hide();
+
+			}
+			//Permanent Add Details
+			
+			$("#lblnewperstate").text("West Bengal");
+			$("#lblnewperdist").text(result.PerDistID);
+			//alert(result.PerDistID);
+			//alert($("#lblnewperdist").val(result.PerDistID));
+
+			$("#lblnewpersubdiv").text(result.PerSubDivisionID);
+			$("#lblnewperbmc").text(result.PerBMC);
+			$("#lblnewperblock").text(result.PerBlock);
+			$("#lblnewperps").text(result.PerPSID);
+			$("#lblnewperpo").text(result.PerPOID);
+			$("#lblnewperpin").text(result.PerPinCode);
+			$("#lblnewperward").text(result.PerWard);
+			$("#lblnewpervlg").text(result.PerVillage);
+			
+			$("#oldAddressproof").attr('src', result.OldAddressProof); 
+			//Present Add Details
+			//$("#lblnewprestate").text("West Bengal");
+			//$("#lblnewpredist").text(result.PreDistID);
+			//$("#lblnewpresubdiv").text(result.PreSubDivisionID);
+			//$("#lblnewprebmc").text(result.PreBMC);
+			//$("#lblnewpreblock").text(result.PreBlock);
+			//$("#lblnewpreps").text(result.PrePSID);
+			//$("#lblnewprepo").text(result.PrePOID);
+			//$("#lblnewprepin").text(result.PrePinCode);
+			//$("#lblnewpreward").text(result.PreWard);
+			////alert(result.PreVillage);
+			//$("#lblnewprevlg").text(result.PreVIllage);
+			 
+			////alert('name ext ' + result.NameProofExtension);
+			////alert('dob ext ' + result.DOBProofExtension);
+			//if (result.NameProofExtension == "pdf")
+			//	$("#dateofbirthproofold").attr('src', 'data:application/' + result.NameProofExtension + ';base64,' + result.NameProof); //for pdf file
+			//else
+			//$("#ImgRejectedDoc").attr('src', res.RejectedDocumnet);
+			/////////////////////////////////$("#dateofbirthproofold").attr('src', result.OldDOBProof);
+			//alert(result.DOBProofExtension);
+			//alert(result.DOBProof);
+			if (result.ProofExtension == "pdf") { 
+				if (result.ProofString.substring(1, 12) == "UploadFiles") {
+					$("#newAddressproof").attr('src', result.ProofString);
+				}
+				else {
+					$("#newAddressproof").attr('src', 'data:application/' + result.ProofExtension + ';base64,' + result.ProofString); //for pdf file
+				}
+				//$("#newAddressproof").attr('src', 'data:application/' + result.DOBProofExtension + ';base64,' + result.DOBProof); //for pdf file
+			}
+			else {
+
+				if (result.ProofString.substring(1, 12) == "UploadFiles") {
+					$("#newAddressproof").attr('src', result.ProofString);
+				}
+				else {
+					
+					$("#newAddressproof").attr('src', 'data:image/' + result.ProofExtension + ';base64,' + result.ProofString); //for image file
+				}
+				//$("#newAddressproof").attr('src', 'data:image/' + result.DOBProofExtension + ';base64,' + result.DOBProof); //for pdf file
+				//$("#newAddressproof").attr('src', 'data:image/jpg;base64,' + result.ProofString); //for image file
+				//$("#dateofbirthproof").attr('src', 'data:image/jpg; base64,'+ result.DOBProof);
+				}
+		//$("#nameidproof").attr('src', 'data:images/jpeg;base64,'+result.NameProof); //for image file
+		//$("#dateofbirthproof").attr('src', result.DOBProof);
+
+
+
+		$("#DivBenPersonalDet").modal('show');
+
+            $("#lblrefid").text(Id);
+
+		});
+		$.get('@Url.Action("GetPresentAddressEditAppliationById", "Report")', { id: Id }, function (result) {
+			 
+
+			if (result.Status == "Pending") {
+				$("#divStstus").show();
+			}
+			else {
+				$("#divStstus").hide();
+			}
+			//Permanent Add Details
+			//$("#lblnewperstate").text("West Bengal");
+			//$("#lblnewperdist").text(result.PerDistID);
+			////alert(result.PerDistID);
+			////alert($("#lblnewperdist").val(result.PerDistID));
+			//$("#lblnewpersubdiv").text(result.PerSubDivisionID);
+			//$("#lblnewperbmc").text(result.PerBMC);
+			//$("#lblnewperblock").text(result.PerBlock);
+			//$("#lblnewperps").text(result.PerPSID);
+			//$("#lblnewperpo").text(result.PerPOID);
+			//$("#lblnewperpin").text(result.PerPinCode);
+			//$("#lblnewperward").text(result.PerWard);
+			//$("#lblnewpervlg").text(result.PerVillage);
+			
+			
+			//Present Add Details
+			$("#lblnewprestate").text("West Bengal");
+			$("#lblnewpredist").text(result.PreDistID);
+			$("#lblnewpresubdiv").text(result.PreSubDivisionID);
+			$("#lblnewprebmc").text(result.PreBMC);
+			$("#lblnewpreblock").text(result.PreBlock);
+			$("#lblnewpreps").text(result.PrePSID);
+			$("#lblnewprepo").text(result.PrePOID);
+			$("#lblnewprepin").text(result.PrePinCode);
+			$("#lblnewpreward").text(result.PreWard);
+			//alert(result.PreVillage);
+			$("#lblnewprevlg").text(result.PreVIllage);
+			 
+			$("#DivBenPersonalDet").modal('show');
+            $("#lblrefid").text(Id);
+
+        });
+
+
+	}
+	function GetAddressDetail(dat) {
+		//alert("benaddress details " + dat);
+			$.get('@Url.Action("GetbenAddressDetails", "Registration")', { bensno: dat }, function (res) {
+				 
+				$.each(res, function (i, data) {
+					 
+					if (data.BenAddressType == "Permanent") {
+						//$("#lblOldperblock").val(data.BenAddressSno);
+						$("#lblOldperstate").text("West Bengal");
+						$("#lblOldperdist").text(data.DistrictName); //$("#lblOldperdist").text(data.BenDistrict);
+						$("#lblOldpersubdiv").text(data.SubDivisionName); //$("#lblOldpersubdiv").text(data.BenSubDivision);
+						$("#lblOldperbmc").text(data.BlockName);  //$("#lblOldperbmc").text(data.LocationType);
+						$("#lblOldperblock").text(data.BlockName);  //$("#lblOldperblock").text(data.BenBmc);
+						$("#lblOldperps").text(data.PsName);  //$("#lblOldperps").text(data.BenPs);
+						$("#lblOldperpo").text(data.PoName);  //$("#lblOldperpo").text(data.BenPo);
+						$("#lblOldperpin").text(data.BenPincode);  //$("#lblOldperpin").text(data.BenPincode);
+						if (data.BenGpWard == "0") {
+							//$("#lblOldperward").find("option").remove();
+							//$("#lblOldperward").append('<option value=0>All Wards</option>');
+							$("#lblOldperward").text(0);
+						}
+						else {
+							$("#lblOldperward").text(data.GPName);
+						}
+						if (data.BenGpWard == "9999") {
+							//$("#ward").find("option").remove();
+							//var BlockName1 = $("#peraddblock option:selected").text();
+							//$("#ward").append('<option value=9999>' + BlockName1 + '</option>');
+							$("#ward").val('9999');
+						}
+						$("#lblOldpervlg").text(data.BenVsr);
+					}
+					if (data.BenAddressType == "Present") {
+						$("#lblOldprestate").text("West Bengal");
+						//$("#presid").val(data.BenAddressSno);
+						$("#lblOldpredist").text(data.DistrictName);
+						$("#lblOldpresubdiv").text(data.SubDivisionName);
+						$("#lblOldprebmc").text(data.LocTypeName);
+						$("#lblOldpreblock").text(data.BlockName);
+						$("#lblOldpreps").text(data.PsName);
+						$("#lblOldprepo").text(data.PoName);
+						$("#lblOldprepin").text(data.BenPincode);
+						if (data.BenGpWard == "0") {
+							//$("#ward2").find("option").remove();
+							//$("#ward2").append('<option value=0>All Wards</option>');
+							$("#lblOldpreward").text(0);
+						}
+						else {
+							$("#lblOldpreward").text(data.GPName);
+						}
+						if (data.BenGpWard == "9999") {
+							//$("#ward2").find("option").remove();
+							//var BlockName = $("#preaddBlock option:selected").text();
+							//$("#ward2").append('<option value=9999>' + BlockName + '</option>');
+							$("#lblOldpreward").text('9999');
+						}
+						$("#lblOldprevlg").text(data.BenVsr);
+					}
+				});
+			})
+	}
+
+
+    function SubmitStatus(id)
+    {
+
+        var refid = $("#lblrefid").text();
+        var Remarks =  $("#RejectedRemarks").val();
+        if(id == 2)
+        {
+            if(Remarks == "" || Remarks == null)
+            {
+                alert("Please Enter Remarks.");
+                $("#RejectedRemarks").focus();
+                return false;
+            }
+        }
+        if(id == 1)
+            Remarks = "";
+         $.get('@Url.Action("VerifyBeneAddressDetails", "Report")', { id: refid, Remarks: Remarks, Status: id}, function (res) {
+			 alert(res.Message);
+			 $("#divStstus").hide();
+			 $("#divEditDetRej").modal('hide');
+			 $("#DivBenPersonalDet").modal('hide');
+			 GetReport()
+			 
+			 //window.location.href = " /Report/EditBeneAddressDetApplications";
+
+        });
+    }
+</script>
+

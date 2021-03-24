@@ -1,0 +1,1753 @@
+﻿@{
+    ViewBag.Title = "Department";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<script type="text/javascript" src="https://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+<script type="text/javascript" src="https://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js"></script>
+
+<style>
+    .logincounts td {
+        font-size: 13px;
+    }
+
+    #lblPf, #lblAmtCon, #lbldate {
+        font-weight: bold !important;
+    }
+
+
+    .heightoverflow {
+        max-height: none !important;
+    }
+
+    .raphael-group-3-creditgroup {
+        display: none;
+    }
+
+    #output .pieLabel {
+        font-family: arial;
+        font-size: 14px !important;
+    }
+
+    #output {
+        width: 300px;
+        height: 300px;
+    }
+
+    .raphael-group-67-creditgroup, .raphael-group-121-creditgroup, .raphael-group-175-creditgroup {
+        display: none;
+    }
+
+    .txtcontrol {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        vertical-align: middle;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+</style>
+<script>
+    var Createdby = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+    var UserType = @Html.Raw(Json.Encode(ViewBag.UserType))
+
+    var CPending = "";
+    var Capproved = "";
+    var CRejected = "";
+    var CSentBack = "";
+    var CTotal = "";
+
+    var TPending = "";
+    var Tapproved = "";
+
+    var TRejected = "";
+    var TSentBack = "";
+    var TTotal = "";
+
+    var OPending = "";
+    var Oapproved = "";
+
+    var ORejected = "";
+    var OSentBack = "";
+    var OTotal = "";
+    var ViewStatus ="";
+
+</script>
+<div class="container-fluid totaldiv" style="zoom:0.9">
+
+
+
+    <div class="row pull-right" id="divSearchBar">
+        <div class="col-sm-3" style="width:100px;">
+            <select class="form-control" id="GetDDValue" style="width:100px;">
+                <option value="SSIN">SSIN</option>
+                <option value="REGNo">REG.No</option>
+                <option value="Aadhaar">Aadhaar</option>
+                <option value="Mobile">Mobile</option>
+
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group" style="width:250px;">
+                <input type="text" class="txtcontrol searchval" placeholder="Search term...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="getInspDet()"><span class="glyphicon glyphicon-search" style="height: 19px;"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="divBackButton" style="display:none;">
+
+        <a href="#" type="button" class="btn btn-info pull-right" onclick="BackButton()"> &laquo; Previous</a>
+    </div>
+
+
+
+    <!--------------------------------------------------------------->
+    @*Application*@
+    <div class="heightoverflow" id="Div1" style="margin-top:50px;">
+        <div>
+			<div class="container-fliud">
+
+				@if (ViewBag.UserType == "1" || ViewBag.UserType == "2" || ViewBag.UserType == "21" || ViewBag.UserType == "22" || ViewBag.UserType == "23" || ViewBag.UserType == "24")
+				{
+					<div class="row">
+						<div class="col-md-8">
+							<center><h3 class="product-description">  Workers Application Status </h3></center>
+							<table class="table table-striped table-bordered appstatus" style="height:281px;">
+								<thead style="background-color:#87CEEB;">
+									<tr>
+										<th>Worker Type</th>
+										@*<th>Recieved </th>*@
+										<th>Pending </th>
+										<th>Approved</th>
+										<th>Rejected</th>
+										<th>Sent Back</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+
+
+						<div class="col-md-4">
+							<center>
+								<h3 class="product-description">
+									Active Login Sessions<button class="btn btn-primary refreshbtn" style=" margin-left:45px; margin-top: -15px;background-color : 094c86 !important;"><span class="glyphicon glyphicon-refresh " id="btnrefresh"></span></button>
+								</h3>
+							</center>
+
+							<table class="table table-striped table-bordered logincounts">
+
+								<tbody></tbody>
+							</table>
+
+							<div id="Activeloaderdiv" style="display:none;"> <center><img src="  /Content/images/ColorProcessing.gif" /> </center> </div>
+						</div>
+
+
+
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<center><h3 class="product-description"> Claim Status </h3></center>
+							<table class="table table-striped table-bordered superadminclaimstatus">
+								<thead style="background-color:#87CEEB;">
+									<tr>
+										@*<th>Worker Type</th>
+								<th>Pending at Inspector </th>
+								<th>Sent Back from Inspector</th>
+								<th>Forced Closed from Inspector</th>
+								<th>Pending at ALC </th>
+								<th>Sent Back From ALC</th>
+								<th>Approved by ALC</th>
+								<th>Rejected by ALC </th>
+								<th>Pending at DLC </th>
+								<th>Sent Back From DLC</th>
+								<th>Approved by DLC</th>
+								<th>Rejected by DLC </th>
+								<th>Total</th>*@
+										<th>Worker Type</th>
+										<th>Pending </th>
+										<th>Sent Back</th>
+										<th>Rejected </th>
+										<th>Approved</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<center><h3 class="product-description">  Fund Request Status </h3></center>
+							<table class="table table-striped table-bordered superadminfundstatus">
+								<thead style="background-color:#87CEEB;">
+									<tr>
+										@*<th>Board</th>
+								<th>Pending at DLC</th>
+								<th>Sent Back from DLC</th>
+								<th>Pending at Board</th>
+								<th>Rejected by Board</th>
+								<th>Approved</th>
+								<th>Released</th>
+								<th>Total</th>*@
+										<th>Worker Type</th>
+										<th>Pending</th>
+										<th>Sent Back</th>
+										<th>Rejected</th>
+										<th>Approved</th>
+										<th>Released</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<center><h3 class="product-description">  Fund Release Status </h3></center>
+							<table class="table table-striped table-bordered superadminfundreleasestatus">
+								<thead style="background-color:#87CEEB;">
+									<tr>
+										<th>Board</th>
+										<th>Pending </th>
+										<th>Rejected</th>
+										<th>Approved</th>
+										<th>Send Back</th>
+										<th>Released</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				}
+
+
+				@if (ViewBag.UserType == "5")
+				{
+					<div class="row">
+						<div class="col-md-12">
+							<center><h3 class="product-description">  Workers Application Status </h3></center>
+							<table class="table table-striped table-bordered appstatus">
+								<thead style="background-color:#87CEEB;">
+									<tr>
+										<th>Worker Type</th>
+										@*<th>Recieved </th>*@
+										<th>Pending </th>
+										<th>Approved</th>
+										<th>Rejected</th>
+										<th>Sent Back</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+						<div class="col-md-12" style="display:none;">
+							<center><h3 class="product-description">Scheme Application Status </h3></center>
+							<table class="table table-striped table-bordered schemestatus">
+								<thead style="background-color:#87CEEB">
+									<tr>
+										<th>Scheme </th>
+										@*  <th>Recieved </th>*@
+										<th>Pending</th>
+										<th>Approved</th>
+										<th>Rejected</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<center><h3 class="product-description"> Claim Status </h3></center>
+							<table class="table table-striped table-bordered claimstatus">
+								<thead style="background-color:#87CEEB;">
+									<tr>
+										<th>Worker Type</th>
+										<th>Pending </th>
+										<th>Forwarded</th>
+										<th>Force Closed</th>
+										<th>Sent Back</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+
+					</div>
+
+					@*<div class="row">
+						<div class="col-md-12">
+							<center><a href="#" type="button" class="btn btn-info pull-right" onclick="MergeForm()">  Merge</a></center>
+
+							
+						</div>
+					</div>*@
+						}
+
+						@if (ViewBag.UserType == "6")
+						{
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Workers Application Status </h3></center>
+									<table class="table table-striped table-bordered appstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Worker Type</th>
+												<th>Pending </th>
+												<th>Approved</th>
+												<th>Rejected</th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description"> Claim Status </h3></center>
+									<table class="table table-striped table-bordered claimstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Worker Type</th>
+												<th>Pending </th>
+												<th>Approved </th>
+												<th>Rejected </th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Refer Application Status </h3></center>
+									<table class="table table-striped table-bordered referstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Worker Type</th>
+												<th>Pending </th>
+												<th>Approved</th>
+												<th>Sent Back</th>
+												<th>Rejected</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						}
+
+						@if (ViewBag.UserType == "7")
+						{
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Workers Application Status </h3></center>
+									<table class="table table-striped table-bordered appstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Worker Type</th>
+												<th>Pending </th>
+												<th>Approved</th>
+												<th>Rejected</th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description"> Claim Status </h3></center>
+									<table class="table table-striped table-bordered dlcclaimstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Worker Type</th>
+												<th>Pending at Inspector </th>
+												<th>Sent Back from Inspector</th>
+												<th>Forced Closed from Inspector</th>
+												<th>Pending at ALC </th>
+												<th>Sent Back From ALC</th>
+												<th>Approved by ALC</th>
+												<th>Rejected by ALC </th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Refer Application Status </h3></center>
+									<table class="table table-striped table-bordered referstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Worker Type</th>
+												<th>Pending </th>
+												<th>Approved</th>
+												<th>Rejected</th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Fund Request Status </h3></center>
+									<table class="table table-striped table-bordered fundstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Board</th>
+												<th>Pending </th>
+												<th>Forwaded</th>
+												<th>Rejected</th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						}
+						@if (ViewBag.UserType == "13")
+						{
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Fund Release Status </h3></center>
+									<table class="table table-striped table-bordered fundstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Board</th>
+												<th>Pending </th>
+												<th>Released</th>
+												<th>Rejected</th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Payment Status </h3></center>
+									<table class="table table-striped table-bordered paymentstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												@*<th>Board</th>*@
+												<th>Pending </th>
+												<th>Approved</th>
+												@*<th>Rejected</th>
+										<th>Sent Back</th>*@
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						}
+						@if (ViewBag.UserType == "12")
+						{
+							<div class="row">
+								<div class="col-md-12">
+									<center><h3 class="product-description">  Fund Request Status </h3></center>
+									<table class="table table-striped table-bordered fundstatus">
+										<thead style="background-color:#87CEEB;">
+											<tr>
+												<th>Board</th>
+												<th>Pending </th>
+												<th>Approved</th>
+												<th>Rejected</th>
+												<th>Sent Back</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						}
+
+
+						<div class="row" style="display:none;">
+							<div class="col-md-4">
+								<div id="Contruction-container">FusionCharts will render here</div>
+							</div>
+							<div class="col-md-4">
+								<div id="Transport-container">FusionCharts will render here</div>
+							</div>
+							<div class="col-md-4">
+								<div id="Others-container">FusionCharts will render here</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+    </div>
+
+
+    <div style="display:none;margin-top:10px;" id="Div2">
+
+
+
+        <table class="table table-bordered tblBeniList" style="margin-left:15px;">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>SSIN Number</th>
+                    <th>Applicant Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Date of application.</th>
+                    <th>Current status</th>
+                    <th>Part 2 Status</th>
+                    <th>View Details</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+
+
+
+
+    @*Card Issue Status*@
+    <div class="heightoverflow cards" style="display:none" id="Div3">
+        <div>
+            <div class="container-fliud">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="product-description"></h3>
+                        <table class="table table-striped table-bordered ">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><b>SSY</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>0</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <div id="BenDashBoard" class="card" style="display:none">
+        <div class="container-fliud">
+            <div class="wrapper row">
+
+                <div class="container">
+                    <table class="table table-bordered" style="text-align:left;background-color:white">
+                        <tbody>
+                            <tr style="background-color: lightblue;">
+                                <td colspan="5"><center><h4>Beneficiary Details</h4></center></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">
+                                    <div class="tab-pane active" id="lblphoto" style="width:35px;">
+                                        <img id="imgsrc" src="" style="height:150px;width:130px;" />
+                                    </div>
+                                </td>
+                                <td style="text-align:left;width: 100px;"><b>NAME</b></td>
+                                <td style="text-align:left"><a href="#" onclick="Benificiaryclick();"><label id="lblname"></label></a></td>
+                                <td style="text-align:left;width: 100px;"><b>D.O.B</b></td>
+                                <td style="text-align:left"><label id="lblBenfidob"></label></td>
+                            </tr>
+                            <tr>
+
+                                <td style="text-align:left;width: 100px;"><b>SSIN NO</b></td>
+                                <td style="text-align:left"><label id="lblregno"></label></td>
+                                <td style="text-align:left;width: 100px;"><b>AGE</b></td>
+                                <td style="text-align:left"><label id="lblBenfiage"></label></td>
+                            </tr>
+                            <tr>
+
+                                <td style="text-align:left;width: 100px;"><b>MOBILE</b></td>
+                                <td style="text-align:left"><label id="lblmobile"></label></td>
+                                <td style="text-align:left;width: 100px;"><b>OCCUPATION</b></td>
+                                <td style="text-align:left"><label id="lbloccupation"></label></td>
+                            </tr>
+                            <tr>
+
+                                <td style="text-align:left;width: 100px;"><b>SMC Card</b></td>
+                                <td style="text-align:left"><a href="#" id="smccrd">Download</a></td>
+                                <td style="text-align:left;width: 100px;"><b>Status</b><a href="#" onclick="Gotosendbackapp()" class="SloBenReapply" id="SloBenReapply" style="display:none;"> Reapply </a></td>
+                                <td style="text-align:left;width: 100px;"><label id="lblstatus"></label></td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td colspan="2" style="text-align:left;width: 100px;"><b>Identity Card-Cum-Pass Book for Provident Fund</b></td>
+                                <td style="text-align:left"><a href="#" id="schemecert">Download</a></td>
+
+                                @*<td style="text-align:left;width: 100px;"><b>SCHEME PASSBOOK</b></td>
+                                    <td style="text-align:left"><a href="/Content/pdf/BenifSchemePassbook.pdf" id="schempass" style="color: #337ab7; text-decoration: none" download>Download</a></td>*@
+
+                                <td style="text-align:left;width: 250px;" class="clsdate"><b><label id="lbldate"></label></b></td>
+                                <td style="text-align:left;"><label id="lblstaDate"></label></td>
+                            </tr>
+                            <tr id="RowPf">
+
+                                <td colspan="2"><b><label id="lblPf"></label></b></td>
+                                <td><b><label id="lblPfBal"></label></b></td>
+                                <td><b><label id="lblAmtCon"></label></b></td>
+                                <td><b><label id="lblSumAmt"></label></b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4><center><label id="lblReason" style="display :none;"></label></center></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loaderdiv" style="display:none;margin-top:80px;"> <center><img src="  /Content/images/ColorProcessing.gif" /> </center> </div>
+
+<iframe src="" class="col-md-12 iframeheight loadurl" id="SenbackFrame" frameborder="0" width="1000" height="500" style="display:none;"></iframe>
+<input type="hidden" id="ChkScheme" value="" name="ChkScheme" />
+<input type="hidden" id="CheckPaymentSta" value="" name="CheckPaymentSta" />
+<input type="hidden" id="UserSno" value="" name="UserSno" />
+<input type="hidden" id="checkPfOpt" value="" name="checkPfOpt" />
+<input type="hidden" id="hdnbenSno" value="" name="hdnbenSno" />
+<script>
+    $(document).ready(function () {
+
+        $("#divfooter").empty();
+
+        //    $('#Div1').contains('FusionCharts XT Trial').remove();
+        var JointLC= "0";
+        var AdditionalLC = "0";
+        var DeputyLabourCom = "0";
+        var AsstLabourCom = "0";
+        var Inspector = "0";
+        var ServiceProvider = "0";
+        var Beneficiary = "0";
+        var TotalLogin = "0";
+        var Getchart = "0";
+
+        // Getcount()
+
+		if (UserType == "1" || UserType == "21" || UserType == "22" || UserType == "23" || UserType == "24")
+        {
+
+            $('.logincounts tbody').empty();
+            Getcount()
+
+        }
+
+        $(".totaldiv").hide();
+        $("#loaderdiv").show();
+        $.get('@Url.Action("GetStatusList", "Home")', {}, function (result) {
+             
+            $.each(result, function (i, data) {
+                var occupat = "Others";
+
+                if (data.BenOccupation == "ConstructionWorker")
+                {
+                    occupat = "Construction Worker";
+                    Capproved = data.Approved;
+                    CPending  = data.Pending;
+                    CRejected  = data.Rejected;
+                    CSentBack  = data.Sentback;
+                    CTotal  = data.Total;
+
+                }
+                if (data.BenOccupation == "TransportWorker")
+                {
+                    occupat = "Transport Worker";
+                    Tapproved = data.Approved;
+
+                    TPending   = data.Pending;
+                    TRejected  = data.Rejected;
+                    TSentBack  = data.Sentback;
+                    TTotal  = data.Total;
+
+                }
+                if (data.BenOccupation == "Others")
+                {
+                    occupat = "Others";
+                    Oapproved = data.Approved;
+
+                    OPending   = data.Pending;
+                    ORejected  = data.Rejected;
+                    OSentBack  = data.Sentback;
+                    OTotal  = data.Total;
+
+                }
+                if (data.BenOccupation == "TOTAL")
+                {
+                    occupat = "TOTAL";
+                    GetChart()
+                }
+
+                if(occupat !="TOTAL")
+                    $('.appstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.appstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+
+        $.get('@Url.Action("GetReferStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                var occupat = "Others";
+                if (data.BenOccupation == "ConstructionWorker")
+                {
+                    occupat = "Construction Worker";
+                    Capproved = data.Approved;
+                    CPending  = data.Pending;
+                    CRejected  = data.Rejected;
+                    CSentBack  = data.Sentback;
+                    CTotal  = data.Total;
+                }
+                if (data.BenOccupation == "TransportWorker")
+                {
+                    occupat = "Transport Worker";
+                    Tapproved = data.Approved;
+                    TPending   = data.Pending;
+                    TRejected  = data.Rejected;
+                    TSentBack  = data.Sentback;
+                    TTotal  = data.Total;
+                }
+                if (data.BenOccupation == "Others")
+                {
+                    occupat = "Others";
+                    Oapproved = data.Approved;
+                    OPending   = data.Pending;
+                    ORejected  = data.Rejected;
+                    OSentBack  = data.Sentback;
+                    OTotal  = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL")
+                {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                if(occupat !="TOTAL")
+                    $('.referstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.referstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetFundStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+				var occupat = "WBUSWWB";
+				if (data.BenOccupation == "WBB&OCWWB") {
+                    occupat = "Construction";
+                    Capproved = data.Approved;
+                    CPending = data.Pending;
+                    CRejected = data.Rejected;
+                    CSentBack = data.Sentback;
+                    CTotal = data.Total;
+                }
+				if (data.BenOccupation == "WBTWSSS") {
+                    occupat = "Transport";
+                    Tapproved = data.Approved;
+                    TPending = data.Pending;
+                    TRejected = data.Rejected;
+                    TSentBack = data.Sentback;
+                    TTotal = data.Total;
+                }
+				if (data.BenOccupation == "WBUSWWB") {
+                    occupat = "Others";
+                    Oapproved = data.Approved;
+                    OPending = data.Pending;
+                    ORejected = data.Rejected;
+                    OSentBack = data.Sentback;
+                    OTotal = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL") {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                if (occupat != "TOTAL")
+                    $('.fundstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.fundstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetClaimStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                var occupat = "Others";
+                if (data.BenOccupation == "ConstructionWorker") {
+                    occupat = "Construction";
+                    Capproved = data.Approved;
+                    CPending = data.Pending;
+                    CRejected = data.Rejected;
+                    CSentBack = data.Sentback;
+                    CTotal = data.Total;
+                }
+                if (data.BenOccupation == "TransportWorker") {
+                    occupat = "Transport";
+                    Tapproved = data.Approved;
+                    TPending = data.Pending;
+                    TRejected = data.Rejected;
+                    TSentBack = data.Sentback;
+                    TTotal = data.Total;
+                }
+                if (data.BenOccupation == "Others") {
+                    occupat = "Others";
+                    Oapproved = data.Approved;
+                    OPending = data.Pending;
+                    ORejected = data.Rejected;
+                    OSentBack = data.Sentback;
+                    OTotal = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL") {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                if (occupat != "TOTAL")
+                    $('.claimstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.claimstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetOverallClaimStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                if (data.StatusName == "TOTAL")
+                    $('.overallclaimstatus').append('<tr style="color:black;font-weight:bold"><td class="thnum">' + data.StatusName + '</td><td class="thnum">' + data.Count + '</td></tr>')
+                else
+                    $('.overallclaimstatus').append('<tr><td class="thtext">' + data.StatusName + '</td><td class="thnum">' + data.Count + '</td></tr>')
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetPaymentStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                 
+                if (data.BenOccupation == "TOTAL")
+                    $('.paymentstatus').append('<tr><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Total + '</td></tr>')
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetDLCClaimStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                var occupat = "Others";
+                if (data.BenOccupation == "ConstructionWorker") {
+                    occupat = "Construction";
+                    CPendingAtInspector = data.PendingAtInspector;
+                    CPendingAtALC = data.PendingAtALC;
+                    CSentBackFromInspector = data.SentBackFromInspector;
+                    CSentBackFromALC = data.SentBackFromALC;
+                    CForcedClosedFromInspector = data.ForcedClosedFromInspector;
+                    CApprovedByALC = data.ApprovedByALC;
+                    CRejectedByALC = data.RejectedByALC;
+                    CTotal = data.Total;
+                }
+                if (data.BenOccupation == "TransportWorker") {
+                    occupat = "Transport";
+                    TPendingAtInspector = data.PendingAtInspector;
+                    TPendingAtALC = data.PendingAtALC;
+                    TSentBackFromInspector = data.SentBackFromInspector;
+                    TSentBackFromALC = data.SentBackFromALC;
+                    TForcedClosedFromInspector = data.ForcedClosedFromInspector;
+                    TApprovedByALC = data.ApprovedByALC;
+                    TRejectedByALC = data.RejectedByALC;
+                    TTotal = data.Total;
+                }
+                if (data.BenOccupation == "Others") {
+                    occupat = "Others";
+                    OPendingAtInspector = data.PendingAtInspector;
+                    OPendingAtALC = data.PendingAtALC;
+                    OSentBackFromInspector = data.SentBackFromInspector;
+                    OSentBackFromALC = data.SentBackFromALC;
+                    OForcedClosedFromInspector = data.ForcedClosedFromInspector;
+                    OApprovedByALC = data.ApprovedByALC;
+                    ORejectedByALC = data.RejectedByALC;
+                    OTotal = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL") {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                if (occupat != "TOTAL")
+					$('.dlcclaimstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.PendingAtInspector + '</td><td class="thnum">' + data.SentBackFromInspector + '</td><td class="thnum">' + data.ForcedClosedFromInspector + '</td><td class="thnum">' + data.PendingAtALC + '</td><td class="thnum">' + data.SentBackFromALC + '</td><td class="thnum">' + data.ApprovedByALC + '</td><td class="thnum">' + data.RejectedByALC  + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+					$('.dlcclaimstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.PendingAtInspector + '</td><td class="thnum">' + data.SentBackFromInspector + '</td><td class="thnum">' + data.ForcedClosedFromInspector + '</td><td class="thnum">' + data.PendingAtALC + '</td><td class="thnum">' + data.SentBackFromALC + '</td><td class="thnum">' + data.ApprovedByALC + '</td><td class="thnum">' + data.RejectedByALC + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetSuperAdminClaimStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                var occupat = "Others";
+                if (data.BenOccupation == "ConstructionWorker") {
+                    occupat = "Construction";
+                    occupat = "Construction";
+                    CPending = data.Pending;
+                    CApproved = data.Approved;
+                    CRejected = data.Rejected;
+                    CSentback = data.Sentback;
+                    //CForcedClosedFromInspector = data.ForcedClosedFromInspector;
+                    //CApprovedByALC = data.ApprovedByALC;
+                    //CRejectedByALC = data.RejectedByALC;
+                    //CPendingAtDLC = data.PendingAtDLC;
+                    //CSentBackFromDLC = data.SentBackFromDLC;
+                    //CApprovedByDLC = data.ApprovedByDLC;
+                    //CRejectedByDLC = data.RejectedByDLC;
+                    CTotal = data.Total;
+                }
+                if (data.BenOccupation == "TransportWorker") {
+                    occupat = "Transport";
+                    TPending = data.Pending;
+                    TApproved = data.Approved;
+                    TRejected = data.Rejected;
+                    TSentback = data.Sentback;
+                    //TPendingAtInspector = data.PendingAtInspector;
+                    //TPendingAtALC = data.PendingAtALC;
+                    //TSentBackFromInspector = data.SentBackFromInspector;
+                    //TSentBackFromALC = data.SentBackFromALC;
+                    //TForcedClosedFromInspector = data.ForcedClosedFromInspector;
+                    //TApprovedByALC = data.ApprovedByALC;
+                    //TRejectedByALC = data.RejectedByALC;
+                    //TPendingAtDLC = data.PendingAtDLC;
+                    //TSentBackFromDLC = data.SentBackFromDLC;
+                    //TApprovedByDLC = data.ApprovedByDLC;
+                    //TRejectedByDLC = data.RejectedByDLC;
+                    TTotal = data.Total;
+                }
+                if (data.BenOccupation == "Others") {
+                    occupat = "Others";
+                    OPending = data.Pending;
+                    OApproved = data.Approved;
+                    ORejected = data.Rejected;
+                    OSentback = data.Sentback;
+                    //OPendingAtInspector = data.PendingAtInspector;
+                    //OPendingAtALC = data.PendingAtALC;
+                    //OSentBackFromInspector = data.SentBackFromInspector;
+                    //OSentBackFromALC = data.SentBackFromALC;
+                    //OForcedClosedFromInspector = data.ForcedClosedFromInspector;
+                    //OApprovedByALC = data.ApprovedByALC;
+                    //ORejectedByALC = data.RejectedByALC;
+                    //OPendingAtDLC = data.PendingAtDLC;
+                    //OSentBackFromDLC = data.SentBackFromDLC;
+                    //OApprovedByDLC = data.ApprovedByDLC;
+                    //ORejectedByDLC = data.RejectedByDLC;
+                    OTotal = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL") {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                if (occupat != "TOTAL")
+                    $('.superadminclaimstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.superadminclaimstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetSuperAdminFundStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+				var occupat = "WBUSWWB";
+				if (data.BenOccupation == "WBB&OCWWB") {
+                    occupat = "Construction";
+                    //CPendingAtDLC = data.PendingAtDLC;
+                    //CSentBackFromDLC = data.SentBackFromDLC;
+                    //CPendingAtBoard = data.PendingAtBoard;
+                    //CRejectedByBoard = data.RejectedByBoard;
+                    CPending = data.Pending;
+                    CSentBack = data.Sentback;
+                    CRejected = data.Rejected;
+                    CApproved = data.Approved;
+                    CReleased = data.Released;
+                    CTotal = data.Total;
+                }
+				if (data.BenOccupation == "WBTWSSS") {
+                    occupat = "Transport";
+                    //TPendingAtDLC = data.PendingAtDLC;
+                    //TSentBackFromDLC = data.SentBackFromDLC;
+                    //TPendingAtBoard = data.PendingAtBoard;
+                    //TRejectedByBoard = data.RejectedByBoard;
+                    TPending = data.Pending;
+                    TSentBack = data.Sentback;
+                    TRejected = data.Rejected;
+                    TApproved = data.Approved;
+                    TReleased = data.Released;
+                    TTotal = data.Total;
+                }
+				if (data.BenOccupation == "WBUSWWB") {
+                    occupat = "Others";
+                    //OPendingAtDLC = data.PendingAtDLC;
+                    //OSentBackFromDLC = data.SentBackFromDLC;
+                    //OPendingAtBoard = data.PendingAtBoard;
+                    //ORejectedByBoard = data.RejectedByBoard;
+                    OPending = data.Pending;
+                    OSentBack = data.Sentback;
+                    ORejected = data.Rejected;
+                    OApproved = data.Approved;
+                    OReleased = data.Released;
+                    OTotal = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL") {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                //if (occupat != "TOTAL")
+                //    $('.superadminfundstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.PendingAtDLC + '</td><td class="thnum">' + data.SentBackFromDLC + '</td><td class="thnum">' + data.PendingAtBoard + '</td><td class="thnum">' + data.RejectedByBoard + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Released + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                //else
+                //    $('.superadminfundstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.PendingAtDLC + '</td><td class="thnum">' + data.SentBackFromDLC + '</td><td class="thnum">' + data.PendingAtBoard + '</td><td class="thnum">' + data.RejectedByBoard + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Released + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                if (occupat != "TOTAL")
+                    $('.superadminfundstatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Released + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.superadminfundstatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Approved + '</td><td class="thnum">' + data.Released + '</td><td class="thnum">' + data.Total + '</td></tr>')
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        $.get('@Url.Action("GetFundReleaseStatusList", "Home")', {}, function (result) {
+            $.each(result, function (i, data) {
+                var occupat = "WBUSWWB";
+                if (data.BenOccupation == "WBUSWWB") {
+                    occupat = "WBUSWWB";
+                    Capproved = data.Approved;
+                    CPending = data.Pending;
+                    CRejected = data.Rejected;
+                    CSentBack = data.Sentback;
+                    CReleased = data.Released;
+                    CTotal = data.Total;
+                }
+                if (data.BenOccupation == "WBTWSSS") {
+                    occupat = "WBTWSSS";
+                    Tapproved = data.Approved;
+                    TPending = data.Pending;
+                    TRejected = data.Rejected;
+                    TSentBack = data.Sentback;
+                    TReleased = data.Released;
+                    TTotal = data.Total;
+                }
+                if (data.BenOccupation == "WBB&OCWWB") {
+                    occupat = "WBB&OCWWB";
+                    Oapproved = data.Approved;
+                    OPending = data.Pending;
+                    ORejected = data.Rejected;
+                    OSentBack = data.Sentback;
+                    OReleased = data.Released;
+                    OTotal = data.Total;
+                }
+                if (data.BenOccupation == "TOTAL") {
+                    occupat = "TOTAL";
+                    //GetChart();
+                }
+                if (occupat != "TOTAL")
+                    $('.superadminfundreleasestatus').append('<tr ><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Approved  + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Released + '</td><td class="thnum">' + data.Total + '</td></tr>')
+                else
+                    $('.superadminfundreleasestatus').append('<tr style="color:black;font-weight:bold"><td class="thtext">' + occupat + '</td><td class="thnum">' + data.Pending + '</td><td class="thnum">' + data.Rejected + '</td><td class="thnum">' + data.Approved  + '</td><td class="thnum">' + data.Sentback + '</td><td class="thnum">' + data.Released + '</td><td class="thnum">' + data.Total + '</td></tr>')
+
+            });
+            $("#loaderdiv").hide();
+            $(".totaldiv").show();
+        });
+        @*$.get('@Url.Action("GeSchemetStatusList", "Home")', {}, function (result) {
+             
+            $.each(result, function (i, data) {
+                //  $('.schemestatus').append('<tr><td>' + data.SchemeName + '</td><td>' + data.Pending + '</td><td>' + data.Approved + '</td><td>' + data.Rejected + '</td></tr>')
+                //  $('.schemestatus').append('<tr><td>' + data.SchemeName + '</td><td>' + data.Pending + '</td><td>' + data.Approved + '</td><td>' + data.Rejected + '</td><td>' + data.Total + '</td></tr>')
+            });
+        });*@
+
+        //$(window).bind("beforeunload", function() {
+        //    return confirm("Do you really want to close?");
+        //});
+
+        //$(window).unload(function () {
+        //    alert("Hi");
+        //    var answer = confirm("Are you sure you want to leave?");
+        //    if (answer) { //ajax call here
+        //        window.location.href = "/Home/Logout";
+        //    }
+        //});
+    });
+
+    function Getcount()
+    {
+
+        $.get('@Url.Action("GetLoginCounts", "Home")', {}, function (result) {
+            Getchart = "1";
+            $.each(result, function (i, data) {
+
+                if(data.UserTypeName == "Joint LC")
+                    JointLC = data.TotalCount;
+                if(data.UserTypeName == "Additional LC")
+                    AdditionalLC = data.TotalCount;
+                if(data.UserTypeName == "Deputy Labour Com")
+                    DeputyLabourCom = data.TotalCount;
+
+                if(data.UserTypeName == "Asst Labour Com")
+                    AsstLabourCom = data.TotalCount;
+                if(data.UserTypeName == "Inspector")
+                    Inspector = data.TotalCount;
+
+                if(data.UserTypeName == "Service Provider")
+                    ServiceProvider = data.TotalCount;
+                if(data.UserTypeName == "Beneficiary")
+                    Beneficiary = data.TotalCount;
+
+
+            });
+            if(Getchart == "1")
+            {
+                GetChart()
+            }
+            function GetChart()
+            {
+                // 
+                TotalLogin=parseInt(JointLC)+parseInt(AdditionalLC)+parseInt(DeputyLabourCom)
+                    +parseInt(AsstLabourCom)+parseInt(Inspector)+parseInt(ServiceProvider)+parseInt(Beneficiary);
+
+                $('.logincounts tbody').empty();
+                $('.logincounts').append('<tr><td class="thtext">' +"Additional LC" + '</td><td class="thnum">' + AdditionalLC + '</td></tr>')
+                $('.logincounts').append('<tr><td class="thtext">' +"Joint LC" + '</td><td class="thnum">' + JointLC + '</td></tr>')
+                $('.logincounts').append('<tr><td class="thtext">' +"Deputy Labour Com" + '</td><td class="thnum">' + DeputyLabourCom + '</td></tr>')
+                $('.logincounts').append('<tr><td class="thtext">' +"Asst  Labour Com" + '</td><td class="thnum">' + AsstLabourCom + '</td></tr>')
+                $('.logincounts').append('<tr><td class="thtext">' +"Inspector" + '</td><td class="thnum">' + Inspector + '</td></tr>')
+                $('.logincounts').append('<tr><td class="thtext">' +"Service Provider" + '</td><td class="thnum">' + ServiceProvider + '</td></tr>')
+                $('.logincounts').append('<tr><td class="thtext">' +"Beneficiary" + '</td><td class="thnum">' + Beneficiary + '</td></tr>')
+                $('.logincounts').append('<tr style="background-color:#D4DBE5;color:black;font-weight:bold"><td class="thtext">' +"Total" + '</td><td class="thnum">' + TotalLogin + '</td></tr>')
+                $("#Activeloaderdiv").hide()
+            }
+        });
+    }
+    $(".refreshbtn").click(function () {
+        $("#Activeloaderdiv").show()
+
+        $('.logincounts tbody').empty();
+        Getcount()
+    });
+
+    $("#smccrd").click(function () {
+        if (chkstatus != 'Approved') {
+            alert("Your Application Is " + chkstatus)
+            return false;
+        }
+        window.location.href = "/SSYIDCard/SSYIDCardPDF.aspx?Benifid=" + Benifid;
+    })
+    $("#schemecert").click(function () {
+
+        if (chkstatus != 'Approved') {
+            alert("Your Application Is " + chkstatus)
+            return false;
+        }
+
+        var checkpfstatus =  $("#checkPfOpt").val();
+
+
+
+        if(checkpfstatus =="0")
+        {
+            alert("PF opt is not selected");
+            return false;
+        }
+        window.location.href = "/Home/SchemeCertificate/?Benifid=" + Benifid;
+        // window.open('@Url.Action("SchemeCertificate","Home")?Benifid=5774942', 'mywindow', 'width=600,height=500')
+    })
+
+    $("#schempass").click(function () {
+        if (chkstatus != 'Approved') {
+            alert("Your Application Is " + chkstatus)
+            return false;
+        }
+    });
+    function getInspDet()
+    {
+
+
+        var SearchType = $("#GetDDValue  :selected").val();
+
+
+         
+        var value = $(".searchval").val();
+        if (value == "" || value == null)
+        {
+            alert("Please Enter SSIN Number/REG.No./Aadhaar/Mobile No");
+            return false;
+        }
+        else
+        {
+            if(SearchType =="SSIN" || SearchType == "REGNo" )
+            {
+                ViewStatus = "1";
+                $("#divBackButton").show();
+                $("#divSearchBar").hide();
+
+                LoadBeniDashBoard(value,SearchType)
+            }
+            else
+            {
+                $.get('@Url.Action("GetBenDetails", "Agent")', { id: value,Type: SearchType}, function (res) {
+                    if (res == "" || res == null)
+                    {
+                        //  $("#Div2").hide();
+                        alert("Their is no data regarding this number");
+                        //  $("#Div1").show();
+
+                        return false;
+                    }
+
+                    else{
+                        ViewStatus = "1";
+                        $("#Div1").hide();
+                        $("#BenDashBoard").hide();
+                        $("#divSearchBar").hide();
+                        $("#divBackButton").show();
+
+                        $('.tblBeniList tbody').empty();
+
+                        // $.get('@Url.Action("GetStatusList", "Home")', {id: value,Type: SearchType}, function (result) {
+                        $("#Div2").show();
+
+                        $.each(res, function (i, data) {
+                            //  alert(data.IsActive);
+                            var Num = i + 1;
+                            var Status = "";
+                            var Date = data.FirstAppliedDate;
+                            var Part2Status = "";
+                            // alert(data.IsActive);
+                            if(data.IsActive == false)
+                            {
+                                Status = "Caf Not Updated";
+                                Date = "NA"
+                            }
+                            else{
+                                if(data.Status == 0)
+                                {
+                                    Status = "Pending";
+                                }
+                                if(data.Status == 1)
+                                {
+                                    Status = "Approved";
+                                }
+                                if(data.Status == 2)
+                                {
+                                    Status = "Rejected";
+                                }
+                                if(data.Status == 3)
+                                {
+                                    Status = "Sent Back";
+                                }
+
+                            }
+                            if(data.Part2 == "Y")
+                            {
+                                Part2Status = "Yes";
+                            }
+                            else
+                            {
+                                Part2Status = "No";
+                            }
+
+                            $('.tblBeniList').append('<tr><td>'+Num+'</td><td>'+data.SSIN+'</td><td>'+data.BenFirstName+" "+data.BenMiddleName+" "+data.BenLastName+'</td><td>'+data.BenDob+'</td><td>'+Date+'</td><td>'+Status+'</td><td>'+Part2Status+'</td><td><a href="#" class="btn btn-info" onClick = "Benclick(' + data.BenSno + ');" >Click</a></td></tr>')
+
+
+                        });
+                        // });
+                    }//
+
+
+
+                });
+            }
+
+        }
+
+
+    }
+
+	//Merge form
+
+	function MergeForm() {
+		window.top.location.href = "/Inspector/Ssinmerg";
+	}
+
+    //Back Button Click
+
+    function BackButton()
+    {
+       // alert(ViewStatus);
+
+        if(ViewStatus == "2")
+        {
+            ViewStatus = "1";
+            $("#Div2").show();
+            $("#BenDashBoard").hide();
+            return false;
+
+        }
+        if(ViewStatus == "1")
+        {
+            ViewStatus = "";
+
+            $("#Div1").show();
+            $("#divSearchBar").show();
+            $("#BenDashBoard").hide();
+            $("#divBackButton").hide();
+            $("#Div2").hide();
+            return false;
+        }
+
+    }
+
+    function Benclick(Bensno)
+    {
+        //alert(Bensno);
+        $("#Div2").hide();
+        $("#divSearchBar").hide();
+        $("#divBackButton").show();
+
+        ViewStatus = "2";
+        LoadBeniDashBoard(Bensno,"BenSno")
+
+
+    }
+    //Load Benificiary Dash board
+    function LoadBeniDashBoard(value,SearchType)
+    {
+        $("#Div1").hide();
+
+        $("#BenDashBoard").hide();
+        $.get('@Url.Action("GetBenDetails", "Agent")', { id: value,Type: SearchType}, function (res) {
+            //alert(res.Remarks);
+            // alert(res.Status);
+            if (res == "" || res == null)
+            {
+                //  $("#Div2").hide();
+                alert("Their is no data regarding this number");
+                $("#Div1").show();
+
+                return false;
+            }
+            if(res.BenFirstName == undefined)
+            {
+                //    $("#Div2").hide();
+                alert("There is an issue with connectivity please try again");
+                $("#Div1").show();
+                return false;
+            }
+            if(res.Status == 2 || res.Status == 3){
+
+                $("#lblReason").show();
+
+                $("#lblReason").text("Reason : "+res.Remarks);
+
+            }
+            else
+
+            {
+                $("#lblReason").hide();
+
+                $("#lblReason").text("");
+            }
+             
+            $("#SloBenReapply").hide();
+            var status = "";
+
+            //Get Pf Balance
+
+
+            if(res.BenOccupation == "Others")
+            {
+                $.get('@Url.Action("GetPfBalance", "GetPfBal")', {PfNumber :res.SchemeNumber}, function (response) {
+                    if(response.Code !="999")
+                    {
+                        //  alert(response);
+                        $("#RowPf").show();
+                        $("#lblPfBal").text("Rs. "+response.Balance);
+                        $("#lblPf").text("PF Balance as on "+response.Date);
+                        $("#lblAmtCon").text("Amount Contributed thereafter");
+
+                        $("#lblSumAmt").text("Rs. "+response.Contribution);
+                    }
+                    else
+                    {
+                        $("#lblPfBal,#lblPf,#lblAmtCon,#lblSumAmt").text("");
+                        $("#RowPf").hide();
+                    }
+
+                });
+            }
+            else{
+
+
+                $("#RowPf").hide();
+            }
+
+
+            $.get('@Url.Action("GetSchemAndPaySt", "Agent")', { BenSno: res.BenSno }, function (res) {
+
+                var arr = res.split(',');
+                var CheckPaymentSta = arr[0];
+                var ChkScheme = arr[1];
+                $("#CheckPaymentSta").val(arr[0]);
+                $("#ChkScheme").val(arr[1]);
+            });
+
+
+            $("#UserSno").val(res.BenSno);
+
+
+
+
+
+
+            $("#lblname").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+            $("#tdbenname").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName);
+            $("#lblBenfidob").text(res.BenDob).addClass('label-data');
+            $("#lblregno").text(res.SSIN).addClass('label-data');
+            $("#tdssinno").text(res.SSIN);
+            $("#checkPfOpt").val(res.BenPFStatus);
+
+            $("#lblBenfiage").text(res.BenAge);
+            $("#lblmobile").text(res.BenMobileNo).addClass('label-data');
+            $("#lbloccupation").text(res.BenOccupation).addClass('label-data');
+            //
+            if (res.Status == 0 ) {
+                status = "Pending"
+                $("#SloBenReapply").hide();
+
+                if(res.RegType == 'N' ){
+
+
+
+                    $("#lbldate").text("Date Of Application").addClass('label-data');
+
+                    $("#lblstaDate").text(res.CreatedDate).addClass('label-data');
+                }
+
+                else if(res.RegType == 'L' && res.IsActive == true)
+                {
+                    $("#lbldate").text("Date Of Updation").addClass('label-data');
+                    $("#lblstaDate").text(res.ModifiedDate).addClass('label-data');
+                }
+                else
+                {
+                    $("#lbldate").text("Date Of Updation").addClass('label-data');
+                    $("#lblstaDate").text("ÇAF not filled up").addClass('label-data');
+
+                }
+
+            }
+            if (res.Status == 1) {
+                status = "Approved"
+                $("#SloBenReapply").hide();
+
+                $("#lbldate").text("Date Of Approval").addClass('label-data');
+                $("#lblstaDate").text(res.VerifyDate).addClass('label-data');
+
+            }
+            if (res.Status == 2) {
+                status = "Rejected"
+                $("#SloBenReapply").hide();
+                $("#lbldate").text("Date Of Rejection").addClass('label-data');
+                $("#lblstaDate").text(res.VerifyDate).addClass('label-data');
+
+            }
+            if (res.Status == 3) {
+                status = "Send Back"
+               if(Createdby == res.CreatedBy)
+                    $("#SloBenReapply").show();
+                $("#lbldate").text("Date Of Send Back").addClass('label-data');
+                $("#lblstaDate").text(res.VerifyDate).addClass('label-data');
+
+            }
+            chkstatus = status;
+            if (status == "Pending") {
+                $("#BenPayment").show();
+            }
+            $("#lblstatus").text(status).addClass('label-data');
+
+            $('#lblphoto').empty();
+
+
+
+            //$('#lblphoto').prepend('<img  class="profile-img" src="' + res.BenPhoto + '" />')
+            $('#imgsrc').attr('src',res.BenPhoto);
+            if (res.BenPhoto == "" || res.BenPhoto == null) {
+
+                $('#lblphoto').hide();
+            }
+            else {
+
+                $('#lblphoto').show();
+            }
+            Benifid = res.BenSno;
+            if (res.BenOccupation == "Construction Worker") {
+                $("#constructwork").show();
+                $("#Transportwrk").hide();
+                $("#Others").hide();
+                $("#tdscheme").text("BOCW");
+            }
+            if (res.BenOccupation == "Transport Worker") {
+                $("#Transportwrk").show();
+                $("#constructwork").hide();
+                $("#Others").hide();
+                $("#tdscheme").text("WTBS");
+            }
+            if (res.BenOccupation == "Others") {
+                $("#Others").show();
+                $("#constructwork").hide();
+                $("#Transportwrk").hide();
+            }
+            // $("#Div1").hide();
+            //$("#Div2").delay(1000).fadeOut();
+            $("#BenDashBoard").delay(2000).fadeIn();
+        });
+    }
+
+
+
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+    e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+    (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+    ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+            return false;
+        }
+    }
+    function Gotosendbackapp() {
+        $('#loaderdiv').show();
+        $(".totaldiv").hide();
+        var bensno = $("#UserSno").val();
+
+        $("#SenbackFrame").attr("src", "/Registration/UserReapply?Bensno=" + bensno);
+        $("#SenbackFrame").delay(10000).fadeIn(3000);
+        $('#loaderdiv').delay(10000).fadeOut(400);
+
+
+    }
+    function GetChart()
+    {
+        FusionCharts.ready(function () {
+
+            var ConstructionChart = new FusionCharts({
+                type: 'doughnut2d',
+                renderAt: 'Contruction-container',
+                width: '370',
+                height: '370',
+                dataFormat: 'json',
+                dataSource: {
+                    "chart": {
+                        "caption": "Construction Worker",
+
+                        "numberPrefix": "",
+                        "paletteColors": "#0075c2,#1aaf5d,#f2c500,#f45b00,#8e0000",
+                        //"bgColor": "#ffffff",
+                        "showBorder": "0",
+                        "use3DLighting": "0",
+                        "showShadow": "0",
+                        "enableSmartLabels": "1",
+                        "startingAngle": "310",
+                        "showLabels": "0",
+                        "showPercentValues": "1",
+                        "showLegend": "1",
+                        "legendShadow": "0",
+                        "legendBorderAlpha": "0",
+                        "defaultCenterLabel": "Total:"+CTotal,
+                        "centerLabel": "$label: $value",
+                        "centerLabelBold": "1",
+                        "showTooltip": "1",
+                        "decimals": "0",
+                        "captionFontSize": "14",
+                        "subcaptionFontSize": "14",
+                        "subcaptionFontBold": "0"
+                    },
+                    "data": [
+                        {
+                            "label": "Pending",
+                            "value": CPending
+                        },
+                        {
+                            "label": "Approved",
+                            "value": Capproved
+                        },
+                        {
+                            "label": "Sent Back",
+                            "value": CSentBack
+                        },
+                        {
+                            "label": "Rejected",
+                            "value": CRejected
+                        }
+
+                    ]
+                }
+            }).render();
+            var ConstructionChart = new FusionCharts({
+                type: 'doughnut2d',
+                renderAt: 'Transport-container',
+                width: '370',
+                height: '370',
+                dataFormat: 'json',
+                dataSource: {
+                    "chart": {
+                        "caption": "Transport Worker",
+
+                        "numberPrefix": "",
+                        "paletteColors": "#0075c2,#1aaf5d,#f2c500,#f45b00,#8e0000",
+                        //  "bgColor": "#ffffff",
+                        "showBorder": "0",
+                        "use3DLighting": "0",
+                        "showShadow": "0",
+                        "enableSmartLabels": "1",
+                        "startingAngle": "310",
+                        "showLabels": "0",
+                        "showPercentValues": "1",
+                        "showLegend": "1",
+                        "legendShadow": "0",
+                        "legendBorderAlpha": "0",
+                        "defaultCenterLabel": "Total:"+TTotal,
+                        "centerLabel": "$label: $value",
+                        "centerLabelBold": "1",
+                        "showTooltip": "1",
+                        "decimals": "0",
+                        "captionFontSize": "14",
+                        "subcaptionFontSize": "14",
+                        "subcaptionFontBold": "0"
+                    },
+                    "data": [
+                        {
+                            "label": "Pending",
+                            "value": TPending
+                        },
+                        {
+                            "label": "Approved",
+                            "value": Tapproved
+                        },
+                        {
+                            "label": "Sent Back",
+                            "value": TSentBack
+                        },
+                        {
+                            "label": "Rejected",
+                            "value": TRejected
+                        }
+
+                    ]
+                }
+            }).render();
+            var ConstructionChart = new FusionCharts({
+                type: 'doughnut2d',
+                renderAt: 'Others-container',
+                width: '370',
+                height: '370',
+                dataFormat: 'json',
+                dataSource: {
+                    "chart": {
+                        "caption": "Other Worker",
+
+
+                        "thousandSeparatorPosition": "2,3,4,5",
+                        "showPercentValues": "1",
+                        "paletteColors": "#0075c2,#1aaf5d,#f2c500,#f45b00,#8e0000",
+                        //  "bgColor": "#ffffff",
+                        "showBorder": "0",
+                        "use3DLighting": "0",
+                        "showShadow": "0",
+                        "enableSmartLabels": "1",
+                        "startingAngle": "310",
+                        "showLabels": "0",
+
+                        "showLegend": "1",
+                        "legendShadow": "0",
+                        "legendBorderAlpha": "0",
+                        "defaultCenterLabel": "Total :"+OTotal,
+                        "centerLabel": "$label: $value",
+                        "centerLabelBold": "1",
+                        "showTooltip": "1",
+                        "decimals": "0",
+                        "captionFontSize": "14",
+                        "subcaptionFontSize": "14",
+                        "subcaptionFontBold": "0"
+                    },
+                    "data": [
+                        {
+                            "label": "Pending",
+                            "value": OPending
+                        },
+                        {
+                            "label": "Approved",
+                            "value": Oapproved
+                        },
+                        {
+                            "label": "Sent Back",
+                            "value": OSentBack
+                        },
+                        {
+                            "label": "Rejected",
+                            "value": ORejected
+                        }
+
+                    ]
+                }
+            }).render();
+        });
+    }
+
+    function Benificiaryclick() {
+
+
+
+        Bentrnasclick($("#UserSno").val())
+
+
+    }
+</script>

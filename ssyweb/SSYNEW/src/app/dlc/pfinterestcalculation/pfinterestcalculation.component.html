@@ -1,0 +1,134 @@
+<section id="widget-grid" class="">
+
+
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Interest Calculation</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form">
+                            <div>
+                                <!--<header>Provident Fund</header>-->
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <section class="col col-6 ">
+                                                <label class="label">District <span [style.color]="!districtValid?'red':''"><b>*</b></span></label>
+                                                <select class="form-control select" name="district" id="ddlDistrict"
+                                                        #district="ngModel" [(ngModel)]="pfInterest.districtId"
+                                                        (change)="districtChange($event.target.value)"
+                                                        [ngClass]="{'invalid-data': district.invalid && ( !districtValid || district.touched ),
+                                        'valid-data': hospital && hospitalId.valid  }"
+                                                        required>
+                                                    <option value="-1" disabled selected>Choose a District</option>
+                                                    <option value="0">ALL</option>
+                                                    <option value="{{dis.districtId}}" *ngFor="let dis of districts">{{dis.districtName}}</option>
+                                                </select> <i></i>
+
+                                                <div *ngIf="district.invalid && (!districtValid || districtValid.touched)">
+                                                    <span style="color: red;">Select a District </span>
+                                                </div>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="label">Location Code <span [style.color]="!locationCodeValid?'red':''"><b>*</b></span></label>
+                                                <select class="form-control select" name="locationCode" id="locationCode"
+                                                        #locationCode="ngModel" [(ngModel)]="pfInterest.locationId"
+                                                        [ngClass]="{'invalid-data': locationCode.invalid && ( !locationCodeValid || locationCode.touched ), 'valid-data': hospital && hospitalId.valid  }"
+                                                        required [disabled]="pfInterest.districtId == 0">
+                                                    <option value="-1" disabled selected>Choose a Location Code</option>
+                                                    <option value="0" [selected]="pfInterest.districtId == 0">ALL</option>
+                                                    <option value="{{block.blockSno}}" *ngFor="let block of blocks">{{block.locationCode}}</option>
+                                                </select> <i></i>
+
+                                                <div *ngIf="locationCode.invalid && (!locationCodeValid || locationCode.touched)">
+                                                    <span style="color: red;">Select a Location Code </span>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">SSIN From <span [style.color]="!ssinFromValid?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <input type="text" name="ssinFrom" placeholder="SSIN From" [(ngModel)]="pfInterest.ssinFrom" NumbersOnly maxlength="50">
+                                                </label>
+                                                <div *ngIf="!ssinFromValid">
+                                                    <span style="color: red;">Enter SSIN From </span>
+                                                </div>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="label">SSIN To </label>
+                                                <label class="input">
+                                                    <input type="text" name="ssinTo" placeholder="SSIN To" [(ngModel)]="pfInterest.ssinTo" NumbersOnly maxlength="50">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="row">
+                                            <section class="col col-6 ">
+                                                <label class="label">Financial Year <span [style.color]="!financialYearValid?'red':''"><b>*</b></span></label>
+                                                <select class="form-control select" name="financialYear" id="ddlFinancialYear"
+                                                        #financialYear="ngModel" [(ngModel)]="pfInterest.financialYearId"
+                                                        [ngClass]="{'invalid-data': financialYear.invalid && ( !financialYearValid || financialYear.touched ),
+                                        'valid-data': financialYear && financialYearValid.valid  }"
+                                                        required>
+                                                    <option value="0" disabled>Choose a Financial Year</option>
+                                                    <option value="{{year.financialYearId}}" *ngFor="let year of financialYears">{{year.financialYear}}</option>
+                                                </select> <i></i>
+
+                                                <div *ngIf="financialYear.invalid && (!financialYearValid || financialYear.touched)">
+                                                    <span style="color: red;">Select a Financial Year </span>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </div>
+                            <footer class="modal-footer">
+                                <a class="btn btn-primary" (click)="calculatePFInterest()"> Calculate</a>
+                                <a class="btn btn-danger"> Cancel</a>
+                            </footer>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

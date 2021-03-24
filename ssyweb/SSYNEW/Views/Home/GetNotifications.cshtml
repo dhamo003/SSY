@@ -1,0 +1,58 @@
+﻿@{
+              
+ViewBag.Title = "Getnotifications";
+Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<div class="container-fliud">
+
+    <div class="">
+
+        <table class="table table-striped table-bordered notifications">
+            <thead style="background-color:#87CEEB">
+                <tr>
+                    <th style="width:100px !important;"><b>Date</b></th>
+                    <th><b>Description</b></th>
+                    <th><b>Download</b></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.get('@Url.Action("GetRoleBasedNotyList", "Home")', {}, function (result)
+
+        {
+            $('.notifications tbody').empty();
+
+            $.each(result, function (i, data) {
+
+
+                if (data.Path == "" || data.Path == null)
+                {
+                    $('.notifications').append('<tr><td style="width:100px !important;">' + data.Createddate + '</td><td>' + data.Notification + '</td><td>' + "No File" + '</td></tr>')
+                }
+                else
+                {
+                    $('.notifications').append('<tr><td style="width:100px !important;">' + data.Createddate + '</td><td>' + data.Notification + '</td><td><a href=' + data.Path + ' target="_blank"   style="color: black !important; text-decoration: none" download>Download</a></td></tr>')
+                }
+            });
+            $('.notifications').DataTable({
+
+            });
+        });
+
+        
+
+       
+    });
+
+
+
+
+
+</script>

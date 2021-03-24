@@ -1,0 +1,616 @@
+﻿<style>
+	.modal-backdrop {
+		position: relative !important;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1040;
+		/*background-color: none !important;*/
+	}
+
+	label {
+		font-weight: normal !important;
+	}
+
+	.lblfontweight {
+		font-weight: 600 !important;
+	}
+</style>
+
+
+<div class="modal fade regpop" role="dialog" style="margin-left:-120px;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="width:950px;margin-left:-100px;">
+			<div class="modal-header" style="height:45px;">
+
+				<h4 class="modal-title text-center">SSY Common Application Form</h4>
+
+			</div>
+			<div class="modal-body" style="width:940px;overflow-y: scroll;height:500px; ">
+				<div class="row">
+					<fieldset class="custom-border ">
+						<legend class="custom-border"><span class="leg-sty">Beneficiary Details</span></legend>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label style="">First Name:</label>
+									<label class="lblfontweight" id="lblPrefrstname"></label>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label style="">Middle Name:</label>
+									<label class="lblfontweight" id="lblPreMidlename"></label>
+								</div>
+							</div>
+
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label style="">Last Name:</label>
+									<label class="lblfontweight" id="lblPrelastname"></label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Date of Birth:</label>
+									<label class="lblfontweight" id="lblpredob"></label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Age:</label>
+									<label class="lblfontweight" id="lblpreage"></label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Gender:</label>
+									<label class="lblfontweight" id="lblpregender"></label>
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Marital Status:</label>
+									<label class="lblfontweight" id="lblpremarital"></label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label style="">Father Name:</label>
+									<label class="lblfontweight" id="lblprefathrname"></label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label style="">Mother Name:</label>
+									<label class="lblfontweight" id="lblpreMothrname"></label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Husband Name : </label>
+									<label class="lblfontweight" id="lblprehusname"></label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Religion :</label>
+									<label class="lblfontweight" id="lblprerelgn"></label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Social Category :</label>
+									<label class="lblfontweight" id="lblprecaste"></label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Mobile no:</label>
+									<label class="lblfontweight" id="lblpremobno"></label>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Occupation :</label>
+									<label class="lblfontweight" id="lblOccup"></label>
+								</div>
+							</div>
+						</div>
+						@*<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label class="">Educational Qualification :</label>
+									<label class="lblfontweight" id="lblpreEduQualifi"></label>
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Years of involvement in this work: </label>
+									<label class="lblfontweight" id="lblpreYrsInvlmnt"></label>
+								</div>
+							</div>
+						</div>*@
+					</fieldset>
+				</div>
+				@*style = "text-transform:uppercase",*@
+
+				@*<div id="divEmployeeType">
+					<fieldset class="custom-border">
+						<legend class="custom-border   color-white"><label id="lblemployeeType">Employee Type</label></legend>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label id="lblWorkerType">Worker Type</label>
+									<label class="lblfontweight" id="lblWortype"></label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div id="divConTrn" style="display:none">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label id="lblWorkerType">Work Type Name</label>
+										<label class="lblfontweight" id="lblWortypename"></label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</div>*@
+
+
+				<div class="row">
+					<fieldset class="custom-border">
+						<legend class="custom-border"><span class="leg-sty">Permanent Address</span></legend>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>State:</label>
+								<label class="lblfontweight" id="PerState">West Bengal</label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>District:</label>
+								<label class="lblfontweight" id="lblprevPerDist"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Sub Division:</label>
+								<label class="lblfontweight" id="lblprevPerSubDiv"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Block/Municiplaity/Corporation :</label>
+								<label class="lblfontweight" id="lblprevPerBMC"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Block/Municiplaity/Corporation (Name):</label>
+								<label class="lblfontweight" id="lblprevPerMunc"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>P.S:</label>
+								<label class="lblfontweight" id="lblprevPerPs"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>P.O:</label>
+								<label class="lblfontweight" id="lblprevPerPo"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>PIN code:</label>
+								<label class="lblfontweight" id="lblprevPerPinCode"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>GP/Ward:</label>
+								<label class="lblfontweight" id="lblprevPerGp"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Village/Street/Road:</label>
+								<label class="lblfontweight" id="lblprevPerVillage"></label>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<br />
+				<div class="row">
+					<fieldset class="custom-border ">
+						<legend class="custom-border"><span class="leg-sty">Present Address</span></legend>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>State:</label>
+								<label class="lblfontweight" id="PreState2">West Bengal</label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>District:</label>
+								<label class="lblfontweight" id="lblprevPreDist2"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Sub Division:</label>
+								<label class="lblfontweight" id="lblprevPreSubDiv2"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Block/Municiplaity/Corporation :</label>
+								<label class="lblfontweight" id="lblprevPreBMC2"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Block/Municiplaity/Corporation (Name):</label>
+								<label id="lblprevPreMunc2" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>P.S:</label>
+								<label id="lblprevPrePs2" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>P.O:</label>
+								<label id="lblprevPrePo2" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>PIN code:</label>
+								<label id="lblprevPrePinCode2" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>GP/Ward:</label>
+								<label id="lblprevPreGp2" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Village/Street/Road:</label>
+								<label id="lblprevPreVillage2" class="lblfontweight"></label>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+
+				<br />
+				@*<div class="row">
+					<fieldset class="custom-border">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Nearest Employment Exchange :</label>
+								<label id="lblprevNrestEmpExc" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Employment Bank  Enrollment Number:</label>
+								<label id="lblprevEnrollmentNumber" class="lblfontweight"></label>
+							</div>
+						</div>
+					</fieldset>
+
+				</div>*@
+
+				@*<div class="row">
+					<fieldset class="custom-border">
+
+						<legend class="custom-border"><span class="leg-sty">Training Details</span></legend>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Start Date :</label>
+								<label id="lblStartDate" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>End Date :</label>
+								<label id="lblEndDate" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Venue :</label>
+								<label id="lblVenue" class="lblfontweight"></label>
+							</div>
+						</div>
+					</fieldset>
+				</div>*@
+
+				@*<div class="row">
+					<br />
+					<fieldset class="custom-border ">
+
+						<legend class="custom-border "><span class="leg-sty">Bank Details</span></legend>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>District :</label>
+								<label id="lblprevbnkdis" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Bank Name :</label>
+								<label id="lblprevbnkname" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Account Number :</label>
+								<label id="lblprevbnkactnum" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Location :</label>
+								<label id="lblprevbnkloc" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Branch Name :</label>
+								<label id="lblprevbrnchname" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Address:</label>
+								<label id="lblprevAddress" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>IFSC Code :</label>
+								<label id="lblprevbnkifsc" class="lblfontweight"></label>
+							</div>
+						</div>
+						<div class="col-md-4" style="display:none">
+							<div class="form-group">
+								<label>MICR Code :</label>
+								<label id="lblprevmicr" class="lblfontweight"></label>
+							</div>
+						</div>
+
+					</fieldset>
+
+				</div>*@
+
+
+
+				@*<div class="row">
+					<fieldset class="custom-border">
+
+						<legend class="custom-border"><span class="leg-sty">Willingness to Relocate</span></legend>*@
+
+						@*   <div class="col-md-4">
+					<div class="form-group">
+						<label>Don't want to relocate : </label>
+						<label class="lblfontweight" id="lblprevDntWntRelocte"></label>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Willing to relocate:</label>
+						<label class="lblfontweight" id="lblprevWlngRelocate"></label>
+					</div>
+				</div>*@
+
+						@*<div class="col-md-4">
+							<div class="form-group">
+								<label class="">Relocate :</label>
+								<label class="lblfontweight" id="lblprevRelocate"></label>
+							</div>
+						</div>
+					</fieldset>
+
+				</div>*@
+
+				<fieldset class="custom-border">
+					<legend class="custom-border">Proof Details</legend>
+					<br />
+					<div class="row">
+						<table>
+							<tr>
+								<td>
+									<label>Photo</label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<iframe id="image_upload_preview_Photo" src="~/Content/images/NoImage.jpg" alt="your image" frameborder="0" style="width:250px;height:250px;"></iframe>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+
+				</fieldset>
+
+			</div>
+
+			<div class="modal-footer" style="height:50px;">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+
+    });
+
+    function UserPreview()
+    {
+
+		$("#lblpremobno").text($("#mobno").val())
+		
+		
+        //var getddlfrstname = $("#ddlSal option:selected").text()
+		$("#lblPrefrstname").text($("#FirstName").val())
+		$("#lblPremiddlename").text($("#Middlename").val())
+		$("#lblPrelastname").text($("#lstname").val())
+
+		var getddlfathrsname = $("#ddlfathrsname option:selected").text()
+		$("#lblprefathrname").text(getddlfathrsname + " " + $("#FatherName").val())
+
+		var dyer = $("#ddlyr option:selected").text()
+		var dmon = $("#ddlmnth option:selected").text()
+		var ddat = $("#ddlday option:selected").text()
+		$("#lblpredob").text(ddat + "/" + dmon + "/" + dyer)
+		$("#lblpreage").text($("#age").val())
+        //var getgender = $("input[name='bengender']:checked").val()
+        //$("#lblpregender").text(getgender)
+		$("#lblpregender").text($("#bengender option:selected").text())
+		$("#lblpremarital").text($("#maritalstatus option:selected").text())
+		var getddlhusname = $("#ddlhusname option:selected").text()
+		if ($("#HusbandName").val() == "" || $("#HusbandName").val() == null) {
+            $("#lblprehusname").text("NA")
+        }
+        else {
+			$("#lblprehusname").text(getddlhusname + " " + $("#HusbandName").val())
+        }
+        //$("#lblpreemail").text($("#email").val())
+		$("#lblprerelgn").text($("#religion option:selected").text())
+		$("#lblprecaste").text($("#socategry option:selected").text())
+
+		if ($("#Occupation").val() == "" || $("#Occupation").val() == null) {
+			$("#lblOccup").text("NA")
+		}
+		else {
+			$("#lblOccup").text($("#Occupation").val())
+		}
+
+
+		if ($("#Aadharcard").val() == "" || $("#Aadharcard").val() == null) {
+            $("#lblpreAno").text("NA")
+        }
+        else {
+			$("#lblpreAno").text($("#Aadharcard").val())
+        }
+		if ($("#epiccard").val() == "" || $("#epiccard").val() == null) {
+            $("#lblpreepicNo").text("NA")
+        }
+        else {
+			$("#lblpreepicNo").text($("#epiccard").val())
+        }
+        //if ($("#txtRationCard").val() == "" || $("#txtRationCard").val() == null) {
+        //    $("#lblpreration").text("NA")
+        //}
+        //else {
+        //    $("#lblpreration").text($("#txtRationCard").val())
+        //}
+        //var BplStatus = $("input[name='bplstatus']:checked").val()
+        //var getBplStatus = "YES";
+        //if (BplStatus == "NO")
+        //    getBplStatus = "NO";
+        $("#lblprebolst").text($("#ddlBplStatus option:selected").text())
+        //$("#lblprebolst").text(getBplStatus)
+        if ($("#txtBplNumber").val() == "" || $("#txtBplNumber").val() == null) {
+            $("#lblprebplno").text("NA")
+        }
+        else {
+            $("#lblprebplno").text($("#txtBplNumber").val())
+        }
+        $("#lblpremobno").text($("#txtMobileNumber").val())
+        $("#lblpreEduQualifi").text($("#ddlEducationId option:selected").text())
+        $("#lblpreYrsInvlmnt").text($("#txtYearsInvolwork").val())
+        //Preminent Address
+		$("#lblprevPerDist").text($("#paddistid option:selected").text())
+		$("#lblprevPerSubDiv").text($("#persubdivid option:selected").text())
+		$("#lblprevPerBMC").text($("#peraddBMC option:selected").text())
+		$("#lblprevPerMunc").text($("#peraddblock option:selected").text())
+		$("#lblprevPerPs").text($("#perpsid option:selected").text())
+		$("#lblprevPerPo").text($("#perPOid option:selected").text())
+		$("#lblprevPerPinCode").text($("#pincode").val())
+		$("#lblprevPerGp").text($("#ward option:selected").text())
+		$("#lblprevPerVillage").text($("#vlge1").val())
+        //Present Address
+		$("#lblprevPreDist2").text($("#PreAddrdistid option:selected").text())
+		$("#lblprevPreSubDiv2").text($("#preAddrsubdiv option:selected").text())
+		$("#lblprevPreBMC2").text($("#preaddBMC option:selected").text())
+		$("#lblprevPreMunc2").text($("#preaddBlock option:selected").text())
+		$("#lblprevPrePs2").text($("#preaddPS option:selected").text())
+		$("#lblprevPrePo2").text($("#preaddPO option:selected").text())
+		$("#lblprevPrePinCode2").text($("#pincode2").val())
+		$("#lblprevPreGp2").text($("#ward2 option:selected").text())
+		$("#lblprevPreVillage2").text($("#vlge2").val())
+
+        //$("#lblprevNrestEmpExc").text($("#ddlNearEmployeeId option:selected").text())
+
+
+        //$("#lblprevEnrollmentNumber").text($("#EnrollmentNumber").val())
+
+        //$("#lblprevbnkdis").text($("#ddlBankDistrictId option:selected").text())
+		///$("#lblprevbnkname").text($("#ddlBankNameId option:selected").text())
+		//$("#lblprevbnkname").text($("#txtBankName").val())
+  //      $("#lblprevbnkactnum").text($("#txtAccountNumber").val())
+
+        //$("#lblprevbnkloc").text($("#ddlBankLocationId option:selected").text())
+		//$("#lblprevbrnchname").text($("#ddlBranchNameId option:selected").text())
+		//$("#lblprevbnkloc").text($("#txtBankLocation").val())
+		//$("#lblprevbrnchname").text($("#txtBankBranch").val())
+
+
+  //      $("#lblprevbnkifsc").text($("#txtIfscCode").val())
+  //      $("#lblprevmicr").text($("#txtMicrCode").val())
+
+  //      $("#lblprevAddress").text($("#txtAddress").val())
+
+        //var Relocate = $("input[name='relocSt']:checked").val()
+        //var getRelocate = "0";
+        //if (Relocate == "1")
+        //    getRelocate = "1";
+        //if ($("#ddlRelocType").val() == "" || $("#ddlRelocType").val() == null || $("#ddlRelocType").val() == "0") {
+        //    $("#lblprevRelocate").text("NA")
+        //}
+        //else {
+        //    $("#lblprevRelocate").text($("#ddlRelocType option:selected").text())
+        //}
+
+        //$("#lblStartDate").text($("#txtStartDate").val());
+        //$("#lblEndDate").text($("#txtEndDate").val());
+        //$("#lblVenue").text($("#txtVenue").val());
+
+
+    }
+</script>

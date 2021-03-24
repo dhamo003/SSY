@@ -1,0 +1,101 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Utilization Certificate Status</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+                        <p></p>
+                        <table class="table table-striped" [mfData]="utilizationCertificateDetails" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="rloOfficeName">RLO</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="dateString">Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="openingBalance">Opening Balance</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="fundRecieved">Fund Received</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="fundUtilized">FundUtilized</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="balance">Balance</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="financialYear">Financial Year</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of mf.data|grdFilter: {rloOfficeName: searchText,dateString: searchText,openingBalance: searchText,
+                                    fundRecieved: searchText, fundUtilized: searchText, balance: searchText, financialYear: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onViewClick(data)" title="View" class="txt-color-red"><i class="fa fa-eye"></i></a>
+                                        <a (click)="onPDFViewClick(data)" title="PDF View" class="txt-color-red"><i class="fa fa-edit fa-lg"></i></a>
+                                    </td>
+                                    <td>{{data.rloOfficeName}}</td>
+                                    <td>{{data.dateString}}</td>
+                                    <td>{{data.openingBalance}}</td>
+                                    <td>{{data.fundRecieved}}</td>
+                                    <td>{{data.fundUtilized}}</td>
+                                    <td>{{data.balance}}</td>
+                                    <td>{{data.financialYear}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <div *ngIf="utilizationCertificateDetails.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+<div bsModal #pdfModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Form-V Pdf</h4>
+            </div>
+            <div class="modal-body">
+                Form-V genarated, Please print or download.
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf(claim,'print')">
+                    Print FormV
+                </button>
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf(claim,'download')">
+                    Download FormV
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

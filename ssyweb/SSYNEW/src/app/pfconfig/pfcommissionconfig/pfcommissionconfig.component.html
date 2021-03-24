@@ -1,0 +1,173 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>PF Commission Configuration</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <fieldset>
+
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Commission Code:<span [style.color]="!commissionCodeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="text" name="commissionCode" placeholder="Commission Code" [(ngModel)]="pfConfig.commissionCode"
+                                                   #commissionCode="ngModel" [ngClass]="{'invalid-data': commissionCode.invalid && ( !commissionCodeValid || commissionCode.touched ),
+                                                        'valid-data': commissionCodeValid && commissionCode.valid  }" required>
+                                        </label>
+                                        <div *ngIf="commissionCode.invalid && (!commissionCodeValid || commissionCode.touched)">
+                                            <span style="color: red;">Commission Code is required </span>
+                                        </div>
+                                    </section>
+                                    
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Commission Type:<span [style.color]="!commissionTypeValid?'red':''"><b>*</b></span></label>
+                                        <select class="form-control select" name="commissionType" [(ngModel)]="pfConfig.commissionType" #commissionType="ngModel"
+                                                [ngClass]="{'invalid-data': commissionType.invalid && ( !commissionTypeValid || commissionType.touched ),
+                                        'valid-data': commissionTypeValid && commissionType.valid  }"
+                                                required>
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value="Registration">Registration</option>
+                                            <option value="Ledger">Ledger</option>
+                                            <option value="Ledger">Ledger</option>
+                                        </select><i></i>
+                                        <div *ngIf="commissionType.invalid && (!commissionTypeValid || commissionType.touched)">
+                                            <span style="color: red;">Select Commission Type </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Agent Type:<span [style.color]="!agentTypeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <select class="form-control select" name="agentType" [(ngModel)]="pfConfig.agentType" #agentType="ngModel"
+                                                [ngClass]="{'invalid-data': agentType.invalid && ( !agentTypeValid || agentType.touched ),
+                                        'valid-data': agentTypeValid && agentType.valid  }"
+                                                required>
+                                                <option value="0" selected>Choose an Option</option>
+                                                <option value="1">CA</option>
+                                                <option value="2">SLO</option>
+                                                <option value="3">RP</option>
+                                            </select>
+                                        </label>
+                                        <div *ngIf="agentType.invalid && (!agentTypeValid || agentType.touched)">
+                                            <span style="color: red;">Select an Agent Type </span>
+                                        </div>
+                                    </section>
+
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Percentage On Normal Amount:<span [style.color]="!percentageOnNormalAmountValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="percentageOnNormalAmount" placeholder="Percentage On Normal Amount" [(ngModel)]="pfConfig.percentageOnNormalAmount"
+                                                   #percentageOnNormalAmount="ngModel" [ngClass]="{'invalid-data': percentageOnNormalAmount.invalid && ( !percentageOnNormalAmountValid || percentageOnNormalAmount.touched ),
+                                                        'valid-data': percentageOnNormalAmountValid && percentageOnNormalAmount.valid  }" required>
+                                        </label>
+                                        <div *ngIf="percentageOnNormalAmount.invalid && (!percentageOnNormalAmountValid || percentageOnNormalAmount.touched)">
+                                            <span style="color: red;">Percentage On Normal Amount is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Percentage On Arrear Amount:</label>
+                                        <label class="input">
+                                            <input type="number" name="percentageOnArrearAmount" placeholder="Percentage On Arrear Amount" [(ngModel)]="pfConfig.percentageOnArrearAmount"
+                                                   #percentageOnArrearAmount="ngModel">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Fixed Normal Amount:<span [style.color]="!fixedNormalAmountValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="number" name="fixedNormalAmount" placeholder="Fixed Normal Amount" [(ngModel)]="pfConfig.fixedNormalAmount"
+                                                   #fixedNormalAmount="ngModel" [ngClass]="{'invalid-data': fixedNormalAmount.invalid && ( !fixedNormalAmountValid || fixedNormalAmount.touched ),
+                                                        'valid-data': fixedNormalAmountValid && fixedNormalAmount.valid  }" required>
+                                        </label>
+                                        <div *ngIf="fixedNormalAmount.invalid && (!fixedNormalAmountValid || fixedNormalAmount.touched)">
+                                            <span style="color: red;">Fixed Normal Amount is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Fixed Arrear Amount:</label>
+                                        <label class="input">
+                                            <input type="number" name="fixedArrearAmount" placeholder="Fixed Arrear Amount" [(ngModel)]="pfConfig.fixedArrearAmount"
+                                                   #fixedArrearAmount="ngModel">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Effective From Date:<span [style.color]="!effectiveDateFromValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="effectiveDateFrom" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   placeholder="DD/MM/YYYY" value="{{ pfConfig.effectiveDateFrom | date: 'dd/MM/yyyy' }}"
+                                                   [(ngModel)]="pfConfig.effectiveDateFrom" readonly
+                                                   #effectiveDateFrom="ngModel"
+                                                   [ngClass]="{'invalid-data':effectiveDateFrom.invalid && (!effectiveDateFromValid), 'valid-data': effectiveDateFrom.valid && effectiveDateFromValid}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="effectiveDateFrom.invalid && (!effectiveDateFromValid)">
+                                            <span style="color: red;">Effective From Date is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Effective To Date:<span [style.color]="!effectiveDateToValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="effectiveDateTo" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   placeholder="DD/MM/YYYY" value="{{ pfConfig.effectiveToDate | date: 'dd/MM/yyyy' }}"
+                                                   [(ngModel)]="pfConfig.effectiveDateTo" readonly
+                                                   #effectiveDateTo="ngModel"
+                                                   [ngClass]="{'invalid-data':effectiveDateTo.invalid && (!effectiveDateToValid), 'valid-data': effectiveDateTo.valid && effectiveDateToValid}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="effectiveDateTo.invalid && (!effectiveDateToValid)">
+                                            <span style="color: red;">Effective To Date is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+
+
+                            </fieldset>
+                            <footer class="modal-footer">
+                                <a class="btn btn-primary" (click)="getHistoryData()">History</a>
+                                <a class="btn btn-default" *ngIf="isSaveVisible" (click)="clearData()">Reset</a>
+                                <a class="btn btn-success" *ngIf="isSaveVisible" (click)="saveClaimsData(pfConfig)">Save</a>
+                                <a class="btn btn-danger" (click)="cancelClick()"> Cancel</a>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

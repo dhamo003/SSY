@@ -1,0 +1,238 @@
+﻿
+@{
+	ViewBag.Title = "SSIN Merge";
+	Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<script src="~/Scripts/jquery.min.js"></script>
+
+
+@*<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.23/themes/redmond/jquery-ui.css">*@
+
+<style>
+	th {
+		/*font-size: 12px;*/
+	}
+
+	td {
+		font-size: 12px;
+	}
+
+	.pdfobject-container {
+		height: 500px;
+	}
+
+	.pdfobject {
+		border: 1px solid #666;
+	}
+
+	#fromdate, #todate {
+		z-index: 9999;
+	}
+
+	.dataTables_filter {
+		margin-left: 280px !important;
+	}
+
+	.dataTables_length, .dataTables_filter {
+		display: none !important;
+	}
+</style>
+
+<div class="container-fliud">
+	<fieldset >
+		<legend ><span class="leg-sty">SSIN Merge</span></legend>
+		<div class="row">
+
+			<form role="form" id="form">
+
+				<div class="col-md-4">
+
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<span class="input-group-addon input-label">SSIN Number *</span>
+							@Html.TextBox("txtSsin", "", null, new { maxlength = 12, size = 5, @class = "form-control" })
+							@*<span class="input-group-addon"><a class="btn btn-primary" onclick="AddDetails()">ADD</a></span>*@
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<div class="input-group extra-space">
+							<a class="btn btn-primary" onclick="AddDetails()">ADD</a>
+						</div>
+					</div>
+				</div>
+</div>
+		<div>
+			<fieldset class="custom-border">
+				<center><legend class="custom-border color-white"><span class="leg-sty" style="color:green"><h3><b>Details</b></h3></span></legend></center>
+				<div class="col-md-12">
+					<table class="table table-striped table-bordered tblSSINDetails" cellspacing="0" width="100%">
+						<thead>
+							<tr style="background:darkcyan;color:white;">
+								<th>S.No</th>
+								<th>Name</th>
+								<th>DOB</th>
+								<th>Father Name</th>
+								<th>Husband Name</th>
+								<th>Other Scheme Registration Number</th>
+								<th>MobileNo</th>
+								@*<th>Occupation</th>
+		<th>District</th>
+		<th>SubDivision</th>
+		<th>Location</th>
+		<th>PostOffice</th>
+		<th>PoliceStation</th>
+		<th>GpWard</th>*@
+								<th>AadharCard</th>
+								<th>EpicCard</th>
+								<th>SSI_Number</th>
+								<th>Merge SSIN</th>
+								<th>Mark Unique SSIN</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+		<br />
+		<div>
+			<div class="form-group">
+				<center>
+					<a class="btn btn-primary" onclick="FinalSubmit()">Merge</a>
+				</center>
+			</div>
+		</div>
+	</fieldset>
+</div>
+
+<script>
+
+	$(document).ready(function () {
+
+	});
+
+	function AddDetails() {
+		if ($("#txtSsin").val() == "" || $("#txtSsin").val() == null || $("#txtSsin").val() == 0) {
+			alert("Please Enter SSIN Number");
+			$("#txtSsin").focus();
+			return false;
+		}
+
+		var rowCnt = $('.tblSSINDetails tr').length;
+		
+		if (rowCnt > 0) {
+
+			for (i = 1; i < rowCnt; i++) {
+
+				if ($("#Regnumber" + i).val() == $("#txtSsin").val()) {
+					alert("These SSIN Number Already Added");
+					$("#txtSsin").focus();
+					return false;
+				}
+			}
+
+		}
+		
+		
+		$.get('@Url.Action("GetMerSsinDetails", "Home")', { benSSin: $("#txtSsin").val() }, function (data) {
+			 
+			
+			if (data != "") {
+				var rowCount = $('.tblSSINDetails tr').length;
+
+				//$('.tblSSINDetails').append('<tr><td>' + rowCount + '</td><td>' + data.BenefciairyName + '</td><td>' + data.DateOfBirth + '</td><td>' + data.FatherName + '</td><td>' + data.HusbandName + '</td><td>' + data.Regnumber + '</td><td>' + data.MobileNo + '</td > <td>' + data.Occupation + '</td> <td>' + data.District + '</td> <td>' + data.SubDivision + '</td> <td>' + data.Location + '</td> <td>' + data.PostOffice + '</td> <td>' + data.PoliceStati + '</td> <td>' + data.GpWard + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td><input id = "Regnumber' + rowCount + '" value = "' + data.SSI_Number + '" readonly="readonly"></td><td><input type="Checkbox" style="width:18px; height:18px;" name="CheckSSIN' + rowCount + '" class="CheckSSIN' + rowCount + '"></td><td><input type="radio" name="SSINAct' + rowCount + '" class="SSINAct' + rowCount + '" value="MainSSIN"></td></tr>')
+
+				$('.tblSSINDetails').append('<tr><td>' + rowCount + '</td><td>' + data.BenefciairyName + '</td><td>' + data.DateOfBirth + '</td><td>' + data.FatherName + '</td><td>' + data.HusbandName + '</td><td>' + data.Regnumber + '</td><td>' + data.MobileNo + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td><input id = "Regnumber' + rowCount + '" value = "' + data.SSI_Number + '" style="width:120px; height:18px;" readonly="readonly"></td><td><input type="Checkbox" style="width:20px; height:18px;" name="CheckSSIN' + rowCount + '" class="CheckSSIN' + rowCount + '"></td><td><input type="radio" name="SSINAct" class="SSINAct' + rowCount + '" value="MainSSIN"></td></tr>')
+
+				$("#txtSsin").val("");
+			}
+			else {
+				alert("No Details Found by these SSIN Number");
+				return;
+			}
+          
+		});
+
+	}
+
+	function FinalSubmit() {
+		var rowCnt1 = $('.tblSSINDetails tr').length;
+		var stMergRegno = "",stMermes = "";
+		var MainId = "";
+		var chknt = "0";
+		var ucnt = "0";
+		
+		if (rowCnt1 > 1) {
+
+
+
+			for (i = 1; i < rowCnt1; i++) {
+
+				var MergCheck = $(".CheckSSIN" + i ).is(':checked');
+
+				if (MergCheck == true) {
+					chknt = chknt + 1;
+					stMergRegno = stMergRegno + $("#Regnumber" + i).val() + "$"
+					stMermes = stMermes + $("#Regnumber" + i).val() + ","
+				}
+			}
+
+			if (chknt == 0 || chknt < 2) {
+				alert("Please Select Minimum 2 checkbox to merge")
+				return;
+			}
+
+
+			for (j = 1; j < rowCnt1; j++) {
+
+				var UniqId = $(".SSINAct" + j).is(':checked');
+
+				if (UniqId == true) {
+					ucnt = ucnt + 1;
+					MainId =  $("#Regnumber" + j).val() 
+				}
+			}
+
+			if (ucnt == 0 ) {
+				alert("Please Select Radio Button to Merge")
+				return;
+			}
+
+			//alert("Merg Numbers = " + stMergRegno);
+			//alert("Main Numbers = " + MainId);
+
+			//var Ok = confirm("Please Confirm the SSIN Numbers \n" + stMermes + " Merge with " + MainId + "\n Do you want to update now ?");
+			var Ok = confirm("Please confirm the SSIN number  \n" + stMermes + " to merge with " + MainId + "\n Do you want to update now?");
+			if (Ok == true) {
+
+				var Ok1 = confirm("Do you want to proceed ?");
+				if (Ok1 == true) {
+
+					$.get('@Url.Action("MergSSinData", "Home")', { UniD: MainId, MerId: stMermes }, function (Res) {
+
+						alert(Res.Message)
+						 
+						window.location.href = "/Home/DeptDashboard";
+					});
+				}
+				else {
+					//window.top.location.href = "/Home/DeptDashboard";
+					return false;
+				}
+
+			}
+			else {
+				//window.top.location.href = "/Home/DeptDashboard";
+				return false;
+			}
+
+		}
+		else {
+			alert("Please Add SSIN Numbers")
+		}
+	}
+</script>

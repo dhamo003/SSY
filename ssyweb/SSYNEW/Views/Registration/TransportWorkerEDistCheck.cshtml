@@ -1,0 +1,147 @@
+﻿
+@{
+	ViewBag.Title = "eDistrict check";
+	Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" rel="stylesheet">
+<script src="~/Scripts/my_scripts/toaster.js"></script>
+<script src="~/Scripts/my_scripts/Validations.js"></script>
+<script>
+    var userId = @Html.Raw(Json.Encode(ViewBag.userId))
+</script>
+<style>
+	.text-on-pannel {
+		background: #fff none repeat scroll 0 0;
+		height: auto;
+		margin-left: 20px;
+		padding: 3px 5px;
+		position: absolute;
+		margin-top: -47px;
+		border: 1px solid #337ab7;
+		border-radius: 8px;
+	}
+
+	.panel {
+		/* for text on pannel */
+		margin-top: 27px !important;
+	}
+
+	.panel-body {
+		padding-top: 30px !important;
+	}
+
+	label {
+		font-weight: bold !important;
+	}
+
+	.primarybtn {
+		width: 114px !important;
+		background-color: #3d7ede !important;
+	}
+
+	.lblValue {
+		font-size: smaller !important;
+	}
+</style>
+<div class="container">
+
+	@*Benificiary information*@
+
+	<form id="additionalInformation">
+
+
+
+		<div class="panel panel-primary">
+            <div class="panel-body">
+                <h5 class="text-on-pannel text-primary"><strong class="text-uppercase">e District Registration Check</strong></h5>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label id="Edistlblfrstnoti"> Are you Already registered under WBTWSSS Scheme ? </label>
+                            <br>
+                            <input type="radio" name="Edistenscheme" class="EdistScheme" value="Yes">
+                            <label class="EdistlblFYes">Yes</label>
+                            <input type="radio" name="Edistenscheme" value="No" class="EdistScheme">
+                            <label class="EdistlblFNo">No</label>
+                        </div>
+                    </div>
+                    @*<div class="col-md-4">
+                <div class="form-group">
+                    <label>
+                        e District Registration Number
+                    </label><span style="color: red"> *</span>
+                    <input type="text" class="form-control" id="eregistrationid" name="eregistrationid" maxlength="15" onkeypress="return onlynumber(event,this)">
+
+                </div>
+            </div>*@
+                </div>
+                <div class="row">
+                    <div class="col-md-12" id="divResign" style="display:none">
+                        <div class="col-md-4">
+                            <div class="form-group">
+								<label>
+									Please Enter Old Registration Number/New Registration Number/AIN Number
+								</label><span style="color: red"> *</span>
+                                <input type="text" class="form-control" id="txtRegistration" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <center> <button type="button" class="btn btn-primary primarybtn" onclick="submitForm()">Submit</button></center>
+                            </div>
+                        </div>
+                                
+                    </div>
+                </div>
+            </div>
+		</div>
+	</form>
+	@*<div class="row">
+		<center> <button type="button" class="btn btn-primary primarybtn" onclick="submitForm()">Submit</button></center>
+	</div>*@
+</div>
+
+
+
+<script>
+	$(document).ready(function () {
+
+		//if ($("#eregistrationid").val() == "" || $("#eregistrationid").val() == null) {
+
+		//	ErrorMessage("Please Enter Registration Number.");
+		//	$("#eregistrationid").focus();
+		//	return false;
+		//}
+
+	});
+
+	//For existing User
+	$(".EdistScheme").change(function () {
+		//alert("11");
+		var EnrolSche = $("input[name='Edistenscheme']:checked").val()
+		 
+		if (EnrolSche == "No") {
+            $("#divResign").hide();
+            window.location.href = "/Registration/TransportNewAdditionalDet"; //?ID=" + userId; //New eDist User
+		}
+		if (EnrolSche == "Yes") {
+            $("#divResign").show();
+            $("#txtRegistration").val('');
+		}
+    });
+
+    function submitForm() {
+
+        if ($("#txtRegistration").val() == "" || $("#txtRegistration").val() == null) {
+            alert("Please Enter Registration Number/AIN Number");
+            $("#txtRegistration").focus();
+			return false;
+        }
+
+        var regid = $("#txtRegistration").val();
+
+        window.location.href = "/Registration/TransportExiAdditionalDet?ID=" + regid; 
+    }
+</script>

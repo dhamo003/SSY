@@ -1,0 +1,146 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Track Claim</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="widget-body no-padding">
+                        <fieldset>
+                            <section>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="well well-sm">
+                                            <div class="smart-timeline">
+                                                <ul class="smart-timeline-list">
+
+                                                    <li *ngFor="let item of claimsTrack">
+                                                        <div class="smart-timeline-icon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>{{formatDate(item.actionDate)}}</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+                                                            <p>
+                                                                <a href="javascript:void(0);"><strong>{{item.userName}} - {{item.action}}</strong></a>
+                                                            </p>
+                                                            <p>
+                                                                {{item.actionComments}}
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <!--<li>
+                                                        <div class="smart-timeline-icon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>25th july</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+                                                            <p>
+                                                                <a href="javascript:void(0);"><strong>ALC Review - Send Back </strong></a>
+                                                            </p>
+                                                            <p>
+                                                                Provided Bill is out of the date, for which claim can't be processed. Resubmit the right bill
+                                                            </p>
+
+
+
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="smart-timeline-icon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>23rd july</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+                                                            <p>
+                                                                <a href="javascript:void(0);"><strong>Inspector Review - Forwarded to ALC</strong></a>
+                                                            </p>
+                                                            <p>
+                                                                Forwarded to AL at 10.30am
+                                                            </p>
+
+
+
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="smart-timeline-icon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>22nd July 2018</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+                                                            <p>
+                                                                <a href="javascript:void(0);"><strong>Resubmission by Beneficiary</strong></a>
+                                                            </p>
+                                                            <p>
+                                                                Here attached the document
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="smart-timeline-icon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>21st july</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+                                                            <p>
+                                                                <a href="javascript:void(0);"><strong>Inspector Review - Sent Back</strong></a>
+                                                            </p>
+                                                            <p>
+                                                                Can you please submit your Medicall Bill?
+                                                            </p>
+
+
+
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="smart-timeline-icon">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>18th July 2018</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+                                                            <p>
+                                                                <a href="javascript:void(0);"><strong>Claim Submission - Beneficiary</strong></a>
+                                                            </p>
+                                                            <p>
+                                                                Sir, Can you please review and approve my claim
+                                                            </p>
+
+                                                        </div>
+                                                    </li>-->
+                                                    <!--<li class="text-center">
+                                                        <a href="javascript:void(0)" class="btn btn-sm btn-default"><i class="fa fa-arrow-down text-muted"></i> LOAD MORE</a>
+                                                    </li>-->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </fieldset>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+    <div class="smart-form">
+        <footer>
+            <a class="btn btn-danger" (click)="onBackClaimClick()">Cancel</a>
+        </footer>
+    </div>
+</section>

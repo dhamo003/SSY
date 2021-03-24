@@ -1,0 +1,453 @@
+<div id="widget-grid" class="">
+
+
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Claim Entry View </h2>
+                </header>
+
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <!-- Success states for elements -->
+                        <form class="smart-form smart-form-main">
+                            <header>Beneficiary Details</header>
+
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Name: </strong>{{beneficiary?.benFullName}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>SSIN: </strong>{{beneficiary?.ssI_Number}}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>Bank Name: </strong>{{beneficiary?.benBankName}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Account No: </strong>{{beneficiary?.benBankAccNo}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label><strong>IFSC Code: </strong>{{beneficiary?.benBankIfscCode}}</label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label><strong>Branch: </strong>{{beneficiary?.benBankBranch}}</label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </fieldset>
+                            <div *ngIf="isOnDeathofBeneficiaryOnRequestofNominee">
+                                <header>Nominee Details</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong>Name: </strong>{{claim?.nomineeName}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>Address: </strong>{{claim?.nomineeAddress}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong>Date of Birth: </strong>{{claim?.nomineeDOBString}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>Contact Number: </strong>{{claim?.nomineeContact}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong>Bank Account No: </strong>{{claim?.nomineeBankAccount}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>IFSC Code: </strong>{{claim?.nomineeIFSCCode}}</label>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </fieldset>
+                            </div>
+                            <div *ngIf="claim.providentFundDetails != null">
+                                <header>Provident Fund</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6 ">
+                                                <label>
+                                                    <strong> PF No.: </strong>{{claim.providentFundDetails.pfno}}
+                                                </label>
+                                            </div>
+                                            <div class="col col-6 ">
+                                                <label>
+                                                    <strong> Claim Amount:</strong> {{claim.providentFundDetails.claimAmount}} /-
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6 ">
+                                                <label>
+                                                    <strong>  Date of Maturity:</strong> {{claim.providentFundDetails.maturityDateString}}
+                                                </label>
+                                            </div>
+                                            <div class="col col-6 ">
+                                                <label>
+                                                    <strong>  Locking Period Up-to:</strong> {{claim.providentFundDetails.lockingPeriodDateString}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6 ">
+                                                <label>
+                                                    <strong> Type of Claim:</strong> {{claim.providentFundDetails.typeOfClaimName}}
+                                                </label>
+
+                                            </div>
+                                            <div class="col col-6 " *ngIf="isPrematureClaim">
+                                                <label>
+                                                    <strong> Reason for Preclosure:</strong>  {{claim.providentFundDetails.reasonForPreClosure}}
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+
+                                                <div><strong>Approved Amount : </strong> {{claim?.providentFundDetails?.approvedAmount}}</div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </div>
+                            <div *ngIf="claim.educationDetails != null">
+                                <header>Education</header>
+
+                                <fieldset>
+
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+
+                                                <div><strong>Claim Amount : </strong> {{claim?.educationDetails?.claimAmount}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6">
+
+                                            <div><strong>Approved Amount : </strong> {{claim?.educationDetails?.approvedAmount}}</div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <header>Dependent Details</header>
+                                <fieldset>
+                                    <section *ngFor="let detail of educationList">
+
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Name of the Student: </strong>{{detail?.dependentName}} </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label> <strong>Name of the Institution : </strong> {{detail?.institutionName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Name of the Principal/Head Master of the institution:</strong>{{detail?.institutionPrinicipleName}} </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label> <strong> Contact Number of the Institution: </strong>{{detail?.institutionContact}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Registration No./Roll No. of last exam passed: </strong>{{detail?.registrationRollNo}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong> Year of Examination: </strong>{{detail?.year}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Date of Admission: </strong>{{detail?.dateofAdmissionString}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong> Last Exam Passed: </strong>{{detail?.lastExamPassedName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Presently Reading: </strong>{{detail?.presentlyReadingName}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>Eligible Amount :</strong>{{detail?.eligibleAmount}}</label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+
+                            </div>
+                            <div *ngIf="this.claim.healthFamilyDetails != null">
+                                <header>Health & Family</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+
+                                                <div><strong>Claim Amount : </strong> {{claim?.healthFamilyDetails?.claimAmount}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6">
+
+                                            <div><strong>Approved Amount : </strong> {{claim?.healthFamilyDetails?.approvedAmount}}</div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <header>Health & Family Details</header>
+                                <fieldset>
+                                    <section>
+
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Type of Claim: </strong>{{claim?.healthFamilyDetails?.typeOfClaimName}} </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label>
+                                                    <strong>Hospital : </strong> {{claim?.healthFamilyDetails?.hospitalName}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label>
+                                                    <strong> Hospitalization/OPD:</strong>{{claim?.healthFamilyDetails?.typeOfHospitalizationName}}
+                                                </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label>
+                                                    <strong> Patient Id: </strong>{{claim?.healthFamilyDetails?.patientId}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="claim?.healthFamilyDetails?.typeOfHospitalization==2">
+                                            <div class="col col-6">
+                                                <label><strong> Name of Disease: </strong>{{claim?.healthFamilyDetails?.nameOfTheDiseaseString}}</label>
+                                            </div>
+                                            <div class="col col-6" *ngIf="claim?.healthFamilyDetails?.nameOfTheDisease==56">
+                                                <label><strong> Name of clinical test: </strong>{{claim?.healthFamilyDetails?.nameOfClinicalTestString}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="viewMetWithAnAccident">
+                                            <div class="col col-6">
+                                                <label>
+                                                    <strong> Met with an Accident:</strong>{{claim?.healthFamilyDetails?.isAccident}}
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Cost of Clinical Test: </strong>{{claim?.healthFamilyDetails?.costOfClinicalTest}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong> Cost of Medicine: </strong>{{claim?.healthFamilyDetails?.costOfMedicine}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="claim?.healthFamilyDetails?.typeOfHospitalization==2">
+                                            <div class="col col-6">
+                                                <label><strong> Date of First Appointment: </strong>{{claim?.healthFamilyDetails?.firstAppointmentDateString}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong>Claim for: </strong>{{claim?.healthFamilyDetails?.claimForName}}</label>
+                                            </div>
+                                            <div class="col col-6" *ngIf="claim?.healthFamilyDetails?.typeOfHospitalization==1">
+                                                <label><strong> Cost of Hospitalization: </strong>{{claim?.healthFamilyDetails?.costOfHospitalization}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="claim?.healthFamilyDetails?.typeOfHospitalization==1">
+                                            <div class="col col-6">
+                                                <label><strong> Date of Admission to Hospital: </strong>{{claim?.healthFamilyDetails?.admittedDateString}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>Date of Discharge :</strong>{{claim?.healthFamilyDetails?.dischargeDateString}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="claim?.healthFamilyDetails?.familyMemberId != undefined && claim?.healthFamilyDetails?.familyMemberId !=0">
+                                            <div class="col col-6">
+                                                <label><strong> Family Member Name: </strong>{{claim?.healthFamilyDetails?.familyMemberName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="claim?.healthFamilyDetails?.reasonForDelaySubmission != undefined || claim?.healthFamilyDetails?.reasonForDelaySubmission != null">
+                                            <div class="col col-6">
+                                                <label><strong>  Reason for Delay Submission: </strong>{{claim?.healthFamilyDetails?.reasonForDelaySubmission}} </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <div *ngIf="claim?.healthFamilyDetails?.typeOfHospitalizationName!='OPD' && claim?.healthFamilyDetails?.claimFor == 5">
+                                    <header>Loss of Employment</header>
+                                    <fieldset>
+                                        <section>
+                                            <div class="row">
+                                                <div class="col col-6">
+                                                    <label><strong> From Date: </strong>{{claim?.healthFamilyDetails?.loeFromDateString}}</label>
+                                                </div>
+                                                <div class="col col-6">
+                                                    <label><strong>To Date :</strong>{{claim?.healthFamilyDetails?.loeToDateString}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-6">
+                                                    <label><strong> Amount: </strong>{{claim?.healthFamilyDetails?.loeAmount}}</label>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </fieldset>
+                                </div>
+
+                                <header>View Packages</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row" *ngIf="selectedPackages.length>0">
+                                            <table class="table table-striped" [mfData]="selectedPackages" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                                <thead>
+                                                    <tr>
+                                                        <th><mfDefaultSorter by="packageName">Package Name</mfDefaultSorter></th>
+                                                        <th><mfDefaultSorter by="packageCode">Package Code</mfDefaultSorter></th>
+                                                        <th><mfDefaultSorter by="ailmentName">Ailment Name</mfDefaultSorter></th>
+                                                        <th><mfDefaultSorter by="amount">Amount</mfDefaultSorter></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let pak of mf.data;">
+                                                        <td>{{pak.packageName}}</td>
+                                                        <td>{{pak.packageCode}}</td>
+                                                        <td>{{pak.ailmentName}}</td>
+                                                        <td>{{pak.amount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot><tr><td colspan="4"><mfBootstrapPaginator></mfBootstrapPaginator></td></tr></tfoot>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </div>
+                            <div *ngIf="this.claim.disabilityDetails != null">
+                                <header>Disability</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+
+                                                <div><strong>Claim Amount : </strong> {{claim?.disabilityDetails?.claimAmount}}</div>
+                                            </div>
+                                            <div class="col col-6">
+
+                                                <div><strong>Approved Amount : </strong> {{claim?.disabilityDetails?.approvedAmount}}</div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <header>Disability Details</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Date of release from hospital/Accident: </strong>{{claim?.disabilityDetails?.dateofReleaseString}} </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label>
+                                                    <strong>Nature of Disability : </strong> {{claim?.disabilityDetails?.natureOfDisabilityName}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Details of Disability: </strong>{{claim?.disabilityDetails?.detailsOfDisability}} </label>
+                                            </div>
+                                            <div class="col col-6" *ngIf="claim?.disabilityDetails?.reasonForDelaySubmission != undefined || claim?.disabilityDetails?.reasonForDelaySubmission != null">
+                                                <label><strong>  Reason for Delay Submission: </strong>{{claim?.disabilityDetails?.reasonForDelaySubmission}} </label>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </fieldset>
+                            </div>
+                            <div *ngIf="this.claim.deathDetails != null">
+                                <header>Death</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+
+                                                <div><strong>Claim Amount : </strong> {{claim?.deathDetails?.claimAmount}}</div>
+                                            </div>
+                                            <div class="col col-6">
+
+                                                <div><strong>Approved Amount : </strong> {{claim?.deathDetails?.approvedAmount}}</div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <header>Death Details</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label>
+                                                    <strong>Nature of Death : </strong> {{claim?.deathDetails?.natureofDeathName}}
+                                                </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong>Date of Death: </strong>{{claim?.deathDetails?.dateofDeathString}} </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label><strong> Details of Death: </strong>{{claim?.deathDetails?.detailsofDeath}} </label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label><strong> Place of Death: </strong>{{claim?.deathDetails?.placeofDeath}} </label>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </fieldset>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</div>

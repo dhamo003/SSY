@@ -1,0 +1,233 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+	ViewBag.Title = "EditBeneDOBDetails";
+	Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    var benSno = @Html.Raw(Json.Encode(ViewBag.Bensno))
+    var Count = @Html.Raw(Json.Encode(ViewBag.Count))
+
+    var Status = @Html.Raw(Json.Encode(ViewBag.Status))
+
+    var StatusName = @Html.Raw(Json.Encode(ViewBag.StatusName))
+
+
+
+</script>
+<div class="">
+	<fieldset class="custom-border">
+		<legend class="custom-border color-white"><span class="leg-sty">Beneficiary DOB Details</span></legend>
+
+
+		<div class="row">
+
+			<form role="form" id="form">
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>First Name </label>
+						@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control benefirstname", id = "benefirstname", @readonly = true })
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Middle Name </label>
+						@Html.TextBoxFor(m => m.Middlename, null, new { @class = "form-control", @maxlength = 16, id = "benemiddlename", @readonly = true })
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Last Name </label>
+						@Html.TextBoxFor(m => m.LastName, new { @class = "form-control ", id = "benelastname", @readonly = true })
+					</div>
+				</div>
+
+				
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>DOB <span style="color: red">*</span></label>
+						@Html.TextBoxFor(m => m.BDob, "", new { @class = "form-control datepicker", @readonly = true, id = "benedob" })
+					</div>
+				</div>
+
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="">Upload DOB Proof<font size="1"> *</font></label>
+						<input type="file" multiple="multiple" name="files[0]" class="form-control" id="dobproofdoc" />
+						<font size="2"> &nbsp;&nbsp;&nbsp;&nbsp; DOB Proof limit is upto 2MB, JPEG/PNG/PDF</font>
+						<a href="#" id="dobproofdoc1"><span class="glyphicon glyphicon-remove-circle"></span></a>
+					</div>
+				</div>
+
+
+				<input type="hidden" id="Bensno" value="0" name="Bensno" />
+
+			</form>
+
+		</div>
+
+
+		<div class="row" id="divBtn">
+			<center>
+				<a class="btn btn-primary" onclick="FinalSubmit()">Submit</a>
+
+			</center>
+		</div>
+
+		<br />
+
+		<br />
+		<div>
+			<fieldset class="custom-border">
+				<center><legend class="custom-border color-white"><span class="leg-sty" style="color:green"><h3><b>History</b></h3></span></legend></center>
+
+				<div class="col-md-12">
+
+					<table class="table table-striped table-bordered tblBeneDOBDetHis" cellspacing="0" width="100%">
+						<thead>
+							<tr style="">
+								<th>S.No</th>
+								@*<th>Name</th>*@
+								@*<th>Last Name</th>
+								<th>Middle Name</th>*@
+								<th>DOB</th>
+								<th>Status</th>
+								<th>Requested Date</th>
+								<th>Verified Date</th>
+								<th>Remarks</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+
+	</fieldset>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        if(Status != 1)
+        {
+
+            alert("Your application is " + StatusName);
+			window.location.href = " /Registration/EditBeneDOBDetails";
+
+        }
+        $("#Bensno").val(benSno);
+        //GetDetail(benSno);
+        GetHistory(benSno)
+
+       
+		$("#benedob").datepicker({
+			dateFormat: "dd/mm/yy",
+			//dateFormat: "yy-mm-dd",
+			changeYear: true,
+			changeMonth: true,
+			yearRange: "1959:2001",
+			autoclose: true,
+			maxDate: new Date()
+		});
+     });
+    @*function GetDetail(benSno) {
+
+            $.get('@Url.Action("GetbenDetails", "Registration")', { bensno: benSno }, function (res) {
+
+				$("#benefirstname").val(res.BenFirstName);
+				$("#benelastname").val(res.BanLastName);
+				$("#benemiddlename").val(res.BenMiddleName);
+				$("#benedob").val(res.BenDob);
+
+            //$.get('@Url.Action("GetbranchAddrJSON", "Registration")', {ID :res[1]}, function (dat) {
+                //$("#branchaddress").val(dat);
+            //});
+            });
+
+    }*@
+
+    function FinalSubmit() {
+		if ($("#benedob").val() == "" || $("#benedob").val() == null || $("#benedob").val() == 0) {
+            alert("Please Select Date of Birth");
+			$("#benedob").focus();
+            return false;
+		}
+		
+		if ($("#dobproofdoc").val() == "" || $("#dobproofdoc").val() == null || $("#dobproofdoc").val() == 0) {
+			alert("Please Upload DOB Proof");
+			$("#dobproofdoc").focus();
+			return false;
+		}
+        var form = $('#form')[0];
+
+        var data = new FormData(form);
+
+
+
+        $.ajax({
+			url: '/Registration/SubmitBeneDOBDetails',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function (Res) {
+                alert(Res.Message);
+                if (Res.Code=="000") {
+					window.location.href = "/Registration/EditBeneDOBDetails";
+                }
+            }
+
+        });
+            }
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            return false;
+        }
+    }
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+            e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+            (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+            ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+            return false;
+        }
+    }
+
+    $("#ifsccode").keypress(function () {
+        var ifscval = $(this).val();
+        if (ifscval.length == 4) {
+            $(this).val(ifscval + "0");
+            return false;
+        }
+    });
+
+
+    function GetHistory(benSno) {
+        $.get('@Url.Action("GetBeneDOBDetEditHistory", "Home")', { benSno: benSno}, function (result) {
+             
+			var table = $('.tblBenePersDetHis').DataTable();
+            table.destroy();
+
+			$('.tblBeneDOBDetHis tbody').empty();
+            $.each(result, function (i, data) {
+
+				if (data.Status == "Pending") {
+					$("#divBtn").hide();
+				}
+				$('.tblBeneDOBDetHis').append('<tr><td>' + data.Sno + '</td><td>' + data.BeneDOB + '</td><td>' + data.Status + '</td><td>' + data.ReqDate + '</td><td>' + data.VerifiedDate + '</td><td>' + data.Remarks + '</td>')
+            });
+			$('.tblBeneDOBDetHis').DataTable({
+
+            });
+
+        });
+
+    }
+</script>

@@ -1,0 +1,451 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "SummaryReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+
+}
+
+
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="~/Scripts/session.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+
+<script>
+
+    var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+
+    var Deptid = @Html.Raw(Json.Encode(ViewBag.deptid))
+
+    var RepSubDVision ="";
+    var RepLocation ="";
+
+    var SendSubDiv ="";
+
+    var SendLocation ="";
+
+    var    path ="";
+    var senddistrict = "";
+
+</script>
+
+<style>
+    #fromdate, #todate {
+        /*position:absolute;*/
+        z-index: 1000;
+    }
+
+    .Dropdwn {
+        width: 185px;
+        height: 33px;
+    }
+
+    th {
+        font-size: 13px;
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    .dt-buttons a {
+        background: #8BC34A !important;
+    }
+
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        z-index: 9999;
+        max-height: 250px;
+        width: 185px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    /*#DataTables_Table_0_filter
+     {
+         display:none;
+     }*/
+</style>
+
+
+
+<br />
+<br />
+
+<div class="container-fluid" id="sign" style="margin-top:-35px;">
+
+    <marquee scrollamount="7"><font color="green" size="3"><b>Report can be viewed for a date range of one month,if date range is more than one month please click on download.</b></font></marquee>
+    <br />
+    <div class="logo" style="text-align: center;"><h3><b>District Wise Summary Report</b></h3></div>
+
+    <br />
+
+    @*<div class="row"></div>*@
+
+    <div class="col-sm-12">
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">District</span>
+                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control dropdown-menu", @tabindex = "6" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" id="divsub" style="display:none;">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Sub Division</span>
+                    @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" id="divloc" style="display:none;">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Location</span>
+                    @Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location", id = "Location", @tabindex = "8" })
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Worker Type</span>
+                    @*@Html.TextBox("txtschem", null, new { @class = "form-control ", placeholder = "Email ", req = "Req", message = "Please Enter Email", @onchange = "validateEmail()",@tabindex="9" })*@
+                    @Html.DropDownList("schemeid", new List<SelectListItem>
+                                        {
+
+                                              new SelectListItem{ Text="ALL",Value = "ConstructionWorker,TransportWorker,Others"},
+                                            new SelectListItem{ Text="Construction Worker", Value = "ConstructionWorker" },
+                                             new SelectListItem{ Text="Transport Worker", Value = "TransportWorker" },
+                                              new SelectListItem{ Text="Other Worker", Value = "Others" }
+
+
+                                        }, new { @class = "form-control" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" style="display:none;">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Status</span>
+                    @*@Html.TextBox("txtschem", null, new { @class = "form-control ", placeholder = "Email ", req = "Req", message = "Please Enter Email", @onchange = "validateEmail()",@tabindex="9" })*@
+                    @Html.DropDownList("SchemeStatus", new List<SelectListItem>
+                                        {
+
+                                              new SelectListItem{ Text="ALL", Value = "0,1,2" },
+                                            new SelectListItem{ Text="Approved", Value = "1" },
+                                             new SelectListItem{ Text="Pending", Value = "0" },
+                                              new SelectListItem{ Text="Rejected", Value = "2" }
+
+
+                                        }, new { @class = "form-control" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">From Date</span>
+                    @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">To Date</span>
+                    @Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-primary" onclick="GetRepData()">Submit</a>
+            <a class="btn btn-primary" style="margin-left: 10px;" onclick="SaveDownloadReq()">Download</a>
+        </div>
+
+    </div>
+
+    <div class="col-sm-12">
+        <div class="col-md-4" style="display: none">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Occupation</span>
+                    @*@Html.TextBox("txtoccu", null, new { @class = "form-control ", placeholder = "Email", req = "Req", message = "Please Enter Email", @onchange = "validateEmail()",@tabindex="9" })*@
+                    @Html.DropDownList("txtoccu", new List<SelectListItem>
+                                        {
+
+                                            new SelectListItem{ Text="Construction Worker", Value = "Construction Worker" },
+                                             new SelectListItem{ Text="Transport Worker", Value = "Transport Worker" },
+                                              new SelectListItem{ Text="Others", Value = "Others" }
+
+
+                                        }, new { @class = "form-control  Dropdwn" })
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-md-12 column">
+        <div class="container-fluid">
+
+            <iframe name="ifr" id="ifr" style="width: 100%;height:500px; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+
+        </div>
+    </div>
+
+
+
+    <input type="hidden" id="BenSno" value="0" name="BenSno" />
+</div>
+
+<br />
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#disid").attr("multiple", "multiple");
+
+        $('#disid').multiselect({
+            columns: 3,
+            placeholder: 'Select Languages',
+            search: true,
+
+            includeSelectAllOption: true
+        })
+
+        $("#disid").multiselect('rebuild');
+
+        $('option', $('#disid')).each(function (element) {
+            $(this).removeAttr('selected').prop('selected', false);
+        });
+        $("#disid").multiselect('refresh');
+
+
+        getdates();
+        $('th').css("background", "#87CEEB");
+        $('th').css("color", "#ffffff");
+        if(UserTypeid == "7"||UserTypeid == "3"||UserTypeid == "4")
+        {
+
+            $.get('@Url.Action("GetMultipleDistricts", "Registration")', { Uid: Deptid}, function (dat) {
+
+                 
+                var disticts ="";
+                $("#disid").find("option").remove();
+
+                // $("#disid").append("<option value="+0+"> " + "ALL" + " </option>");
+                senddistrict = "";
+                $.each(dat, function (i, data) {
+
+                    $("#disid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    senddistrict += data.Value + ",";
+                });
+
+                $("#disid").attr("multiple", "multiple");
+
+                $('#disid').multiselect({
+                    columns: 3,
+                    placeholder: 'Select Languages',
+                    search: true,
+
+                    includeSelectAllOption: true
+                })
+
+                $("#disid").multiselect('rebuild');
+
+
+                $('option', $('#disid')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#disid").multiselect('refresh');
+
+            });
+
+        }
+
+
+
+    })
+
+    function GetRepData() {
+         
+
+
+        var arr1 = $('#fromdate').val().split('-');
+        var arr2 = $('#todate').val().split('-');
+        var startDate = new Date(arr1[1] +"-"+arr1[0] + "-"+arr1[2]);
+        var endDate = new Date(arr2[1] +"-"+arr2[0] + "-"+arr2[2]);
+
+        var diffDate = (endDate - startDate)/1000/60/60/24;
+
+        if (diffDate > 31 || diffDate < 0){
+
+            alert("Report can be viewed for a date range of one Month");
+
+            return false;
+
+        }
+
+        var SelectedDistrict = $("#disid option:selected");
+
+        var DistValueSend = "";
+        // var DistValuetext = "";
+
+        SelectedDistrict.each(function () {
+
+            DistValueSend += $(this).val()+",";
+            //DistValuetext += $(this).text()+",";
+        });
+
+
+
+
+
+        var CheckDistLen  = $("#disid").val();
+
+        var length = $('#disid').children('option').length;
+
+
+        var SendSelDist = "";
+
+
+
+        if(CheckDistLen.length == length)
+        {
+            SendSelDist = "All";
+        }
+
+        else
+        {
+            //$('#disid option:selected').text();
+            //SendSelDist = $(this).text()+",";
+
+            SelectedDistrict.each(function () {
+
+                SendSelDist += $(this).text()+",";
+                //DistValuetext += $(this).text()+",";
+            });
+        }
+
+
+        var districtid = $("#disid").val();
+
+
+        $('.loader').show();
+
+        //$("#disid option:selected").text()
+        var url = "/SSYIDCard/DistSummaryRep.aspx?senddistrict=" + DistValueSend + "&Fromdate=" + $('#fromdate').val() + "&Todate=" + $('#todate').val() + "&Scheme=" + $('#schemeid').val() + "&disid=" + SendSelDist ;
+        $('iframe#ifr').attr('src', url);
+
+        $('.loader').hide();
+
+
+    }
+
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+
+
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        // alert(dat + month + day + today);
+        $("#fromdate,#todate").val(today);
+
+    }
+
+    function SaveDownloadReq() {
+
+
+        var SelectedDistrict = $("#disid option:selected");
+
+        var DistValueSend = "";
+        // var DistValuetext = "";
+
+        SelectedDistrict.each(function () {
+
+            DistValueSend += $(this).val()+",";
+            //DistValuetext += $(this).text()+",";
+        });
+
+
+
+
+
+        var CheckDistLen  = $("#disid").val();
+
+        var length = $('#disid').children('option').length;
+
+
+        var SendSelDist = "";
+
+
+
+        if(CheckDistLen.length == length)
+        {
+            SendSelDist = "All";
+        }
+
+        else
+        {
+            //$('#disid option:selected').text();
+            //SendSelDist = $(this).text()+",";
+
+            SelectedDistrict.each(function () {
+
+                SendSelDist += $(this).text()+",";
+                //DistValuetext += $(this).text()+",";
+            });
+        }
+
+
+        var districtid = $("#disid").val();
+
+
+
+
+        $.get('@Url.Action("SaveDownloadRequest", "Report")', {fromDate: $("#fromdate").val(), toDate: $("#todate").val(),District :DistValueSend,SubDiv : "0",Locations : "0",Schemes : $('#schemeid').val(),UserId : Deptid,ReportName : "District Wise Summary Report"}, function (result) {
+
+            alert(result);
+        })
+    }
+
+</script>
+
+

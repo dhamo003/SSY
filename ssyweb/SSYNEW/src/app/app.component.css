@@ -1,0 +1,23 @@
+.loading {
+    background: rgba(0,0,0,0.4);
+    position: fixed;
+    display: block;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99999;
+}
+
+    .loading span {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        border: solid 1px #ccc;
+        display: block;
+        padding: 20px 40px;
+        margin-left: -40px;
+        background: rgba(255,255,255,0.8);
+    }
+
+

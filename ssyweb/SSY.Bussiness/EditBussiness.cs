@@ -1,0 +1,15 @@
+﻿using SSY.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SSY.Bussiness
+{
+  public  class EditBussiness
+    {
+      EditData ED = new EditData();
+
+    }
+}

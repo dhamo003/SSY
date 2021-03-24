@@ -1,0 +1,358 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+    ViewBag.Title = "EditBankDetails";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    var benSno = @Html.Raw(Json.Encode(ViewBag.Bensno))
+    var Count = @Html.Raw(Json.Encode(ViewBag.Count))
+
+    var Status = @Html.Raw(Json.Encode(ViewBag.Status))
+
+    var StatusName = @Html.Raw(Json.Encode(ViewBag.StatusName))
+       
+        
+
+</script>
+<div class="">
+    <fieldset class="custom-border">
+        <legend class="custom-border color-white"><span class="leg-sty">Bank Details</span></legend>
+
+
+        <div class="row">
+
+            <form role="form" id="form">
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>District <span style="color: red">*</span></label>
+                        @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control bankdistid", id = "bankdistid" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Bank Name <span style="color: red">*</span></label>
+                        @Html.DropDownListFor(m => m.bnk, new SelectList(Model.bankname, "Value", "Text"), new { @class = "form-control ", id = "bank" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Account Number <span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.actnumber, null, new { @class = "form-control", @maxlength = 16, onkeypress = "return onlynumber(event,this)" })
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Location <span style="color: red">*</span></label>
+                        @Html.DropDownListFor(m => m.locnumber, new SelectList(Model.locname, "Value", "Text"), new { @class = "form-control loca", id = "loc" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Branch Name <span style="color: red">*</span></label>
+                        @Html.DropDownListFor(m => m.brnch, new SelectList(Model.branchname, "Value", "Text"), new { @class = "form-control ", id = "brnch" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">Address</label>
+                        <textarea class="form-control" name="test_field" id="branchaddress" readonly></textarea>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>IFSC Code</label>
+                        @Html.TextBoxFor(m => m.ifsccode, null, new { @class = "form-control", @maxlength = 11, onkeydown = "return IsAlphaNumaric(event,this)", style = "text-transform:uppercase" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">Reason</label>
+                        @Html.TextBoxFor(m => m.txtreason, null, new { @class = "form-control", @maxlength = 11, onkeypress = "return IsAlphaNumaric(event,this)" })
+                        <font size="2">(If IFSC code is not mentioned,then please give reason for that)</font>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">Upload <font size="1">(Photo copy of bank passbook first page) *</font></label>
+                        <input type="file" multiple="multiple" name="files[0]" class="form-control" id="Bank" />
+                        <font size="2"> &nbsp;&nbsp;&nbsp;&nbsp; Passbook limit is upto 2MB, JPEG/PNG/PDF</font>
+                        <a href="#" id="clearBank"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                    </div>
+                </div>
+
+
+                <input type="hidden" id="Bensno" value="0" name="Bensno" />
+
+            </form>
+
+        </div>
+
+      
+        <div class="row" id="divBtn" style="display:none;">
+            <center>
+                <a class="btn btn-primary" onclick="FinalSubmit()">Submit</a>
+
+            </center>
+        </div>
+       
+        <br />
+
+        <br />
+        <div>
+            <fieldset class="custom-border">
+                <center><legend class="custom-border color-white"><span class="leg-sty" style="color:green"><h3><b>History</b></h3></span></legend></center>
+
+                <div class="col-md-12">
+
+                    <table class="table table-striped table-bordered tblBankDet" cellspacing="0" width="100%">
+                        <thead>
+                            <tr style="">
+                                <th>S.No</th>
+                                <th>District</th>
+                                <th>Bank Name</th>
+                                <th>Account Number</th>
+                                <th>Branch Name </th>
+                                <th>IFSC Code</th>
+                                <th>Status</th>
+                                <th>Requested Date</th>
+                                <th>Verified Date</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+
+    </fieldset>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        if(Status != 1)
+        {
+
+            alert("Your application is " + StatusName);
+            window.location.href = " /Home/Dashboard";
+
+        }
+        $("#Bensno").val(benSno);
+        GetDetail(benSno);
+        GetHistory(benSno)
+
+        if (Count == 0) {
+
+            $("#divBtn").show();
+        }
+        });
+    function GetDetail(benSno) {
+
+   
+
+            $.get('@Url.Action("GetbenDetails", "Registration")', { bensno: benSno }, function (res) {
+
+
+
+
+            $("#ifsccode").val(res.BenBankIfscCode);
+            $("#bankdistid").val(res.BankDist);
+            $("#bank").val(res.BenBankName);
+
+            $("#loc").val(res.Location);
+                $("#actnumber").val(res.BenBankAccNo);
+
+            $("#brnch").val(res.BenBankBranch);
+            var ifsc =$("#brnch").val();
+            var res = ifsc.split("-");
+            $.get('@Url.Action("GetbranchAddrJSON", "Registration")', {ID :res[1]}, function (dat) {
+                $("#branchaddress").val(dat);
+            });
+            });
+
+    }
+
+
+    $("#bankdistid").change(loadbankdet);
+        function loadbankdet() {
+            $("#bank").val("0");
+            $("#loc").val("0");
+            $("#brnch").val("0");
+            $("#ifsccode").val("");
+            $("#actnumber").val("");
+            $.get('@Url.Action("GetBankJSON", "Registration")', {ID :$("#bankdistid").val()}, function (dat) {
+                $("#bank").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#bank").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+
+
+ //2
+        $("#bank").change(loadLocdet);
+        function loadLocdet() {
+            $.get('@Url.Action("GetLocationJSON", "Registration")', {ID :$("#bank").val(),distID :$("#bankdistid").val()}, function (dat) {
+                $("#loc").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#loc").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+
+
+
+ $("#loc").change(loadbranchdet);
+        function loadbranchdet() {
+            $.get('@Url.Action("GetBranchJSON", "Registration")', {ID :$("#loc").val()}, function (dat) {
+                $("#brnch").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#brnch").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+            });
+        }
+
+
+
+ $('#brnch').change(function() {
+             
+            var ifsc =$("#brnch").val();
+            var res = ifsc.split("-");
+            $.get('@Url.Action("GetbranchAddrJSON", "Registration")', {ID :res[1]}, function (dat) {
+                //alert(dat);
+                $("#branchaddress").val(dat);
+            });
+        });
+
+
+    function FinalSubmit() {
+
+        if ($("#bankdistid").val() == "" || $("#bankdistid").val() == null || $("#bankdistid").val() == 0) {
+            alert("Please Select District");
+            $("#bankdistid").focus();
+            return false;
+        }
+        if ($("#bank").val() == "" || $("#bank").val() == null || $("#bank").val() == 0) {
+            alert("Please Select Bank Name");
+            $("#bank").focus();
+            return false;
+        }
+        if ($("#actnumber").val() == "" || $("#actnumber").val() == null) {
+            alert("Please Enter Account Number");
+            $("#actnumber").focus();
+            return false;
+        }
+        if ($("#loc").val() == "" || $("#loc").val() == null || $("#loc").val() == 0) {
+            alert("Please Select Location");
+            $("#loc").focus();
+            return false;
+        }
+        if ($("#brnch").val() == "" || $("#brnch").val() == null || $("#brnch").val() == 0) {
+            alert("Please Select Branch");
+            $("#brnch").focus();
+            return false;
+        }
+        if ($("#txtreason").val() == "" || $("#txtreason").val() == null) {
+            if ($("#ifsccode").val() == "") {
+                alert("Please Enter IFSC Code");
+                $("#ifsccode").focus();
+                return false;
+            }
+        }
+        if ($("#Bank").val() == "" || $("#Bank").val() == null || $("#Bank").val() == 0) {
+            alert("Please Choose Bank Passbook");
+            $("#Bank").focus();
+            return false;
+        }
+
+        var form = $('#form')[0];
+
+        var data = new FormData(form);
+
+
+
+        $.ajax({
+            url: '/Registration/SubmitBankDetails',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function (Res) {
+
+
+                alert(Res.Message);
+
+                if (Res.Code=="000") {
+
+                    window.location.href = " /Home/Dashboard";
+
+                   
+                }
+            }
+
+        });
+            }
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            return false;
+        }
+    }
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+            e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+            (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+            ((e.keyCode >= 48 && e.keyCode <= 57) && e.shiftKey == true)) {
+            return false;
+        }
+    }
+
+    $("#ifsccode").keypress(function () {
+        var ifscval = $(this).val();
+        if (ifscval.length == 4) {
+            $(this).val(ifscval + "0");
+            return false;
+        }
+    });
+
+
+    function GetHistory(benSno) {
+        $.get('@Url.Action("GetBankHistory", "Home")', { benSno: benSno}, function (result) {
+             
+
+           
+            var table = $('.tblBankDet').DataTable();
+            table.destroy();
+    
+            $('.tblBankDet tbody').empty();
+            $.each(result, function (i, data) {
+              
+             
+                $('.tblBankDet').append('<tr><td>' + data.Sno + '</td><td>' + data.DistrictName + '</td><td>' + data.BankName + '</td><td>' + data.BenBankAccNo + '</td><td>' + data.BankBranchName + '</td><td>' + data.BenBankIfscCode + '</td><td>' + data.Status + '</td><td>' + data.ReqDate + '</td><td>' + data.VerifiedDate + '</td><td>' + data.Remarks + '</td></tr>')
+            });
+            $('.tblBankDet').DataTable({
+               
+            });
+          
+        });
+      
+    }
+</script>

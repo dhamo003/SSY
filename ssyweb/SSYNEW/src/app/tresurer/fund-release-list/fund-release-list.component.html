@@ -1,0 +1,84 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2> Fund Release List</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+                        <p></p>
+                        <table class="table table-striped" [mfData]="fundReleaseOrder" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="fundRequestTypeName">Fund Request Type</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="rloOfficeName">RLO</mfDefaultSorter>
+                                    </th>
+                                    <!--<th>
+                                        <mfDefaultSorter by="requestedBy">Requested By</mfDefaultSorter>
+                                    </th>-->
+                                    <th>
+                                        <mfDefaultSorter by="fundRequestNumber">Fund Request No.</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="boardName">Board Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="requestDateString">Request Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="amount">Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="statusName">Status</mfDefaultSorter>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of mf.data|grdFilter: {rloOfficeName: searchText,requestedBy: searchText,fundRequestNumber: searchText,
+                                    refernceNumber: searchText, requestDateString: searchText, amount: searchText, statusName: searchText, boardName: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onreviewClick(data)" title="Review" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{data.fundRequestTypeName}}</td>
+                                    <td>{{data.rloOfficeName}}</td>
+                                    <!--<td>{{data.requestedBy}}</td>-->
+                                    <td>{{data.fundRequestNumber}}</td>
+                                    <td>{{data.boardName}}</td>
+                                    <td>{{data.requestDateString}}</td>
+                                    <td>{{data.amount }}</td>
+                                    <td>{{data.statusName}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <div *ngIf="fundReleaseOrder.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,93 @@
+﻿@model SSY.Models.SignUpUser
+@{
+    ViewBag.Title = "UserPrivilege";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<style>
+    th {
+        font-size: 13px;
+        color: white;
+        /*background-color:red;*/
+    }
+    td {
+        font-size: 13px;
+    }
+</style>
+<body>
+   
+    <h3 style="text-align: center;">User Privilege</h3>
+    <br />
+    <br />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="input-group extra-space">
+                        <span class="input-group-addon input-label">User Type <span style="color: red">*</span></span>
+                        @Html.DropDownListFor(m => m.typeid, new SelectList(Model.typename, "Value", "Text"), new { @class = "form-control", tabindex = "5", @onchange = "GetData()" })
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <div class="heightoverflow">
+            <div>
+                <div class="container-fliud" style="margin-left:50px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered tblrole">
+                                <thead>
+                                    <tr style="background-color:#87CEEB;">
+                                        <th style="display:none;"></th>
+                                       <th>Screen Name</th>
+                                        <th><b>Full Access</b></th>
+                                        @*<th><b>Read Access</b></th>*@
+                                        <th><b>No Access</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                        <center>
+                       
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+</body>
+<script>
+    
+    $(document).ready(function () {
+         
+       
+    });
+    function GetData()
+    {
+        Loaddata();
+    }
+        function Loaddata()
+        {
+            $.get('@Url.Action("GetMenuList", "Home")', { RoleId: $("#typeid").val() }, function (result) {
+                $('.tblrole tbody').empty();
+                $.each(result, function (i, data) {
+                    //var num = i + 1;
+                    if (data.AccessLevel =="F")
+                        $('.tblrole').append('<tr><td>' + data.MenuName + '</td><td><input type="radio" id='+data.Id+' name="RF' + data.Id + '" onchange="ChngeRadio(this);" value="F" checked> </td><td> <input type="radio" id='+data.Id+' name="RF' + data.Id + '" onchange="ChngeRadio(this);" value="N" > </td></tr>')
+                    if (data.AccessLevel == "N")
+                        $('.tblrole').append('<tr><td>' + data.MenuName + '</td><td><input type="radio" id='+data.Id+' name="RF' + data.Id + '" onchange="ChngeRadio(this);" value="F" > </td><td> <input type="radio"  id='+data.Id+' name="RF' + data.Id + '" onchange="ChngeRadio(this);" value="N" checked> </td></tr>')
+                });
+            });
+        }
+        
+    function ChngeRadio(id) {
+     
+        $.get('@Url.Action("AssignRoles", "Home")', { Id: id.id, AccLev: id.value }, function (result) {
+            alert(result);
+            window.location.href = "/Login/UserPrivilege";
+        });
+    }
+</script>

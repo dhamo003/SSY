@@ -1,0 +1,1452 @@
+
+
+
+
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Claim Entry</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <!-- Success states for elements -->
+                        <form class="smart-form">
+                            <header>Beneficiary Details</header>
+                            <fieldset>
+                                <section>
+                                    <div class="row" *ngIf="beneficiary==null">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please enter valid SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="benficiaryInactive">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Your registration application is in Inactive/Sent Back/Pending status and you are not eligible to this feature.</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="validateDependent">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please add atleast one claim to proceed</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="noDependents">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>No dependents available for the given SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="maxLimitExceeded">
+                                        <div class="col col-12" style="color:red">
+                                            <label>Maximum claims limit has been reached for this year</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="maxHelathClaimLimitExceeded">
+                                        <div class="col col-12" style="color:red">
+                                            <label>Maximum claims limit for health has been reached for this year</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="pfExsits">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>No pf available for the given SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isPFSubmitted">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>PF claim already submitted for the given SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="!isNomineesExist">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>No nominees available for the given SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="!isNomineesMatch">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please enter valid nominee details</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isHFSubmitted">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Your not eligible for Health & Family claim for the given SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isEduSubmitted">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Your not eligible for Education claim for the given SSIN number</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isBenNomineeSubmittedClaim">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Claims are entered through the nominee/agent with the reason of death, till it is resolved you are not allowed to submit the claim</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isCAFUpdated">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Please update details</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="isClaimEffectiveDate">
+                                        <div class="col col-12" style="color:red; margin-bottom:10px;">
+                                            <label>Can not raise/submit claims before {{claimEffectiveDate | date: 'dd/MM/yyyy'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-3">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" checked="checked" (change)="radioChange(1)" />
+                                                <i></i>SSIN
+                                            </label>
+                                        </div>
+                                        <div class="col col-3">
+                                            <label class="radio">
+                                                <input type="radio" name="radio-inline" (change)="radioChange(2)" />
+                                                <!--[(ngModel)]="fundRequestType" value="expenses">-->
+                                                <i></i>Old Registration No.
+                                            </label>
+                                        </div>
+                                        <div class="col col-3">
+                                        </div>
+                                        <div class="col col-3">
+                                            <button type="button" class="btn btn-primary" (click)="updateCAFDetails()" *ngIf="isCAFUpdated">
+                                                Please update details
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">SSIN/Old Registration No. <span [style.color]="!ssnNoValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="benSno" class="form-control" [(ngModel)]="ssin" placeholder="Enter SSIN/Old Registration No."
+                                                   (change)="valuechange($event.target.value)"
+                                                   maxlength="50"
+                                                   #benSno="ngModel"
+                                                   [ngClass]="{'invalid-data': benSno.invalid && (!ssnNoValid || benSno.touched), 'valid-data': benSno.valid && ssnNoValid}"
+                                                   required>
+                                            <div *ngIf="benSno.invalid && (!ssnNoValid ||benSno.touched)">
+                                                <span style="color: red;">SSIN/Old Registration No is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label class="label">Nominee Name <span [style.color]="!nomineeNameValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="nomineeName" class="form-control" placeholder="Nominee Name" [(ngModel)]="claim.nomineeName" maxlength="100"
+                                                   #nomineeName="ngModel" (change)="ValidateNomineeName($event.target.value)"
+                                                   [ngClass]="{'invalid-data': nomineeName.invalid && (!nomineeNameValid || nomineeName.touched ), 'valid-data': nomineeName.valid && nomineeNameValid}"
+                                                   required>
+                                            <div *ngIf="nomineeName.invalid && (!nomineeNameValid ||nomineeName.touched)">
+                                                <span style="color: red;">Nominee Name is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">Nominee Address</label>
+                                            <label class="input">
+                                                <textarea name="nomineeAddress" class="form-control" rows="4" cols="40" placeholder="Nominee Address" [(ngModel)]="claim.nomineeAddress" maxlength="500"></textarea>
+                                            </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label class="label">Contact Number <span [style.color]="!nomineeContactValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="nomineeContact" class="form-control" placeholder="Contact Number" [(ngModel)]="claim.nomineeContact" NumbersOnly minlength="10" maxlength="10"
+                                                   #nomineeContact="ngModel"
+                                                   [ngClass]="{'invalid-data': nomineeContact.invalid && (!nomineeContactValid || nomineeContact.touched ), 'valid-data': nomineeContact.valid && nomineeContactValid}"
+                                                   required>
+                                            <div *ngIf="nomineeContact.invalid && (!nomineeContactValid ||nomineeContact.touched) && !nomineeContact.errors.minlength">
+                                                <span style="color: red;">Contact Number is required </span>
+                                            </div>
+                                            <div *ngIf="nomineeContact.invalid && (nomineeContact.errors.minlength) ">
+                                                <span style="color: red;">Invalid Contact Number </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">Nominee Date of Birth <span [style.color]="!nomineeDOBValid?'red':''"><b>*</b></span></label>
+
+                                            <input type="text" name="nomineeDOB" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   [maxDate]="maxDate" placeholder="DD/MM/YYYY"
+                                                   #nomineeDOB="ngModel" (bsValueChange)="ValidateNomineeDOB($event)"
+                                                   value="{{ claim.nomineeDOB | date: 'dd/MM/yyyy' }}" [(ngModel)]="claim.nomineeDOB" readonly
+                                                   [ngClass]="{'invalid-data':nomineeDOB.invalid && (!nomineeDOBValid), 'valid-data':nomineeDOB.valid && nomineeDOBValid}"
+                                                   required>
+                                            <i></i>
+
+                                            <div *ngIf="nomineeDOB.invalid && (!nomineeDOBValid)">
+                                                <span style="color: red;">Nominee Date of Birth is required </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col col-6">
+                                            <label class="label">Nominee Bank Account <span [style.color]="!nomineeBankAccountValid?'red':''"><b>*</b></span> </label>
+                                            <input type="text" name="nomineeBankAccount" class="form-control" placeholder="Nominee Bank Account " [(ngModel)]="claim.nomineeBankAccount" minlength="9" maxlength="18" NumbersOnly
+                                                   #nomineeBankAccount="ngModel"
+                                                   [ngClass]="{'invalid-data': nomineeBankAccount.invalid && (!nomineeBankAccountValid || nomineeBankAccount.touched ), 'valid-data': nomineeBankAccount.valid && nomineeBankAccountValid}"
+                                                   required>
+                                            <div *ngIf="nomineeBankAccount.invalid && (!nomineeBankAccountValid ||nomineeBankAccount.touched) && !nomineeBankAccount.errors.minlength">
+                                                <span style="color: red;">Nominee Bank Account is required </span>
+                                            </div>
+                                            <div *ngIf="nomineeBankAccount.invalid && (nomineeBankAccount.errors.minlength)">
+                                                <span style="color: red;">Invalid Bank Account Number </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">IFSC Code </label>
+                                            <input type="text" name="nomineeIFSCCode" class="form-control" placeholder="IFSC Code" [(ngModel)]="claim.nomineeIFSCCode" maxlength="11">
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row" id="CheckBoxList">
+                                    <div class="col col-3">
+                                        <!--<label class="checkbox state-success"><input type="checkbox" disabled="disabled" name="checkbox" [checked]="viewPf" (change)="pfChange($event)"><i></i>PF(Provident Fund)</label>-->
+                                        <label class="checkbox state-success"><input name="pf" [disabled]="beneficiary.benFirstName == undefined || !beneficiary.isActive || disablePFCheckbox" type="checkbox" [checked]="viewPf" (change)="pfChange($event)"><i></i>PF(Provident Fund)</label>
+                                    </div>
+                                    <div class="col col-3">
+                                        <label class="checkbox state-success"><input type="checkbox" [disabled]="beneficiary.benFirstName == undefined || !beneficiary.isActive || disableHealthCheckbox" name="checkbox1" [checked]="viewHealth" (change)="healthChange($event)"><i></i>Health & Family</label>
+                                    </div>
+                                    <div class="col col-3">
+                                        <label class="checkbox state-success"><input type="checkbox" [disabled]="beneficiary.benFirstName == undefined || !beneficiary.isActive" name="viewDeath1" [checked]="viewDeath" (change)="deathChange($event)"><i></i>Death</label>
+                                    </div>
+                                    <div class="col col-3">
+                                        <label class="checkbox state-success"><input type="checkbox" name="checkbox1" [disabled]="beneficiary.benFirstName == undefined || !beneficiary.isActive || disableEduCheckbox" [checked]="viewEducation" (change)="educationChange($event)"><i></i>Education</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset id="form-pf" *ngIf="viewPf">
+                                <header>Provident Fund</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6 ">
+                                                <label class="label">
+                                                    PF No. {{beneficiary.regNumber}}
+                                                </label>
+                                                <!--removed as per 17th discussions, in future this has to be open-->
+                                                <!--<input type="text" class="form-control" name="pFNO" placeholder=" PF Number" [(ngModel)]="claim.providentFundDetails.pFNO">-->
+                                            </div>
+                                            <div class="col col-6 ">
+                                                <label class="label">
+                                                    Claim Amount {{pfClaimAmount}} /-
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <!--<section>
+                                        <div class="row">
+                                            <div class="col col-6 ">
+                                                <label class="label">
+                                                    Date of Maturity {{benMaturityDate  | date: 'dd/MM/yyyy'}}
+                                                </label>
+                                            </div>
+                                            <div class="col col-6 ">
+                                                <label class="label">
+                                                    Locking Period Up-to
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>-->
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6 ">
+                                                <label class="label">
+                                                    Type of Claim  FinalPayment
+                                                </label>
+                                            </div>
+                                            <div class="col col-6 " *ngIf="viewNomineeShare">
+                                                <label class="label">
+                                                    Nominee Share Amount {{benNomineeShareAmount}} /-
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </fieldset>
+                            <fieldset id="health-family" *ngIf="viewHealth">
+                                <header>Health & Family</header>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Type of Claim<span [style.color]="!typeOfClaimValid?'red':''"><b>*</b></span></label>
+
+                                        <select class="form-control select" name="typeOfClaim" id="selclaim" (change)="typeOfClaimChange($event.target.value)" [(ngModel)]="claim.healthFamilyDetails.typeOfClaim"
+                                                #typeOfClaim="ngModel"
+                                                [ngClass]="{'invalid-data': typeOfClaim.invalid && ( !typeOfClaimValid || typeOfClaim.touched ),
+                                        'valid-data': typeOfClaimValid && typeOfClaim.valid  }"
+                                                required>
+                                            <option value="0" disabled>Choose a Type of Claim</option>
+                                            <option value="{{health.claimConfigId}}" *ngFor="let health of healthConfig">{{health.claimConfigOptionName}}</option>
+                                        </select> <i></i>
+                                        <div *ngIf="typeOfClaim.invalid && (!typeOfClaimValid || typeOfClaim.touched)">
+                                            <span style="color: red;">Select a Type of Claim </span>
+                                        </div>
+
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Hospital <span [style.color]="!hospital?'red':''"><b>*</b></span></label>
+
+                                        <select class="form-control select" name="hospitalId" id="ddlhospital" [(ngModel)]="claim.healthFamilyDetails.hospitalId"
+                                                #hospitalId="ngModel" (change)="hospitalChange($event.target.value)"
+                                                [ngClass]="{'invalid-data': hospitalId.invalid && ( !hospital || hospitalId.touched ),
+                                        'valid-data': hospital && hospitalId.valid  }"
+                                                required>
+                                            <option value="0" disabled>Choose a Hospital</option>
+                                            <option value="{{hospital.hospitalId}}" *ngFor="let hospital of hospotalList">{{hospital.hospitalName}}</option>
+                                        </select> <i></i>
+
+                                        <div *ngIf="hospitalId.invalid && (!hospital || hospitalId.touched)">
+                                            <span style="color: red;">Select a Hospital </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" *ngIf="isOtherHospital">
+                                    <section class="col col-6">
+                                        <label class="label">Govt./Municipal Hospital <span [style.color]="!otherHospitalValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <input type="text" name="otherHospital" placeholder="Govt./Municipal Hospital" [(ngModel)]="claim.healthFamilyDetails.otherHospital"
+                                                   maxlength="150" #otherHospital="ngModel" [ngClass]="{'invalid-data': otherHospital.invalid && ( !otherHospitalValid || otherHospital.touched ),
+                                                        'valid-data': otherHospitalValid && otherHospital.valid  }" required>
+                                        </label>
+                                        <div *ngIf="otherHospital.invalid && (!otherHospitalValid || otherHospital.touched)">
+                                            <span style="color: red;">Govt./Municipal Hospital is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6" id="inoutward">
+                                        <label class="label">Hospitalization/OPD <span [style.color]="!hospitalization?'red':''"><b>*</b></span></label>
+
+                                        <select class="form-control select" name="typeOfHospitalization" id="ddinward" (change)="hospitalizationChange($event.target.value)"
+                                                [(ngModel)]="claim.healthFamilyDetails.typeOfHospitalization"
+                                                #typeOfHospitalization="ngModel"
+                                                [ngClass]="{'invalid-data': typeOfHospitalization.invalid && (!hospitalization || typeOfHospitalization.touched ),
+                                        'valid-data': hospitalization && typeOfHospitalization.valid  }"
+                                                required>
+                                            <option value="0" disabled>Choose an Option</option>
+                                            <option value="{{hosp.lovDtlId}}" *ngFor="let hosp of hospitalizationLov">{{hosp.optionName}}</option>
+                                        </select><i></i>
+
+                                        <div *ngIf="typeOfHospitalization.invalid && (!hospitalization || typeOfHospitalization.touched)">
+                                            <span style="color: red;">Select Hospitalization/OPD </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Patient Id </label>
+                                        <label class="input">
+                                            <input type="text" name="patientId" placeholder="Patient Id" [(ngModel)]="claim.healthFamilyDetails.patientId" maxlength="50">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" *ngIf="viewDateOfFirstAppointment">
+                                    <section class="col col-6">
+                                        <label class="label">Name of Disease </label>
+
+                                        <select class="form-control select" name="nameOfDisease" id="ddinward" (change)="nameOfDiseaseChange($event.target.value)"
+                                                [(ngModel)]="claim.healthFamilyDetails.nameOfTheDisease">
+                                            <option value="0" disabled>Choose an Option</option>
+                                            <option value="{{dise.lovDtlId}}" *ngFor="let dise of diseasesLov">{{dise.optionName}}</option>
+                                        </select><i></i>
+                                    </section>
+                                    <section class="col col-6" *ngIf="viewNameOfClinicalTest">
+                                        <label class="label">Name of clinical test </label>
+                                        <ng-multiselect-dropdown name="nameOfClinicalTest" [placeholder]="'All'"
+                                                                 [data]="clinicalTestLov"
+                                                                 [(ngModel)]="nameOfClinicalTestIds"
+                                                                 [settings]="clinicalTestSettings"
+                                                                 (onSelect)="onItemSelect($event)"
+                                                                 (onSelectAll)="onSelectAll($event)">
+                                        </ng-multiselect-dropdown>
+                                        <!--<select class="form-control select" name="nameOfClinicalTest" id="ddinward"
+                                                [(ngModel)]="claim.healthFamilyDetails.nameOfClinicalTest">
+                                            <option value="0" disabled>Choose an Option</option>
+                                            <option value="{{clin.lovDtlId}}" *ngFor="let clin of clinicalTestLov">{{clin.optionName}}</option>
+                                        </select><i></i>-->
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section id="chkAccident" class="col col-6" *ngIf="viewMetWithAnAccident">
+                                        <label class="label">Met with an Accident?</label>
+                                        <label class="checkbox state-success"><input type="checkbox" name="isAccident" id="chkAcc" (change)="chkAccidentChange($event,claim.healthFamilyDetails.isAccident)" [(ngModel)]="claim.healthFamilyDetails.isAccident"><i></i>Yes</label>
+                                    </section>
+                                    <section class="col col-6" id="secFirstApp" *ngIf="viewDateOfFirstAppointment">
+                                        <label class="label">Date of First Appointment <span [style.color]="!dateofAppointment?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="firstAppointmentDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   [maxDate]="maxAdmitDate" placeholder="DD/MM/YYYY" value="{{ claim.healthFamilyDetails.firstAppointmentDate | date: 'dd/MM/yyyy' }}"
+                                                   [(ngModel)]="claim.healthFamilyDetails.firstAppointmentDate" readonly
+                                                   #firstAppointmentDate="ngModel"
+                                                   [ngClass]="{'invalid-data':firstAppointmentDate.invalid && (!dateofAppointment), 'valid-data': firstAppointmentDate.valid && dateofAppointment}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="firstAppointmentDate.invalid && (!dateofAppointment)">
+                                            <span style="color: red;">Date of First Appointment is required </span>
+                                        </div>
+
+                                    </section>
+                                </div>
+                                <div class="row" *ngIf="viewDateOfAdmit">
+                                    <section class="col col-6" id="secAdmit">
+                                        <label class="label">Date of Admission to Hospital <span [style.color]="!dateofAdmin?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <!--<input type="text" name="dateofAdmit" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" [maxDate]="maxAdmitDate" placeholder="DD/MM/YYYY" value="{{ claim.healthFamilyDetails.admittedDate | date: 'dd/MM/yyyy' }}" [(ngModel)]="claim.healthFamilyDetails.admittedDate" (bsValueChange)="dateofadminchange($event)" readonly>-->
+
+                                            <input type="text" name="admittedDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   [maxDate]="maxAdmitDate"
+                                                   #admittedDate="ngModel"
+                                                   placeholder="DD/MM/YYYY" [(ngModel)]="claim.healthFamilyDetails.admittedDate"
+                                                   value="{{ claim.healthFamilyDetails.admittedDate | date: 'dd/MM/yyyy' }}"
+                                                   (bsValueChange)="dateofadminchange($event)" readonly
+                                                   [ngClass]="{'invalid-data':admittedDate.invalid && (!dateofAdmin), 'valid-data':admittedDate.valid && dateofAdmin}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="admittedDate.invalid && (!dateofAdmin)">
+                                            <span style="color: red;">Date of Admission to Hospital is required </span>
+                                            of
+                                        </div>
+                                    </section>
+                                    <section class="col col-6" id="secDischarge">
+                                        <label class="label">Date of Discharge <span [style.color]="!dateofDischargeValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <!--<input type="text" name="dateofDischarge" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" [maxDate]="maxAdmitDate" [minDate]="dischargeMinDt" [disabled]="disableDischarge" placeholder="DD/MM/YYYY" value="claim.healthFamilyDetails.dischargeDate | date: 'dd/MM/yyyy'" [(ngModel)]="claim.healthFamilyDetails.dischargeDate" (bsValueChange)="dateofdischargechange($event)" readonly>-->
+                                            <input type="text" name="dischargeDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                   [maxDate]="maxAdmitDate"
+                                                   [minDate]="dischargeMinDt" [disabled]="disableDischarge" placeholder="DD/MM/YYYY"
+                                                   #dischargeDate="ngModel"
+                                                   [(ngModel)]="claim.healthFamilyDetails.dischargeDate"
+                                                   value="{{claim.healthFamilyDetails.dischargeDate | date: 'dd/MM/yyyy'}}"
+                                                   (bsValueChange)="dateofdischargechange($event)" readonly
+                                                   [ngClass]="{'invalid-data':dischargeDate.invalid && (!dateofDischargeValid), 'valid-data':dischargeDate.valid && dateofDischargeValid}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="dischargeDate.invalid && (!dateofDischargeValid)">
+                                            <span style="color: red;">Date of discharge is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Cost of Clinical Test </label>
+                                        <label class="input">
+                                            <input type="text" name="costOfClinicalTest" placeholder="Cost of Clinical Test" NumbersOnly [(ngModel)]="claim.healthFamilyDetails.costOfClinicalTest" [disabled]="disableCost">
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-6">
+
+                                        <label class="label">Cost of Medicine </label>
+                                        <label class="input">
+                                            <input type="text" name="costOfMedicine" placeholder="Cost of Medicine" NumbersOnly [(ngModel)]="claim.healthFamilyDetails.costOfMedicine" [disabled]="disableCost">
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Claim for <span [style.color]="!claimForValid?'red':''"><b>*</b></span></label>
+
+                                        <select class="form-control select" name="claimFor" id="claimFor" (change)="claimForChange($event)"
+                                                [(ngModel)]="claim.healthFamilyDetails.claimFor"
+                                                #claimFor="ngModel"
+                                                [ngClass]="{'invalid-data':claimFor.invalid && (!claimForValid ||  claimFor.touched ), 'valid-data': claimFor.valid && claimForValid}"
+                                                required>
+                                            <option value="0" disabled>Choose an Option</option>
+                                            <option value="{{htype.lovDtlId}}" *ngFor="let htype of healthtypeofClaim">{{htype.optionName}}</option>
+                                        </select> <i></i>
+
+
+                                        <div *ngIf="claimFor.invalid && (!claimForValid ||  claimFor.touched)">
+                                            <span style="color: red;">Claim for is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6" *ngIf="viewDateOfAdmit">
+                                        <label class="label">Cost of Hospitalization </label>
+                                        <label class="input">
+                                            <input type="text" name="costOfHospitalization" NumbersOnly placeholder="Cost of Hospitalization" [(ngModel)]="claim.healthFamilyDetails.costOfHospitalization">
+                                        </label>
+                                    </section>
+                                    <section class="col col-6" id="family" *ngIf="viewFamily">
+                                        <label class="label">Family Member <span [style.color]="!familyMember?'red':''"><b>*</b></span></label>
+                                        <label class="select">
+                                            <select class="form-control select" name="familyMemberId" [(ngModel)]="claim.healthFamilyDetails.familyMemberId"
+                                                    #familyMemberId="ngModel"
+                                                    [ngClass]="{'invalid-data':familyMemberId.invalid && (!familyMember ||  familyMemberId.touched), 'valid-data': familyMemberId.valid && familyMember}"
+                                                    required>
+                                                <option value="0" disabled>Choose an Option</option>
+                                                <option value="{{benf.benFamilyMemSno}}" *ngFor="let benf of benficiaryFamilybyHealth">{{benf.benDependentName}} - {{benf.benDependentRelation}}</option>
+                                            </select> <i></i>
+                                        </label>
+                                        <div *ngIf="familyMemberId.invalid && (!familyMember ||  familyMemberId.touched)">
+                                            <span style="color: red;">Family Member is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6" *ngIf="enableReasonForDelaySubmissionInHealth">
+                                        <label class="label">Reason for Delay Submission <span [style.color]="!reasonForHealthDelayValid?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <textarea name="reasonForHealthDelay" rows="4" cols="72" [(ngModel)]="claim.healthFamilyDetails.reasonForDelaySubmission" placeholder="Reason for Delay Submission"></textarea>
+                                        </label>
+                                        <div *ngIf="!reasonForHealthDelayValid">
+                                            <span style="color: red;">Reason for Delay Submission is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row top-10" id="lossOfEmployment" *ngIf="viewSelf">
+                                    <section class="col col-12" style="margin-bottom: 0;">
+                                        <label class="label"><strong>Loss of Employment</strong></label>
+                                        <hr />
+                                    </section>
+                                </div>
+                                <div class="row top-10" id="daterangeloe" *ngIf="viewSelf">
+                                    <section class="col col-6">
+                                        <label class="label">From Date<span [style.color]="!loeFromDate?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="lossOfEmploymentFromDate" autocomplete="off" class="form-control"
+                                                   [disabled]="true" placeholder="DD/MM/YYYY"
+                                                   [ngModel]="claim.healthFamilyDetails.loeFromDate | date: 'dd/MM/yyyy'" readonly
+                                                   #lossOfEmploymentFromDate="ngModel"
+                                                   [ngClass]="{'invalid-data':lossOfEmploymentFromDate.invalid && (!loeFromDate ||  lossOfEmploymentFromDate.touched), 'valid-data': lossOfEmploymentFromDate.valid && loeFromDate}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="lossOfEmploymentFromDate.invalid && (!loeFromDate ||  lossOfEmploymentFromDate.touched)">
+                                            <span style="color: red;">Form Date is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">To Date<span [style.color]="!loeToDate?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="lossOfEmploymentToDate" autocomplete="off" class="form-control"
+                                                   [disabled]="true" placeholder="DD/MM/YYYY"
+                                                   [ngModel]="claim.healthFamilyDetails.loeToDate | date: 'dd/MM/yyyy'" readonly
+                                                   #lossOfEmploymentToDate="ngModel"
+                                                   [ngClass]="{'invalid-data':lossOfEmploymentToDate.invalid && (!loeToDate ||  lossOfEmploymentToDate.touched), 'valid-data': lossOfEmploymentToDate.valid && loeToDate}"
+                                                   required>
+                                        </label>
+                                        <div *ngIf="lossOfEmploymentToDate.invalid && (!loeToDate ||  lossOfEmploymentToDate.touched)">
+                                            <span style="color: red;">To Date is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6" *ngIf="viewLOEAmount">
+                                        <label class="label" style="margin-top:30px;">Loss of Employment Benefit: {{lossOfEmploymentAmount}}/- </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label"><strong>Packages</strong> </label><br>
+                                        <hr />
+                                    </section>
+
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <a (click)="viewPackages()" class="smart-form-link">View All Packages</a>
+                                    </section>
+
+                                </div>
+                                <div class="row" *ngIf="selectedPackages.length>0">
+                                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Package Name</th>
+                                                <th> Package Code</th>
+                                                <th>Ailment Name</th>
+                                                <th>Amount</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let pak of selectedPackages">
+                                                <td>{{pak.packageName}}</td>
+                                                <td>{{pak.packageCode}}</td>
+                                                <td>{{pak.ailmentName}}</td>
+                                                <td>{{pak.amount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label"><strong>Upload Documents</strong> </label><br>
+                                        <hr />
+                                    </section>
+                                </div>
+                                <div class="row" *ngIf="showDisCertUpload">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">
+                                            Discharge Certificate from Govt./Empanelled Hospital
+                                            <span [style.color]="!dischargeCertificate?'red':''"><b>*</b></span>
+                                        </label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" (change)="changeCertificate($event,'dischargeCertificate')">Browse</span>
+                                            <input type="text" readonly>
+                                        </div>
+
+                                        <div *ngIf="(!dischargeCertificate) && (healthDischargeCertificate.fileName =='' || healthDischargeCertificate.fileName ==undefined )">
+                                            <span style="color: red;">Discharge certificate is required </span>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{healthDischargeCertificate.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Original Vouchers </label>  <!--<span [style.color]="!originalVoucher?'red':''"><b>*</b></span>-->
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" accept="image/*,.pdf" (change)="changeCertificate($event,'originalVoucher')">Browse</span><input type="text" readonly>
+                                        </div>
+                                        <!--<div *ngIf="(!originalVoucher) && (healthOriginalVoucher.fileName =='' || healthOriginalVoucher.fileName ==undefined)">
+                <span style="color: red;">Original vouchers is required </span>
+            </div>-->
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{healthOriginalVoucher.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Self attested copy of doctor's last prescription <span [style.color]="!hospitalselfAttested?'red':''"><b>*</b></span></label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" (change)="changeCertificate($event,'healthselfAttest')">Browse</span><input type="text" readonly>
+                                        </div>
+                                        <div *ngIf="(!hospitalselfAttested) && (healthSelfAttached.fileName =='' || healthSelfAttached.fileName ==undefined )">
+                                            <span style="color: red;">Self attested is required </span>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{healthSelfAttached.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Expenses Sheet </label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" (change)="changeCertificate($event,'healthExpensesSheet')">Browse</span><input type="text" readonly>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{healthExpensesSheet.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row" *ngIf="enableReasonForDelaySubmissionInHealth">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Condonation certificate  <span [style.color]="!healthCondolationCertificateUploaded?'red':''"><b>*</b></span></label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="healthCondolationCertificate" (change)="changeCertificate($event,'healthCondolationCertificate')">Browse</span><input type="text" readonly>
+                                        </div>
+                                        <div *ngIf="(!healthCondolationCertificateUploaded) && (healthCondolationCertificate.fileName =='' || healthCondolationCertificate.fileName == undefined )">
+                                            <span style="color: red;">Condonation certificate is required </span>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{healthCondolationCertificate.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label class="label">Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row">
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success">
+
+                                                <input type="checkbox" name="isCertifynotESI" [(ngModel)]="claim.healthFamilyDetails.isCertifynotESI"
+                                                       #isCertifynotESI="ngModel"
+                                                       [ngClass]="{'invalid-data':isCertifynotESI.invalid && (!rigisterESI ||  isCertifynotESI.touched), 'valid-data': isCertifynotESI.valid && rigisterESI}"
+                                                       required>
+                                                <i></i>I Certify that
+                                                I am not registered under ESI Act, 1948 or RSBY or Swasthya Sathi or WBTWSSS
+                                                <span [style.color]="!rigisterESI?'red':''"><b>*</b></span>
+                                            </label>
+                                            <div *ngIf="isCertifynotESI.invalid && (!rigisterESI ||  isCertifynotESI.touched)">
+                                                <span style="color: red;">Declaration of ESI Act is required</span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset id="death" *ngIf="viewDeath">
+                                <header>Death</header>
+                                <div class="row" id="divdeath1">
+                                    <section class="col col-6">
+                                        <label class="label">Nature of Death <span [style.color]="!natureOfDeath?'red':''"><b>*</b></span></label>
+                                        <label class="select">
+                                            <select name="gender" id="natureofDeathDropdown" (change)="natureOfDeathChange($event.target.value)" [(ngModel)]="claim.deathDetails.natureofDeath"
+                                                    #natureofDeathDropdown="ngModel"
+                                                    [ngClass]="{'invalid-data': natureofDeathDropdown.invalid && ( !natureOfDeath || natureofDeathDropdown.touched ),
+                                                    'valid-data': natureOfDeath && natureofDeathDropdown.valid  }" required>
+                                                <option value="0" disabled>Choose an Option</option>
+                                                <option value="{{death.claimConfigId}}" *ngFor="let death of deathConfig">{{death.claimConfigOptionName}}</option>
+                                            </select> <i></i>
+                                        </label>
+                                        <div *ngIf="natureofDeathDropdown.invalid && (!natureOfDeath || natureofDeathDropdown.touched)">
+                                            <span style="color: red;">Select Nature of Death </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Date of Death <span [style.color]="!dateofDeath?'red':''"><b>*</b></span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <!--<input type="text" name="deathDatePicker" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" [maxDate]="maxAdmitDate" placeholder="DD/MM/YYYY"
+                [(bsValue)]="claim.deathDetails.dateofDeath" readonly>-->
+                                            <input type="text" name="dateofDeathDatePicker" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" [maxDate]="maxAdmitDate"
+                                                   placeholder="DD/MM/YYYY" [(ngModel)]="claim.deathDetails.dateofDeath"
+                                                   value="{{ claim.deathDetails.dateofDeath | date: 'dd/MM/yyyy' }}"
+                                                   #dateofDeathDatePicker="ngModel" readonly
+                                                   [ngClass]="{'invalid-data':dateofDeathDatePicker.invalid && (!dateofDeath),
+                                                   'valid-data':dateofDeathDatePicker.valid && dateofDeath}" required>
+
+                                        </label>
+                                        <div *ngIf="dateofDeathDatePicker.invalid && (!dateofDeath)">
+                                            <span style="color: red;">Date of Death is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" id="divdeath2">
+                                    <section class="col col-6" id="PlaceOfDeath" *ngIf="viewAccidental">
+                                        <label class="label">Place of Death<span [style.color]="!placeOfDeathValid?'red':''"><b>*</b></span> </label>
+                                        <input type="text" class="form-control" name="placeofDeath" placeholder=" Place of Death" #placeofDeath="ngModel"
+                                               [(ngModel)]="claim.deathDetails.placeofDeath"
+                                               [ngClass]="{'invalid-data': placeofDeath.invalid && (!placeOfDeathValid || placeofDeath.touched), 'valid-data': placeofDeath.valid && placeOfDeathValid }" required />
+                                        <div *ngIf="placeofDeath.invalid && (!placeOfDeathValid ||placeofDeath.touched)">
+                                            <span style="color: red;">Place of Death is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label"> Details of Death</label>
+                                        <label class="input">
+                                            <textarea name="detailsofDeath" rows="4" cols="72" placeholder="Details of death" [(ngModel)]="claim.deathDetails.detailsofDeath"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6" id="eligibleAmountdeath" *ngIf="viewEligibilityAmount">
+                                        <label class="label">Eligible Amount: {{deathEligibility}} </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label"><strong>Upload Documents</strong> </label><br>
+                                        <hr />
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Attested copy of Death Certificate<span [style.color]="!deathCertificateUploaded?'red':''"><b>*</b></span></label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" (change)="changeCertificate($event,'deathCertificate')">Browse</span><input type="text" readonly>
+                                            <!--<span class="button"><input type="file" id="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" readonly>-->
+                                        </div>
+                                        <div *ngIf="(!deathCertificateUploaded) && (deathCertificate.fileName =='' || deathCertificate.fileName ==undefined )">
+                                            <span style="color: red;">Death certificate is required </span>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{deathCertificate.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">First Page of Bank Passbook<span [style.color]="!bankPassbookUploaded?'red':''"><b>*</b></span></label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" (change)="changeCertificate($event,'bankPassbook')">Browse</span><input type="text" readonly>
+                                        </div>
+                                        <div *ngIf="(!bankPassbookUploaded) && (bankPassbook.fileName =='' || bankPassbook.fileName ==undefined )">
+                                            <span style="color: red;">First Page of Bank Passbook is required </span>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>{{bankPassbook.fileName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section style="padding-top:30px" class="col col-6"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>
+                                </div>
+                                <div class="row">
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success">
+
+                                                <input type="checkbox" name="isDeathnotcausedbyintentional" [(ngModel)]="claim.deathDetails.isDeathorpermanentdisabilitynotcausedbyintentional"
+                                                       #isDeathnotcausedbyintentional="ngModel" [ngClass]="{'invalid-data':isDeathnotcausedbyintentional.invalid && (!isDeath1 ||  isDeathnotcausedbyintentional.touched), 'valid-data': isDeathnotcausedbyintentional.valid && isDeath1}"
+                                                       required>
+                                                <i></i>I Certify that the Death or permanent disability not caused by intentional self injury, suicide or attempted suicide, insanity or immorality or under influence of intoxicating liquor, drug or narcotic
+                                                <span [style.color]="!isDeath1?'red':''"><b>*</b></span>
+                                            </label>
+                                            <div *ngIf="isDeathnotcausedbyintentional.invalid && (!isDeath1 ||  isDeathnotcausedbyintentional.touched)">
+                                                <span style="color: red;">Declaration of Death or permanent disability not caused by intentional self injury is required</span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success">
+                                                <input type="checkbox" name="isDeathnotcausedbyinjuries" [(ngModel)]="claim.deathDetails.isDeathorpermanentdisabilitynotcausedbyinjuries"
+                                                       #isDeathnotcausedbyinjuries="ngModel" [ngClass]="{'invalid-data':isDeathnotcausedbyinjuries.invalid && (!isDeath2 ||  isDeathnotcausedbyinjuries.touched), 'valid-data': isDeathnotcausedbyinjuries.valid && isDeath2}"
+                                                       required>
+                                                <i></i>I Certify that Death or permanent disability not caused by injuries resulting from riots, civil commotions, or racing of any kind
+                                                <span [style.color]="!isDeath2?'red':''"><b>*</b></span>
+                                            </label>
+                                            <div *ngIf="isDeathnotcausedbyinjuries.invalid && (!isDeath2 ||  isDeathnotcausedbyinjuries.touched)">
+                                                <span style="color: red;">Declaration of Death or permanent disability not caused by injuries is required</span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success">
+                                                <input type="checkbox" name="isDeathOtherFinancialAssistance" [(ngModel)]="claim.deathDetails.isOtherFinancialAssistance"
+                                                       #isDeathOtherFinancialAssistance="ngModel" [ngClass]="{'invalid-data':isDeathOtherFinancialAssistance.invalid && (!isDeath3 ||  isDeathOtherFinancialAssistance.touched), 'valid-data': isDeathOtherFinancialAssistance.valid && isDeath3}"
+                                                       required>
+                                                <i></i>I Certify that I am not in receipt of any financial assistance of similar nature from the government
+                                                <span [style.color]="!isDeath3?'red':''"><b>*</b></span>
+                                            </label>
+                                            <div *ngIf="isDeathOtherFinancialAssistance.invalid && (!isDeath3 ||  isDeathOtherFinancialAssistance.touched)">
+                                                <span style="color: red;">Declaration of not in receipt of any financial assistance is required</span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <!--<fieldset id="death-diasability" *ngIf="viewDeath">
+                                <header>Death & Disability</header>
+                                <div class="row" id="divdisability1" style="display: none;">
+                                    <section class="col col-6">
+                                        <label class="label">Date of release from hospital/Accident</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="request" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" formControlName="dtDateOfReleaseFromHospital" placeholder="DD/MM/YYYY">
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Nature of Disability</label>
+                                        <label class="select">
+                                            <select name="gender" id="natureOfDisability" onchange="amountDisplay()">
+                                                <option value="0">Choose an Option</option>
+                                                <option value="{{dis.claimConfigId}}" *ngFor="let dis of disabilityConfig">{{dis.claimConfigOptionName}}</option>
+
+                                            </select> <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" id="divdisability2" style="display: none;">
+                                    <section class="col col-6">
+                                        <label class="label"> Details of Disability</label>
+                                        <label class="input">
+                                            <textarea name="request" rows="4" cols="72" placeholder="Details of disability"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6" id="eligibleAmount" style="display: none;">
+                                        <div class="col col-6">
+                                            <label class="label"><strong>Eligible Amount:</strong> </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label id="amtbasedonDisability"> </label>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" id="divdeath1">
+                                    <section class="col col-6">
+                                        <label class="label">Nature of Death</label>
+                                        <label class="select">
+                                            <select name="natureofDeath" id="selnature" (change)="natureOfDeathChange($event.target.value)" [(ngModel)]="claim.deathDetails.natureofDeath">
+                                                <option value="0">Choose an Option</option>
+                                                <option value="{{death.claimConfigId}}" *ngFor="let death of deathConfig">{{death.claimConfigOptionName}}</option>
+
+                                            </select> <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Date of Death</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" name="dateofDeath" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" formControlName="dtDateofDeath" placeholder="DD/MM/YYYY"
+                                                   [(bsValue)]="claim.deathDetails.dateofDeath">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" id="divdeath2">
+                                    <section class="col col-6" id="PlaceOfDeath" *ngIf="viewAccidental">
+                                        <label class="label">Place of Death </label>
+                                        <input type="text" class="form-control" name="placeofDeath" placeholder=" Place of Death" [(ngModel)]="claim.deathDetails.placeofDeath">
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label"> Details of Death</label>
+                                        <label class="input">
+                                            <textarea name="detailsofDeath" rows="4" cols="72" placeholder="Details of disability" [(ngModel)]="claim.deathDetails.detailsofDeath"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6" id="eligibleAmountdeath" *ngIf="viewEligibilityAmount">
+                                        <div class="col col-6">
+                                            <label class="label"><strong>Eligible Amount:</strong> </label>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label id="amtbasedonDisability">{{deathEligibility}}</label>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label"><strong>Upload Documents</strong> </label><br>
+                                        <hr />
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Attested copy of Death Certificate</label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" readonly>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6 top-5">
+                                        <label class="label">Certificate of disability from the competent authority</label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" readonly>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success">
+                                                <input type="checkbox" name="isDeathorpermanentdisabilitynotcausedbyintentional" [(ngModel)]="claim.deathDetails.isDeathorpermanentdisabilitynotcausedbyintentional"><i></i>I Certify that the
+                                                Death or permanent disability not caused by intentional self injury, suicide or attempted suicide, insanity or immorality or under influence of intoxicating liquor, drug or narcotic
+                                            </label>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success"><input type="checkbox" name="isDeathorpermanentdisabilitynotcausedbyinjuries" [(ngModel)]="claim.deathDetails.isDeathorpermanentdisabilitynotcausedbyinjuries"><i></i>I Certify that Death or permanent disability not caused by injuries resulting from riots, civil commotions, or racing of any kind</label>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success"><input type="checkbox" name="isOtherFinancialAssistance" [(ngModel)]="claim.deathDetails.isOtherFinancialAssistance"><i></i>I Certify that I am not in receipt of any financial assistance of similar nature from the government</label>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>-->
+                            <fieldset id="education" *ngIf="viewEducation" [disabled]="disableEdu">
+                                <header>Education </header>
+
+
+
+                                <fieldset id="addbutton">
+                                    <div class="row" *ngIf="eduCount<2">
+                                        <a class="btn btn-primary" (click)="openModel()" style="width :55px;height:30px;padding:5px;" button> Add </a>
+                                    </div>
+                                    <div class="row">
+                                        <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name of the Student</th>
+                                                    <th>Name of the Institution</th>
+                                                    <th> Contact Number of the Institution</th>
+                                                    <th>Registration No./Roll No./Year</th>
+                                                    <th> Present Reading</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngIf="educationDetailsArray.length==0"><td colspan="6">No student details</td></tr>
+                                                <tr *ngFor="let education of educationDetailsArray">
+                                                    <td>{{education.dependentName}}</td>
+                                                    <td>{{education.institutionName}}</td>
+                                                    <td>{{education.institutionContact}}</td>
+                                                    <td>{{education.registrationRollNo}}</td>
+                                                    <td>{{education.presentlyReadingName}}</td>
+                                                    <td>
+                                                        <a class="btn btn-labeled btn-primary" (click)="editEducationDetails(education)" style="margin-right:5px;"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                                        <a class="btn btn-labeled btn-danger" (click)="removeEducationDetails(education)"><i class="glyphicon glyphicon-trash"></i> Remove</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Amount Claimed</label>
+                                        <label class="form-control" disabled>{{claim.educationDetails.claimAmount}}</label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label"><strong>Upload Documents</strong> </label><br>
+                                        <hr />
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section>
+                                        <div class="col col-12">
+                                            <label class="checkbox state-success">
+                                                <input type="checkbox" name="isanyothersourceofthegovernment"
+                                                       [(ngModel)]="claim.educationDetails.isanyothersourceofthegovernment"
+                                                       #isanyothersourceofthegovernment="ngModel"
+                                                       [ngClass]="{'invalid-data':isanyothersourceofthegovernment.invalid && (!educationCheck ||  isanyothersourceofthegovernment.touched), 'valid-data': isanyothersourceofthegovernment.valid && educationCheck}"
+                                                       required>
+                                                <i></i>I Certify that My son or daughter is not availing or has not availed any scholarship for the above mentioned courses from any other source of the government
+                                                <span [style.color]="!educationCheck?'red':''"><b>*</b></span>
+                                            </label>
+                                            <div *ngIf="isanyothersourceofthegovernment.invalid && (!educationCheck ||  isanyothersourceofthegovernment.touched)">
+                                                <span style="color: red;">Check education terms and conditions </span>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </div>
+                                <!-- <div class="row"> -->
+                                <!-- <section class="col"> -->
+                                <!-- <label class="label">Acknowledge:</label> -->
+                                <!-- <div class="col-12"> -->
+                                <!-- <label class="checkbox state-success"><input type="checkbox" name="checkbox"><i></i>Certified that son/ daughter is not availing / has not availed any scholarship for the above mentioned course from any other source. <br> -->
+                                <!-- Documents to be enclosed*: Certificate from the Head of the institution that the student is not availing/ has not availed any scholarship for the above mentioned course form any other source of the Government and is presently continuing with said course in the institution, copy of the deposite slip of fee regarding adminssion/ Identity Card.<br> -->
+                                <!-- Certificate regarding .................... -->
+                                <!-- </label> -->
+                                <!-- </div> -->
+                                <!-- </section>																			 -->
+                                <!-- </div> -->
+                            </fieldset>
+                            <div *ngIf="viewPf || viewHealth || viewDeath|| viewEducation">
+                                <header>Upload Documents</header>
+                                <fieldset>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col col-6">
+                                                <label class="label">Form - V duly filled and signed <span [style.color]="!uplaodmain?'red':''"><b>*</b></span></label>
+                                                <div class="input input-file">
+                                                    <span class="button"><input type="file" id="file" (change)="changeCertificate($event,'main')" [disabled]="disableSubmitbutton || restrictSave">Browse</span><input type="text" readonly >
+                                                </div>
+                                                <div *ngIf="(!uplaodmain) && (mainUpload?.fileName =='' || mainUpload?.fileName ==undefined )">
+                                                    <span style="color: red;">Form - V is required </span>
+                                                </div>
+                                                <div>
+                                                    {{mainUpload?.fileName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </div>
+                            <footer>
+                                <a id="btnGeneratePdf" class="btn btn-success" [class.disabled]="restrictSave" (click)="GenaratePdf(claim,3)">Generate Pdf</a>
+                                <a id="btnSava" class="btn btn-success" name="q" [class.disabled]="disableSubmitbutton || restrictSave" (click)="saveClaimsData(claim)">Submit</a>
+                                <a class="btn btn-default" (click)="claerClaim()">Reset</a>
+                                <a class="btn btn-danger" href="/">Cancel</a>
+                            </footer>
+                        </form>
+                        <!--/ Success states for elements -->
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- WIDGET END -->
+    </div>
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Student Details</h4>
+            </div>
+            <div class="modal-body">
+                <fieldset id="divAddEducationDetails">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <div class="form-group">
+                                <label for="label control-label"> Name of the Student <span [style.color]="!studentNameValid?'red':''"><b>*</b></span></label>
+                                <select class="form-control select" name="dependentId" (change)="selectDependent($event)" [(ngModel)]="educationDetails.dependentId"
+                                        #dependentId="ngModel"
+                                        [ngClass]="{'invalid-data': dependentId.invalid && ( !studentNameValid || dependentId.touched ),
+                                        'valid-data': studentNameValid && dependentId.valid  }"
+                                        required>
+                                    <option value="0" selected disabled>Choose a Student</option>
+                                    <option value="{{ben.benFamilyMemSno}}" *ngFor="let ben of benficiaryFamily">{{ben.benDependentName}} - {{ben.benDependentRelation}}</option>
+                                </select>
+                                <i></i>
+                                <div *ngIf="dependentId.invalid && (!studentNameValid || dependentId.touched)">
+                                    <span style="color: red;">Select a Student </span>
+                                </div>
+                                <div *ngIf="isDuplicateDependent">
+                                    <span style="color: red;">Already submitted for this year please select another dependent </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Name of the Institution <span [style.color]="!institutionNameValid?'red':''"><b>*</b></span></label>
+                                <input type="text" name="institutionName" placeholder="Name of the Institution" [(ngModel)]="educationDetails.institutionName"
+                                       #institutionName="ngModel"
+                                       [ngClass]="{'invalid-data': institutionName.invalid && (!institutionNameValid || institutionName.touched), 'valid-data': institutionName.valid && institutionNameValid}" class="form-control"
+                                       required>
+                                <div *ngIf="institutionName.invalid && (!institutionNameValid ||institutionName.touched)">
+                                    <span style="color: red;">Name of the Institution is required </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Name of the Principal/Head Master of the institution</label>
+                                <input type="text" class="form-control" name="institutionPrinicipleName" placeholder="Institution Principal Name" [(ngModel)]="educationDetails.institutionPrinicipleName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Contact Number of the Institution</label>
+                                <input type="text" class="form-control" name="institutionContact" placeholder="Institution Contact" [(ngModel)]="educationDetails.institutionContact"
+                                       NumbersOnly maxlength="15"
+                                       #institutionContact="ngModel"
+                                       [ngClass]="{'invalid-data': !institutionContactValid }">
+                                <div *ngIf="!institutionContactValid">
+                                    <span style="color: red;">Invalid Contact Number of the Institution</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Registration No./Roll No. of last exam passed  <span [style.color]="!registrationNoValid?'red':''"><b>*</b></span></label>
+                                <input type="text" class="form-control" name="registrationRollNo" placeholder="Registration No./Roll No. of last exam passed " [(ngModel)]="educationDetails.registrationRollNo"
+                                       #registrationRollNo="ngModel"
+                                       [ngClass]="{'invalid-data': registrationRollNo.invalid && (!registrationNoValid || registrationRollNo.touched), 'valid-data': registrationRollNo.valid && registrationNoValid}"
+                                       required>
+                                <div *ngIf="registrationRollNo.invalid && (!registrationNoValid ||registrationRollNo.touched)">
+                                    <span style="color: red;">Registration No./Roll No. of last exam passed is required </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Year of Examination <span [style.color]="!educationYearValid?'red':''"><b>*</b></span></label>
+                                <input type="text" class="form-control" name="year" placeholder="Year" [(ngModel)]="educationDetails.year" maxlength="4" NumbersOnly> <!--readonly-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" *ngIf="isMarried">
+                            <div class="form-group">
+                                <div>
+                                    <label for="label">Is Married <span [style.color]="!marriedValid?'red':''"><b>*</b></span></label>
+                                    <input type="radio" value="1" name="gender" required #gender="ngModel" [(ngModel)]="educationDetails.isMarried"> Yes
+                                    <input type="radio" value="0" name="gender" required #gender="ngModel" [(ngModel)]="educationDetails.isMarried">No
+                                </div>
+
+                                <div *ngIf="!marriedValid">
+                                    <!--*ngIf="gender.invalid && (!marriedValid || gender.touched)"-->
+                                    <span style="color: red;">Is Married is required </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Last Exam Passed</label>
+                                <select name="lastExamPassed" class="form-control" (change)="selectLastExamPassed($event,educationDetails)" [(ngModel)]="educationDetails.lastExamPassed">
+                                    <option value="00" disabled>Choose Reading</option>
+                                    <option value="{{lep.lovDtlId}}" *ngFor="let lep of lastExampassed">{{lep.optionName}}</option>
+
+                                </select> <i></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Date of Admission <span *ngIf="!isDisabledBaseOnLastExamPassed" [style.color]="!dateOfAdmissionValid?'red':''"><b>*</b></span></label>
+                                <input type="text" name="dateofAdmission" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" [maxDate]="maxDate" placeholder="DD/MM/YYYY"
+                                       #dateofAdmission="ngModel" [disabled]="isDisabledBaseOnLastExamPassed"
+                                       [(ngModel)]="educationDetails.dateofAdmission" readonly
+                                       value="{{ educationDetails.dateofAdmission | date: 'dd/MM/yyyy' }}"
+                                       [ngClass]="{'invalid-data':dateofAdmission.invalid && (!dateOfAdmissionValid || dateofAdmission.touched), 'valid-data':dateofAdmission.valid && dateOfAdmissionValid}"
+                                       required>
+                                <div *ngIf="dateofAdmission.invalid && (!dateOfAdmissionValid || dateofAdmission.touched)">
+                                    <span style="color: red;">Date of Admission is required </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label"> Presently Reading <span *ngIf="!isDisabledBaseOnLastExamPassed" [style.color]="!presentlyReadingValid?'red':''"><b>*</b></span></label>
+                                <select name="presentlyReading" class="form-control" (change)="selectPresentlyReading($event,educationDetails)"
+                                        [(ngModel)]="educationDetails.presentlyReading" #presentlyReading="ngModel" [disabled]="isDisabledBaseOnLastExamPassed"
+                                        [ngClass]="{'invalid-data': presentlyReading.invalid && ( !presentlyReadingValid || presentlyReading.touched ),
+                                        'valid-data': presentlyReadingValid && presentlyReading.valid  }"
+                                        required>
+                                    <option value="0" disabled>Choose Reading</option>
+                                    <option value="{{edu.claimConfigId}}" *ngFor="let edu of educationConfig">{{edu.claimConfigOptionName}}</option>
+                                </select> <i></i>
+                                <div *ngIf="presentlyReading.invalid && (!presentlyReadingValid || presentlyReading.touched)">
+                                    <span style="color: red;">Select a Presently reading </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label">Eligible Amount</label>
+                                <input type="text" class="form-control" name="eligibleAmount" [(ngModel)]="educationDetails.eligibleAmount" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 smart-form">
+                        <header>Upload Documents</header>
+                        <div class="row" *ngIf="!isDisabledBaseOnLastExamPassed">
+                            <section class="col col-10 top-5">
+                                <label class="label">Certificate from head of institution for not availing any scholarship <span [style.color]="!uploadCertificatetValid?'red':''"><b>*</b></span> </label>
+
+                                <div class="input input-file">
+                                    <span class="button">
+                                        <input type="file" id="file" accept="image/*,.pdf" multiple (change)="changeCertificate($event,'certificate')">Browse
+                                    </span>
+                                    <input type="text" readonly>
+                                    <label>Document limit is upto 2MB, JPEG/PNG/PDF</label>
+                                </div>
+                                <div *ngIf="!uploadCertificatetValid && educertificates.length==0">
+                                    <span style="color: red;"> Certificate required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr *ngFor="let item of educertificates">
+                                            <td>{{item.fileName}}</td>
+                                            <td style="padding-left:10px"> <a class="btn btn-danger" (click)="removeUploadCertificates(item,'certificate')">      <i class="glyphicon glyphicon-trash"></i> Remove</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <!--<section style="padding-top:30px"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>-->
+                        </div>
+                        <div class="row" *ngIf="viewuploadNonMarriage">
+                            <section class="col col-10 top-5">
+                                <label class="label">Non marriage certificate of Daughter <span [style.color]="!uploadNonMarriageValid?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" accept="image/*,.pdf" multiple (change)="changeCertificate($event,'nonMarriage')" id="file">Browse</span><input type="text" readonly>
+                                    <label>Document limit is upto 2MB, JPEG/PNG/PDF</label>
+                                </div>
+                                <div *ngIf="!uploadNonMarriageValid && eduNonMarriage.length==0">
+                                    <span style="color: red;"> Non marriage certificate of Daughter required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr *ngFor="let item of eduNonMarriage">
+                                            <td>{{item.fileName}}</td>
+                                            <td style="padding-left:10px"> <a class="btn btn-danger" (click)="removeUploadCertificates(item,'nonMarriage')"><i class="glyphicon glyphicon-trash"></i> Remove</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <!--<section style="padding-top:30px"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>-->
+                        </div>
+                        <div class="row">
+                            <section class="col col-10 top-5">
+                                <label class="label">Self attested copy of last exam passing certificate <span [style.color]="!uploadselfattestedValid?'red':''"><b>*</b></span></label>
+                                <div class="input input-file">
+                                    <span class="button"><input type="file" id="file" accept="image/*,.pdf" multiple (change)="changeCertificate($event,'selfAttest')">Browse</span>
+                                    <input type="text" readonly>
+                                    <label>Document limit is upto 2MB, JPEG/PNG/PDF</label>
+                                </div>
+                                <div *ngIf="!uploadselfattestedValid && eduSelfAttested.length==0">
+                                    <span style="color: red;"> Self attested required </span>
+                                </div>
+                                <div>
+                                    <table>
+                                        <tr *ngFor="let item of eduSelfAttested">
+                                            <td>{{item.fileName}}</td>
+                                            <td style="padding-left:10px"> <a class="btn btn-danger" (click)="removeUploadCertificates(item,'selfAttest')"><i class="glyphicon glyphicon-trash"></i> Remove</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </section>
+                            <!--<section style="padding-top:30px"><label>Document limit is upto 2MB, JPEG/PNG/PDF</label></section>-->
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="lgModal.hide()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" (click)="addEducationDetails(educationDetails)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body">
+                <div [innerHTML]="successMessage"></div>
+                <div>
+                    <label style="background-color:orange">Download Receipts</label>
+                </div>
+                <div class="row" *ngFor="let c of genaratePdfs">
+                    <div style="padding-left:20px;padding-bottom:8px">
+                        <a style="cursor:pointer" (click)="downloadRecipt(c.refNo,c.amount,c.name)"> {{c.refNo}} </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #pdfModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Form-V Pdf</h4>
+            </div>
+            <div class="modal-body">
+                Form-V genarated, Please print or download.
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf(claim,'print')">
+                    Print FormV
+                </button>
+                <button type="button" class="btn btn-primary" (click)="downLoadPdf(claim,'download')">
+                    Download FormV
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #packageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="packageModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Packages</h4>
+            </div>
+            <div class="modal-body">
+                <div *ngFor="let item of result" border="1">
+                    {{item.name}}
+                    <table class="table table-striped">
+
+                        <tr>
+                            <th>
+                                <input type="checkbox" value="checkAll" name="checkall" (change)="checkAll($event,item.name)" />
+                            </th>
+                            <th>
+                                Package Name
+                            <th>
+                                Package Code
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+
+                        </tr>
+
+                        <ng-container>
+
+                            <tr *ngFor="let value of item.values;let i=index;">
+                                <td>
+                                    <input type="checkbox" name="{{i}}" [(ngModel)]="value.isChecked" (change)="checkIfAllSelected(item);" />
+                                </td>
+                                <td>{{value.packageName}}</td>
+                                <td>{{value.packageCode}}</td>
+                                <td>{{value.amount}}</td>
+                            </tr>
+                        </ng-container>
+
+                    </table>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="submitClick()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

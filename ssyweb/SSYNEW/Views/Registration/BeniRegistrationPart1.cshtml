@@ -1,0 +1,3004 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+    ViewBag.Title = "BeniRegistrationPart1";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+<script src="~/Scripts/jquery.min.js"></script>
+
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+    var validation = @Html.Raw(Json.Encode(ViewBag.validachck))
+    var valMes = @Html.Raw(Json.Encode(ViewBag.valMes))
+    var Messeage = @Html.Raw(Json.Encode(ViewBag.Message))
+    var MesseageCode = @Html.Raw(Json.Encode(ViewBag.MessageCode))
+    var Userid = @Html.Raw(Json.Encode(ViewBag.Userid))
+    var CheckExisting = @Html.Raw(Json.Encode(ViewBag.CheckExisting))
+    var RegistrationType = @Html.Raw(Json.Encode(ViewBag.RegistrationType))
+    var BenTempId = @Html.Raw(Json.Encode(ViewBag.BenTempid))
+    var BeniRegtype = @Html.Raw(Json.Encode(ViewBag.BeniRegtype))
+
+
+
+    var BenSno = "";
+</script>
+<style>
+    .mandatory {
+        color: red;
+    }
+
+    .glyphicon-arrow-right {
+        font-size: 12px !important;
+    }
+</style>
+
+@**@
+
+@Html.Partial("_RegistrationPreview")
+<br />
+<br />
+@using (Html.BeginForm("BeniRegistrationPart1", "Registration", FormMethod.Post, new { id = "signupform", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <form role="form" id="form">
+
+        <div class="divLoader" style="display:none;"><img src="~/Content/images/Loader3.gif" /></div>
+        <center><h4 style="margin-top:-35px;font-weight: bold;">SSY Common Application Form</h4></center>
+        <div class="language pull-right" style="margin-top:-33px;margin-right:30px;">
+            Language:
+            <select id="ddlLanguage">
+                <option id="english" value="1">English</option>
+                <option id="spanish" value="2">Bengali</option>
+                @*<option id="portuguese" value="3">Hindi</option>*@
+            </select>
+        </div>
+        <div class="wizard notranslate">
+            <div class="wizard-inner" style="width:1500px;">
+                <ul class="breadcrumb  nav-tabs" role="tablist">
+                    <li role="presentation" class="" id="disfrst"><a href="#step0" data-toggle="tab" aria-controls="step0" role="tab">First page</a></li>
+                    <li role="presentation" class="" id="disstep"><a href="#step1" data-toggle="tab" aria-controls="step1" role="tab">Disclaimer</a></li>
+                    <li role="presentation" class="" id="benistep"><a href="#step2" data-toggle="tab" aria-controls="step2" role="tab">Beneficiary Details</a></li>
+                    @* <li role="presentation" class="" id="depstep"><a href="#step3" data-toggle="tab" aria-controls="step3" role="tab">Dependent Details</a></li>*@
+                    @*<li role="presentation" class="" id="addstep"><a href="#step4" data-toggle="tab" aria-controls="step4" role="tab">Additional Affirmation</a></li>*@
+                </ul>
+            </div>
+
+            <form role="form">
+                <div class="tab-content">
+                    @*  First Page*@
+                    <div class="tab-pane" role="tabpanel" id="step0">
+                        <fieldset class="custom-border">
+                            <legend class="custom-border">FirstPage</legend>
+                            <center>
+                                <div class="container-fluid" id="enrolledsch">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label id="lblfrstnoti"> I am not a beneficiary under SASPFUW/ BOCWA/ WBTWSSS</label>
+                                                    <br>
+                                                    <input type="radio" name="enscheme" class="EScheme" value="Yes">
+                                                    <label class="lblFYes">Yes</label>
+                                                    <input type="radio" name="enscheme" value="No" class="EScheme">
+                                                    <label class="lblFNo">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </center>
+                        </fieldset>
+
+                        @*@Html.Partial("~/Views/Registration/Instructions.cshtml")*@
+                        <iframe src="" frameborder="0" class="col-md-12 iframeheight loadurl" id="RegFrmae" width="1200" height="800"></iframe>
+
+                    </div>
+
+                    @*  Second Page*@
+                    <div class="tab-pane" role="tabpanel" id="step1">
+                        <fieldset class="custom-border" style="display:none;">
+                            <legend class="custom-border">Disclaimer</legend>
+                            <div class="container-fluid" id="disclamair">
+                                <div class="row" id="divworker">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="">Unorganized Worker</label>
+                                            <input type="radio" id="rdWorker" name="Uworker" class="UWrk" value="Yes">
+                                            <label>Yes</label>
+                                            <input type="radio" name="Uworker" value="No" class="UWrk">
+                                            <label>No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+
+                            </div>
+                        </fieldset>
+
+                        <div id="divEmployeeType">
+                            <fieldset class="custom-border">
+                                <legend class="custom-border   color-white"><label id="lblemployeeType">Employee Type</label></legend>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label id="lblWorkerType">Worker Type</label>
+                                            &nbsp; &nbsp;
+                                            <input type="radio" name="Workertype" class="workerdet" value="ConstructionWorker">
+                                            <label id="lblconstrution"> Construction Worker</label>
+                                            <input type="radio" name="Workertype" class="workerdet" value="TransportWorker">
+                                            <label id="lbltransport"> Transport Worker</label>
+                                            <input type="radio" name="Workertype" class="workerdet" value="Others">
+                                            <label id="lblothers"> Others</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="divConTrn" style="display:none">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="radio" name="Worktype1" class="Worktype" value="WorktypeEmployed">Work Type List<span style="color: red">*</span>
+                                                @Html.DropDownListFor(m => m.WorkType, new SelectList(Model.WorkType, "Value", "Text"), new { @class = "form-control " })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="">Other Work Type</label>
+                                                @Html.TextBoxFor(m => m.BenOccupationDesc, null, new { @class = "form-control", @maxlength = 200, @readonly = "readonly" })
+                                                @*Other Work Type <span style="color: red">*</span>
+                                                    <input type="text" name="txtWorType" id="txtWorkType" value="" readonly />*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="divOther" style="display:block">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="radio" name="Emptype" class="Wortype" value="SelfEmployed" disabled><label id="lblSelfEmployed">  Self Employed </label><span style="color: red">*</span>
+                                                @Html.DropDownListFor(m => m.selfid, new SelectList(Model.self, "Value", "Text"), new { @class = "form-control ", @disabled = "true", @required = "required", @readonly = "" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="radio" name="Emptype" class="Wortype" value="UnorganisedIndustries" disabled><label id="lblUnIndus">  Unorganised Industries </label><span style="color: red">*</span>
+                                                @Html.DropDownListFor(m => m.unorgid, new SelectList(Model.unorg, "Value", "Text"), new { @class = "form-control ", @disabled = "true", @required = "required", @readonly = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12" style="display:none;">
+                                    <label class="">I am a Self-Employed Worker engaged in the scheduled unorganised sector under the scheme</label>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="col-md-4" style="display:none;">
+                                    <label class="">Name of my occupation</label>
+                                    @Html.TextBoxFor(m => m.occu, null, new { @class = "form-control", @maxlength = 20, @readonly = "readonly" })
+                                </div>
+                                <div class="col-md-4" style="display:none;">
+                                    <label class="">Self Employment</label>
+                                    @Html.TextBoxFor(m => m.selfemp, null, new { @class = "form-control", @maxlength = 20, @readonly = "readonly" })
+                                </div>
+                                <div class="col-md-4" style="display:none;">
+                                    <label class="">Establishment Address </label>
+                                    @Html.TextBoxFor(m => m.estbaddress, null, new { @class = "form-control", @maxlength = 150 })
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input type="checkbox" name="disenroll" id="enrolledsamajik" value="enroll">
+                                    <label id="lblsecondagree">I hereby apply to enroll myself as a beneficiary under SAMAJIK SURAKSHA YOJANA and the following statements in relation to this application are given by me.<br></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="margin-top:10px;">
+                            <center>
+                                <a id="cancel" href="/Registration/BeniRegistrationPart1" class="btn btn-default ">Cancel</a>
+                                <a class="btn btn-primary " onclick="DisSub()">Continue</a>
+                            </center>
+                        </div>
+
+
+
+                    </div>
+
+                    @*Third Page*@
+                    <div class="tab-pane" role="tabpanel" id="step2">
+                        @* <center>  <h3 class="">Beneficiary Details</h3></center>*@
+                        <div class="container-fluid" id="benefiary">
+                            <fieldset class="custom-border">
+                                <legend class="custom-border "><label id="lblbenidet"> Beneficiary Details </label> </legend>
+                                <div class="row" id="existregdet">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="" id="lblregnum">Registration No <span style="color: red">*</span></label>
+                                            @Html.TextBoxFor(m => m.registrationno, new { @class = "form-control", @maxlength = 16, @onchange = "Checkuniquenumber()", onkeydown = "return IsAlphaNumaric(event)", style = "text-transform:uppercase" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblregDate">Registration Date</label>
+                                            @Html.TextBoxFor(m => m.Regdate, new { @class = "form-control regdate", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblMobileNo">Mobile No</label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.mobno, new { @class = "form-control", @maxlength = 10, @onchange = "validateMobilenum()", onkeypress = "return onlynumber(event,this)" })
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblAadharNo">Aadhaar Card No</label><span style="color: red">**</span>
+                                            @Html.TextBoxFor(m => m.Aadharcard, new { @class = "form-control", @maxlength = 12, @onchange = "validateAadhaar()", onkeypress = "return onlynumber(event,this)" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblEpicNo">Epic Card </label><span style="color: red">**</span>
+                                            @Html.TextBoxFor(m => m.epiccard, new { @class = "form-control", @maxlength = 16, @onchange = "validateEpic()", onkeydown = "return IsAlphaNumaricWithSpecialCharecter(event)" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblFrstName">First Name </label><span style="color: red">*</span>
+
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "col-md-10 form-control checkstring", @maxlength = 25, onkeypress = "return onlyAlphabetswithoutspaces(event,this)" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblMiddleName">Middle Name </label>
+                                            @Html.TextBoxFor(m => m.Middlename, new { @class = "form-control", @maxlength = 25, onkeypress = "return onlyAlphabets(event,this)" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lbllastname">Last Name </label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.lstname, new { @class = "form-control checkstring", onkeypress = "return onlyAlphabets(event,this)" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblfatherName">Father Name</label><span style="color: red">*</span>
+                                            <div class="row">
+                                                <div class="col-md-3" style="padding-right: 0px !important;">
+                                                    @Html.DropDownList("ddlfathrsname", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Mr.", Value = "Mr." },
+                                            new SelectListItem{ Text="Late.", Value = "Late." }
+                                        }, new { @class = "col-md-2 pull-left form-control custtext Salutation" })
+                                                </div>
+                                                <div class="col-md-9" style="padding-left: 0px !important;">
+                                                    @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control checkstring", @maxlength = 50, onkeypress = "return onlyAlphabets(event,this)" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblMotherName">Mother Name</label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control checkstring", @maxlength = 50, onkeypress = "return onlyAlphabets(event,this)" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblDob">Date of Birth </label><span style="color: red">*</span>
+                                            <div class="row">
+                                                <div class="col-md-4" style="padding-right: 0px !important;">
+                                                    @Html.DropDownList("ddlyr", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Year", Value = "0" }
+                                        }, new { @class = "col-md-4 pull-left form-control custtext Salutation" })
+                                                </div>
+                                                <div class="col-md-4" style="padding-left: 0px !important; padding-right: 0px !important;">
+                                                    @Html.DropDownList("ddlmnth", new List<SelectListItem>
+                                        {
+                                           new SelectListItem{ Text="Month", Value = "0" }
+                                        }, new { @class = "col-md-4 pull-left form-control custtext Salutation" })
+                                                </div>
+                                                <div class="col-md-4" style="padding-left: 0px !important;">
+                                                    @Html.DropDownList("ddlday", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Day", Value = "0" }
+                                        }, new { @class = "col-md-4 pull-left form-control custtext Salutation" })
+                                                    @Html.TextBoxFor(m => m.age, new { @class = "form-control", @maxlength = 3, @readonly = "readonly", @style = "visibility:hidden;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div  style="visibility:hidden;">
+                                        <div class="form-group">
+                                            <label id="lblAge">Age </label><span style="color: red">*</span>*@
+                                    @*@Html.TextBoxFor(m => m.age, new { @class = "form-control", @maxlength = 3, @readonly = "readonly" })*@
+                                    @*</div>
+                                        </div>*@
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+
+                                            <label id="lblGender">Gender </label><span style="color: red">*</span>
+                                            <br class="clearfix" />
+                                            <input type="radio" id="gndrmale" name="bengender" class="bengender" value="Male"><label id="lblmale"> Male</label>
+                                            <input type="radio" id="gndrfemale" name="bengender" class="bengender" value="Female"><label id="lblfemale"> Female</label>
+                                            <input type="radio" id="gndrother" name="bengender" class="bengender" value="Others"><label> Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblMaritalSts">Marital Status </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.maritalid, new SelectList(Model.maritalstatus, "Value", "Text"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblHusbandName">Husband Name </label><span style="color: red">*</span>
+                                            <div class="row">
+                                                <div class="col-md-3" style="padding-right: 0px !important;">
+                                                    @Html.DropDownList("ddlhusname", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Mr.", Value = "Mr." },
+                                        }, new { @class = "col-md-2 pull-left form-control custtext Salutation" })
+                                                </div>
+                                                <div class="col-md-9" style="padding-left: 0px !important;">
+                                                    @Html.TextBoxFor(m => m.HusbandName, new { @class = "form-control checkstring", @maxlength = 50, onkeypress = "return onlyAlphabets(event,this)", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="LblReligion">Religion </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.relgid, new SelectList(Model.religion, "Value", "Text"), new { @class = "form-control " })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="lblSocialCat">Social Category </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.socatid, new SelectList(Model.socategry, "Value", "Text"), new { @class = "form-control " })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="display:none">
+                                        <div class="form-group">
+                                            <label id="">Occupation </label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.Occupation, new { @class = "form-control", @maxlength = 22, @readonly = "readonly", })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </fieldset>
+                            <br class="clearfix" />
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border "><label id="lblPerAdd"> Permanent Address</label></legend>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblState">State</label><span style="color: red">*</span>
+                                            @Html.TextBox("state", "West Bengal", new { text = "", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblDistrict">District </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control paddistid", id = "perdistid" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblSubDivision">Sub Division </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control persubdivid", id = "persubdivid" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblblock">Block/Municipality/Corporation </label><span style="color: red">*</span>
+                                            @Html.DropDownList("ddlBMC", new List<SelectListItem>
+                                        {
+                                             new SelectListItem{ Text="-- Select Type --", Value = "0" },
+                                            new SelectListItem{ Text="Block", Value = "1" },
+                                            new SelectListItem{ Text="Muncipality", Value = "2" },
+                                            new SelectListItem{ Text="Corporation", Value = "3" },
+                                        }, new { @class = "col-md-2 pull-left form-control", id = "peraddBMC" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblLoc">Name of Block/Municipality/Corporation </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control peraddblock", id = "peraddblock" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblps">P.S </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.ps, new SelectList(Model.psname, "Value", "Text"), new { @class = "form-control perpsid", id = "perpsid" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblPo">P.O </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.po, new SelectList(Model.poname, "Value", "Text"), new { @class = "form-control perPOid", id = "perPOid" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblPincode">PIN Code </label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.pincode, null, new { @class = "form-control", @maxlength = 6, onkeypress = "return onlynumber(event,this)" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblGepWard">GP/Ward </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.ward, new SelectList(Model.wardname, "Value", "Text"), new { @class = "form-control ward", id = "ward" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblVilStreetRoad">Village/Street/Road </label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.vlge1, null, new { @class = "form-control", @maxlength = 150 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <br class="clearfix" />
+                            <div class="row bene">
+                                <input type="checkbox" id="presauto" name="peraddr" value="permntaddr"> <label id="lblsameasadd">Same as Permanent Address</label>
+                                <br class="clearfix" />
+                                <fieldset class="custom-border">
+                                    <legend class="custom-border color-white"><span class="leg-sty "><label id="lblPresadd">Present Address</label> </span></legend>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblState">State </label><span style="color: red">*</span>
+                                            @Html.TextBox("state2", "West Bengal", new { text = "", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblDistrict">District </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control PreAddrdistid", id = "PreAddrdistid" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblSubDivision">Sub Division </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control preAddrsubdiv", id = "preAddrsubdiv" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblblock">Block/Municipality/Corporation </label><span style="color: red">*</span>
+                                            @Html.DropDownList("ddlBMC", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="-- Select Type --", Value = "0" },
+                                            new SelectListItem{ Text="Block", Value = "1" },
+                                            new SelectListItem{ Text="Muncipality", Value = "2" },
+                                            new SelectListItem{ Text="Corporation", Value = "3" },
+                                        }, new { @class = "col-md-2 pull-left form-control ", id = "preaddBMC" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblLoc">Name of Block/Municipality/Corporation </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control preaddBlock", id = "preaddBlock" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblps">P.S </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.ps, new SelectList(Model.psname, "Value", "Text"), new { @class = "form-control preaddPS", id = "preaddPS" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblPo">P.O </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.po, new SelectList(Model.poname, "Value", "Text"), new { @class = "form-control preaddPO", id = "preaddPO" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblPincode">PIN code </label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.pincode2, null, new { @class = "form-control", @maxlength = 6, onkeypress = "return onlynumber(event,this)" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblGepWard">GP/Ward </label><span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.ward, new SelectList(Model.wardname, "Value", "Text"), new { @class = "form-control ward2", id = "ward2" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="lblVilStreetRoad"> Village/Street/Road </label><span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.vlge2, null, new { @class = "form-control", @maxlength = 150 })
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+
+                            </div>
+                            <br />
+                            <input type="checkbox" id="lstcheckagree" name="agree" value="agresamajk">  <label id="lblfinalagree">I have read the rules and regulations of SSY 2017 and I agree to abide by the SSY (Rules & Regulations), 2017.</label>
+
+                            <br />
+                            <div>
+                                <center>
+                                    <a class="btn btn-primary finalsub" onclick="FinalSubmit()">Submit</a>
+                                </center>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div id="printDiv" style="margin-top:20px;display:none;">
+                    <div id="DivPrint">
+
+
+                        <center><img src="~/Content/images/biswa-bangla-logo.png" /></center>
+
+                        <center>
+                            <h3 style="font-weight:bold">SSY - Samajik Suraksha Yojana</h3>
+                        </center>
+
+                        <center>
+
+                            <font size="3" style="font-weight:bold">
+
+                                Congratulation <label class="lblName"></label> <br /><br />
+                                You have been successfully registered in SSY<br /><br />
+                                Your SSIN is <label class="lblSSIN">SSIN</label>
+                                <br /><br />
+                                And your Password is your Date Of Birth (DDMMYYYY)<br /><br />
+                                Your User ID is any of SSIN/Aadhar Number/Epic Card Number<br /><br />
+
+                                To claim benefit you need to provide remaining information which can be done <br /><br />
+                                any time before benefit claim by logging into your SSY Profile
+
+                            </font>
+                        </center>
+
+                        <div style="page-break-before: always;display:none;" id="divDocument">
+
+                            <img src="~/Content/images/BenifitsEng.jpg" style="height:800px;width:800px;" />
+
+
+
+                        </div>
+
+
+                    </div>
+                    <div id="DivPrintBengali">
+
+
+                        <center><img src="~/Content/images/biswa-bangla-logo.png" /></center>
+
+                        <center>
+                            <h3 style="font-weight:bold">সামাজিক সুরক্ষা যোজনা-এস.এস.ওয়াই</h3>
+                        </center>
+
+                        <center>
+
+                            <font size="3" style="font-weight:bold">
+
+                                <label class="lblName"></label>আপনাকে অভিনন্দন !!! <br /><br />
+                                সামাজিক সুরক্ষা যোজনায় আপনার নাম সফলভাবে নথিভূক্ত হয়েছে<br /><br />
+                                আপনার এস.এস.আই.এন.<label class="lblSSIN">SSIN</label>
+                                <br /><br />
+                                এস.এস.আই.এন/ আধার নং/ এপিক কার্ড এর যে কোন একটিকে আপনি ইউজার <br />
+                                আই.ডি. হিসাবে ব্যবহার করতে পারেন <br />
+                                এবং এক্ষেত্রে আপনার জন্মতারিখটিই আপনার পাসওয়ার্ড (DDMMYYYY)<br /><br />
+                                <br /><br />
+
+                                প্রকল্পের সুবিধা পেতে এস.এস.ওয়াই. প্রোফাইলে লগ ইন করে অবশিষ্ট তথ্যাবলী প্রদান করতে হবে। সুবিধা  <br /><br />
+                                দাবির পূর্বে যে কোন সময় এই অবশিষ্ট তথ্য প্রদান করা যেতে পারে।
+
+                            </font>
+                        </center>
+
+                        <div style="page-break-before: always;display:none;" id="divDocumentBengali">
+
+                            <img src="~/Content/images/page1.jpg" style="height:1000px;width:800px;" />
+
+                            <div style="page-break-before: always;">
+                                <img src="~/Content/images/page2.jpg" style="height:1000px;width:800px;" />
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <br />
+                    <center>
+                        <a class="btn btn-success" id="btnPrint" style="background-color:orange;">Print</a>
+
+                        <a class="btn btn-default btnClosePrint">Continue</a>
+                    </center>
+
+
+
+                </div>
+
+
+            </form>
+
+
+            <div class="modal fade" id="divConfirmexistng" role="dialog" style="margin-top:-120px;">
+                <div class="modal-dialog" style="margin-top:130px;">
+
+                    <!-- Modal content-->
+                    <div class=" modal-content">
+                        <div class="modal-header" style="background-color:#1a2c6f;">
+
+                            <h4 class="modal-title" style="color:white;">Samajik Suraksha Yojana</h4>
+                        </div>
+
+                        <div class="modal-body">
+
+
+
+                            <div class="form-group divconf">
+                                <label class="">Do you want to fill up the remaining information? </label>
+                                <input type="radio" class="conexistreglst" name="conexistregstatus" value="Yes" onclick="ConfirmDet()" tabindex="98">
+                                <label>Right Now</label>
+                                <input type="radio" class="conexistreglst" name="conexistregstatus" value="No" onclick="ConfirmDet()" tabindex="99">
+                                <label>Later</label>
+                                <hr>
+
+                                <font size="3" color="green"><strong>You require the following documents</strong></font>
+                                <br />
+                                <ul>
+                                    <li>Photo of the Applicant</li>
+                                    <li>Signature of the Applicant</li>
+                                    <li>Photo copy of Aadhaar Card</li>
+                                    <li>Photo copy of Epic Card</li>
+                                    <li>Photo copy of bank passbook first page</li>
+                                    <li>Form 1</li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="OtherRegModal" role="dialog" style="margin-top:140px;">
+                <div class="modal-dialog modal-lg" style="width:402px">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:#1a2c6f;">
+
+                            <h4 class="modal-title" style="color:white;">Samajik Suraksha Yojana</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><b>Your SSY application has been successfully submitted!!! Now please fill Remaining Information</b></p>
+                        </div>
+                        <div class="modal-footer" style="background-color:lightgray">
+                            <a class="btn btn-default OtherRegNav">Continue</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <br />
+            <input type="hidden" id="BenAddress" value="21212" name="BenAddress" />
+            <input type="hidden" id="Bennamedet" value="1212" name="Bennamedet" />
+            <input type="hidden" id="BenFamdet" value="12121" name="BenFamdet" />
+            <input type="hidden" id="NamCount" value="1112121231" name="NamCount" />
+            <input type="hidden" id="FamCount" value="1112121231" name="FamCount" />
+            <input type="hidden" id="SelfEmpNo" value="" name="SelfEmpNo" />
+            <input type="hidden" id="BankDisId" value="1112121231" name="BankDisId" />
+            <input type="hidden" id="BankLoca" value="1112121231" name="BankLoca" />
+            <input type="hidden" id="DepUserid" value="" name="DepUserid" />
+            <input type="hidden" id="CheckPfStatus" value="1" name="CheckPfStatus" />
+            <input type="hidden" id="DependentStatus" value="1" name="DependentStatus" />
+            <input type="hidden" id="NomineeStatus" value="1" name="NomineeStatus" />
+            <input type="hidden" id="TempBensno" value="0" name="TempBensno" />
+            <input type="hidden" id="RegistrationType" value="0" name="RegistrationType" />
+
+
+        </div>
+    </form>
+
+
+}
+<script>
+    $(document).ready(function () {
+
+
+
+
+
+        //  $("#divConfirmexistng").modal('show');
+
+        $("#ddlLanguage").val("2");
+
+        $("#DivPrint").show();
+        $("#DivPrintBengali").hide();
+        //window.open("/Registration/PrintFrom?Bensno="+"5845907");
+
+        //window.location.href = "/Registration/PrintFrom?Bensno="+"5845907";
+
+        $("#RegistrationType").val(BeniRegtype);
+        //$.tips('Toast Message',5000)
+
+
+        $('#divConfirmexistng').modal({backdrop: 'static', keyboard: false,show: false})
+        $('#OtherRegModal').modal({backdrop: 'static', keyboard: false,show: false})
+
+
+        ChangeContent()
+        $('#DivPrint').modal({backdrop: 'static', keyboard: false,show: false})
+        //DivPrint
+        // $('#DivPrint').modal('show');
+
+        $('#divConfirmSmcCard').modal({backdrop: 'static', keyboard: false,show: false})
+
+        $('#WaitModal').modal({backdrop: 'static', keyboard: false,show: false})
+
+        $("#DivRegSuccess").modal('show');
+
+
+        if(RegistrationType == "Legacy1")
+        {
+            $("#lblregnum").text("Registration No under while SASPFUW/ BOCW/ WBTWSSS");
+        }
+        else if(RegistrationType == "Legacy2")
+        {
+            $("#lblregnum").text("Temporary Registration No under SSY");
+        }
+        else
+        {
+            $("#lblregnum").text("Registration No");
+        }
+
+
+
+        if(RegistrationType == "NewReg" && BenTempId != "")
+        {
+            $("#TempBensno").val(BenTempId);
+            $('#step0').removeClass('active');
+            $('#step1').removeClass('active');
+            $('#step2').addClass('active');
+            $('#disfrst').removeClass('active');
+            $('#disstep').removeClass('active');
+            $('#benistep').addClass('active');
+            $("#disclamair").show();
+            $("#step0").hide();
+            $('#step1').hide();
+
+            if(BenTempId !="" && BenTempId != null)
+            {
+                // GetTempDetail(BenTempId)
+
+            }
+        }
+        if(RegistrationType =="" && BenTempId == "")
+        {
+            $("#idhome").show();
+        }
+        if(CheckExisting == "1" && BenTempId == "")
+        {
+            if(RegistrationType  =="NewReg" ||RegistrationType =="")
+            {
+                $("#existregdet").hide();
+                $('#step0').addClass('active');
+                $('#disfrst').addClass('active');
+                $('#benistep').removeClass('active');
+            }
+            else
+            {
+                $('#step0').removeClass('active');
+                $('#step1').addClass('active');
+                $('#step2').removeClass('active');
+
+                $('#disfrst').removeClass('active');
+                $('#disstep').addClass('active');
+                $('#benistep').removeClass('active');
+
+                $("#disclamair").hide();
+                $("#step0").hide();
+                $('#step1').show();
+            }
+        }
+        else
+        {
+            if(BenTempId == "")
+            {
+                if(RegistrationType  =="NewReg" ||RegistrationType =="")
+                {
+                    $("#existregdet").hide();
+                }
+                $('#step0').addClass('active');
+                $('#disfrst').addClass('active');
+            }
+        }
+
+        if('@Session["Status"]' == "Yes")
+        {
+            $("#registrationno").focus();
+            $("#tblschemecert").show();
+            $("#tblpreviewSchemecert").show();
+        }
+        $("#SuccessMessage").delay(5000).fadeOut();
+        $("#disfrst").show();
+        $("#DepUserid").val(Userid);
+        binddatepicker()
+        getdates()
+        var WorkerStatus = $("input[name='Workertype']:checked").val()
+        $("#Occupation").val(WorkerStatus);
+        if( $("#ddlcards").val()=="1")
+        {
+            $("#cards").attr('maxlength','12');
+            $("#cards").attr('onkeydown','return IsNumericOnly(event)');
+        }
+        //Epic
+        if( $("#ddlcards").val()=="2")
+        {
+            $("#cards").attr('maxlength','15');
+            $("#cards").attr('onkeydown','return IsAlphaNumaric(event)');
+        }
+        //Driving License
+        if( $("#ddlcards").val()=="3")
+        {
+            $("#cards").attr('maxlength','20');
+            $("#cards").attr('onkeydown','return IsAlphaNumaric(event)');
+        }
+        $("#issueauth") .attr("disabled", true);
+        $("#authloc").attr("readonly", "readonly");
+        $("#authname").attr("readonly", "readonly");
+        $("#FamDob1").change(function () {
+            var dob = $("#FamDob1").val();
+            var dateAr = dob.split('-');
+            var dateofbirth = dateAr[2] +"/"+dateAr[1] +"/"+dateAr[0];
+            var age = calculateAge(dateofbirth);
+            $("#FamAge1").val(age)
+        })
+
+        //Gender Change
+
+        $("#DDLNamGender1").change(function () {
+            var namrel =  $("#DDLNamRel1").val();
+            var namgen =  $("#DDLNamGender1").val();
+            if(namgen =="Male")
+            {
+                if(namrel == "Mother" ||namrel == "Daughter")
+                {
+                    alert("Invalid Gender");
+                    return false;
+                }
+            }
+            if(namgen =="Female")
+            {
+                if(namrel == "Father" ||namrel == "Son")
+                {
+                    alert("Invalid Gender");
+                    return false;
+                }
+            }
+        });
+        $("#namdob1").change(function () {
+            var dob = $("#namdob1").val();
+            var dateAr = dob.split('-');
+            var dateofbirth = dateAr[2] +"/"+dateAr[1] +"/"+dateAr[0];
+            var age = calculateAge(dateofbirth);
+
+            $("#NamAge1").val(age);
+
+        })
+    });
+    //1 - Branch Det
+    $("#loc").change(loadbranchdet);
+    function loadbranchdet() {
+        $.get('@Url.Action("GetBranchJSON", "Registration")', {ID :$("#loc").val()}, function (dat) {
+            $("#brnch").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#brnch").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    //2 - Location
+    $("#bank").change(loadLocdet);
+    function loadLocdet() {
+        $.get('@Url.Action("GetLocationJSON", "Registration")', {ID :$("#bank").val(),distID :$("#bankdistid").val()}, function (dat) {
+            $("#loc").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#loc").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    //Bank
+
+    //po
+    $("#PreAddrdistid").change(loadprePO);
+    function loadprePO() {
+        $.get('@Url.Action("GetPOJSON", "Registration")', {ID :$("#PreAddrdistid").val()}, function (dat) {
+            $("#preaddPO").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preaddPO").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    //Block
+    $("#preaddBMC").change(loadpreBlock);
+    function loadpreBlock() {
+         
+        $.get('@Url.Action("GetblockJSON", "Registration")', {ID :$("#preAddrsubdiv").val(),typedata :$("#preaddBMC").val()}, function (dat) {
+            $("#preaddBlock").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preaddBlock").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+        var Dist = $("#PreAddrdistid").val();
+        var Blk = $("#preaddBMC").val();
+        if( Blk == "2" || Blk == "3")
+        {
+            //$("#ward2").find("option").remove();
+            //$("#ward2").append('<option value=0>All Wards</option>');
+            $.get('@Url.Action("GetGPJSON", "Registration")', {ID :0}, function (dat) {
+                $("#ward2").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#ward2").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                });
+            });
+        }
+        else
+        {
+            loadGPre();
+        }
+    }
+    //For Present Address
+    $("#preaddBlock").change(loadGPKolkata);
+    function loadGPKolkata(){
+        var DistGPK = $("#PreAddrdistid").val();
+        var BlkGPK = $("#preaddBMC").val();
+        //if(DistGPK == "12" && BlkGPK == "3")
+        //{
+        //    $("#ward2").find("option").remove();
+        //    var BlockName= $("#preaddBlock option:selected").text();
+        //    $("#ward2").append('<option value=9999>'+BlockName+'</option>');
+        //    $("#ward2").val('9999');
+        //}
+    }
+    //Permanent
+    $("#peraddblock").change(loadGPKolkataPer);
+    function loadGPKolkataPer(){
+        var DistGPPer = $("#perdistid").val();
+        var BlkGPPer = $("#peraddBMC").val();
+        //if(DistGPPer == "12" && BlkGPPer == "3")
+        //{
+        //    $("#ward").find("option").remove();
+        //    var BlockName= $("#peraddblock option:selected").text();
+        //    $("#ward").append('<option value=9999>'+BlockName+'</option>');
+        //    $("#ward").val('9999');
+        //    //Present
+        //    $("#ward2").find("option").remove();
+        //    $("#ward2").append('<option value=9999>'+BlockName+'</option>');
+        //    $("#ward2").val('9999');
+        //}
+        // else
+        //{
+        loadGPKolkata();
+        // }
+    }
+    $("#PreAddrdistid").change(loadpreSubdiv);
+    function loadpreSubdiv() {
+        $("#preAddrsubdiv").val("0");
+        $("#preaddBlock").val("0");
+        $("#preaddBMC").val("0");
+        $("#preaddPS").val("0");
+        $("#preaddPO").val("0");
+        $("#pincode2").val("");
+        $("#ward2").val("0");
+        $("#vlge2").val("");
+        loadGPre();
+        loadpreBlock();
+        $.get('@Url.Action("GetSubdivisionJSON", "Registration")', {ID :$("#PreAddrdistid").val()}, function (dat) {
+            $("#preAddrsubdiv").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preAddrsubdiv").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    $("#perdistid").change(loadSubdiv);
+    function loadSubdiv() {
+
+        var Aadharcard = $("#Aadharcard").val();
+        var EpicCard = $("#epiccard").val();
+        var MobileNumber = $("#mobno").val();
+
+        if(Aadharcard == "" && EpicCard == "" && MobileNumber == "")
+        {
+            alert("Please enter your Mobile Number.If you do not have Mobile Number, Please enter Aadhaar no/Epic card");
+            $("#mobno").focus();
+            $("#perdistid").val("0");
+            return false;
+        }
+
+        if(Aadharcard == null && EpicCard == null && MobileNumber == null)
+        {
+            alert("Please enter your Mobile Number.If you do not have Mobile Number, Please enter Aadhaar no/Epic card");
+            $("#mobno").focus();
+            $("#perdistid").val("0");
+            return false;
+        }
+
+
+
+
+
+        $("#persubdivid").val("0");
+        $("#peraddBMC").val("0");
+        $("#peraddblock").val("0");
+        $("#perpsid").val("0");
+        $("#perPOid").val("0");
+        $("#pincode").val("");
+        $("#ward").val("0");
+        $("#vlge1").val("");
+        loadGP()
+        loadBlock()
+        $.get('@Url.Action("GetSubdivisionJSON", "Registration")', {ID :$("#perdistid").val()}, function (dat) {
+            $("#persubdivid").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#persubdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            //Present Address
+            $("#preAddrsubdiv").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preAddrsubdiv").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    $("#peraddBMC").change(loadBlock);
+    function loadBlock() {
+        $.get('@Url.Action("GetblockJSON", "Registration")', {ID :$("#persubdivid").val(),typedata : $("#peraddBMC").val()}, function (dat) {
+             
+            $("#peraddblock").find("option").remove();
+            $.each(dat, function (i, data) {
+                // 
+                $("#peraddblock").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            //Present Address Block
+            $("#preaddBlock").find("option").remove();
+            $.each(dat, function (i, data) {
+                // 
+                $("#preaddBlock").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+        var perDist = $("#perdistid").val();
+        var perBlk = $("#peraddBMC").val();
+        if( perBlk == "2" ||  perBlk == "3")
+        {
+            //$("#ward").find("option").remove();
+            //$("#ward").append('<option value=0>All Wards</option>');
+            //$("#ward2").find("option").remove();
+            //$("#ward2").append('<option value=0>All Wards</option>');
+
+            $.get('@Url.Action("GetGPJSON", "Registration")', {ID :0}, function (dat) {
+                $("#ward2").find("option").remove();
+                $("#ward").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                    $("#ward2").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                    $("#ward").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+                });
+            });
+        }
+        else
+        {
+            loadGP();
+        }
+    }
+    $("#PreAddrdistid").change(loadprePS);
+    function loadprePS() {
+        $.get('@Url.Action("GetPSJSON", "Registration")', {ID :$("#PreAddrdistid").val()}, function (dat) {
+            $("#preaddPS").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preaddPS").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    //Load Ps Based On District Id Start
+    $("#perdistid").change(loadPS);
+    function loadPS() {
+        $.get('@Url.Action("GetPSJSON", "Registration")', {ID :$("#perdistid").val()}, function (dat) {
+            $("#perpsid").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#perpsid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            //present Address Block
+            $("#preaddPS").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preaddPS").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    //Load Ps Based On District Id End
+
+
+    $("#perdistid").change(loadperPO);
+    function loadperPO() {
+        $.get('@Url.Action("GetPOJSON", "Registration")', {ID :$("#perdistid").val()}, function (dat) {
+            $("#perPOid").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#perPOid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            //Present
+            $("#preaddPO").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#preaddPO").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    //GP List
+    $("#persubdivid").change(loadGP);
+     
+    function loadGP() {
+        $.get('@Url.Action("GetGPJSON", "Registration")', {ID :$("#persubdivid").val()}, function (dat) {
+            $("#ward").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#ward").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            //Present Address
+            $("#ward2").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#ward2").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    function getdates()
+    {
+        $(".FamDob,.namdob").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1920:2020",
+            autoclose: true
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $(".FamDob,.namdob").val(today);
+        if(RegistrationType =="OldReg" || RegistrationType  =="NewReg"||RegistrationType =="" )
+        {
+
+            $(".regdate").datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                yearRange: "1920:2020",
+                autoclose: true
+            })
+            var dat = new Date();
+            var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+            var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+            var today = day + "-" + month + "-" + dat.getFullYear();
+            $(".regdate").val(today);
+            // }
+        }
+        if(RegistrationType =="Legacy1")
+        {
+            $(".regdate").datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                yearRange: "1920:2017",
+                autoclose: true,
+                maxDate: new Date(2017, 02, 31)
+            })
+            var dat = new Date();
+            var today = "31-03-2017";
+            $(".regdate").val(today);
+        }
+        if(RegistrationType =="Legacy2")
+        {
+            var d = new Date();
+            $(".regdate").datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                autoclose: true,
+                minDate: new Date(2017, 03, 01),
+                //maxDate: d
+            })
+            var dat = new Date();
+            var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+            var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+            var today = day + "-" + month + "-" + dat.getFullYear();
+            $(".regdate").val(today);
+
+        }
+    }
+    //Dept
+    $(".UWrk").change(function(){
+        var gettype = $("input[name='Uworker']:checked").val();
+        // 
+        if(gettype =="Yes")
+        {
+            $("#divEmployeeType").show(1000);
+        }
+        if(gettype =="No")
+        {
+            window.top.location.href = "/Home/DeptDashboard";
+        }
+    });
+    $("#ddlfrstname").change(function(){
+         
+        var DDLFirstname = $('#ddlfrstname').val();
+        if(DDLFirstname == "Mr.")
+        {
+            $('#gndrfemale').hide();
+            $('#lblfemale').hide();
+        }
+        else
+        {
+            $('#gndrfemale').show();
+            $('#lblfemale').show();
+        }
+        if(DDLFirstname == "Ms." || DDLFirstname == "Mrs.")
+        {
+            $('#gndrmale').hide();
+            $('#lblmale').hide();
+        }
+        else
+        {
+            $('#gndrmale').show();
+            $('#lblmale').show();
+        }
+    });
+    $('.bengender').change(function() {
+         
+        var Gender = $("input[name='bengender']:checked").val()
+        var Marst =  $('#maritalid').val();
+        $("#maritalid").val(0)
+        $("#HusbandName").attr("readonly", "readonly");
+        var salutation = $('#ddlfrstname').val();
+        if(Gender =="Female")
+        {
+             
+            if(salutation =="Mr.")
+            {
+                alert("Invalid Gender");
+                $("#gndrfemale").focus();
+                return false;
+            }
+        }
+        if(Gender =="Male")
+        {
+            if(salutation == "Ms." || salutation =="Mrs.")
+            {
+                alert("Invalid Gender");
+                $("#gndrmale").focus();
+                return false;
+            }
+        }
+        if(Gender =="Female" && Marst =="2" || Gender =="Female" && Marst =="5")
+        {
+            $("#HusbandName").removeAttr("readonly");
+            $("#HusbandName").focus();
+        }
+        else
+        {
+            $("#HusbandName").attr("readonly", "readonly");
+            $("#HusbandName").val("");
+        }
+        if(Gender =="Female" && Marst =="5")
+        {
+            $("#ddlhusname").Show('Late');
+            $("#HusbandName").removeAttr("readonly");
+        }
+        if(Marst !="5")
+        {
+            $("#ddlhusname option:contains(Late)").remove();
+        }
+    })
+    $('#maritalid').change(function() {
+        var Gender = $("input[name='bengender']:checked").val()
+        var Marst =  $('#maritalid').val();
+        if(Gender =="Female" && Marst =="2")
+        {
+            $("#HusbandName").removeAttr("readonly");
+            $("#HusbandName").focus();
+        }
+        else
+        {
+            $("#HusbandName").attr("readonly", "readonly");
+            $("#HusbandName").val("");
+        }
+        if(Gender =="Female" && Marst =="5")
+        {
+            $("#ddlhusname").append('<option value=Late>Late</option>');
+            $("#ddlhusname option:contains(Mr.)").remove();
+            $("#HusbandName").removeAttr("readonly");
+        }
+        if(Marst !="5")
+        {
+            $("#ddlhusname option:contains(Late)").remove();
+            $("#ddlhusname option:contains(Mr.)").remove();
+            $("#ddlhusname").append('<option value=Mr.>Mr.</option>');
+        }
+        //Change srikar
+        if(Gender =="Female" && Marst =="2" || Gender =="Female" && Marst =="5")
+        {
+            alert("Husband Name is mandatory");
+            $("#HusbandName").focus();
+        }
+    });
+    $('.bplst').change(function() {
+        var BplStatus = $("input[name='bplstatus']:checked").val()
+        if(BplStatus =="1"){
+            $("#bplys").show();
+            $("#bplno").focus();
+            $("#bplno").removeAttr("readonly");
+        }
+        if(BplStatus =="0"){
+            $("#bplno").attr("readonly", "readonly");
+            $("#bplno").val('');
+        }
+    });
+
+
+
+
+    $('#brnch').change(function() {
+        var ifsc =$("#brnch").val();
+        var res = ifsc.split("-");
+        $.get('@Url.Action("GetbranchAddrJSON", "Registration")', {ID :res[1]}, function (dat) {
+            $("#branchaddress").val(dat);
+        });
+        var res = ifsc.split("-");
+    });
+    $("#ifsccode").keypress(function() {
+        var ifscval = $(this).val();
+        if(ifscval.length == 4)
+        {
+            $(this).val(ifscval+"0");
+            return false;
+        }
+    });
+    $('#perPOid').change(function() {
+        var pincode =$("#perPOid").val();
+        var res = pincode.split("-");
+        $("#pincode").val(res[0]);
+    });
+    $('#preaddPO').change(function() {
+        var pincode =$("#preaddPO").val();
+        var res = pincode.split("-");
+        $("#pincode2").val(res[0]);
+    });
+
+
+    $('.formlst').change(function() {
+        var FormStatus = $("input[name='formstatus']:checked").val()
+        if(FormStatus == "Yes"){
+            $("#Benform").show();
+            $("#issueauth").focus();
+            $("#issueauth").attr("disabled", false);
+            $("#issueauth").removeAttr("readonly");
+            $("#authloc").removeAttr("readonly");
+            $("#authname").removeAttr("readonly");
+        }
+        else
+        {
+            $("#Benform").hide();
+            $("#issueauth") .attr("disabled", true);
+            $("#authloc").attr("readonly", "readonly");
+            $("#authname").attr("readonly", "readonly");
+            alert("If you don't provide Form 1 details,Further Registration is not Processed");
+        }
+    });
+    //Based on permanant address,getting present details
+    $('#presauto').change(function() {
+
+        var res = $(this).is(':checked');
+        if(res ==true)
+        {
+            var vilageaddress = $("#vlge1").val();
+            if(vilageaddress == "" || vilageaddress == null)
+            {
+                alert("Please Enter Village/Street/Road");
+                $("#vlge1").focus();
+                $('#presauto').prop('checked', false);
+                return false;
+            }
+             
+            $("#state2").val($("#state").val());
+            $("#PreAddrdistid").val($("#perdistid").val());
+            $("#PreAddrdistid").attr("readonly", "readonly");
+            $("#PreAddrdistid").attr("disabled", true);
+            $("#preAddrsubdiv").val($("#persubdivid").val());
+            $("#preAddrsubdiv").attr("readonly", "readonly");
+            $("#preAddrsubdiv").attr("disabled", true);
+            $("#preaddBMC").val($("#peraddBMC").val());
+            $("#preaddBMC").attr("readonly", "readonly");
+            $("#preaddBMC").attr("disabled", true);
+            $("#preaddBlock").val($("#peraddblock").val());
+            $("#preaddBlock").attr("readonly", "readonly");
+            $("#preaddBlock").attr("disabled", true);
+            $("#preaddPS").val($("#perpsid").val());
+            $("#preaddPS").attr("readonly", "readonly");
+            $("#preaddPS").attr("disabled", true);
+            $("#preaddPO").val($("#perPOid").val());
+            $("#preaddPO").attr("readonly", "readonly");
+            $("#preaddPO").attr("disabled", true);
+            $("#pincode2").val($("#pincode").val());
+            $("#pincode2").attr("readonly", "readonly");
+            var selward =   $("#ward option:selected").text();
+            if(selward == "-- Select GP --")
+            {
+                $("#ward2 option:contains(All Wards)").remove();
+                $("#ward2").val($("#ward").val());
+            }
+            else
+            {
+                $("#ward2 option[value ='0']").remove();
+                $("#ward2").append('<option value=0>All Wards</option>');
+                $("#ward2").val($("#ward").val());
+            }
+            $("#ward2").attr("readonly", "readonly");
+            $("#ward2").attr("disabled", true);
+            $("#vlge2").val($("#vlge1").val());
+            $("#vlge2").attr("readonly", "readonly");
+        }
+        else
+        {
+            $("#PreAddrdistid").val("0");
+            $("#PreAddrdistid").removeAttr("readonly");
+            $("#PreAddrdistid").attr("disabled", false);
+            $("#preAddrsubdiv").val("0");
+            $("#preAddrsubdiv").removeAttr("readonly");
+            $("#preAddrsubdiv").attr("disabled", false);
+            $("#preaddBMC").val("0");
+            $("#preaddBMC").removeAttr("readonly");
+            $("#preaddBMC").attr("disabled", false);
+            $("#preaddBlock").val("0");
+            $("#preaddBlock").removeAttr("readonly");
+            $("#preaddBlock").attr("disabled", false);
+            $("#preaddPS").val("0");
+            $("#preaddPS").removeAttr("readonly");
+            $("#preaddPS").attr("disabled", false);
+            $("#preaddPO").val("0");
+            $("#preaddPO").removeAttr("readonly");
+            $("#preaddPO").attr("disabled", false);
+            $("#pincode2").val("");
+            $("#pincode2").removeAttr("readonly");
+            $("#ward2 option[value ='0']").remove();
+            // $("#ward2").find("option").remove();
+            $("#ward2").append('<option value=0>-- Select GP --</option>');
+            $("#ward2").val("0");
+            $("#ward2").removeAttr("readonly");
+            $("#ward2").attr("disabled", false);
+            $("#vlge2").val("");
+            $("#vlge2").removeAttr("readonly");
+        }
+    });
+    $("#ddlday").change(getage);
+    $("#ddlmnth").change(getage);
+    $("#ddlyr").change(getage);
+    function getage(){
+         
+        //change 24/08/2017
+        if($("#ddlyr").val() == "0" && $("#ddlmnth").val() == "0" && $("#ddlday").val() == "0")
+        {
+            $("#age").val("");
+        }
+        if( $("#ddlday").val() != "0")
+        {
+            if($("#ddlyr").val() != "0" && $("#ddlmnth").val() != "0" && $("#ddlday").val() != "0")
+            {
+                 
+                var getage = 0;
+                var now = new Date();
+                var past = new Date($("#ddlyr").val() + "/" + $("#ddlmnth").val() + "/" + $("#ddlday").val());
+                var age = ((now.getFullYear()) - (past.getFullYear()));
+                if (age > 18) {
+                    getage = age;
+                } else if (age == 18) {
+                    if ((now.getMonth() + 1) > (past.getMonth() + 1)) {
+                        getage = age;
+                    } else if ((now.getMonth() + 1) == (past.getMonth() + 1)) {
+                        if ((now.getDate()) >= (past.getDate())) {
+                            getage = age;
+                        } else {
+                            alert("Age Limit should be more than 18");
+                            $("select#ddlyr").val("0");
+                            $("select#ddlmnth").val("0");
+                            $("select#ddlday").val("0");
+                            return false;
+                        }
+                    } else {
+                        alert("Age Limit should be more than 18");
+                        $("select#ddlyr").val("0");
+                        $("select#ddlmnth").val("0");
+                        $("select#ddlday").val("0");
+                        return false;
+                    }
+                } else {
+                    alert("Age Limit should be more than 18");
+                    $("select#ddlyr").val("0");
+                    $("select#ddlmnth").val("0");
+                    $("select#ddlday").val("0");
+                    return false;
+                }
+
+               // var getage = calculateAge($("#ddlyr").val()+"-"+$("#ddlmnth").val()+"-"+$("#ddlday").val());
+				$("#age").val(getage);
+
+				var age = $("#age").val();
+				var agecal = parseInt(age);
+
+				if (agecal > 65) {
+					alert("Sorry, you have crossed age limit.");
+					$("#age").focus();
+					return false;
+				}
+
+				if (agecal > 60) {
+					var Ok = confirm("You already crossed 60 years age. \n Do you want to update your details now ?");
+					if (Ok == true) {
+
+						//var Ok1 = confirm("You are not eligible to claim any benefits under SSY Scheme other than final payment of Provident Fund if you are registered beneficiary under SASPF and contributed in the past since, you already crossed 60 years age.\nDo you want to proceed ?");
+						var Ok1 = confirm("You are not eligible to claim any benefits under SSY scheme other than final payment of Provident Fund if you are registered beneficiary under SASPFUW and Pension if you are registered under Construction or Transport schemes.\nDo you want to proceed ?");
+                        alert($("#age").val());
+                        if (Ok1 == true) {
+						}
+						else {
+							window.top.location.href = "/Home/Index";
+							return false;
+						}
+
+					}
+					else {
+						window.top.location.href = "/Home/Index";
+						return false;
+					}
+					//return false;
+				}
+
+            }
+        }
+    }
+    $("#ddlcards").change(LoadNumber);
+    function LoadNumber() {
+        $("#cards").val("");
+        $("#cards").focus();
+        //Aadhaar
+        if( $("#ddlcards").val()=="1")
+        {
+            $("#cards").attr('maxlength','12');
+            $("#cards").attr('onkeydown','return IsNumericOnly(event)');
+        }
+        //Epic
+        if( $("#ddlcards").val()=="2")
+        {
+            $("#cards").attr('maxlength','15');
+            $("#cards").attr('onkeydown','return IsAlphaNumaric(event)');
+        }
+        if( $("#ddlcards").val()=="3")
+        {
+            $("#cards").attr('maxlength','20');
+            $("#cards").attr('onkeydown','return IsAlphaNumaric(event)');
+        }
+    };
+    function DisSub()
+    {
+
+
+        var getuwtype = $("input[name='Workertype']:checked").val()
+        if (getuwtype == undefined) {
+            alert("Please Select Worker Type");
+            $(".workerdet").focus();
+            return false;
+        }
+
+        if (getuwtype == "Others") {
+            var getemptype = $("input[name='Emptype']:checked").val()
+            if (getemptype == undefined) {
+                alert("Please Select Employee Type");
+                $(".Wortype").focus();
+
+
+                return false;
+            }
+            if (getemptype == "SelfEmployed") {
+                if ($("#selfid").val() == "0") {
+                    alert("Please Select Self Employed");
+                    $("#selfid").focus();
+                    $("#unorgid").val('');
+                    return false;
+                }
+            }
+            if (getemptype == "UnorganisedIndustries") {
+                if ($("#unorgid").val() == "0") {
+                    alert("Please Select Unorganised Industries");
+                    $("#unorgid").focus();
+                    $("#selfid").val('');
+                    return false;
+                }
+            }
+        }
+        else {
+            //$("#WorkType").val(0);
+            //alert($("#WorkType").val());
+        }
+        //alert($("input[name='Workertype']:checked").val());
+
+        /*if ((getuwtype == "TransportWorker") || (getuwtype == "ConstructionWorker")) {
+            var getemptype = $("input[name='Worktype1']:checked").val()
+            if (getemptype == undefined) {
+                alert("Please Select Work Type");
+                $(".Worktype").focus();
+                return false;
+            }
+
+            if ($("#WorkType").val() == "0") {
+                alert("Please Select Work Type List");
+                $("#WorkType").focus();
+                return false;
+            }
+
+            if (($("#WorkType").val() == "7") || ($("#WorkType").val() == "11")) {
+                if ($("#BenOccupationDesc").val() == "" || $("#BenOccupationDesc").val() == null) {
+                    alert("Please Enter Work Type");
+                    $("#BenOccupationDesc").focus();
+                    return false;
+                }
+            }
+        }*/
+
+        var res = $("#enrolledsamajik").is(':checked');
+        if (res == false) {
+            alert("Please click on the checkbox");
+            $("#enrolledsamajik").focus();
+            return false;
+        }
+
+
+         
+        $('#step0').removeClass('active');
+        $('#step1').removeClass('active');
+        $('#step2').addClass('active');
+        $('#disfrst').removeClass('active');
+        $('#disstep').removeClass('active');
+        $('#benistep').addClass('active');
+        $('#step1').hide();
+    }
+    $("#regreset").click(function(){
+        $("#selfid").val("0");
+        $("#unorgid").val("0");
+    });
+    //For Reset
+    function ClearAll()
+    {
+        alert("");
+         
+        $(':input', '#benefiary','#disclamair').val('').removeAttr('checked').removeAttr('selected');
+    }
+
+
+
+    // Validating Email
+    function validateEmail() {
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test($("#email").val())) {
+            alert("Invalid email address.");
+            $("#email").focus();
+            return false;
+        }
+    }
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            //display error message
+            return false;
+        }
+    }
+    function onlyAlphabets(e, t) {
+        // ;
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+    function onlyAlphabetswithoutspaces(e, t) {
+        // ;
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+    function IsNumericOnly(e) {
+        var value = $(e.target).val();
+        var n = value.indexOf(".");
+        if (n > 0) {
+            if ((e.keyCode == 65) || (e.keyCode == 66) || (e.keyCode >= 68 && e.keyCode <= 85) || e.keyCode == 89 || e.keyCode == 87 || e.keyCode == 90 || (e.keyCode == 86 && e.ctrlKey == false) || (e.keyCode == 67 && e.ctrlKey == false) || (e.keyCode == 88 && e.ctrlKey == false) || e.keyCode == 187 || (e.keyCode == 189 && e.shiftKey == true) || e.keyCode == 190 || e.keyCode == 191 || e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 111 || e.keyCode == 189 || e.keyCode == 110 || e.keyCode == 186 || e.keyCode == 188 || (e.keyCode == 61 && e.shiftKey == false) || (e.keyCode == 173 && e.shiftKey == true) || e.keyCode == 192 || (e.keyCode == 191 && e.shiftKey == true) || (e.keyCode >= 219 && e.keyCode <= 222) || e.keyCode == 106 || e.keyCode == 59 || (e.keyCode >= 48 && e.keyCode <= 57 && e.shiftKey == true))
+                return false;
+        } else {
+            if ((e.keyCode == 65) || (e.keyCode == 66) || (e.keyCode >= 68 && e.keyCode <= 85) || e.keyCode == 89 || e.keyCode == 87 || e.keyCode == 90 || (e.keyCode == 86 && e.ctrlKey == false) || (e.keyCode == 67 && e.ctrlKey == false) || (e.keyCode == 88 && e.ctrlKey == false) || e.keyCode == 187 || (e.keyCode == 189 && e.shiftKey == true) || (e.keyCode == 190 && e.shiftKey == true) || e.keyCode == 191 || e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 111 || e.keyCode == 189 || e.keyCode == 186 || e.keyCode == 188 || (e.keyCode == 61 && e.shiftKey == false) || (e.keyCode == 173 && e.shiftKey == true) || e.keyCode == 192 || (e.keyCode == 191 && e.shiftKey == true) || (e.keyCode >= 219 && e.keyCode <= 222) || e.keyCode == 106 || e.keyCode == 59 || (e.keyCode >= 48 && e.keyCode <= 57 && e.shiftKey == true))
+                return false;
+        }
+    }
+    function IsAlphaNumaric(e) {
+
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+    e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+    (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+    ((e.keyCode >= 48 && e.keyCode <= 57)  && e.shiftKey == true)) {
+            return false;
+        }
+    }
+    function IsAlphaNumaricWithSpecialCharecter(e) {
+
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190)  ||
+    e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+    (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+    ((e.keyCode >= 48 && e.keyCode <= 57)  && e.shiftKey == true)) {
+            return false;
+        }
+    }
+    function IsAplhanumericwithHypenandSlash(e){
+        var keyCode = event.keyCode || event.which
+        var regex = new RegExp("^[a-zA-Z0-9\-/\]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        // alert(regex +" "+key);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    }
+    //Last
+    function FinalSubmit()
+    {
+
+        debugger;
+
+        if(RegistrationType =="OldReg" ||RegistrationType =="Legacy1" ||RegistrationType =="Legacy2" )
+        {
+            var RegNo  = $("#registrationno").val();
+            var Regdate  = $("#Regdate").val();
+            if(RegNo !="" || RegNo !=null)
+            {
+                Checkuniquenumber()
+            }
+            if(RegNo =="" || RegNo == null)
+            {
+                alert("Please Enter Registration No");
+                $("#registrationno").focus();
+                return false;
+            }
+            if(Regdate =="" || Regdate == null)
+            {
+                alert("Please Select Registration Date");
+                $("#Regdate").focus();
+                return false;
+            }
+        }
+
+        var MobileNumber = $("#mobno").val();
+
+
+        if(MobileNumber == "" || MobileNumber == null)
+        {
+            alert("Please Enter Mobile Number");
+            $("#mobno").focus();
+
+            return false;
+        }
+
+
+        if(MobileNumber !="" && MobileNumber !=null)
+        {
+            if ( $('#mobno').val().length != 10) {
+                alert("Please Enter Valid Mobile Number");
+                $("#mobno").focus();
+                return false;
+            }
+            if(MobileNumber[0] !="6" && MobileNumber[0] !="7" && MobileNumber[0] !="8" && MobileNumber[0] !="9" )
+            {
+                alert("Invalid Mobile Number");
+                $("#mobno").val("");
+                $("#mobno").focus();
+                return false;
+            }
+        }
+
+        var Aadharcard = $("#Aadharcard").val();
+        var EpicCard = $("#epiccard").val();
+
+
+
+        if(Aadharcard =="" && EpicCard == "")
+        {
+            alert("You should provide any one of these following Aadhaar Card No/Epic Card");
+            $("#Aadharcard").focus();
+
+            return false;
+        }
+
+        if(Aadharcard !="" && Aadharcard != null)
+        {
+            if(Aadharcard.length != 12)
+            {
+                alert("Please Enter 12 digits correct Aadhaar Card Number");
+                $("#Aadharcard").focus();
+                return false;
+            }
+        }
+
+
+        if(EpicCard !="" && EpicCard != null)
+        {
+            if( EpicCard.length > 16 || EpicCard.length < 5)
+            {
+                alert("Please enter correct Epic Card Number");
+                $("#epiccard").focus();
+                return false;
+            }
+
+        }
+
+
+        //if ($("#ddlfrstname").val() == "" || $("#ddlfrstname").val() == null || $("#ddlfrstname").val() == "0") {
+        //    alert("Please Select Salutation");
+        //    $("#ddlfrstname").focus();
+        //    return false;
+        //}
+        if ($("#FirstName").val().trim() == "" || $("#FirstName").val() == null) {
+            alert("Please Enter First Name");
+            $("#FirstName").focus();
+            return false;
+        }
+        if ($("#lstname").val().trim() == "" || $("#lstname").val() == null) {
+            alert("Please Enter Last Name");
+            $("#lstname").val("");
+            $("#lstname").focus();
+            return false;
+        }
+        var Gender1 = $("input[name='bengender']:checked").val()
+        var Maritalsta = $("#maritalid").val();
+        //2 -- Married ,// 5 -- Widow
+        if(Gender1 == "Female")
+        {
+            if(Maritalsta != "2" && Maritalsta != "5")
+            {
+                if ($("#ddlfathrsname").val() == "" || $("#ddlfathrsname").val() == null || $("#ddlfathrsname").val() == "0") {
+                    alert("Please Select Salutation");
+                    $("#ddlfathrsname").focus();
+                    return false;
+                }
+                if ($("#FatherName").val().trim() == "" || $("#FatherName").val() == null) {
+                    alert("Please Enter Father Name");
+                    $("#FatherName").val("");
+                    $("#FatherName").focus();
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            if ($("#ddlfathrsname").val() == "" || $("#ddlfathrsname").val() == null || $("#ddlfathrsname").val() == "0") {
+                alert("Please Select Salutation");
+                $("#ddlfathrsname").focus();
+                return false;
+            }
+            if ($("#FatherName").val().trim() == "" || $("#FatherName").val() == null) {
+                alert("Please Enter Father Name");
+                $("#FatherName").val("");
+                $("#FatherName").focus();
+                return false;
+            }
+        }
+
+        //if ($("#MotherName").val().trim() == "" || $("#MotherName").val() == null) {
+        //    alert("Please Enter Mother Name");
+        //    $("#MotherName").focus();
+        //    $("#MotherName").val("");
+        //    return false;
+        //}
+        if ($("#ddlyr").val() == "" || $("#ddlyr").val() == null || $("#ddlyr").val() == "0") {
+            alert("Please Select Year");
+            $("#ddlyr").focus();
+            return false;
+        }
+        if ($("#ddlmnth").val() == "" || $("#ddlmnth").val() == null || $("#ddlmnth").val() == "0") {
+            alert("Please Select Month");
+            $("#ddlmnth").focus();
+            return false;
+        }
+        if ($("#ddlday").val() == "" || $("#ddlday").val() == null || $("#ddlday").val() == "0") {
+            alert("Please Select Day");
+            $("#ddlday").focus();
+            return false;
+        }
+        if ($("#age").val() == "" || $("#age").val() == null) {
+            alert("Age should not be empty,Please provide correct Date of Birth");
+            $("#age").focus();
+            return false;
+        }
+
+        getage();
+        var age = $("#age").val();
+        var agecal = parseInt(age);
+
+
+        if(RegistrationType != "Legacy1")
+        {
+            if(agecal > 60 || agecal < 18)
+            {
+                alert("Age Limit should be 18 to 60 ");
+                $("#age").focus();
+                return false;
+            }
+
+			if (agecal < 18) {
+				alert("Age Limit should be more than 18 ");
+				$("#age").focus();
+				return false;
+			}
+
+			if (agecal > 65) {
+				alert("Sorry, you have crossed age limit.");
+				$("#age").focus();
+				return false;
+			}
+
+        }
+        var Gender = $("input[name='bengender']:checked").val()
+        if(Gender == undefined){
+            alert("Please Select Gender");
+            $(".bengender").focus();
+            return false;
+        }
+        var salutation = $('#ddlfrstname').val();
+        if(Gender =="Female")
+        {
+             
+            if(salutation =="Mr.")
+            {
+                alert("Invalid Gender");
+                $("#gndrfemale").focus();
+                return false;
+            }
+        }
+        if(Gender =="Male")
+        {
+            if(salutation == "Ms." || salutation =="Mrs.")
+            {
+                alert("Invalid Gender");
+                $("#gndrmale").focus();
+                return false;
+            }
+        }
+        if ($("#maritalid").val() == "" || $("#maritalid").val() == null || $("#maritalid").val() == "0") {
+            alert("Please Select Marital Status");
+            $("#maritalid").focus();
+            return false;
+        }
+        var Marst =  $('#maritalid').val();
+
+        if(Gender =="Female" && Marst =="2" || Gender =="Female" && Marst =="5")
+        {
+            //change
+            if($("#HusbandName").val().trim() == "" ||$("#HusbandName").val() == null)
+            {
+                alert("Please Enter Husband Name");
+                $("#HusbandName").val("");
+                $("#HusbandName").focus();
+                return false;
+            }
+        }
+
+
+        if ($("#relgid").val() == "" || $("#relgid").val() == null || $("#relgid").val() == "0") {
+            alert("Please Select Religion");
+            $("#relgid").focus();
+            return false;
+        }
+        if ($("#socatid").val() == "" || $("#socatid").val() == null || $("#socatid").val() == "0") {
+            alert("Please Select Social Category");
+            $("#socatid").focus();
+            return false;
+        }
+
+        if ($("#perdistid").val() == "" || $("#perdistid").val() == null || $("#perdistid").val() == 0) {
+            alert("Please Select District");
+            $("#perdistid").focus();
+            return false;
+        }
+        if ($("#persubdivid").val() == "" || $("#persubdivid").val() == null || $("#persubdivid").val() == 0) {
+            alert("Please Select Sub Division");
+            $("#persubdivid").focus();
+            return false;
+        }
+        if ($("#peraddBMC").val() == "" || $("#peraddBMC").val() == null || $("#peraddBMC").val() == 0) {
+            alert("Please Select Block/Muncipality/Coorporation");
+            $("#peraddBMC").focus();
+            return false;
+        }
+        if ($("#peraddblock").val() == "" || $("#peraddblock").val() == null || $("#peraddblock").val() == 0) {
+            alert("Please Select Block/Muncipality/Coorporation");
+            $("#peraddblock").focus();
+            return false;
+        }
+        if ($("#perpsid").val() == "" || $("#perpsid").val() == null ||  $("#perpsid").val() == 0) {
+            alert("Please Select PS");
+            $("#perpsid").focus();
+            return false;
+        }
+        if ($("#perPOid").val() == "" || $("#perPOid").val() == null ||  $("#perPOid").val() == 0) {
+            alert("Please Select PO");
+            $("#perPOid").focus();
+            return false;
+        }
+        if ($("#pincode").val() == "" || $("#pincode").val() == null) {
+            alert("Please Enter Pincode");
+            $("#pincode").focus();
+            return false;
+        }
+        if ( $('#pincode').val().length != 6) {
+            alert("Please Enter 6 digits Pincode number");
+            $("#pincode").focus();
+            return false;
+        }
+        var Dist1 = $("#perdistid").val();
+        var Blk1 = $("#peraddBMC").val();
+        //if(Dist1 !=12)
+        //{
+        //if(Blk1 == 1)
+        //  {
+        if ($("#ward").val() == "" || $("#ward").val() == null ||  $("#ward").val() == 0)
+        {
+            alert("Please Select GP");
+            $("#ward").focus();
+            return false;
+        }
+        //   }
+        // }
+        if ($("#vlge1").val() == "" || $("#vlge1").val() == null) {
+            alert("Please Enter Village/Street/Road");
+            $("#vlge1").focus();
+            return false;
+        }
+        //Present
+        if ($("#PreAddrdistid").val() == "" || $("#PreAddrdistid").val() == null || $("#PreAddrdistid").val() == 0) {
+            alert("Please Select District");
+            $("#PreAddrdistid").focus();
+            return false;
+        }
+        if ($("#preAddrsubdiv").val() == "" || $("#preAddrsubdiv").val() == null || $("#preAddrsubdiv").val() == 0) {
+            alert("Please Select Sub Division");
+            $("#preAddrsubdiv").focus();
+            return false;
+        }
+        if ($("#preaddBMC").val() == "" || $("#preaddBMC").val() == null || $("#preaddBMC").val() == 0) {
+            alert("Please Select Block/Muncipality/Coorporation");
+            $("#preaddBMC").focus();
+            return false;
+        }
+        if ($("#preaddBlock").val() == "" || $("#preaddBlock").val() == null || $("#preaddBlock").val() == 0) {
+            alert("Please Select Block/Muncipality/Coorporation");
+            $("#preaddBlock").focus();
+            return false;
+        }
+        if ($("#preaddPS").val() == "" || $("#preaddPS").val() == null ||  $("#preaddPS").val() == 0) {
+            alert("Please Select PS");
+            $("#preaddPS").focus();
+            return false;
+        }
+        if ($("#preaddPO").val() == "" || $("#preaddPO").val() == null ||  $("#preaddPO").val() == 0) {
+            alert("Please Select PO");
+            $("#preaddPO").focus();
+            return false;
+        }
+        if ($("#pincode2").val() == "" || $("#pincode2").val() == null) {
+            alert("Please Enter Pincode");
+            $("#pincode2").focus();
+            return false;
+        }
+        var Dists = $("#PreAddrdistid").val();
+        var Blks = $("#preaddBMC").val();
+      //  if(Dists !=12)
+       // {
+          //  if(Blks == 1)
+          //  {
+                if ($("#ward2").val() == "" || $("#ward2").val() == null ||  $("#ward2").val() == 0) {
+                    alert("Please Select GP");
+                    $("#ward2").focus();
+                    return false;
+                }
+          //  }
+       // }
+        if ($("#vlge2").val() == "" || $("#vlge2").val() == null) {
+            alert("Please Enter Village/Street/Road");
+            $("#vlge2").focus();
+            return false;
+        }
+
+        var lstcheckagree = $("#lstcheckagree").is(':checked');
+        if(lstcheckagree ==false)
+        {
+            alert("Please click on the checkbox");
+            $("#lstcheckagree").focus();
+            return false;
+        }
+
+        //Perminent address
+        var adddoc  =  "Permanent" +"$";//0
+        adddoc +=  $("#state").val()+"$"; //1
+        adddoc += $("#perdistid").val()+"$";//2
+        adddoc +=  $("#persubdivid").val()+ "$";//3
+        adddoc +=  $("#peraddblock").val()+ "$" ;//4
+        adddoc +=  $("#perpsid").val()+"$";//5
+        var po1 = $("#perPOid").val();
+        var post1 =   po1.split("-");
+        adddoc +=  post1[1]+"$";//6
+        adddoc +=  $("#pincode").val()+"$";//7
+        adddoc += $("#ward").val()+ "$";//8
+        adddoc += $("#vlge1").val()+"$" ;//9
+        //present address
+        adddoc +=  "Present"+ "$"  ;//10
+        adddoc += $("#state2").val()+"$" ;//11
+        adddoc += $(".PreAddrdistid").val()+"$" ;//12
+        adddoc += $(".preAddrsubdiv").val()+ "$";//13
+        adddoc +=  $("#preaddBlock").val()+"$";//14
+        adddoc +=   $("#preaddPS").val()+ "$";//15
+        var po2 = $("#preaddPO").val();
+        var post2 =   po2.split("-");
+        adddoc +=  post2[1]+"$";//16
+        adddoc +=  $("#pincode2").val()+ "$";//17
+        adddoc += $("#ward2").val()+ "$";//18
+        adddoc += $("#vlge2").val()+ "$";//19
+        adddoc += $("#peraddBMC").val()+"$" ;//20
+        adddoc += $("#preaddBMC").val()+ "$";//21
+        $("#BenAddress").val(adddoc);
+
+        var form = $('#signupform')[0];
+
+        var data = new FormData(form);
+        //data.append("age", agecal);
+
+        $("#WaitModal").modal('show');
+        $.ajax({
+            url: '/Registration/BeniRegistrationPart1',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function(data) {
+                $("#WaitModal").modal('hide');
+                if(data.Code == "000")
+                {
+                    BenSno = data.BenSno;
+                    if($("#RegistrationType").val() =="NewReg")
+                    {
+                        $(".lblName").text(data.Name);
+                        $(".lblSSIN").text(data.SSINNo);
+                        $("#step2").fadeOut("3000");
+                        $('#printDiv').fadeIn("3000");
+                    }
+                    else
+
+                    {
+                        $("#OtherRegModal").modal('show');
+                    }
+                }
+                else
+                {
+                    alert(data.Message);
+                    return false;
+                }
+            }
+        });
+    }
+
+    //Validating Identity cards
+    function validateCard(){
+        var ddlcards = $("#ddlcards").val();
+        var txtlength = $("#cards").val();
+         
+        if(ddlcards == "1")
+        {
+            if(txtlength.length != 12)
+            {
+                alert("Invalid Aadhar Number");
+                $("#cards").focus();
+                return false;
+            }
+        }
+        if(ddlcards == "2")
+        {
+            if(txtlength.length > 15 || txtlength.length < 5)
+            {
+                alert("Invalid Epic Number");
+                $("#cards").focus();
+                return false;
+            }
+        }
+        if(ddlcards == "3")
+        {
+            if(txtlength.length > 20 || txtlength.length < 5)
+            {
+                ("Invalid Driving License Number");
+                $("#cards").focus();
+                return false;
+            }
+        }
+    }
+    //check mobile number Avl
+    function validateMobilenum(){
+         
+        var x = $("#mobno").val();
+
+        var Dob =  $("#ddlday").val()+"-"+$("#ddlmnth").val()+'-'+$("#ddlyr").val();
+        //  alert(x[0]);
+
+        if(x !="" && x !=null)
+        {
+            if(x[0] !="7" && x[0] !="8" && x[0] !="9" && x[0] !="6")
+            {
+                alert("Invalid Mobile Number");
+                $("#mobno").val("");
+                $("#mobno").focus();
+                return false;
+            }
+            @*$.get('@Url.Action("ValidateMobileWithDob", "Registration")', {UserMobile : $("#mobno").val(),Dob :Dob  }, function (dat) {
+                if(dat > 2)
+                {
+                    alert("This Mobile number is already exists");
+                    $("#mobno").val("");
+                    $("#mobno").focus();
+                    return false;
+                }
+            });*@
+        }
+
+    }
+
+    function validateAadhaar(){
+
+        var txtlength = $("#Aadharcard").val();
+         
+        //alert(txtlength.length);
+        if(txtlength.length != 12 && txtlength.length > 0)
+        {
+            alert("Invalid Aadhaar Number");
+            $("#Aadharcard").focus();
+            return false;
+        }
+
+        $.get('@Url.Action("ValidateAadhaar", "Registration")', {ValidateAadhaar : $("#Aadharcard").val() }, function (dat) {
+            if(dat > 0)
+            {
+                alert("This Aadhaar number is already exists");
+                $("#Aadharcard").val("");
+                $("#Aadharcard").focus();
+                return false;
+            }
+        });
+
+
+    }
+
+    function validateEpic(){
+
+        $.get('@Url.Action("ValidateEpic", "Registration")', {EpicNo : $("#epiccard").val() }, function (dat) {
+            if(dat > 0)
+            {
+                alert("This Epic number is already exists");
+                $("#epiccard").val("");
+                $("#epiccard").focus();
+                return false;
+            }
+        });
+    }
+
+
+    $('.page2').click(function() {
+        $('#step1').addClass('active');
+        $('#disstep').addClass('active');
+        $('#step2').removeClass('active');
+        $('#benistep').removeClass('active');
+        $('#step1').show();
+    });
+    $('.page3').click(function() {
+        $('#step3').removeClass('active');
+        $('#depstep').removeClass('active');
+        $('#step2').addClass('active');
+        $('#benistep').addClass('active');
+    });
+    $('.page4').click(function() {
+        $('#step4').removeClass('active');
+        $('#step3').addClass('active');
+        $('#addstep').removeClass('active');
+        $('#depstep').show();
+    });
+    //For Uploading File
+
+
+    $('INPUT[type="file"]').change(function () {
+         
+
+        var fname  =  "";
+
+        if(this.id == "Photo")
+        {
+            fname ="photo";
+        }
+        if(this.id == "Signature")
+        {
+            fname ="signature";
+        }
+
+
+        if(this.id == "Photo"  || this.id == "Signature")
+        {
+            if (this.files[0].size < 2000000) {
+                var ext = this.value.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                        break;
+                    default:
+
+                        alert('Please choose ' + fname + ' only jpg,jpeg or png,pdf File');
+
+                        this.value = '';
+                        this.focus();
+                }
+            }
+            else {
+                alert('Please choose size of ' + fname + ' file below 2MB');
+                this.value = '';
+                this.focus();
+            }
+        }
+
+    });
+    $("#Aadharcardprof").click(function(){
+        var AadhNo = $("#Aadharcard").val();
+        if(AadhNo == "" || AadhNo == null)
+        {
+            alert("Without Aadhar Card No,You cannot Choose a file");
+            return false;
+        }
+    })
+    $("#Idproof").click(function(){
+        var epiccard = $("#epiccard").val();
+        if(epiccard == "" || epiccard == null)
+        {
+            alert("Without Epic Card No ,You cannot Choose a file");
+            return false;
+        }
+    })
+
+
+    //For calculating age
+     
+    var calculateAge = function (birthday) {
+          var now = new Date();
+        var past = new Date(birthday);
+        var nowYear = now.getFullYear();
+        var pastYear = past.getFullYear();
+        var age = nowYear - pastYear;
+        return age;
+    };
+    function getvalidation(e) {
+         
+        alert(e);
+    }
+    function  Checklength(e,txt)
+    {
+         
+        $("#"+e).css('border-color', 'green')
+        var txtlength =  $("#"+e).val();
+        if(txtlength.length < txt )
+        {
+            $("#"+e).focus().css('border-color', 'red');
+            return false;
+        }
+    }
+
+
+
+
+
+    $("#perdistid,#persubdivid,#peraddBMC,#peraddblock,#perpsid,#perPOid,#pincode,#ward,#vlge1").on( "change", function() {
+        $("#presauto").attr('checked', false);
+        $("#PreAddrdistid,#preAddrsubdiv,#preaddBMC,#preaddBlock,#preaddPS,#preaddPO,#ward2").val("0");
+        $("#pincode2,#vlge2").val('');
+
+    });
+
+    $("#smccrd").click(function(){
+        window.location.href = "/SSYIDCard/SSYIDCardNew.aspx/?Benifid="+BenSno;
+    })
+    //  checkstring
+    $('.checkstring').keyup(function (e) {
+        var  value = $(this).val();
+        if(value.length == 4 || value.length == 5 ||value.length == 6)
+        {
+            //
+            // if()
+            if(value.toLowerCase().indexOf("test") >= 0  || value.toLowerCase().indexOf("sample") >= 0 || value.toLowerCase().indexOf("dummy") >= 0 || value.toLowerCase().indexOf("dumy") >= 0 ||value.toLowerCase().indexOf("dammy") >= 0||value.toLowerCase() == "edit")
+            {
+                alert("Please Enter  Proper Name.");
+                $(this).val("");
+                $(this).focus();
+                return false;
+            }
+        }
+    });
+    // Get Photo
+    function readPhotoURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                //  alert(e.target.result);
+                $('#image_upload_preview_Photo').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function readSignURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                //    alert(e.target.result);
+                $('#image_upload_preview_Signature').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    //Gp List for Present Address
+    $("#preAddrsubdiv").change(loadGPre);
+    function loadGPre() {
+        // alert("loadGPre");
+        $.get('@Url.Action("GetGPJSON", "Registration")', {ID :$("#preAddrsubdiv").val()}, function (dat) {
+            $("#ward2").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#ward2").append("<option value=" + data.Value + ">"+ data.Text +"</option>");
+            });
+        });
+    }
+    //GP list
+    $("#persubdivid").change(loadGP);
+     
+    function loadGP() {
+        $.get('@Url.Action("GetGPJSON", "Registration")', {ID :$("#persubdivid").val()}, function (dat) {
+            $("#ward").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#ward").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+            });
+            //Present Address
+            $("#ward2").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#ward2").append("<option value=" + data.Value + ">"+data.Text+"</option>");
+            });
+        });
+    }
+    function Checkuniquenumber()
+    {
+
+        var num = $("#registrationno").val();
+
+        if(num !="")
+        {
+            $.get('@Url.Action("Checkuniqueno", "Registration")', {Number :num}, function (res) {
+                if(res !="")
+                {
+                    alert(res);
+                    $("#registrationno").val("").focus();
+
+                }
+                return false;
+            });
+        }
+
+    }
+    function AdditionalDetail()
+    {
+         
+        //Registration/RegisAdditionalDet
+        //selforg: $("#selfid").val(),unorg: $("#unorgid").val(),
+        var TemBensno= $("#TempBensno").val();
+        var tempvalidPFSta = $("input[name='pfsta']:checked").val()
+        var tempemptype = $("input[name='Workertype']:checked").val()
+        var SelfEmp =  $("#SelfEmpNo").val();
+        $.get('@Url.Action("RegisAdditionalDet", "Registration")', {Tempsno:$("#TempBensno").val(),pfnumdet: $("#esinum").val(),esinumdet: $("#esi").val(),tempemptype:tempemptype,occupat: tempemptype,selfemp: SelfEmp,estaddres: $("#estbaddress").val(),mnthincome: $("#mnthyincme").val(),pfsta : tempvalidPFSta}, function (dat) {
+        });
+    }
+
+
+
+
+    function ConfirmDet()
+    {
+        var conexistreg = $("input[name='conexistregstatus']:checked").val()
+
+        $("#divConfirmexistng").modal('hide');
+        if(conexistreg == "Yes")
+        {
+            //$('#divConfirmexistng').modal('hide');
+            // $(".existreglst").prop('checked', false);
+            //  $('#divexistng').modal('show');
+
+            if(Userid == "1")
+                window.location.href = "/Registration/BeniPart2?BeniSno="+BenSno+"&CreatedBy="+Userid+"&Type="+"Qapply";
+            else
+                window.location.href = "/Registration/BeniPart2?BeniSno="+BenSno+"&CreatedBy="+Userid+"&Type="+"User";
+
+            return false;
+        }
+        else
+        {
+            Endform()
+            ///var url = "/SSYIDCard/SmcCardView.aspx/?Benifid="+BenSno;
+            //$('iframe#ifr').attr('src', url);
+            //$('#myModal').modal('show');
+        }
+    }
+
+    function ConfirmSMC()
+    {
+        var SmcCheck = $("input[name='nmsmc']:checked").val()
+        $("#divConfirmSmcCard").modal('hide');
+
+        if(SmcCheck == "Yes")
+        {
+
+
+            window.location.href = "/Registration/UploadPhotoSign?Bensno="+BenSno+"&CreatedBy="+Userid;
+
+        }
+        else
+        {
+            $("#divConfirmexistng").modal('show');
+
+
+            // var url = "/SSYIDCard/SmcCardView.aspx/?Benifid="+BenSno;
+            // $('iframe#ifr').attr('src', url);
+            // $('#myModal').modal('show');
+        }
+
+    }
+
+
+
+    $(".btnclose").click(function(){
+
+        Endform()
+    })
+
+    function Endform()
+    {
+
+
+        //  alert("close click");
+        if(Userid == "1"){
+
+            window.location.href = "/Registration/BeniRegistrationPart1?Status=&Id=&CreatedBy=1";
+        }
+        else
+        {
+            window.top.location.href = "/Agent/BenReg";
+
+
+
+        }
+    }
+
+    //For existing User
+    $(".EScheme").change(function(){
+
+        var EnrolSche = $("input[name='enscheme']:checked").val()
+         
+        if(EnrolSche == "No")
+        {
+            $('#disfrst').removeClass('active');
+            $('#disstep').addClass('active');
+            $("#step0").hide();
+            $("#step1").show();
+        }
+        if(EnrolSche == "Yes")
+        {
+            $("#enrolledsch").show();
+            window.location.href = "/Registration/ExistngUserEdit?ID="+Userid;
+        }
+    });
+
+    $('.Worktype').change(function () {
+         
+        var Workertype = $("input[name='Worktype1']:checked").val()
+        $("#WorkType").val("0");
+        //$("#WorkType").attr("disabled", false);
+        //$("#WorkType").removeAttr("readonly");
+        $("#BenOccupationDesc").val("");
+    });
+
+    //Work Type
+    $('.Wortype').change(function() {
+         
+        var Workertype = $("input[name='Emptype']:checked").val()
+        $("#selfid").val("0");
+        $("#unorgid").val("0");
+        if(Workertype =="SelfEmployed")
+        {
+            $("#selfid").attr("disabled", false);
+            $("#selfid").removeAttr("readonly");
+            $("#unorgid").attr("disabled", true);
+            $("#unorgid").add("readonly");
+        }
+        if(Workertype =="UnorganisedIndustries")
+        {
+            $("#unorgid").attr("disabled", false);
+            $("#unorgid").removeAttr("readonly");
+            $("#selfid").attr("disabled", true);
+            $("#selfid").add("readonly");
+        }
+    });
+
+    //Self Employed change
+    $('#selfid').change(function() {
+        $("#selfemp").val($("#selfid option:selected").text());
+        $("#SelfEmpNo").val($("#selfid").val());
+        $("#occu").removeAttr("readonly");
+        $("#selfemp").removeAttr("readonly");
+        $('#unorgid').val('');
+        $('#occu').val('');
+    });
+
+    //Unorganised Industries
+    $('#unorgid').change(function() {
+        $("#occu").val($("#unorgid option:selected").text());
+        $("#SelfEmpNo").val($("#unorgid").val());
+        $('#selfid').val('');
+        $('#selfemp').val('');
+        $("#occu").removeAttr("readonly");
+        $("#selfemp").removeAttr("readonly");
+    });
+    $('.workerdet').change(function () {
+
+
+         
+        $("#SelfEmpNo").val("");
+        var validPFSta = $("input[name='pfsta']:checked").val()
+        var WorkerStatus = $("input[name='Workertype']:checked").val()
+        var esino = $('#esi').val();
+        var Contype = "C";
+        $('.Wortype').attr('checked', false);
+        //$('.Worktype').attr('checked', false);
+       // $('.Worktype').attr('checked', false);
+
+        if(WorkerStatus == "Others")
+        {
+            $("#divOther").show();
+            $("#divConTrn").hide();
+            $('.Worktype').attr('checked', true);
+            //$('.Worktype').attr("disabled", true);
+            //$("#WorkType").attr("disabled", true);
+            //$("#WorkType").add("readonly");
+            $('#WorkType').val('0');
+            $("#BenOccupationDesc").val("");
+
+        }
+        if ((WorkerStatus == "ConstructionWorker") || (WorkerStatus == "TransportWorker") )
+        {
+            $("#divOther").hide();
+            $("#divConTrn").show();
+            $(".Wortype").attr("disabled", true);
+            $("#selfid").attr("disabled", true);
+            $("#divemp").hide();
+            $('#unorgid').val('0');
+            $("#unorgid").attr("disabled", true);
+            $('#selfid').val('0');
+            $('#occu').val('');
+            $('#selfemp').val('');
+            $("#occu").attr("disabled", true);
+            $("#selfemp").attr("disabled", true);
+            $("#occu").removeAttr("readonly");
+            $("#selfemp").removeAttr("readonly");
+            $('.Worktype').attr('checked', true);
+            //$('.Worktype').attr("disabled", false);
+            //$("#WorkType").attr("disabled", false);
+            //$("#WorkType").add("readonly");
+            $('#WorkType').val('0');
+            //$('.Worktype').attr('checked', true);
+            $("#BenOccupationDesc").val("");
+
+            if (WorkerStatus == "ConstructionWorker") {
+                Contype = "C";
+            }
+            if (WorkerStatus == "TransportWorker") {
+                Contype = "T";
+            }
+
+            $.get('@Url.Action("GetWorkType", "Registration")', { ID: Contype }, function (dat) {
+                    $("#WorkType").find("option").remove();
+		                $.each(dat, function (i, data) {
+			                 
+                            $("#WorkType").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+		                });
+	                });
+        }
+        else
+        {
+            $(".Wortype").attr("disabled", false);
+            $("#divemp").show();
+        }
+        $("#Occupation").val(WorkerStatus);
+    });
+
+    $('#WorkType').change(function () {
+        var TypCode = $("#WorkType").val();
+        $("#BenOccupationDesc").val("");
+        if ((TypCode == "7") || (TypCode == "11")) {
+            $("#BenOccupationDesc").removeAttr("readonly");
+        }
+        else {
+            $("#BenOccupationDesc").attr("readonly", "readonly");
+        }
+    });
+
+
+    $(".btnClosePrint").click(function(){
+
+        //$("#DivPrint").modal('hide');
+        //ConfirmDet()
+        $("#OtherRegModal").modal('hide');
+
+
+        $("#DivPrint").modal('hide');
+        $("#divConfirmexistng").modal('show');
+
+    })
+
+    $("#btnPrint").click(function(){
+
+        printDiv()
+    })
+
+    function printDiv() {
+
+
+        $("#divDocument").show();
+        $("#divDocumentBengali").show();
+
+        var divToPrint = "";
+
+        var langid = $("#ddlLanguage").val();
+        if(langid == "1")
+        {
+            divToPrint = document.getElementById('DivPrint');
+
+        }
+        if(langid == "2")
+        {
+            divToPrint = document.getElementById('DivPrintBengali');
+
+        }
+
+        var divDocument = document.getElementById('divDocument');
+        var newWin = window.open('', 'Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+        newWin.document.close();
+        setTimeout(function() {
+            newWin.close();
+        }, 10);
+
+        $("#divDocument").hide();
+        $("#divDocumentBengali").hide();
+    }
+
+    $("#ddlLanguage").change(function(){
+
+        ChangeContent()
+
+    })
+
+    function ChangeContent()
+    {
+        if($("#ddlLanguage").val() == "1")
+        {
+            $("#DivPrint").show();
+            $("#DivPrintBengali").hide();
+
+        }
+        if($("#ddlLanguage").val() == "2")
+        {
+            $("#DivPrint").hide();
+            $("#DivPrintBengali").show();
+        }
+
+        $("#RegFrmae").attr("src", "/Registration/Instructions?Id="+$("#ddlLanguage").val());
+
+
+        $.get('@Url.Action("GetLabelNames", "Home")', {Id :$("#ddlLanguage").val()}, function (dat) {
+
+
+
+            $("#lblFrstName").text(dat[0].Name);
+            $("#lblMiddleName").text(dat[1].Name);
+            $("#lbllastname").text(dat[2].Name);
+            $("#lblregDate").text(dat[86].Name);
+
+
+
+            $("#lblfatherName").text(dat[3].Name);
+            $("#lblMotherName").text(dat[60].Name);
+            $("#lblDob").text(dat[4].Name);
+            $("#lblAge").text(dat[5].Name);
+            $("#lblGender").text(dat[6].Name);
+            $("#lblMaritalSts").text(dat[7].Name);
+            $("#lblHusbandName").text(dat[8].Name);
+            $("#LblReligion").text(dat[10].Name);
+            $("#lblSocialCat").text(dat[11].Name);
+
+            $(".lblState").text(dat[19].Name);
+            $(".lblDistrict").text(dat[20].Name);
+            $(".lblSubDivision").text(dat[21].Name);
+            $(".lblblock").text(dat[22].Name);
+            $(".lblLoc").text(dat[23].Name);
+            $(".lblps").text(dat[24].Name);
+            $(".lblPo").text(dat[25].Name);
+            $(".lblPincode").text(dat[26].Name);
+            $(".lblGepWard").text(dat[27].Name);
+            $(".lblVilStreetRoad").text(dat[28].Name);
+
+
+
+            $("#lblWorkerType").text(dat[53].Name);
+            $("#lblemployeeType").text(dat[52].Name);
+            $("#lblMobileNo").text(dat[14].Name);
+            $("#lblAadharNo").text(dat[15].Name);
+
+            $("#lblEpicNo").text(dat[16].Name);
+
+            $("#lblSelfEmployed").text(dat[54].Name);
+            $("#lblUnIndus").text(dat[55].Name);
+
+            $("#lblPerAdd").text(dat[61].Name);
+            $("#lblsameasadd").text(dat[62].Name);
+            $("#lblPresadd").text(dat[63].Name);
+            $("#lblsecondagree").text(dat[89].Name);
+
+            $("#lblfinalagree").text(dat[83].Name);
+
+            $("#lblbenidet").text(dat[93].Name);
+
+            $("#lblconstrution").text(dat[90].Name);
+            $("#lbltransport").text(dat[91].Name);
+            $("#lblothers").text(dat[92].Name);
+            $("#lblfrstnoti").text(dat[97].Name);
+            $(".lblYes").text(dat[72].Name);
+            $(".lblNo").text(dat[73].Name);
+
+            $(".lblFYes").text(dat[102].Name);
+            $(".lblFNo").text(dat[103].Name);
+
+            if(RegistrationType == "Legacy1")
+            {
+                $("#lblregnum").text(dat[87].Name);
+            }
+            else if(RegistrationType == "Legacy2")
+            {
+                $("#lblregnum").text(dat[88].Name);
+            }
+            else
+            {
+                $("#lblregnum").text(dat[85].Name);
+            }
+
+
+        });
+    }
+
+
+    $(".OtherRegNav").click(function(){
+
+        if(Userid == "1")
+            window.location.href = "/Registration/BeniPart2?BeniSno="+BenSno+"&CreatedBy="+Userid+"&Type="+"Qapply";
+        else
+            window.location.href = "/Registration/BeniPart2?BeniSno="+BenSno+"&CreatedBy="+Userid+"&Type="+"User";
+
+        return false;
+    })
+
+</script>
+

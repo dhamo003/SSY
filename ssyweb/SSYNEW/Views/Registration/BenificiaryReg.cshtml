@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "BenificiaryReg";
+    Layout = "~/Views/Shared/_RegistrationLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery.min.js"></script>
+
+<style>
+   .col-md-12{
+
+width : 105%;
+   }
+</style>
+<a href="/Home/Index" class="pull-right" id="idhome" style="margin-right: 53px; margin-top: 24px">Home Page</a>
+    <iframe src="" class="col-md-12 iframeheight loadurl" id="RegFrmae" width="1200" height="600"></iframe>
+
+<script>
+    $(document).ready(function () {
+
+        $("#RegFrmae").attr("src", "/Registration/BeniRegistrationPart1?Status=&Id=&CreatedBy=1");
+    });
+
+</script>

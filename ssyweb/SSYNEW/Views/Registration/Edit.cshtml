@@ -1,0 +1,620 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    var Messeage = @Html.Raw(Json.Encode(ViewBag.Messeage))
+</script>
+<style>
+    body {
+        color: black !important;
+        font-weight: 100 !important;
+    }
+
+    .content-back {
+        margin: auto;
+        padding-top: 5px;
+        background: #ffffff;
+        height: 630px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+        .content-back::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        .content-back::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-back::-webkit-scrollbar-thumb {
+            background-color: #ffffff;
+        }
+
+    .overlay-black {
+        background: rgba(0,0,0,0.6);
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .leg-sty {
+        color: black;
+    }
+
+    .footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+        .footer p {
+            line-height: 0px;
+            color: #fff !important;
+        }
+
+    b {
+        font-weight: 100 !important;
+    }
+
+    .block-left {
+        height: 100%;
+        position: fixed;
+        text-align: center;
+    }
+
+    legend {
+        border-bottom: none !important;
+        padding-left: 20px;
+        font-weight: 100 !important;
+    }
+
+    .custom-border {
+    }
+
+    input, select {
+    }
+
+    header {
+        z-index: 99;
+    }
+
+    footer p {
+        margin-bottom: 5px !important;
+    }
+
+    label {
+        color: #000000 !important;
+        font-weight: 100 !important;
+    }
+
+    .label-data {
+        font-weight: bold !important;
+        margin-left: 15px;
+    }
+
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    }
+
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+        .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+    .input-label {
+        min-width: 120px;
+    }
+
+    .input-select {
+        width: 250px;
+    }
+
+    fieldset.custom-border {
+        border: 1px groove blue !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #f00;
+        box-shadow: 0px 0px 0px 0px #f00;
+        border-radius: 6px;
+    }
+
+    legend.custom-border {
+        font-size: 1.1em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    .selectboxit-container .selectboxit, .selectboxit-container .selectboxit-options {
+        width: 600px; /* Width of the dropdown button */
+        border-radius: 0;
+        max-height: 240px;
+    }
+
+    .selectboxit-options .selectboxit-option .selectboxit-option-anchor {
+        white-space: normal;
+        min-height: 30px;
+        height: auto;
+    }
+
+    table.table-bordered.tblNaminee tbody tr td {
+        vertical-align: middle !important;
+    }
+</style>
+<script>
+    var validation = @Html.Raw(Json.Encode(ViewBag.validachck))
+    var valMes = @Html.Raw(Json.Encode(ViewBag.valMes))
+</script>
+@using (Html.BeginForm("Edit", "Registration", FormMethod.Post, new { onsubmit = "return datasubmit()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="" id="benefiary" style="margin-left:15px;">
+        <div class="container-fluid">
+            <center><h3><b>Samajik Suraksha Yojana</b></h3></center>
+            <div class="row">
+                <legend class="custom-border"><span class="leg-sty">Beneficiary Details</span></legend>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="">First Name:</label>
+                        <label id="Elblfrstname"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="">Father Name:</label>
+                        <label id="Elblfathrname"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Date of Birth:</label>
+                        <label id="Elbldob"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Age:</label>
+                        <label id="Elblage"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <label id="Elblgender"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Marital Status:</label>
+                        <label id="Elblmarital"></label>
+                    </div>
+                </div>
+                <div class="col-md-4" id="divhus" style="display:none;">
+                    <div class="form-group">
+                        <label>Husband Name </label>
+                        <label id="Elblhusname"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Email :</label>
+                        @Html.TextBox("lblmail", "", new { style = "width:57%;margin-top: -29px; margin-left: 55px;", @onchange = "validateEmail()", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Religion :</label>
+                        <label id="Elblrelgn"></label>
+                    </div>
+                </div>
+                <br />
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Social Category :</label>
+                        <label id="Elblsoccat"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>BPL No.:</label>
+                        <label id="Elblbplno"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Occupation: </label>
+                        <label id="Elbloccu"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Mobile no:</label>
+                        @Html.TextBox("txtmobno", "", new { style = "width:42%;margin-top: -34px;margin-left: 82px;", @class = "form-control", @onchange = "validateMobilenum()", @maxlength = 10, @onkeypress = "return onlynumber(event,this)" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Aadhar Card No: </label>
+                        <label id="ElblAadharNo"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Epic Card:</label>
+                        <label id="ElblEpicCard"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Bank Account Number:</label>
+                        <label id="ElblBankAccNo"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row back1">
+                <legend class="custom-border color-white"><span class="leg-sty">Permanent Address</span></legend>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>State:</label>
+                        <label id="EPerState" class='label-data'>West Bengal</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>District:</label>
+                        <label id="EPerDist"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Sub Division:</label>
+                        <label id="EPerSubDiv"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Block/Municiplaity/Corporation :</label>
+                        <label id="EPerBMC"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Block/Municiplaity/Corporation (Name):</label>
+                        <label id="EPerMunc"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>P.S:</label>
+                        <label id="EPerPs"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>P.O:</label>
+                        <label id="EPerPo"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>PIN code:</label>
+                        <label id="EPerPinCode"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>GP/Ward:</label>
+                        <label id="EPerGp"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Village/Street/Road:</label>
+                        <label id="EPerVillage"></label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row back1">
+                <legend class="custom-border color-white"><span class="leg-sty">Present Address</span></legend>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>State:</label>
+                        <label id="Estate" class='label-data'>West Bengal</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>District:</label>
+                        <label id="Epresdisid"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Sub Division:</label>
+                        <label id="Epressubdiv"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Block/Municiplaity/Corporation :</label>
+                        <label id="EPreBMC"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Block/Municiplaity/Corporation (Name):</label>
+                        <label id="Epresblock"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>P.S:</label>
+                        <label id="Epresps"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>P.O :</label>
+                        <label id="Eprespo"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>PIN code :</label>
+                        <label id="Eprespincode"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>GP/Ward:</label>
+                        <label id="Epresward"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Village/Street/Road:</label>
+                        <label id="Epresvillage"></label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row back1">
+                <legend class="custom-border color-white"><span class="leg-sty">Nominee Details </span></legend>
+                <table class="table table-bordered tblNaminee">
+                    <thead>
+                        <tr style="background: #031634; color: white; font-size: 14px; font-weight: 700;">
+                            <th style="display:none"></th>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Relationship with applicant</th>
+                            <th>Gender</th>
+                            <th>Age (Years)</th>
+                            <th>Share Allocation</th>
+                            <th>Bank Account No.</th>
+                            <th>Branch Name</th>
+                            <th>IFSC Code</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <br />
+            <div class="row back1">
+                <br />
+                <legend class="custom-border color-white"><span class="leg-sty">Bank Details</span></legend>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>District :</label>
+                        <label id="bankdistid"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Bank Name :</label>
+                        <label id="bank"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Account Number :</label>
+                        <label id="actnumber"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Location :</label>
+                        <label id="loc"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Branch Name :</label>
+                        <label id="brnch"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>IFSC Code :</label>
+                        <label id="ifsccode"></label>
+                    </div>
+                </div>
+                <div class="row back1">
+                    <div class="col-sm-12">
+                        <div class="container">
+                            <center>
+                                <button type="submit" class="btn btn-primary editreg" tabindex="103">Submit</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <label>@ViewBag.Messeage</label>
+        <input type="hidden" id="BenAddress" value="21212" name="BenAddress" />
+        <input type="hidden" id="Bennamedet" value="1212" name="Bennamedet" />
+        <input type="hidden" id="NamCount" value="1112121231" name="NamCount" />
+        <input type="hidden" id="BankDisId" value="1112121231" name="BankDisId" />
+        <input type="hidden" id="BankLoca" value="1112121231" name="BankLoca" />
+    </div>
+}
+<script>
+    $(document).ready(function(){
+        if(Messeage !="")
+        {
+            alert(Messeage);
+            window.location.href = "/Registration/Edit";
+        }
+        $.get('@Url.Action("GetbenDetails", "Registration")', {bensno : 0}, function (res) {
+             
+            $("#Elblfrstname").text(res.BenFirstName +' '+ res.BenMiddleName +' '+ res.BenLastName).addClass('label-data');
+            $("#Elblfathrname").text(res.BenFatherFirstName +' '+ res.BenFatherMiddleName +' '+ res.BenFatherLastName).addClass('label-data');
+            $("#Elbldob").text(res.BenDob).addClass('label-data');
+            $("#Elblage").text(res.BenAge).addClass('label-data');
+            $("#Elblgender").text(res.BenGender).addClass('label-data');
+            $("#Elblmarital").text(res.MaritualName).addClass('label-data');
+            $("#ElblAadharNo").text(res.AadharCard).addClass('label-data');
+            $("#ElblEpicCard").text(res.EpicCard).addClass('label-data');
+            $("#ElblBankAccNo").text(res.BankAccNo).addClass('label-data');
+            $("#lblmail").val(res.Email);
+            if(res.Maritual_Name =='Married')
+            {
+                $("#divhus").show();
+            }
+            if(res.BenIdCardType =="1")
+                $("#lblIC").text('Aadhar Card'+'-'+res.BenIdCardNo).addClass('label-data');
+            else
+                $("#lblIC").text('Epic Card'+'-'+res.BenIdCardNo).addClass('label-data');
+            $("#Elblrelgn").text(res.ReligionName).addClass('label-data');
+            $("#Elblsoccat").text(res.Social_Name).addClass('label-data');
+            $("#Elblbplno").text(res.BenBplNo).addClass('label-data');
+            $("#Elbloccu").text(res.BenOccupation).addClass('label-data');
+            $("#txtmobno").val(res.BenMobileNo);
+            $("#ifsccode").text(res.BenBankIfscCode).addClass('label-data');
+            $("#bankdistid").text(res.DistrictName).addClass('label-data');
+            $("#bank").text(res.BankName).addClass('label-data');
+            $("#loc").text(res.LocName).addClass('label-data');
+            $("#actnumber").text(res.BenBankAccNo).addClass('label-data');
+            $("#brnch").text(res.BankBranchName).addClass('label-data');
+        });
+        $.get('@Url.Action("GetbenAddressDetails", "Registration")',  {bensno : 0}, function (res) {
+            $.each(res, function (i, data) {
+                if(data.BenAddressType =="Permanent")
+                {
+                    $("#EPerDist").text(data.DistrictName).addClass('label-data');
+                    $("#EPerSubDiv").text(data.SubDivisionName).addClass('label-data');
+                    $("#EPerBMC").text(data.LocTypeName).addClass('label-data');
+                    $("#EPerMunc").text(data.BlockName).addClass('label-data');
+                    $("#EPerPs").text(data.PsName).addClass('label-data');
+                    $("#EPerPo").text(data.PoName).addClass('label-data');
+                    $("#EPerPinCode").text(data.BenPincode).addClass('label-data');
+                    $("#EPerGp").text(data.GPName).addClass('label-data');
+                    $("#EPerVillage").text(data.BenVsr).addClass('label-data');
+                }
+                if(data.BenAddressType =="Present")
+                {
+                    $("#Epresdisid").text(data.DistrictName).addClass('label-data');
+                    $("#Epressubdiv").text(data.SubDivisionName).addClass('label-data');
+                    $("#EPreBMC").text(data.LocTypeName).addClass('label-data');
+                    $("#Epresblock").text(data.BlockName).addClass('label-data');
+                    $("#Epresps").text(data.PsName).addClass('label-data');
+                    $("#Eprespo").text(data.PoName).addClass('label-data');
+                    $("#Eprespincode").text(data.BenPincode).addClass('label-data');
+                    $("#Epresward").text(data.GPName).addClass('label-data');
+                    $("#Epresvillage").text(data.BenVsr).addClass('label-data');
+                }
+            });
+        })
+        $.get('@Url.Action("GetNamineeDetails", "Registration")',  {bensno : 0}, function (res) {
+            $.each(res, function (i, data) {
+                var rowCount = $('.tblNaminee tr').length;
+                $('.tblNaminee').append('<tr><td style="display:none"><label id="namid'+rowCount+'">'+data.BenNomineeSno+'</label> </td><td><label id="NamiSno'+rowCount+'">'+rowCount+' </label> </td><td><label id="NamiName'+rowCount+'">'+data.BenNomineeName+'</label></td><td><label id="DDLNamRel'+rowCount+'">'+data.BenNomineeRelation+'</label></td><td><label id="DDLNamGender'+rowCount+'">'+data.BenNomineeGender+'</label></td><td><label id="NamAge'+rowCount+'">'+data.BenNomineeAge+'</label></td><td><label id="SahreAlo'+rowCount+'">'+data.BenNomineeShareAllocation+'</label> </td><td> <label id="BankActNo'+rowCount+'" >'+data.BenNomineeBankAccNo+'</label> </td><td><label id="BranchName'+rowCount+'">'+data.BenNomineeBankBranch+' </label></td><td><label id="NamIfscCode'+rowCount+'">'+data.BenNomineeBankIfscCode+' </label></td></tr>');
+            });
+        });
+    });
+    function datasubmit(){
+        if ($("#txtmobno").val() == "" || $("#txtmobno").val() == null) {
+            alert("Please Enter Mobile Number");
+            $("#txtmobno").focus();
+            return false;
+        }
+        if ($("#txtmobno").val().length != 10) {
+            alert("Please Enter 10 digit Mobile Number");
+            $("#txtmobno").focus();
+            return false;
+        }
+    }
+    //check mobile number Avl
+    function validateMobilenum(){
+        var txtlength = $("#mobno").val();
+        alert(txtlength.length);
+        if(txtlength.length != 10)
+        {
+            alert("Invalid Mobile number");
+            $("#mobno").focus();
+            return false;
+        }
+        else
+        {
+            $.get('@Url.Action("CheckUserExist", "Registration")', {UserMobile : $("#mobno").val() }, function (dat) {
+                if(dat > 0)
+                {
+                    alert("This Mobile number is already exists");
+                    $("#mobno").val("");
+                    $("#mobno").focus();
+                    return false;
+                }
+            });
+        }
+    }
+    function validateEmail() {
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test($("#lblmail").val())) {
+            alert("Invalid email address.");
+            $("#lblmail").focus();
+            return false;
+        }
+    }
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            return false;
+        }
+    }
+</script>

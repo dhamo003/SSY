@@ -1,0 +1,265 @@
+﻿@model SSY.Models.BankDetails
+@{
+    ViewBag.Title = "BankMaster";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<style>
+    .panel-heading
+    {
+     background-color : #094c86  !important;
+
+    }
+    .input-group-addon:first-child {
+        width : 120px;
+    }
+</style>
+<div class="container-fluid">
+ 
+        <div class="col-sm-12">
+            <div class="row" style="margin-left:10px;">
+                <div class="col-md-4">
+                <div class="panel panel-info">
+                <div class="panel-heading"><font color="white" size="3">Bank Master</font></h5></div>
+                <div class="panel-body">
+                       <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Bank Name<span style="color: red">*</span></span>
+                              @Html.TextBoxFor(m => m.bnkname, null, new { @class = "form-control  valid txtbankname", placeholder = "Bank Name", req = "Req", message = "Please Enter Bank Name", tabindex = "1", onkeypress = "return onlyAlphabets(event,this)"})
+                        </div>
+                    </div>
+                </div>
+                     <div>
+                    <center>
+                      
+                         <a id="SaveBank" onclick="bnksave()" tabindex = "2" class="btn btn-sm card-1 inline btn-primary  clearside">Submit</a>
+                         <a id="cnclreset" onclick="ClearAll()" tabindex = "3" class="btn btn-sm card-1 inline btn-danger  clearside">Cancel</a>
+                    </center>
+                     </div>
+               <br/>
+               </div>
+                    </div>
+                  <div class="col-md-4">
+                <div class="panel panel-info">
+                <div class="panel-heading"><font color="white" size="3">Bank Center Master</font></div>
+                     <div class="panel-body">
+                     <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">District<span style="color: red">*</span></span>
+                              
+                            @Html.DropDownListFor(m => m.distid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control distcenter", tabindex = "4" })
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Bank<span style="color: red">*</span></span>
+                              
+                            @Html.DropDownListFor(m => m.bnkid, new SelectList(Model.bnk, "Value", "Text"), new { @class = "form-control bnkcenter", tabindex = "5", style = "width:174px;" })
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Bank Center<span style="color: red">*</span></span>
+                              @Html.TextBoxFor(m => m.bankcentr, null, new { @class = "form-control  valid txtbankcnter", placeholder = "Bank Center", req = "Req", message = "Please Enter Bank Name", tabindex = "6",onkeypress = "return onlyAlphabets(event,this)" })
+                        </div>
+                    </div>
+                </div>
+                     <div>
+                    <center>
+                       <a id="SaveBankcntr" onclick="bnkcentersave()" tabindex = "7" class="btn btn-sm card-1 inline btn-primary  clearside">Submit</a>
+                         <a id="cnclbnkcntr" onclick="ClearAll()" tabindex = "8" class="btn btn-sm card-1 inline btn-danger  clearside">Cancel</a>
+                    </center>
+                     </div>
+               <br/>
+               </div>
+                    </div>
+                   <div class="col-md-4">
+                <div class="panel panel-info">
+                <div class="panel-heading"><font color="white" size="3">Branch Master</font></div>
+                <div class="panel-body">
+                     <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">District<span style="color: red">*</span></span>
+                              
+                            @Html.DropDownListFor(m => m.distid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control distbrnch", tabindex = "9" })
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Bank<span style="color: red">*</span></span>
+                              
+                            @Html.DropDownListFor(m => m.bnkid, new SelectList(Model.bnk, "Value", "Text"), new { @class = "form-control ddbnkbrnch", tabindex = "10", style = "width:174px;" })
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Bank Center<span style="color: red">*</span></span>
+                             @Html.DropDownListFor(m => m.centrid, new SelectList(Model.bankcenter, "Value", "Text"), new { @class = "form-control brnchbnkcntr", tabindex = "11", style = "width:174px;" })
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Branch Name<span style="color: red">*</span></span>
+                             @Html.TextBoxFor(m => m.bnkbrnchname, null, new { @class = "form-control  valid txtbankbrnchname", placeholder = "Branch Name", req = "Req", message = "Please Enter Bank Name", tabindex = "12",onkeypress = "return onlyAlphabets(event,this)" })
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Ifsc Code<span style="color: red">*</span></span>
+                              @Html.TextBoxFor(m => m.bnkbrnchifsccode, null, new { @class = "form-control  valid txtbnkbrnchifsccode",@maxlength = 13, placeholder = "Ifsc Code", req = "Req", message = "Please Enter Bank Name", tabindex = "1",onkeydown = "return IsAlphaNumaric(event,this)", style = "text-transform:uppercase" })
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Address<span style="color: red">*</span></span>
+                             <textarea name="test_field" id="bnkbrnchaddress" tabindex="14"  style="width: 174px;"></textarea>
+                           
+                           
+                        </div>
+                    </div>
+                </div>
+                     <div>
+                    <center>
+                        <a id="SaveBankbrnch" onclick="bnkbrnchsave()" tabindex = "15" class="btn btn-sm card-1 inline btn-primary  clearside">Submit</a>
+                         <a id="cnclbnkbrnch" onclick="ClearAll()" tabindex = "16" class="btn btn-sm card-1 inline btn-danger  clearside">Cancel</a>
+                    </center>
+                     </div>
+               <br/>
+               </div>
+                    </div>
+              
+            </div>
+            </div>
+       </div>       
+<script>
+    $(document).ready(function () {
+    })
+    function ClearAll() {
+        window.location.href = "/Home/BankMaster";
+    }
+   
+    function bnksave() {
+     
+        if ($(".txtbankname").val() == "" || $(".txtbankname").val() == null) {
+            alert("Please Enter Bank Name");
+            $(".txtbankname").focus();
+            return false;
+        }
+        $.post('@Url.Action("BankMaster", "Home")', { BnkName: $(".txtbankname").val() }, function (dat) {
+            alert(dat);
+            ClearAll();
+        });
+    }
+    function bnkcentersave() {
+        if ($(".distcenter").val() == "" || $(".distcenter").val() == null || $(".distcenter").val() == "0") {
+            alert("Please Select District");
+            $(".distcenter").focus();
+            return false;
+        }
+        if ($(".bnkcenter").val() == "" || $(".bnkcenter").val() == null || $(".bnkcenter").val() == "0") {
+            alert("Please Select Bank");
+            $(".bnkcenter").focus();
+            return false;
+        }
+        if ($(".txtbankcnter").val() == "" || $(".txtbankcnter").val() == null) {
+            alert("Please Enter Bank Center");
+            $(".txtbankcnter").focus();
+            return false;
+        }
+        
+        $.post('@Url.Action("Bankcenter", "Home")', { Dist: $(".distcenter").val(), Bank: $(".bnkcenter").val(), bankcenter: $(".txtbankcnter").val() }, function (dat) {
+            alert(dat);
+            ClearAll();
+        });
+    }
+    
+    function bnkbrnchsave() {
+        var address = $("#bnkbrnchaddress").val();
+        if ($(".distbrnch").val() == "" || $(".distbrnch").val() == null || $(".distbrnch").val() == "0") {
+            alert("Please Select District");
+            $(".distbrnch").focus();
+            return false;
+        }
+        if ($(".ddbnkbrnch").val() == "" || $(".ddbnkbrnch").val() == null || $(".ddbnkbrnch").val() == "0") {
+            alert("Please Select Bank");
+            $(".ddbnkbrnch").focus();
+            return false;
+        }
+        if ($(".brnchbnkcntr").val() == "" || $(".brnchbnkcntr").val() == null || $(".brnchbnkcntr").val() == "0") {
+            alert("Please Select Center");
+            $(".brnchbnkcntr").focus();
+            return false;
+        }
+        if ($(".txtbankbrnchname").val() == "" || $(".txtbankbrnchname").val() == null) {
+            alert("Please Enter Branch Name");
+            $(".txtbankbrnchname").focus();
+            return false;
+        }
+        if ($(".txtbnkbrnchifsccode").val() == "" || $(".txtbnkbrnchifsccode").val() == null) {
+            alert("Please Enter Ifsc Code");
+            $(".txtbnkbrnchifsccode").focus();
+            return false;
+        }
+      
+        if (address == "" || address == null ) {
+            alert("Please Enter Address");
+            $("#bnkbrnchaddress").focus();
+            return false;
+        }
+      
+        $.post('@Url.Action("BankBranch", "Home")', { bnkbrnchcenter: $(".brnchbnkcntr").val(), brnchname: $(".txtbankbrnchname").val(), Ifsccode: $(".txtbnkbrnchifsccode").val().toUpperCase(), brnchAddress: $("#bnkbrnchaddress").val() }, function (dat) {
+            alert(dat);
+            ClearAll();
+        });
+    }
+    $(".distbrnch").change(loadbank);
+    function loadbank() {
+        $.get('@Url.Action("GetDistBankJSON", "Home")', { ID: $(".distbrnch").val() }, function (dat) {
+            $(".ddbnkbrnch").find("option").remove();
+           
+            $.each(dat, function (i, data) {
+              
+                    $(".ddbnkbrnch").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    $(".ddbnkbrnch").change(loadbankcenter);
+    function loadbankcenter() {
+        $.get('@Url.Action("GetDistCenterJSON", "Home")', { ID: $(".ddbnkbrnch").val(), distid: $(".distbrnch").val() }, function (dat) {
+            $(".brnchbnkcntr").find("option").remove();
+           
+            $.each(dat, function (i, data) {
+               
+                    $(".brnchbnkcntr").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+    }
+    $("#bnkbrnchifsccode").keypress(function () {
+        
+        var ifscval = $(this).val();
+        if (ifscval.length == 4) {
+            $(this).val(ifscval + "0");
+            return false;
+        }
+    });
+    function onlyAlphabets(e, t) {
+     
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+   
+</script>

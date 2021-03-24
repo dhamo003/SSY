@@ -1,0 +1,178 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Adjustement Entry Form</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <fieldset>
+                                <section>
+                                    <!--<div class="row">
+                                        <section class="col col-6">
+                                            <label class="label">LWFC Code: {{user.user.userid}}</label>
+                                        </section>
+                                        <section class="col col-6">
+                                            <label class="label">Agent Code: {{user.user.userid}}</label>
+                                        </section>
+                                    </div>-->
+                                    <div class="row" *ngIf="isBenVisible">
+                                        <section>
+                                            <div class="col col-6">
+                                                <label class="label">Beneficiary Name: {{beneficiary?.benFullName}}</label>
+                                            </div>
+                                            <div class="col col-6">
+                                                <label class="label">SSIN/PF Number: {{beneficiary?.benSSINOrPFAccountNo}}</label>
+                                            </div>
+                                        </section>
+                                    </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">SSIN/PF Number: <span [style.color]="!ssinValid?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <input type="text" id="number" name="ssin" [(ngModel)]="adjustment.ssinORPFNumber" placeholder="SSIN/PF Number"
+                                                           (change)="searchSSINNo($event.target.value)" (keydown.enter)="searchSSINNo($event.target.value)" maxlength="50"
+                                                           [ngClass]="{'invalid-data':!ssinValid, 'valid-data': ssinValid}"
+                                                           required>
+                                                </label>
+                                                <div *ngIf="!ssinValid">
+                                                    <span style="color: red;">SSIN/PF Number is required </span>
+                                                </div>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="label">Adjustment Date: <span [style.color]="!adjustmentDateReq?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <input type="text" name="adjustmentDate" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                           [maxDate]="toDayDate" #adjustmentDate="ngModel"
+                                                           placeholder="DD/MM/YYYY" [(ngModel)]="adjustment.adjustmentDate"
+                                                           value="{{adjustment.adjustmentDate | date: 'dd/MM/yyyy' }}" 
+                                                           [ngClass]="{'invalid-data': (!adjustmentDateReq), 'valid-data': adjustmentDateReq}"
+                                                           required>
+                                                </label>
+                                                <div *ngIf="!adjustmentDateReq">
+                                                    <span style="color: red;">Adjustment Date is required </span>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">Ben Contribution Adjustment Amount: <span [style.color]="!benAdjustmentAmountReq?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <input type="text" name="benadjustmentAmount" placeholder="Adjustment Amount" [(ngModel)]="adjustment.benAdjustmentAmount" NumbersOnly
+                                                           required />
+                                                </label>
+                                                <div *ngIf="!benAdjustmentAmountReq">
+                                                    <span style="color: red;">Ben Contribution Adjustment Amount is required </span>
+                                                </div>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="label">Govt Contribution Adjustment Amount: <span [style.color]="!govtAdjustmentAmountReq?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <input type="text" name="govtAdjustmentAmount" placeholder="Adjustment Amount" [(ngModel)]="adjustment.govtAdjustmentAmount" NumbersOnly
+                                                           required />
+                                                </label>
+                                                <div *ngIf="!govtAdjustmentAmountReq">
+                                                    <span style="color: red;">Govt Contribution Adjustment Amount is required </span>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">Adjustment Type: <span [style.color]="!typeIsValid?'red':''"><b>*</b></span></label>
+                                                <label class="input">
+                                                    <!--<select class="form-control select" name="adjustmentType" [(ngModel)]="adjustment.adjustmentTypeId"
+                                                            [ngClass]="{'invalid-data': !typeIsValid, 'valid-data': typeIsValid }"
+                                                            required (change)="adjustmentTypeChange($event)">
+                                                        <option value="0" selected disabled>Choose an option</option>
+                                                        <option value="1">Adjustment Credit</option>
+                                                        <option value="2">Adjustment Debit</option>
+                                                        <option value="3">Opening Balance(Cr)</option>
+                                                        <option value="4">Other(Cr)</option>
+                                                        <option value="5">Other(Dr)</option>
+                                                    </select>-->
+
+                                                    <select class="form-control select" name="adjustmentType" (change)="adjustmentTypeChange($event)"
+                                                            [ngClass]="{'invalid-data': !typeIsValid, 'valid-data': typeIsValid }"
+                                                            [(ngModel)]="adjustment.adjustmentTypeId" required>
+                                                        <option value="0" selected disabled>Choose an Option</option>
+                                                        <option value="{{type.lovDtlId}}" *ngFor="let type of adjustmentTypeLov">{{type.optionName}}</option>
+                                                    </select><i></i>
+                                                </label>
+                                                <div *ngIf="!typeIsValid">
+                                                    <span style="color: red;">Adjustment Type is required </span>
+                                                </div>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="label">Reference Number: </label>
+                                                <label class="input">
+                                                    <input type="text" name="referenceNumber" placeholder="Reference Number" [(ngModel)]="adjustment.reference" />
+                                                </label>
+                                                <!--<div *ngIf="!referencenumberReq">
+                                                        <span style="color: red;">Reference Number is required </span>
+                                                    </div>-->
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">Remarks: </label>
+                                                <label class="input">
+                                                    <input type="text" name="remarks" placeholder="Remarks" [(ngModel)]="adjustment.remarks" />
+                                                </label>
+                                                <!--<div *ngIf="!remarksReq">
+                                                    <span style="color: red;">Remarks is required </span>
+                                                </div>-->
+                                            </section>
+                                        </div>
+                                </section>
+                            </fieldset>
+
+                            <footer>
+                                <button type="button" name="submit" class="btn btn-success" (click)="saveAdjustment()">
+                                    Submit
+                                </button>
+                                <a class="btn btn-danger" (click)="cancleClick()">Cancel</a>
+                            </footer>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- WIDGET END -->
+    </div>
+</section>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

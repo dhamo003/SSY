@@ -1,0 +1,110 @@
+﻿@model SSY.Models.SignUpUser
+@{
+    ViewBag.Title = "ForgotPass";
+}
+<style>
+    .input-label {
+        min-width: 80px;
+    }
+    .input-label {
+        min-width: 50px;
+    }
+    #logsave:disabled {
+        background-color: gray;
+    }
+    .myown :hover {
+        background-color: #003096 !important;
+        color: white !important;
+        border-radius: 0px;
+        border: none;
+    }
+    .radius {
+        border-bottom-right-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+    #footer {
+        position: fixed;
+        bottom: 0px;
+    } 
+    #bottom {
+        display: none;
+    }
+</style>
+<br />
+<br />
+<br />
+<div class="col-xs-12 column">
+    <div class="row clearfix">
+        <div class="col-xs-12 column">
+            <div class="col-xs-4 column"></div>
+            <div class="col-xs-4 column">
+                <div class="col-xs-12 column">
+                    <div class="panel panel-default">
+                      
+                           <div class="panel-heading">
+                                <h3 class="panel-title text-center" style="font-weight: bold;">Forgot Password</h3>
+                            </div>
+                            <div class="panel-body text-center">
+                                <div class="input-group extra-space">
+                                    <span class="input-group-addon input-label"><i class="icon-user"></i></span>
+                                    @Html.TextBoxFor(m => m.UserName, null, new { @class = "form-control radius", placeholder = "UserName",style="text-transform:uppercase" })
+                                    <span class="field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="text-center">
+                                    <br />
+                                    <button id="forgot" class="btn btn-block btn-primary btn-large myown" >Submit</button>
+                                    <br />
+                                    <a class="pull-left" href="@Url.Content("~")Login/Index" style="color: #333 !important; text-decoration: none"><i class="glyphicon glyphicon-arrow-left" style="color:#6d6c6c !important"></i> Back To Login</a>
+                                </div>
+                                <br />
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 column"></div>
+            <div aria-hidden="true" id="Terms" class="modal fade" role="dialog" aria-labelledby="popuplabel"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var Message = '@TempData["ResponseMessage"]';
+    $(document).ready(function () {
+        if (Message != "") {
+            alert(Message);
+            Message = "";
+        }
+        $("#forgot").click(function () {
+             
+            if ($("#UserName").val() == "" || $("#UserName").val() == null)
+            {
+                alert("Please Enter UserName");
+                $("#UserName").focus();
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+              
+                url:'@Url.Action("ForgotPassword","Login")',
+                data: { UserName: $("#UserName").val() },
+                cache: false,
+                success: function (result) {
+                    if (result =="1") {
+                        alert("Your new credentials has been sent to your Registered Mobile No.");
+                        location.href ='@Url.Action("Index","Login")';
+                    }
+                    else if (result =="-1") {
+                        alert("Password Not Updated Successfully");
+                        return false;
+                    }
+                    else {
+                        alert("User Mobile No not registered/valid.");
+                        $("#UserName").val("");
+                    }
+                }
+            });
+        });
+    });
+</script>

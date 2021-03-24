@@ -1,0 +1,67 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Payment Release Status</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+                        <p></p>
+                        <table class="table table-striped" [mfData]="paymentReleaseData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="paymentReleaseId">Payment Release Id</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="paymentReleaseDateString">Payment Release Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="releasedAmount">Released Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="statusName">Status</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of mf.data|grdFilter: {paymentReleaseId: searchText,creadtedDateString: searchText,releasedAmount: searchText,statusName:searchText
+                                    }; let i=index;">
+                                    <td class="">
+                                        <a (click)="onreviewClick(data)" title="View" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{data.paymentReleaseId}}</td>
+                                    <td>{{data.paymentReleaseDateString}}</td>
+                                    <td>{{data.releasedAmount}}</td>
+                                    <td>{{data.statusName}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="paymentReleaseData.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,123 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Draft Claims  </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <!--<div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>-->
+                        <div class="ssv-search">
+                            <input type="text" [(ngModel)]="ssinSearchText" placeholder="SSIN Search.." class="advancedSearchTextbox" NumbersOnly>
+                            <!--<input type="text" [(ngModel)]="claimReferenceNoText" placeholder="Claim Reference No Search.." class="advancedSearchTextbox" NumbersOnly minlength="12" maxlength="12">-->
+                            <button (click)="GetResults()"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <p></p>
+
+                        <table class="table table-striped" [mfData]="claimsData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="ssin">SSIN</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="benName">Beneficiary Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimRefernceNo">Claim Reference No</mfDefaultSorter>
+
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="submittedDate">Submission Date</mfDefaultSorter>
+                                    </th>
+
+                                    <th>
+                                        <mfDefaultSorter by="claimAmount">Amount</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="statusName">Status</mfDefaultSorter>
+
+                                    </th>
+                                    <!--<th>
+                    <mfDefaultSorter by="statusName">Last Action</mfDefaultSorter>
+
+                </th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let claims of mf.data|grdFilter: {ssin:searchText,benName:searchText, claimRefernceNo: searchText,submittedDateString: searchText, claimAmount: searchText, claimType: searchText,
+           statusName: searchText}; let i=index;">
+                                    <td class="">
+                                        <a (click)="onEditClaimClick(claims)" title="Edit" class="txt-color-red" *ngIf="claims.statusName=='Saved'"><i class="fa fa-edit fa-lg"></i></a>
+                                        <a (click)="onDeleteClaimClick(claims)" title="Delete" class="txt-color-red" *ngIf="claims.statusName=='Saved'"><i class="fa fa-trash-o fa-lg"></i></a>
+
+                                    </td>
+                                    <td>{{claims.ssin}}</td>
+                                    <td>{{claims.benName}}</td>
+                                    <td>{{claims.claimRefernceNo}}</td>
+                                    <td>{{ claims.submittedDateString}}</td>
+                                    <td>{{claims.claimAmount}}</td>
+                                    <td>{{claims.statusName}}</td>
+                                    <!--<td>{{claims.submittedDateString}}</td>-->
+                                </tr>
+                            </tbody>
+
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="claimsData.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                              <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" (click)="downloadRecipt()">
+                    Download Receipt
+                </button>-->
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

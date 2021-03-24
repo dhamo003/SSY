@@ -1,0 +1,142 @@
+﻿
+@{
+                /**/
+
+                ViewBag.Title = "Grievances";
+                Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+
+}
+
+<style>
+    .dataTables_length {
+        display: none;
+    }
+</style>
+
+<script src="~/Scripts/jquery.min.js"></script>
+
+<br />
+<br />
+
+<div class="row" style="height:300px;">
+
+    <div class="col-md-3" style="margin-left:100px;">
+
+        <div class="form-group">
+            <div class="input-group extra-space">
+                <span class="input-group-addon input-label" style="width:101px;">Remarks</span>
+                @Html.TextBox("txtReamrks", "", new { @class = "form-control", @maxlength = 100, onkeypress = "return onlyAlphabets(event,this)" })
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="input-group extra-space">
+                <span class="input-group-addon input-label" style="width:101px;">Email</span>
+                @Html.TextBox("txtemailId", "", new { @class = "form-control", @maxlength = 50, @onchange = "validateEmail()" })
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <a class="btn btn-success" id="btnSubmit" style="width:274px;background-color:#009688">Save</a>
+    </div>
+</div>
+
+<div class="row" style="width:1200px;margin-left:100px;display:none;">
+    <div id="datatable-1_wrapper" class="dataTables_wrapper" role="grid">
+
+
+        <table id="example" class="table table-striped table-bordered contactdet dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+
+                    <th><label>Remarks</label></th>
+                    <th><label>e-mail ID</label></th>
+                </tr>
+            </thead>
+        </table>
+
+
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        LoadDeptdata();
+
+    });
+
+    function LoadDeptdata() {
+         
+
+        //var table = $('#example').DataTable();
+        //table.destroy();
+        //$('#example tbody').empty();
+
+
+        @*$.get('@Url.Action("GetRemarks", "Home")', {}, function (data) {
+            //datasource = data;
+             
+            var res = JSON.stringify(data);
+            $('#example').DataTable({
+                "aaData": JSON.parse(res),
+                "columns": [{ "data": "Remarks" }, { "data": "Mail" }]
+            });
+        });*@
+
+    }
+
+    $("#btnSubmit").click(function () {
+
+
+        if ($("#txtReamrks").val() == "" || $("#txtReamrks").val() == null)
+        {
+            alert("Please enter remarks");
+            $("#txtReamrks").focus();
+            return false;
+        }
+
+        if ($("#txtemailId").val() == "" || $("#txtemailId").val() == null) {
+            alert("Please enter Email");
+            $("#txtemailId").focus();
+            return false;
+        }
+
+        $.get('@Url.Action("SubmitRemarks", "Home")', { Remarks: $("#txtReamrks").val(), Mail: $("#txtemailId").val() }, function (Res) {
+            //datasource = data;
+            if (Res.Code == "000") {
+                alert(Res.Message);
+                $("#txtReamrks").val("");
+                $("#txtemailId").val("");
+                LoadDeptdata()
+                return false;
+            }
+            else {
+                alert(Res.Message);
+                return false;
+            }
+
+        });
+
+    });
+
+    function validateEmail() {
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test($("#txtemailId").val())) {
+            alert("Invalid email address.");
+            $("#txtemailId").focus();
+            return false;
+        }
+    }
+</script>
+
+
+
+
+

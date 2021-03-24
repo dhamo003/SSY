@@ -1,0 +1,367 @@
+﻿
+
+@{
+    ViewBag.Title = "DelteNomDep";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    var UserId = @Html.Raw(Json.Encode(ViewBag.UserId))
+    var Message = @Html.Raw(Json.Encode(ViewBag.Message))
+</script>
+<style>
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    .modal-backdrop {
+        display: none !important;
+    }
+</style>
+@using (Html.BeginForm("EditDepNomi", "Registration", FormMethod.Post, new { onsubmit = "return EditSubmit()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="div1" style="display:none;">
+        <form role="form">
+            <div class="container-fluid" style="margin-left:20px;">
+                <div class="row">
+                    <fieldset class="custom-border">
+
+                        <center><h4><b>Dependent Details</b></h4></center>
+                        <table class="table table-bordered tblfamily">
+                            <thead style=" background-color : #094c86  !important;color:white">
+                                <tr>
+
+
+                                    <th>Registration No. </th>
+                                    <th>Dependent Name</th>
+                                    <th>Relationship</th>
+                                    <th>Gender</th>
+                                    <th>DOB</th>
+
+                                    <th>Aadhaar No, if any</th>
+
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </fieldset>
+                    <br class="clearfix" />
+                    <fieldset class="custom-border">
+                        <center><h4><b>Nominee Details</b></h4></center>
+
+                        <table class="table table-bordered tblNaminee">
+                            <thead style=" background-color : #094c86  !important;color:white">
+                                <tr>
+
+
+                                    <th>Name</th>
+                                    <th>Relationship with applicant</th>
+                                    <th>Gender</th>
+                                    <th>DOB</th>
+
+                                    <th>Share Allocation</th>
+                                    <th>Bank Name</th>
+                                    <th>Bank Account No.</th>
+                                    <th>Branch Name</th>
+                                    <th>IFSC Code</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            @*Start Hidden Fields*@
+            <input type="hidden" id="Bensno" value="1112121231" name="Bensno" />
+            <input type="hidden" id="Bennamedet" value="1212" name="Bennamedet" />
+            <input type="hidden" id="BenFamdet" value="12121" name="BenFamdet" />
+            <input type="hidden" id="NamCount" value="0" name="NamCount" />
+            <input type="hidden" id="FamCount" value="0" name="FamCount" />
+            <input type="hidden" id="DependentStatus" value="0" name="DependentStatus" />
+            <input type="hidden" id="NomineeStatus" value="0" name="NomineeStatus" />
+            @*End Hidden Fields*@
+        </form>
+
+    </div>
+
+    <div id="div2" style="display:none;margin-top:180px;">
+        <center><h4><b>Your Application Is Pending</b></h4></center>
+    </div>
+
+}
+
+@*Delete Dependent*@
+<div class="modal fade" id="divDeleteDep" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:570px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Remarks</h4>
+
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row" id="divDepDet">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                @* <span class="input-group-addon input-label">Remarks</span>*@
+                                @*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+                                @*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+                                <textarea name="test_field" id="DepRemarks" style="width: 544px;height: 104px;"></textarea>
+                                <input type="hidden" id="DepSno" value="0" name="DepSno" />
+                                @*</textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row" id="loadeDeprdiv" style="display:none;margin-top:80px;">
+                    <center><img src="  /Content/images/ColorProcessing.gif" /> </center>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" onclick="DeleteDep()">Submit</a>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*Delete Nominee*@
+<div class="modal fade" id="divDeleteNominee" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:570px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Remarks</h4>
+
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row" id="divNomineeDet">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                @* <span class="input-group-addon input-label">Remarks</span>*@
+                                @*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+                                @*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+                                <textarea name="test_field" id="NomineeRemarks" style="width: 544px;height: 104px;"></textarea>
+                                <input type="hidden" id="NomineeSno" value="0" name="DepSno" />
+                                @*</textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="row" id="loadeNomineerdiv" style="display:none;margin-top:80px;">
+                    <center><img src="  /Content/images/ColorProcessing.gif" /> </center>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" onclick="DeleteNominee()">Submit</a>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#Bensno").val(UserId);
+        var Bensno =  $("#Bensno").val();
+
+        BindData(Bensno)
+    });
+    function BindData(Bensno)
+    {
+        $.get('@Url.Action("GetbenDetails", "Registration")', {bensno : Bensno}, function (res) {
+            //alert(res.Status);
+            //if(res.Status ==1 ||res.Status ==3)
+            //{
+            //    $("#div1").show();
+            //}
+            //else
+            //{
+            //    $("#div2").show();
+
+            //}
+
+            $("#div1").show();
+
+        });
+        //Getting benificiary Family Data
+        $.get('@Url.Action("GetFamilyDetails", "Registration")',  {bensno : Bensno}, function (res) {
+            $('.tblfamily tbody').empty();
+            if(res =="" || res ==null)
+            {
+                $("input[name=dependentdet]").prop('checked', true);
+                $('.tblfamily').hide();
+                $('.btndepen').hide();
+            }
+            $.each(res, function (i, data) {
+                var rowCount = $('.tblfamily tr').length;
+
+                $('.tblfamily').append('<tr><td>'+data.BenFamilySchRegNo+'</td><td>'+data.BenDependentName+'</td><td>'+data.BenDependentRelation+'</td><td>'+data.BenFamilyGender+'</td><td>'+data.Dob+'</td><td>'+data.BenFamilyAadhaarNo+'</td><td><a class="btn btn-primary" onclick="DeleteFamilyModal('+data.BenFamilyMemSno+')">Delete</a></td></tr>')
+
+
+
+                $("#DDLFamRel"+rowCount).val(data.BenDependentRelation);
+                $("#DDLFamGender"+rowCount).val(data.BenFamilyGender);
+
+
+            });
+        });
+        //Get Nominee Details
+        $.get('@Url.Action("GetNamineeDetails", "Registration")',  {bensno : Bensno}, function (res) {
+            $('.tblNaminee tbody').empty();
+            if(res =="" || res ==null)
+            {
+                $("input[name=nomineedet]").prop('checked', true);
+                $('.tblNaminee').hide();
+                $('.btnnom').hide();
+            }
+             
+            $.each(res, function (i, data) {
+                var rowCount = $('.tblNaminee tr').length;
+
+                $('.tblNaminee').append('<tr><td>'+data.BenNomineeName+'</td><td>'+data.BenNomineeRelation+'</td><td>'+data.BenNomineeGender+'</td><td>'+data.Dob+'</td><td>'+data.BenNomineeShareAllocation+'</td><td>'+data.BenNomineeBankName+'</td><td>'+data.BenNomineeBankAccNo+'</td><td>'+data.BenNomineeBankBranch+'</td><td>'+data.BenNomineeBankIfscCode+'</td><td><a class="btn btn-primary" onclick="DeleteNomineeModal('+data.BenNomineeSno+')">Delete</a></td></tr>')
+
+            });
+        });
+    }
+
+
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            return false;
+        }
+    }
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+    function DeleteFamilyModal(id)
+    {
+
+        $("#divDeleteDep").modal('show');
+        $("#DepSno").val(id);
+
+
+    }
+
+    function DeleteNomineeModal(id)
+    {
+        $("#divDeleteNominee").modal('show');
+        $("#NomineeSno").val(id);
+
+    }
+
+    function DeleteDep()
+    {
+        var Id = $("#DepSno").val();
+        var Remarks = $("#NomineeRemarks").val();
+
+        if(Remarks == "" || Remarks == null)
+        {
+            alert("Please enter remarks");
+            $("#NomineeRemarks").focus();
+            return false;
+        }
+        $.get('@Url.Action("DeleteDependent", "Registration")',  {Id : Id,Remarks : Remarks}, function (res) {
+
+            $("#divDeleteDep").modal('hide');
+
+            alert(res.Message);
+            if(res.Code == "000")
+            {
+                window.location.href = "/Registration/DelteNomDep";
+                return false;
+            }
+        });
+
+
+    }
+    function DeleteNominee()
+    {
+        var Id = $("#NomineeSno").val();
+        var Remarks = $("#DepRemarks").val();
+
+        if(Remarks == "" || Remarks == null)
+        {
+            alert("Please enter remarks");
+            $("#DepRemarks").focus();
+            return false;
+        }
+
+        $.get('@Url.Action("DeleteNominee", "Registration")',  {Id : Id,Remarks : Remarks}, function (res) {
+
+            $("#divDeleteNominee").modal('hide');
+
+            alert(res.Message);
+            if(res.Code == "000")
+            {
+                window.location.href = "/Registration/DelteNomDep";
+                return false;
+            }
+        });
+
+
+
+    }
+
+
+</script>

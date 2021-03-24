@@ -1,0 +1,140 @@
+﻿@model List<SSY.Models.SpDetailedReport_Result>
+@{
+    ViewBag.Title = "DetailReportPartial";
+    Layout = null;
+    int i = 1;
+}
+@*<link href="~/Content/ssy_css/smoothness.jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/my_css/buttons.dataTables.min.css" rel="stylesheet" />
+
+    <link href="~/Content/ssy_css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+
+    <script src="~/Content/ssy_js/jquery.js"></script>
+    <script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/ssy_js/dataTables.jqueryui.min.js"></script>
+
+    <script src="~/Content/ssy_js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/ssy_js/buttons.flash.min.js"></script>
+    <script src="~/Content/ssy_js/jszip.min.js"></script>
+    <script src="~/Content/ssy_js/pdfmake.min.js"></script>
+    <script src="~/Content/ssy_js/vfs_fonts.js"></script>
+
+    <script src="~/Content/ssy_js/buttons.html5.min.js"></script>
+    <script src="~/Content/ssy_js/buttons.print.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">*@
+
+<style>
+    #Div1 {
+        width: 1220px !important;
+        height: 500px !important;
+        overflow: scroll;
+        /*overflow-y: hidden;
+            overflow-x: hidden;*/
+        /*margin: 0 auto;*/
+        white-space: nowrap;
+        margin-left: 14px;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <div id="Div1">
+
+        <table class="detailedAppl  table-bordered display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th colspan="11">
+                        <center>Benificiary Details</center>
+                    </th>
+                    <th colspan="3">
+                        <center> Address</center>
+                    </th>
+                    <th colspan="2"></th>
+                </tr>
+                <tr>
+                    <th>S.No</th>
+                    <th>SSIN Number</th>
+                    <th>Worker Type</th>
+                    <th>Scheme Registration</th>
+                    <th>Date Of Registration</th>
+                    <th>Verified Date</th>
+                    <th>Name</th>
+                    <th>Father's Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Mobile No</th>
+                    <th>PF</th>
+                    <th>District</th>
+                    <th>SubDivision</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var user in Model)
+                {
+
+                    <tr>
+                        <td>@i</td>
+                        <td>@user.SSINNo</td>
+                        <td>@user.WorkerType</td>
+                        <td>@user.SchemeNo</td>
+                        <td>@user.RegDate</td>
+                        <td>@user.VerifyDate</td>
+                        <td>@user.Name</td>
+                        <td>@user.fathername</td>
+                        <td>@user.DOB</td>
+                        <td>@user.Mobileno</td>
+                        <td>@user.PFStatus</td>
+                        <td>@user.DistrictName</td>
+                        <td>@user.SubDivisionName</td>
+                        <td>@user.BlockName</td>
+                        <td>@user.Status</td>
+                        <td><a href="#" data-toggle="modal" data-target=".regpop" onclick="Bentrnasclick(@user.BenSno);">View</a></td>
+                    </tr>
+                    i++;
+                }
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+        $('.detailedAppl').DataTable({
+
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    filename: "Report",
+
+                    titleAttr: 'Excel',
+                }
+
+            ],
+        });
+
+
+    });
+
+
+    $('th').css("background", "#87CEEB");
+    $('th').css("color", "#ffffff");
+</script>

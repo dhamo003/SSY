@@ -1,0 +1,134 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Receipt Book List </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+
+
+                        <p></p>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Action
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Agent Code
+                                    </th>
+                                    <th>
+                                        Book No
+                                    </th>
+                                    <th>
+                                        Receipt No From
+                                    </th>
+                                    <th>
+                                        Receipt No To
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let config of receiptBookData">
+                                    <td class="">
+
+                                        <!--<a *ngIf="config.status == 1" (click)="onEditClick(config)" title="Edit" class="txt-color-red"><i class="fa fa-recycle"></i></a>-->
+                                        <a (click)="onViewClick(config)" title="View" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{config.dateString}}</td>
+                                    <td>{{config.agentCode}}</td>
+                                    <td>{{config.bookNo}}</td>
+                                    <td>{{config.receiptNoFrom}}</td>
+                                    <td>{{config.receiptNoTo}}</td>
+                                </tr>
+                            </tbody>
+
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="receiptBookData.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <!--<table class="table table-striped" [mfData]="configurationData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                             <thead>
+                                                 <tr>
+                                                     <th>
+                                                         <mfDefaultSorter>Action</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="effectiveFromDateString">Effective From Date</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="effectiveToDateString">Effective To Date</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="beneficiaryPFContribution">Beneficiary PF Contribution</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="governmentPFContribution">Government PF Contribution</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="pfLockingPeriodMonths">Lock in Period (Months)</mfDefaultSorter>
+                                                     </th>
+                                                     <th>
+                                                         <mfDefaultSorter by="inActivePeriodMonths">InActive Period</mfDefaultSorter>
+                                                     </th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr *ngFor="let config of mf.data|grdFilter: {effectiveFromDateString: searchText,effectiveToDateString: searchText, beneficiaryPFContribution: searchText,
+                        governmentPFContribution: searchText, pfLockingPeriodMonths: searchText, inActivePeriodMonths:searchText,  maturityAge: searchText, averageMonthlyIncome: searchText}; let i=index;">
+                                                     <td class="">
+                                                         <a (click)="onEditClick(config)" title="Edit" class="txt-color-red"><i class="fa fa-recycle"></i></a>
+                                                         <a (click)="onViewClick(config)" title="View" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                                     </td>
+                                                     <td>{{config.effectiveFromDateString}}</td>
+                                                     <td>{{config.effectiveToDateString}}</td>
+                                                     <td>{{config.beneficiaryPFContribution}}</td>
+                                                     <td>{{config.governmentPFContribution}}</td>
+                                                     <td>{{config.pfLockingPeriodMonths}}</td>
+                                                     <td>{{config.inActivePeriodMonths}}</td>
+                                                 </tr>
+                                             </tbody>
+
+
+                                             <tfoot>
+                                                 <tr>
+                                                     <td colspan="9">
+                                                         <div *ngIf="configurationData.length>0">
+                                                             <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                                         </div>
+                                                     </td>
+                                                 </tr>
+                                             </tfoot>
+                                         </table>-->
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    </div>
+</section>

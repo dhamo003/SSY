@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "SearchSSIN";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+
+}
+
+<script src="~/Scripts/jquery.min.js"></script>
+
+<div class="container-fliud">
+
+    <div class="row">
+      <center><p><h4>Search SSIN</h4></p></center>  
+    </div>
+   
+    <div class="row">
+        <div class="col-md-4">
+            </div>
+
+            <div class="col-md-4">
+                <label id="lblWorkerType">WorkerType</label><span style="color: red">*</span>
+                <div class="input-group">
+                    <input type="text" class="form-control searchval" name="searchval" value="" onkeydown="return IsAlphaNumaric(event)" placeholder="Scheme Regno." maxlength="20">
+                    <span class="input-group-addon" style="background-color: lightpink;"><a href="#" id="btnsub">Search</a></span>
+
+                </div>
+            </div>
+
+        </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+
+            <table class="table table-bordered " style="text-align:left;background-color:white">
+
+                <tbody>
+                    <tr>
+                        <td style="text-align:left;width: 100px;"><b>NAME</b></td>
+                        <td style="text-align:left"><label id="lblname"></label></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;width: 100px;"><b>SSIN/Temp Regno</b></td>
+                        <td style="text-align:left"><label id="lblSSin"></label></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;width: 250px;"><b><label id="lbldate"></label></b></td>
+                        <td style="text-align:left;"><label id="lblstaDate"></label></td>
+                    </tr>
+                </tbody>
+            </table>
+            <label id="lblmsg" style="color:darkorchid;"></label>
+
+
+        </div>
+
+    </div>
+
+    </div>
+<script>
+
+    $(document).ready(function () {
+        $("#btnsub").click(function () {
+            var value = $(".searchval").val();
+            if (value == "" || value == null) {
+                alert("Please Enter  REG.No.");
+                $(".searchval").focus();
+                return false;
+            }
+            $("#lblmsg").text("");
+
+            $.get('@Url.Action("GetSsinDetails", "Home")', { val: value }, function (res) {
+                //$('.tbldata tbody').empty();
+
+
+                if (res == "") {
+
+                    //alert("Contact your concerned LWFC for further information");
+					alert("Registration number is not existing");
+                }
+
+                else {
+
+
+                  
+                    $("#lblname").text(res.Name).addClass('label-data');
+                    $("#lblSSin").text(res.SSIN).addClass('label-data');
+
+
+
+                    if (res.RegType == 'L' && res.IsActive == false) {
+                        $("#lblmsg").text("Update CAF if not already updated");
+                        $("#lbldate").text("").addClass('label-data');
+                        $("#lblstaDate").text("").addClass('label-data');
+
+                    }
+                    else {
+                        if (res.Status == "Pending") {
+                            $("#lblmsg").text("Your application is under process");
+
+                            if (res.RegType == 'N') {
+
+
+
+                                $("#lbldate").text("Date Of Application").addClass('label-data');
+
+                                $("#lblstaDate").text(res.CreatedDate).addClass('label-data');
+                            }
+
+                            else if (res.RegType == 'L' && res.IsActive == true) {
+                                $("#lbldate").text("Date Of Updation").addClass('label-data');
+                                $("#lblstaDate").text(res.ModifiedDate).addClass('label-data');
+                            }
+                            else {
+                                $("#lbldate").text("Date Of Updation").addClass('label-data');
+                                $("#lblstaDate").text("ÇAF not filled up").addClass('label-data');
+
+                            }
+                        }
+
+                        else {
+
+                            $("#lblmsg").text("Your application is " + res.Status);
+
+                            if (res.Status == "Approved") {
+
+
+                                $("#lbldate").text("Date Of Approval").addClass('label-data');
+                                $("#lblstaDate").text(res.VerifyDate).addClass('label-data');
+                            }
+                            if (res.Status == "Rejected") {
+
+                                $("#lbldate").text("Date Of Rejected").addClass('label-data');
+                                $("#lblstaDate").text(res.VerifyDate).addClass('label-data');
+                            }
+                            if (res.Status == "Send Back") {
+
+                                $("#lbldate").text("Date Of SendBack").addClass('label-data');
+                                $("#lblstaDate").text(res.VerifyDate).addClass('label-data');
+                            }
+                        }
+
+
+                    }
+
+
+                }
+            })
+
+        })
+    });
+</script>

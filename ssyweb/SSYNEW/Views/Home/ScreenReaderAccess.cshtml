@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "ScreenReaderAccess";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<div class="container" style="margin-top:5px;">
+
+    <div class="row bgrcolor fontcolor">
+        <div class="col-md-12">
+            <h4><b>Screen Reader Access</b></h4>
+            <p style="font-size : 15px;">
+                The National Portal of India fully complies with Guidelines for Indian Government Websites (External website that opens in a new window). Our visitors with visual impairments can access the Portal using Assistive Technologies, such as screen readers.
+            </p>
+            <p style="font-size : 15px">
+                The information of the Portal is accessible with different screen readers, such as JAWS, NVDA, SAFA, Supernova and Window-Eyes.
+            </p>
+            <p style="font-size : 15px">
+                Following table lists the information about different screen readers:
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="container">
+            <h4 class="fontcolor"><b> Information related to the various screen readers</b> </h4>
+            <table class="table table-bordered">
+                <thead style="background-color: cadetblue;color:white;">
+                    <tr class="bgrcolor">
+                        <th>SCREEN READER</th>
+                        <th>WEBSITE</th>
+                        <th>FREE / COMMERCIAL</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr class="active">
+                        <td class="bgrcolor">Screen Access For All (SAFA)</td>
+                        <td class="bgrcolor"><a class="acolor" href="https://lists.sourceforge.net/lists/listinfo/safa-developer" target="_blank">https://lists.sourceforge.net/lists/listinfo/safa-developer</a></td>
+                        <td class="bgrcolor">Free</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor" >Non Visual Desktop Access (NVDA)</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.nvda-project.org" target="_blank">http://www.nvda-project.org</a></td>
+                        <td class="bgrcolor">Free</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor">System Access To Go</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.satogo.com" target="_blank">http://www.satogo.com</a></td>
+                        <td class="bgrcolor">Free</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor">Thunder</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.webbie.org.uk/thunder" target="_blank">http://www.webbie.org.uk/thunder</a></td>
+                        <td class="bgrcolor">Free</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor">WebAnywhere</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://webinsight.cs.washington.edu" target="_blank">http://webinsight.cs.washington.edu</a></td>
+                        <td class="bgrcolor">Free</td>
+                    </tr>
+                    <tr class="active bgrcolor">
+                        <td class="bgrcolor">Hal</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.yourdolphin.co.uk/productdetail.asp?id=5" target="_blank">http://www.yourdolphin.co.uk/productdetail.asp?id=5</a></td>
+                        <td class="bgrcolor">Commercial</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor">JAWS</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.freedomscientific.com/Downloads/JAWS" target="_blank">http://www.freedomscientific.com/Downloads/JAWS</a></td>
+                        <td class="bgrcolor">Commercial</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor">Supernova</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.yourdolphin.co.uk/productdetail.asp?id=1" target="_blank">http://www.yourdolphin.co.uk/productdetail.asp?id=1</a></td>
+                        <td class="bgrcolor">Commercial</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="bgrcolor">Window-Eyes</td>
+                        <td class="bgrcolor"><a class="acolor" href="http://www.gwmicro.com/Window-Eyes" target="_blank">http://www.gwmicro.com/Window-Eyes</a></td>
+                        <td class="bgrcolor">Commercial</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    $(document).ready(function () {
+
+        var clickValue = 0;
+        var $affectedElements = $("p"); // Can be extended, ex. $("div, p, span.someClass")
+
+        // Storing the original size in a data attribute so size can be reset
+        $affectedElements.each(function () {
+            var $this = $(this);
+            $this.data("orig-size", $this.css("font-size"));
+        });
+
+        $("#btn-increase").click(function () {
+            changeFontSize(1);
+        })
+
+        $("#btn-decrease").click(function () {
+            changeFontSize(-1);
+        })
+
+        $("#btn-orig").click(function () {
+            $affectedElements.each(function () {
+                var $this = $(this);
+                $this.css("font-size", $this.data("orig-size"));
+            });
+        })
+
+        function changeFontSize(direction) {
+            $affectedElements.each(function () {
+                var $this = $(this);
+                $this.css("font-size", parseInt($this.css("font-size")) + direction);
+            });
+        }
+        $("#btn-color").click(function () {
+
+            if (clickValue == 0) {
+                $(".bgrcolor").css("background", "black").css("color", "yellow");
+                $(".fontcolor ,.acolor").css("color", "yellow")
+                $(".spnColor").css("color", "yellow");
+                clickValue = 1;
+            }
+            else {
+
+                $(".bgrcolor").css("background", "").css("color", "");
+                $(".spnColor").css("color", "");
+                $(".fontcolor ,.acolor").css("color", "")
+                clickValue = 0;
+            }
+
+
+
+
+        })
+    });
+
+
+</script>

@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/Scripts/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" rel="stylesheet">
+
+
+
+<input type="button" value="Error" id="error" />
+<input type="button" value="Info" id="info" />
+<input type="button" value="Warning" id="warning" />
+<input type="button" value="Success" id="success" />
+<br><br><br><br>
+See official example: <a href='http://codeseven.github.io/toastr/demo.html' target='blank'>Here</a>
+<script>
+    //$(document).ready(function () {
+        $(function () {
+            $('#error').click(function () {
+                // make it not dissappear
+                toastr.error("Noooo oo oo ooooo!!!", "Title", {
+                    "timeOut": "0",
+                    "extendedTImeout": "0",
+                    "positionClass": "toast-top-left",
+                });
+            });
+            $('#info').click(function () {
+                // title is optional
+                toastr.info("Info Message", "Title");
+            });
+            $('#warning').click(function () {
+                toastr.warning("Warning");
+            });
+            $('#success').click(function () {
+                toastr.success("YYEESSSSSSS");
+            });
+        });
+   // });
+</script>

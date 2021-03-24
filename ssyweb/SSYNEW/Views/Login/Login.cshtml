@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+}
+
+<style>
+
+    .checkbox label, .radio label {
+        padding-left: 0px !important;
+    }
+</style>
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/Aes/aes.js"></script>
+<script type="text/javascript" src="~/Scripts/Cookies/js.cookie.js"></script>
+
+
+<div class="bgrcolor" id="scooter">
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="row" style="margin-top:30px;"><img src="~/Content/images/3lionshead-white.png" class="img-responsive" style="margin:auto;"></div>
+            <div class="row text-center text-white">
+
+
+                <p class="clsp35 spnColor">
+                    SSY
+                    <br>
+                    <span style="">Samajik Suraksha Yojana</span>
+                </p>
+
+                <p class="clsp15 spnColor">Social Security For Unorganised Workers</p>
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div id="loginbox" style="margin-top:30px;" class="mainbox col-md-12">
+                <div class="panel">
+                    <div class="panel-heading" style="margin-right: 240px;">
+
+                        <p class="clsp20 spnColor panel-title text-center" style="color:white">Log In</p>
+
+                    </div>
+
+                    <div style="padding-top:0px" class="panel-body">
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+
+                        <form id="loginform" class="form-horizontal" role="form" action="dashboard.html">
+                            <div class="row" style="padding-top:10px;padding-bottom:10px;">
+                                <div class="col-md-2">
+
+                                    <div class="input-group">
+                                        <div class="checkbox" style="width: 120px;">
+                                            <label class=" text-white">
+                                                <input id="lgndept" type="radio" class="rdlogins" name="rdlogin" value="Dept"><span class="spnColor">Department</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="input-group">
+                                        <div class="checkbox" style="width: 120px;">
+                                            <label class=" text-white">
+                                                <input id="lgnbenif" type="radio" class="rdlogins" name="rdlogin" value="BenLog"><span class="spnColor">Beneficiary</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+
+                                    <div class="input-group">
+                                        <div class="checkbox" style="width: 147px;">
+                                            <label class=" text-white">
+                                                <input id="lgnserpro" type="radio" class="rdlogins" name="rdlogin" value="SerPro"><span class="spnColor">Service Provider</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            @*Login with*@
+                            <div class="row" style="padding-top:10px;padding-bottom:10px; display:none;" id="benltype">
+                                <div class="col-md-3">
+
+                                    <div class="input-group">
+                                        <div class="checkbox">
+                                            <label class=" text-white">
+                                                <input id="lgnssin" type="radio" class="rdlogintypes" name="rdlogintype" value="SSIN"><span class="spnColor">SSIN</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+
+                                    <div class="input-group">
+                                        <div class="checkbox">
+                                            <label class=" text-white" style="width:142px;">
+                                                <input id="lgnbnkaccnt" type="radio" name="rdlogintype" class="rdlogintypes" value="Aadhaar"><span class="spnColor"> Aadhaar/Epic</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div style="margin-bottom: 25px" class="input-group  col-md-7">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input id="login-username" type="text" class="form-control username" name="username" value="" placeholder="Username" required>
+
+                            </div>
+
+                            <div style="margin-bottom: 25px" class="input-group col-md-7">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input id="login-password" autocomplete="new-password" type="password" class="form-control pasword" name="password" placeholder="Password" required>
+                            </div>
+
+                            <div style="margin-top:10px" class="form-group">
+                                <!-- Button -->
+
+                                <div class="col-sm-6 controls">
+                                    <a id="btn-login" href="#" class="btn btn-default loginsub ">Login</a>
+
+                                    <div style="float:right; font-size: 0.8em; position: relative; top:12px"><p class="clsp15 spnColor"><a href="/Home/ForgotPassword" class="spnColor" style="color:white;">Forgot Password?</a></p></div>
+
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+    });
+    var iterations = 1000;
+    // sizes must be a multiple of 32
+    var keySize = 128;
+    var ivSize = 128;
+
+    function LoginSubmit(Value) {
+
+
+            var userName = $(".username").val();
+
+        var passWord = $(".pasword").val();
+
+        var getType = $("input[name='rdlogin']:checked").val();
+
+        if (getType == undefined) {
+
+            alert("Please Select Login Type..");
+            return false;
+        }
+
+            if (userName == "" || userName == null) {
+
+                alert("Please Enter User Name");
+
+                $(".username").focus();
+
+                return false;
+            }
+
+            if (passWord == "" || passWord == null) {
+
+                alert("Please Enter PassWord");
+                $(".pasword").focus();
+                return false;
+            }
+
+
+
+
+        var loginType = $("input[name='rdlogintype']:checked").val()
+        var key = CryptoJS.enc.Utf8.parse('8484898995959494');
+        var iv = CryptoJS.enc.Utf8.parse('8484898995959494');
+
+        //Benificiary Login
+
+        if (getType == "BenLog") {
+
+                if (loginType == undefined)
+                {
+
+                    alert("Please select type")
+
+                    return false;
+                }
+            var bdata = JSON.stringify({ userName: userName, password: passWord, loginType: loginType, userId: Value });
+            var endata = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(bdata), key,
+
+                { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+
+            $.post('@Url.Action("BeneficiaryLogin", "Login")', { modeldata: '"'+endata+'"' }, function (Result) {
+
+                    if (Result.Code == "000") {
+
+
+                        window.location.href = "/Home/Dashboard"
+                           // "/? session = " + Result.Session;
+                        Cookies.set('SessionValue', Result.Session)
+                        return false;
+
+
+                    }
+
+                    else
+
+                    {
+
+                        alert(Result.Message);
+                        return false;
+                    }
+
+                });
+            }
+
+
+            else
+		{
+			if (userName == "SpecialSecretary" || userName == "AdditionalChiefSecretary" ) {
+				getType = "SerPro";
+			}
+            var ldata = JSON.stringify({ userName: userName, password: passWord, loginType: getType, userId: Value });
+            var endata = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ldata), key,
+
+                { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+
+
+            $.post('@Url.Action("DepartmentLogin", "Login")', { data: '"' + endata + '"'  }, function (dat) {
+                if (dat.Code == "000") {
+					if (dat.UserType == "1" || dat.UserType == "2" || dat.UserType == "5" || dat.UserType == "6" || dat.UserType == "7" || dat.UserType == "3" || dat.UserType == "4" || dat.UserType == "13" || dat.UserType == "12" || dat.UserType == "23" || dat.UserType == "24" ) {
+
+                        Cookies.set('SessionValue', dat.Session)
+                        window.location.href = "/Home/DeptDashboard"//?SessionValue=" + dat.Session
+                        return false;
+                    }
+
+					if (dat.UserType == "8" || dat.UserType == "9" || dat.UserType == "10" || dat.UserType == "11" || dat.UserType == "21" || dat.UserType == "22" ) {
+                        Cookies.set('SessionValue', dat.Session)
+                        window.location.href = "/Agent/AgentDashboard";//?SessionValue=" + dat.Session
+
+                        return false;
+                    }
+                }
+
+                if (dat.Code == "888") {
+                        var r = confirm(dat.Message);
+                        if (r == true) {
+                            LoginSubmit(dat.UserId)
+                        } else {
+                            return false;
+                        }
+                }
+                else if (dat.Message == null)
+                {
+                    return false;
+                }
+                    else {
+                        alert(dat.Message);
+                        return false;
+                    }
+                });
+
+            }
+
+        }
+</script>

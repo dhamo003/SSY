@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Part2PendingApp";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+    
+}
+
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+<script>
+    var Createdby = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+   
+
+
+</script>
+
+<div class="container-fluid" id="DivReport" style="margin-left:25px;">
+    <div class="logo" style="text-align: center;"><h3>Part II Pending Applications</h3></div>
+    <table class="TblDraftApplication  table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>SSIN</th>
+                <th>Created Date</th>
+                <th>DOB</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div id="DivPart2" style="display:none;" class="embed-responsive embed-responsive-16by9">
+    <iframe src="" frameborder="0" class="embed-responsive-item" id="RegFrmae"></iframe>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+    
+
+    $.get('@Url.Action("GetDraftApplication", "Report")', {}, function (result) {
+         
+        var table = $('.TblDraftApplication').DataTable();
+        table.destroy();
+        $('.TblDraftApplication tbody').empty();
+        $.each(result, function (i, data) {
+          
+            $('.TblDraftApplication').append('<tr><td>' + data.Sno + '</td><td><a href="#"   onClick = "ConfirmDet(' + data.BenSno + ');">' + data.Name + '</a></td><td>' + data.SSIN + '</td><td>' + data.CreatedDate + '</td><td>' + data.DOB + '</td></tr>')
+        });
+        $('.TblDraftApplication').DataTable();
+    });
+    });
+
+
+
+    function ConfirmDet(Id)
+    {
+
+        $("#DivReport").hide();
+        $("#DivPart2").show();
+
+       
+        $("#RegFrmae").attr("src", "/Registration/BeniPart2?BeniSno="+Id+"&CreatedBy="+Createdby+"&Type="+"Agent");
+
+
+
+
+        return false;
+
+    }
+</script>

@@ -1,0 +1,489 @@
+﻿@model SSY.Models.SignUpUser
+@{
+    ViewBag.Title = "Edit Profile";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<script>
+    var Usertypeid = @Html.Raw(Json.Encode(ViewBag.UserType))
+    var Result = @Html.Raw(Json.Encode(ViewBag.SucessMes))
+    var DeptUserid = @Html.Raw(Json.Encode(ViewBag.DeptUserid))
+    var LocationType = @Html.Raw(Json.Encode(ViewBag.LocationType))
+
+</script>
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+<link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+<style type="text/css">
+    .input-label {
+        text-align: left !important;
+        min-width: 130px !important;
+    }
+
+    .logo {
+        padding: 15px 0;
+        font-size: 25px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .row > div {
+        margin-bottom: 0px !important;
+    }
+
+    .SumoUnder {
+        height: 10px !important;
+    }
+
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .dropdown-menu {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+<br class="clearfix" />
+<br class="clearfix" />
+@Html.ValidationSummary()
+<div class="container" style="margin-top:-54px;">
+    <div class="logo" style="text-align: center;">User Modifications</div>
+    @using (Html.BeginForm("EditProfile", "Agent", FormMethod.Post, new { onsubmit = "return Validateall()", id = "signup", @class = "form-signin text-left" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="container-fluid" id="sign">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">First Name<span style="color: red"> *</span></span>
+                            @Html.TextBoxFor(m => m.FirstName, null, new { @class = "form-control  valid", minlength = "3", maxlength = "50", placeholder = "First Name", req = "Req", message = "Please Enter First Name", onkeypress = " return IsCharsOnly(event); ", tabindex = "1" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Last Name <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.LastName, null, new { @class = "form-control  valid", placeholder = "Last Name", minlength = "3", maxlength = "50", req = "Req", message = "Please Enter Last Name", onkeypress = " return IsCharsOnly(event); ", tabindex = "2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Designation <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.Designation, null, new { @class = "form-control  valid", placeholder = "Designation", maxlength = "50", req = "Req", onkeypress = " return IsCharsOnly(event); ", tabindex = "3", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Mobile Number <span style="color: red">*</span></span>
+                            @Html.TextBoxFor(m => m.MobileNumber, null, new { @class = "form-control", @maxlength = 10, placeholder = "Mobile Number", req = "Req", @onkeypress = "return IsNumeric(event);", tabindex = "4" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Landline Number </span>
+                            @Html.TextBoxFor(m => m.Code, null, new { @class = "form-control", @maxlength = 5, placeholder = "Code", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);", tabindex = "5", style = "width: 72px;" })
+                        </div>
+                        @Html.TextBoxFor(m => m.Landline, null, new { @class = "form-control", @maxlength = 8, placeholder = "Number", req = "Req", message = "Please Enter Mobile Number", @onkeypress = "return IsNumeric(event);", tabindex = "6", style = "width: 127px;margin-top :-34px;margin-left :223px;" })
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Role </span>
+                            @Html.TextBoxFor(m => m.RoleName, null, new { @class = "form-control", req = "Req", tabindex = "5", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Email Address </span>
+                            @Html.TextBoxFor(m => m.Email, null, new { @class = "form-control ", placeholder = "Email ", req = "Req", message = "Please Enter Email", @onchange = "validateEmail()", @tabindex = "6" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row" id="divdist">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">District</span>
+                            @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District", @tabindex = "8", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row" id="divsubdiv">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">SubDivision </span>
+                            @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control Subdivision", @tabindex = "8", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Type <span style="color: red">*</span></span>
+                            @Html.DropDownList("ddlBMC", new List<SelectListItem>
+                                        {
+                                             new SelectListItem{ Text="-- Select Type --", Value = "0" },
+                                            new SelectListItem{ Text="Block", Value = "1" },
+                                            new SelectListItem{ Text="Muncipality", Value = "2" },
+                                            new SelectListItem{ Text="Corporation", Value = "3" },
+                                        }, new { @class = "col-md-2 pull-left form-control", @tabindex = "38", id = "peraddBMC" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="divloc">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Location<span style="color: red">*</span></span>
+                            @Html.DropDownList("Location", new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location", id = "Location", @tabindex = "9", @multiple = "multiple" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">GP/Ward <span style="color: red">*</span></span>
+                            @Html.DropDownList("ward", new SelectList(Model.wardname, "Value", "Text"), new { @class = "form-control ward", @tabindex = "10", @multiple = "multiple" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <center>
+                        <button type="submit" id="Save" class="btn btn-sm card-1 inline btn-primary  clearside">Update</button>
+                        <a id="signreset" onclick="ClearAll()" class="btn btn-sm card-1 inline btn-danger  clearside">Reset</a>
+                    </center>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <input type="hidden" id="MultiGp" value="" name="MultiGp" />
+         <input type="hidden" id="MultiLoca" value="" name="MultiLoca" />
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $("#peraddBMC").val(LocationType);
+
+        $("#disid,#subdivid") .attr("disabled", true);
+
+        
+        $("#Location").removeAttr("multiple");
+        $("#ward").removeAttr("multiple");
+
+        var typeid =Usertypeid;
+
+        var message = Result;
+        if(message !="" )
+        {
+            alert(message);
+            ClearAll()
+        }
+        LoadGpDefault()
+        LoadLocationDefault()
+    });
+
+    function Validateall() {
+        if ($("#FirstName").val() == "" || $("#FirstName").val() == null) {
+            alert("Please Enter First Name");
+            $("#FirstName").focus();
+            return false;
+        }
+
+        if ($("#LastName").val() == "" || $("#LastName").val() == null) {
+            alert("Please Enter Last Name");
+            $("#LastName").focus();
+            return false;
+        }
+        if ($("#Designation").val() == "" || $("#Designation").val() == null) {
+            alert("Please Enter Designation");
+            $("#Designation").focus();
+            return false;
+        }
+        if ($("#MobileNumber").val() == "" || $("#MobileNumber").val() == null) {
+            alert("Please Enter Mobile Number");
+            $("#MobileNumber").focus();
+            return false;
+        }
+        if ($("#MobileNumber").val().length != 10) {
+            alert("Please Enter 10 digit Mobile Number");
+            $("#MobileNumber").focus();
+            return false;
+        }
+        if ($("#peraddBMC").val() == "" || $("#peraddBMC").val() == null || $("#peraddBMC").val() == "0") {
+            alert("Please Select Type");
+            $("#peraddBMC").focus();
+            return false;
+        }
+        if ($("#Location").val() == "" || $("#Location").val() == null || $("#Location").val() == "0") {
+            alert("Please Select Location");
+            $("#Location").focus();
+            return false;
+        }
+
+        if ($("#ward").val() == "" || $("#ward").val() == null ) {
+            alert("Please Select Location");
+            $("#ward").focus();
+            return false;
+        }
+
+        $("#MultiGp").val($("#ward").val());
+        $("#MultiLoca").val($("#Location").val());
+    }
+    function ClearAll() {
+
+        window.location.href = "/Agent/EditProfile";
+    }
+
+    $("#Location").change(loadGPKolkata);
+    function loadGPKolkata(){
+
+        var DistGPK = $("#disid").val();
+        var BlkGPK = $("#peraddBMC").val();
+        if(DistGPK == "12" && BlkGPK == "3")
+        {
+            $("#ward").find("option").remove();
+
+            var BlockName= $("#Location option:selected").text();
+
+            $("#ward").append('<option value=9999>'+BlockName+'</option>');
+            $("#ward").val('9999');
+            $("#ward").attr("multiple", "multiple");
+            $('#ward').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#ward").multiselect('rebuild');
+
+        }
+    }
+
+    function loadGP() {
+
+        $("#ward").removeAttr("multiple");
+        $.get('@Url.Action("GetAgentGP", "Registration")', {ID :$("#subdivid").val()}, function (dat) {
+            $("#ward").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+
+                $("#ward").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            $("#ward").attr("multiple", "multiple");
+            $('#ward').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#ward").multiselect('rebuild');
+        });
+
+
+
+    }
+
+    function LoadLocationDefault() {
+
+        $("#Location").removeAttr("multiple");
+
+
+        $.get('@Url.Action("GetMultipleLoca", "Registration")', {Uid: DeptUserid}, function (dat) {
+            $("#Location").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+
+                $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            $("#Location").attr("multiple", "multiple");
+            $('#Location').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#Location").multiselect('rebuild');
+        });
+
+
+
+    }
+ 
+
+    $("#peraddBMC").change(loadBlock);
+    function loadBlock() {
+         
+
+        $.get('@Url.Action("GetblockJSON", "Registration")', {ID :$("#subdivid").val(),typedata : $("#peraddBMC").val()}, function (dat) {
+             
+            $("#Location").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                if(data.Value !=0)
+                {
+                    $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                }
+            });
+
+            $("#Location").attr("multiple", "multiple");
+            $('#Location').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#Location").multiselect('rebuild');
+
+
+        });
+        var perDist = $("#disid").val();
+        var perBlk = $("#peraddBMC").val();
+
+
+        if((perDist != "12" && perBlk == "2") || (perDist != "12" && perBlk == "3"))
+        {
+
+            $("#ward").find("option").remove();
+           // $("#ward").append('<option value=0>All Wards</option>');
+            $("#ward").attr("multiple", "multiple");
+
+
+            $.get('@Url.Action("GetAgentGP", "Registration")', {ID :0}, function (dat) {
+
+                $("#ward").find("option").remove();
+
+                $.each(dat, function (i, data) {
+
+
+                     
+                    $("#ward").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                });
+               
+
+                $('#ward').multiselect({
+                    columns: 3,
+                    placeholder: 'Select Languages',
+                    search: true,
+                    includeSelectAllOption: true
+                    
+
+                })
+                $("#ward").multiselect('rebuild');
+            });
+      
+        }
+        else
+        {
+
+            loadGP();
+
+        }
+
+    }
+    function LoadGpDefault()
+    {
+
+
+        $.get('@Url.Action("GetMultipleGpWard", "Registration")', {Uid :DeptUserid}, function (dat) {
+
+            $("#ward").find("option").remove();
+            $.each(dat, function (i, data) {
+
+                 
+                $("#ward").append("<option value="+data.Value+">"+data.Text+" </option>");
+            });
+            $("#ward").attr("multiple", "multiple");
+            $('#ward').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+                
+            })
+            $("#ward").multiselect('rebuild');
+        });
+
+
+    }
+
+    function validateEmail() {
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test($("#Email").val())) {
+            alert("Invalid email address.");
+            $("#Email").focus();
+            return false;
+        }
+    }
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57));
+        return ret;
+    }
+    function IsCharsOnly(e) {
+         
+        var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+        var ret = (((keyCode == 46) || (keyCode == 32) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122)))
+        return ret;
+    }
+</script>

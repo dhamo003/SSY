@@ -1,0 +1,136 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "PSMaster";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+
+}
+
+<center>
+
+    <div class="panel panel-default" style="width:600px;margin-top:100px;">
+        <div class="panel-heading"><font size="4">Police Station Creation</font></div>
+        <div class="panel-body" style="background-color:#e3f3f5">
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label" style="width:101px;">District</span>
+                            @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label" style="width:101px;">PS Name</span>
+                            @Html.TextBox("txtName", "", new { @class = "form-control", @maxlength = 50, onkeypress = "return onlyAlphabets(event,this)", @style = "text-transform:uppercase" })
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+       
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-success" id="btnSubmit" style="width:274px;background-color:#009688">Save</a>
+                </div>
+            </div>
+        </div>
+</center>
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $("#disid").change(function () {
+
+            
+        $("#txtName").val("");
+
+        });
+
+
+    });
+
+
+    $("#btnSubmit").click(function () {
+        var District = $("#disid").val();
+    
+        var Name = $("#txtName").val();
+
+
+        if (District == "0") {
+
+            alert("Please select district");
+            $("#disid").focus();
+            return false;
+        }
+        if (Name.trim() == "" || Name == null) {
+            alert("Please enter Police Station Name");
+            $("#txtName").focus();
+            return false;
+        }
+       
+
+
+        $.get('@Url.Action("SavePS", "Masters")', { District: $("#disid").val(),Name: $("#txtName").val().trim().toUpperCase() }, function (Res) {
+
+            if(Res.Code == "000")
+            {
+                alert(Res.Message);
+                window.location.href = "/Masters/PSMaster";
+                return false;
+            }
+            else
+            {
+                alert(Res.Message);
+                return false;
+            }
+
+        });
+    });
+    function onlyAlphabets(e, t) {
+        // ;
+        try {
+
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            //display error message
+            return false;
+        }
+    }
+</script>
+

@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Department";
+    Layout = null;
+}
+
+<script src="~/Content/ssy_js/jquery.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+
+<style>
+    .highcharts-credits {
+        display: none;
+    }
+</style>
+
+<div class="row">
+
+</div>
+
+<div class="row">
+    <div id="LineChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+
+
+<div id="CoulmnChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+<script>
+    $(document).ready(function () {
+
+
+
+        var processed_json = new Array();
+
+        $.getJSON('/Chart/GetHourlyTrend', function (data) {
+
+
+            for (i = 0; i < data.length; i++) {
+
+                processed_json.push([data[i].FinalActionDate, data[i].Count]);
+            }
+
+
+            Highcharts.chart('LineChart', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Today Hourly Trend'
+                },
+                subtitle: {
+                    text: 'Registartions'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Hours'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Count'
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: true
+                    }
+                },
+                series: [{
+                    name: 'Registrations',
+                    data: processed_json
+                }]
+            });
+
+        })
+
+
+
+        //Coulmn Chart
+
+        var Coulmnprocessed_json = new Array();
+
+        $.getJSON('/Chart/GetHourlyTrend', function (data) {
+
+
+            for (i = 0; i < data.length; i++) {
+
+                Coulmnprocessed_json.push([data[i].FinalActionDate, data[i].Count]);
+            }
+            Highcharts.chart('CoulmnChart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Registrations'
+                },
+                subtitle: {
+                    text: 'Worker Type & Status Wise'
+                },
+                xAxis: {
+                   
+                   
+                },
+                yAxis: {
+                   
+                    title: {
+                        text: 'Registartion Count'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Registrations',
+                    data: Coulmnprocessed_json
+                }]
+            });
+
+        });
+    });
+</script>

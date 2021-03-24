@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+ @*   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />*@
+
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/Content/my_css/backgrounds.css">
+   @* <link href="~/Content/bootstrapv3/bootstrap-datepicker.css" rel="stylesheet" />*@
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <link rel="stylesheet" href="~/Content/my_css/breadcrumbs.css">
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <!------------------------------------------------------------------------>
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Conten/timages/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/images/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/Content/images/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        .col-md-5, .col-md-7 {
+            border: 0px solid #333;
+        }
+
+        .registration .glyphicon {
+            font-size: 22px;
+        }
+    </style>
+    <style>
+    body {
+        color: black !important;
+        /*background-size: cover;
+               width: 100%;
+               height: 100%;
+               background: url("/Content/Images/8c9c4f9d9305496ae5164b271ca4be03.jpg") 50% 35%;*/
+        font-weight: 100 !important;
+    }
+
+    .content-back {
+        margin: auto;
+        padding-top: 5px;
+        /*background: #314755;*/
+        background: #ffffff;
+        /*background: -webkit-linear-gradient(to left, #314755, #26a0da);
+           background: linear-gradient(to left, #314755, #26a0da);*/
+        height: 630px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+        /*
+    *  STYLE 3
+    */
+
+        .content-back::-webkit-scrollbar-track {
+            /*background: #314755;*/
+            background: #ffffff;
+        }
+
+        .content-back::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-back::-webkit-scrollbar-thumb {
+            background-color: #ffffff;
+        }
+
+    .overlay-black {
+        background: rgba(0,0,0,0.6);
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+
+
+    .leg-sty {
+        color: black;
+    }
+
+
+    .footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+        .footer p {
+            line-height: 0px;
+            color: #fff !important;
+        }
+
+    b {
+        font-weight: 100 !important;
+    }
+
+    .block-left {
+        /*background: #81D4FA;*/
+        height: 100%;
+        position: fixed;
+        text-align: center;
+    }
+
+    legend {
+        border-bottom: none !important;
+        padding-left: 20px;
+        font-weight: 100 !important;
+    }
+
+    .custom-border {
+        /*border-top: 1px solid #ccc !important;
+                   border-bottom: 1px solid #ccc !important;*/
+    }
+
+    input, select {
+    }
+
+    header {
+        /*height: 100px;
+        top: 10px;
+        right: 5%;
+        position: fixed;*/
+        padding: 5px !important;
+        z-index: 99;
+    }
+
+
+        footer p {
+            margin-bottom: 5px !important;
+        }
+
+    label {
+        color: #000000 !important;
+    }
+
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    }
+
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+        .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+    .input-label {
+        min-width: 120px;
+    }
+
+    .input-select {
+        width: 250px;
+    }
+
+    fieldset.custom-border {
+        border: 1px groove blue !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+       
+        -webkit-box-shadow: 0px 0px 0px 0px #f00;
+        box-shadow: 0px 0px 0px 0px #f00;
+        border-radius: 6px;
+    }
+
+    legend.custom-border {
+        font-size: 1.1em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    .selectboxit-container .selectboxit, .selectboxit-container .selectboxit-options {
+        width: 600px; /* Width of the dropdown button */
+        border-radius: 0;
+        max-height: 240px;
+    }
+
+    .selectboxit-options .selectboxit-option .selectboxit-option-anchor {
+        white-space: normal;
+        min-height: 30px;
+        height: auto;
+    }
+        .flex-list {
+            /*position: relative;
+            margin: 1em;*/
+            overflow: hidden;
+            height: 25px !important;
+        }
+
+            .flex-list ul {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin-left: -1px;
+            }
+
+            .flex-list li {
+                flex-grow: 1;
+                flex-basis: auto;
+                margin: .25em 0;
+                padding: 0 1em;
+                text-align: center;
+                border-left: 1px solid #ccc;
+                background-color: #fff;
+            }
+        .headerDiv {
+            background-color: #03a9f4 !important;
+            padding: 0px;
+            margin-top: 0px;
+            border-bottom: 2px solid #333;
+            color: white;
+        }
+</style>
+</head>
+
+<body id="style-3" class="registration">
+    @*<div class="fixedlayoutwindow whatliesbeyond"></div>*@
+    
+    <section>
+        @* First Header*@
+        <div id="top" class="header">
+            <div class="row">
+
+
+                <div class="col-md-4 flex-list pull-right">
+                    <ul>
+
+                        <li><a id="btn-decrease" href="#">-A</a></li>
+                        <li><a id="btn-orig" href="#">A</a></li>
+                        <li><a id="btn-increase" href="#">+A</a></li>
+                        <li><button id="btn-color" style="width:20px;height:21px;">A</button></li>
+                        <li><a href="/Home/Index">Home</a></li>
+
+                    </ul>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <!---------------------------------------->
+        <header class="headerDiv" style="display:none;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-1 pull-left" style="margin-top:15px;"><img src="~/Content/images/3lionshead-white.png" class="img-responsive" style="height:85px"></div>
+                    <div class="col-md-6 text-left" style="margin-left:-20px;margin-top:15px;">
+                        <h2>SSY -<span style="">Samajik Suraksha Yojana</span></h2>
+                        <h5>Social Security for Unorganised workers</h5>
+                    </div>
+                    <div class="col-md-5 pull-right" style="margin-top:15px;">
+                        <img src="~/Content/images/biswa-bangla-logo.png" class="img-responsive pull-right " style="height:85px;" />
+                    </div>
+                    <!--
+                <div class="col-md-3"><img src="images/mbenerjee.png" class="img-responsive pull-right" style="margin-top:10px;"></div>
+                <div class="col-md-3 pull-right" style="margin-left:-70px;margin-top:18px;"><h2>Department of Labour</h2><h5>Government of West Bengal</h5>
+                </div>
+                -->
+                </div>
+            </div>
+        </header>
+        <!---------------------------------------->
+        <div class="container-fluid heightoverflow">
+
+            @RenderBody()
+        </div>
+        <!---------------------------------------->
+        @*<footer id="footer" class="clearfix innerben" style="display:none;">
+            <div id="sub-floor" class="backgroundimage text-white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 copyright">
+                            Copy right for Labour Department, Govt. of West Bengal
+                        </div>
+                        <div class="col-md-4  attribution" style="margin-left:185px;">
+                            Developed by  <a target="_blank" href="#" class="text-white">Webel Technology Limited</a> .
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </footer>*@
+
+    </section>
+
+  @*Existing User popup*@
+
+
+
+  @*Existing Confirmation PopUp*@
+
+    
+
+    <!------------------------------------->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>*@
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>*@
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    @*<script defer src="bootstrap/js/bootstrap.js"></script>*@
+    <script src="~/Content/bootstrapv3/bootstrap-datepicker.js"></script>
+
+    <script src="~/Scripts/Common.js"></script>
+
+    <script src="~/Scripts/Convertjs.js"></script>
+    <script src="~/Scripts/my_scripts/reg-bread.js"></script>
+   @* <script src="~/Scripts/regform.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $('#media').carousel({
+                pause: true,
+                interval: false,
+            });
+
+            var session = '@Session["DirectReg"]';
+
+            // alert(session);
+
+
+
+            if (session == 0) {
+
+
+                $(".headerDiv").show();
+            }
+
+            
+        });
+       
+    </script>
+    
+</body>
+    </html>
+

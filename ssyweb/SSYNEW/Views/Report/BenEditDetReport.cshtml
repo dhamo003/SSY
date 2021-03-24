@@ -1,0 +1,260 @@
+﻿@{
+    ViewBag.Title = "BenEditDetReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+</script>
+<style>
+    th {
+        font-size: 12px;
+    }
+    td {
+        font-size: 12px;
+    }
+    .pdfobject-container {
+        height: 500px;
+    }
+    .pdfobject {
+        border: 1px solid #666;
+    }
+    .modal-backdrop.in {
+        opacity: 0;
+    }
+    .modal-backdrop {
+        position: relative !important;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <center><h3 class="product-description">Change Requests Details</h3></center>
+            <div class="row" style="margin-left : 150px;">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group" style="width:180px;">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Status</span>
+                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                             new SelectListItem{ Text="Pending", Value = "0" },
+                                              new SelectListItem{ Text="Approved", Value = "1" },
+                                               new SelectListItem{ Text="Rejected", Value = "2" }
+                                        }, new { @class = "form-control  Dropdwn" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <br />
+            <div style="margin-left:30px;">
+                <table class="table table-striped table-bordered Apllications" cellspacing="0" width="100%">
+                    <thead style="background-color:#87CEEB">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Created Date</th>
+                            <th>Status</th>
+                            <th class="th_hide">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="DivEdiBenDet" role="dialog">
+    <div class="modal-dialog modal-lg" style="margin-left:60px;">
+        <!-- Modal content-->
+        <center>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <fieldset class="custom-border">
+                            <legend class="custom-border">Dependent Details</legend>
+                            <table class="table table-bordered edittblfamily">
+                                <thead>
+                                    <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                        <th style="display:none">DepId</th>
+                                        <th>S.No</th>
+                                        <th style="width: 50px;">Whether Registered under SASPFUW/BOCW/WBTWSS. If yes, then provide Registration No. </th>
+                                        <th>Dependent Name</th>
+                                        <th>Relationship</th>
+                                        <th>Gender</th>
+                                        <th>Age (Years)</th>
+                                        <th>Aadhaar No, if any</th>
+                                        <th class="" style="display:none;"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </fieldset>
+                        <br class="clearfix" />
+                        <fieldset class="custom-border">
+                            <legend class="custom-border color-white"><span class="leg-sty">Nominee Details </span></legend>
+                            <table class="table table-bordered edittblNaminee">
+                                <thead>
+                                    <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                        <th style="display:none">NomiId</th>
+                                        <th>S.No</th>
+                                        <th>Name</th>
+                                        <th>Relationship with applicant</th>
+                                        <th>Gender</th>
+                                        <th>Age (Years)</th>
+                                        <th>Share Allocation</th>
+                                        <th>Bank Name</th>
+                                        <th>Bank Account No.</th>
+                                        <th>Branch Name</th>
+                                        <th>IFSC Code</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+                <center>
+                    <a href="#" class="BenCls" data-toggle="modal" data-target=".regpop" onclick="OpenBenDeta();" style="margin-right:190px;"> View Old Application</a>
+                </center>
+                <br />
+                <br />
+                <div class="modal-footer">
+                    <div style="display:none;margin-right:66px;margin-bottom:-34px;" id="divStstus">
+                        <a id="AgentApp" class="btn btn-success" onclick="SubmitStatus('1')">Approved</a>
+                        <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#divEditDetRej">Rejected</a>
+                        <div style="display:none;">
+                            <label id="lblrefid"></label>
+                            <label id="lblBenficairyId"></label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </center>
+    </div>
+</div>
+<div class="modal fade" id="divEditDetRej" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:570px;margin-left:250px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Remarks</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                <textarea name="test_field" id="RejectedRemarks" style="width: 544px;height: 104px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" onclick="SubmitStatus('2')">Submit</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetReport()
+    });
+    $("#Status").change(function(){
+        GetReport()
+    })
+    function GetReport()
+    {
+        var c = $("#Status").val();
+        $.get('@Url.Action("GetBenEditDetReport", "Report")', { deptuserid: deptuserid, Status: $("#Status").val() }, function (result) {
+             
+            var table = $('.Apllications').DataTable();
+            table.destroy();
+            $('.Apllications tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                 
+                $('.Apllications').append('<tr><td>' + num + '</td><td><a href="#" data-toggle="modal" data-target="#DivEdiBenDet"  onClick = "GetEditBenDet(' + data.ID +","+data.BenSno+');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.Date + '</td><td>' + data.Ststus + '</td><td class="tr_hide">'+data.Remarks+'</td></tr>')
+            });
+            $('.Apllications').DataTable({
+            });
+            if(c == "0" || c == "1")
+            {
+                $('.th_hide,.tr_hide').hide();
+            }
+            else
+            {
+                $('.th_hide,.tr_hide').show();
+            }
+        });
+    }
+    function GetEditBenDet(id,Bensno)
+    {
+        $("#lblrefid").text(id);
+        $("#lblBenficairyId").text(Bensno);
+        var status = $("#Status").val();
+        if(status =="0")
+        {
+            $("#divStstus").show();
+        }
+        else
+        {
+            $("#divStstus").hide();
+        }
+        $.get('@Url.Action("GetBenEditFamily", "Report")', { Id: id }, function (res) {
+            $('.edittblfamily tbody').empty();
+             
+            $.each(res, function (i, data) {
+                var rowCount = $('.edittblfamily tr').length;
+                var Sno = i+1;
+                $('.edittblfamily').append('<tr><td><label class="label-data" id="FamSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="FamWRU' + rowCount + '">' + data.BenFamilySchRegNo + '</label></td><td><label class="label-data" id="FamDept' + rowCount + '">' + data.BenDependentName + '</label></td><td><label class="label-data" id="DDLFamRel' + rowCount + '">' + data.BenDependentRelation + ' </label></td><td><label class="label-data" id="DDLFamGender' + rowCount + '">' + data.BenFamilyGender + '</label></td><td><label class="label-data" id="FamAge' + rowCount + '">' + data.BenFamilyAge + ' </label></td><td><label class="label-data" id="AdhNoFam' + rowCount + '">' + data.BenFamilyAadhaarNo + '</label></td></tr>')
+            });
+        });
+        $.get('@Url.Action("GetBenEditNom", "Report")', { Id: id }, function (res) {
+            $('.edittblNaminee tbody').empty();
+            $.each(res, function (i, data) {
+                var rowCount = $('.edittblNaminee tr').length;
+                var Sno = i + 1;
+                $('.edittblNaminee').append('<tr><td style="display:none"><label class="label-data" id="namid' + rowCount + '">' + data.BenNomineeSno + '</label></td><td><label class="label-data" id="NamiSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="NamiName' + rowCount + '">' + data.BenNomineeName + '</label></td><td><label class="label-data" id="DDLNamRel' + rowCount + '">' + data.BenNomineeRelation + '</label></td><td><label class="label-data" id="DDLNamGender' + rowCount + '">' + data.BenNomineeGender + '</label></td><td><label class="label-data" id="NamAge' + rowCount + '">' + data.BenNomineeAge + '</label></td><td><label  class="label-data" id="SahreAlo' + rowCount + '">' + data.BenNomineeShareAllocation + '</label></td><td><label class="label-data" id="BankName' + rowCount + '">' + data.BenNomineeBankName + '</label></td><td><label class="label-data" id="BankActNo' + rowCount + '">' + data.BenNomineeBankAccNo + '</label></td><td><label class="label-data" id="BranchName' + rowCount + '">' + data.BenNomineeBankBranch + '</label></td><td><label class="label-data" id="NamIfscCode' + rowCount + '">' + data.BenNomineeBankIfscCode + ' </label></td></tr>');
+            });
+        });
+    }
+    function SubmitStatus(id)
+    {
+        //  alert(id);
+        var refid = $("#lblrefid").text();
+        var Remarks =  $("#RejectedRemarks").val();
+        if(id == 2)
+        {
+            if(Remarks == "" || Remarks == null)
+            {
+                alert("Please Enter Remarks.");
+                $("#RejectedRemarks").focus();
+                return false;
+            }
+        }
+        if(id == 1)
+            Remarks = "";
+        $.get('@Url.Action("BenEditDetailsVerfication", "Report")', { Status: id,Id:refid ,Remarks : Remarks}, function (res) {
+            alert(res);
+            window.location.href = "/Report/BenEditDetReport";
+        });
+    }
+    function OpenBenDeta()
+    {
+        Bentrnasclick($("#lblBenficairyId").text());
+        $("#divfooter").hide();
+    }
+</script>

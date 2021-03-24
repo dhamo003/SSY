@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d01e3a47ded146a0b099f74d5d7a7040" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="SSYDemoModel.LocationType" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.ReadNotification" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.RegOtp" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.sysdiagram" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblActionHistory" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblAilment" Width="1.5" PointX="9.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblApprovalPermission" Width="1.5" PointX="10.5" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblAttachement" Width="1.5" PointX="11.25" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBankBranch" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBankCenter" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBankDist" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBankMst" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenAddress" Width="1.5" PointX="3" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenAddress9Lakhs38" Width="1.5" PointX="20" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenAddressCAFUpdateHistory" Width="1.5" PointX="11.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenAddressReAppylyHistory" Width="1.5" PointX="13.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBeneficiary9Lakhs38" Width="1.5" PointX="17.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBeneficiaryCAFUpdateHistory" Width="1.5" PointX="19.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBeneficiaryReAppylyHistory" Width="1.5" PointX="21.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenFamilyMember" Width="1.5" PointX="3" PointY="36.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenFamilyMemberCAFUpdateHistory" Width="1.5" PointX="5.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenFamilyMemberReAppylyHistory" Width="1.5" PointX="7.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenNomineeDtl" Width="1.5" PointX="3" PointY="41.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenNomineeDtlsCAFUpdateHistory" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenNomineeDtlsReAppylyHistory" Width="1.5" PointX="21.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenScheme" Width="1.5" PointX="12" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenSchemesDtl" Width="1.5" PointX="14.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBoard" Width="1.5" PointX="6" PointY="62.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBoardUser" Width="1.5" PointX="13.25" PointY="57.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblCheckListDtl" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblCheckListHdr" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblClaim" Width="1.5" PointX="8.25" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblClaimConfigDtl" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblClaimConfigHdr" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblClaimStatu" Width="1.5" PointX="8.25" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDeath" Width="1.5" PointX="16.5" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDeathCheckListDetail" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDeathClaimExceptionDetail" Width="1.5" PointX="10.5" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDisabilityCheckListDetail" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDisabilityClaimExceptionDetail" Width="1.5" PointX="10.5" PointY="74.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDistrictMst" Width="1.5" PointX="0.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDownlaodRequest" Width="1.5" PointX="22.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDuplicaterecordIssue" Width="1.5" PointX="23.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblEducationCheckListDetail" Width="1.5" PointX="7.5" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblEducationClaimExceptionDetail" Width="1.5" PointX="10.5" PointY="77.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblEducationHdr" Width="1.5" PointX="10.5" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFamilyTemp" Width="1.5" PointX="12.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFinancialYear" Width="1.5" PointX="6" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFundReleaseOrderDtl" Width="1.5" PointX="8.25" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFundReleaseOrderHdr" Width="1.5" PointX="6" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFundRequestDtl1" Width="1.5" PointX="10.5" PointY="61.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFundRequestDtl2" Width="1.5" PointX="16.5" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFundRequestExpensesDtl" Width="1.5" PointX="10.5" PointY="56" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblFundRequestHdr" Width="1.5" PointX="8.25" PointY="57.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblGPMst" Width="1.5" PointX="23.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblHealthFamilyCheckListDetail" Width="1.5" PointX="7.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblHealthFamilyClaimExceptionDetail" Width="1.5" PointX="10.5" PointY="80.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblHealthFamilyPackage" Width="1.5" PointX="14.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblHelp" Width="1.5" PointX="23.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblHospital" Width="1.5" PointX="14.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblIssuingAuthName" Width="1.5" PointX="23.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblListOfInd" Width="1.5" PointX="16.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblLogin" Width="1.5" PointX="23.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblLoginType" Width="1.5" PointX="23.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblLOVDtl" Width="1.5" PointX="6" PointY="47.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblLOVHdr" Width="1.5" PointX="3.75" PointY="48.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblMenu" Width="1.5" PointX="24.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblNatureDuty" Width="1.5" PointX="2.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblNatureVehicle" Width="1.5" PointX="4.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblNewReg" Width="1.5" PointX="3.75" PointY="51.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblOfflineRegReport" Width="1.5" PointX="25.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPackage" Width="1.5" PointX="12" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPart1ApplicationCountOffline" Width="1.5" PointX="24.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPaymentProcessingHdr" Width="1.5" PointX="8.25" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPaymentReleaseHdr" Width="1.5" PointX="8.25" PointY="52.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPaymodeMst" Width="1.5" PointX="25.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPdfFile" Width="1.5" PointX="25.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPfDetail" Width="1.5" PointX="25.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPostOfficeData" Width="1.5" PointX="26.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblProvidentFund" Width="1.5" PointX="13.5" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblProvidentFundCheckListDetail" Width="1.5" PointX="7.5" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblProvidentFundClaimExceptionDetail" Width="1.5" PointX="10.5" PointY="83.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPsMst" Width="1.5" PointX="26.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblRelationType" Width="1.5" PointX="26.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblRequiredDoc" Width="1.5" PointX="16.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblRLOOffice" Width="1.5" PointX="6" PointY="54" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblRLOOfficeBank" Width="1.5" PointX="6" PointY="67.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblRLOOfficeUser" Width="1.5" PointX="11.25" PointY="52.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblRole" Width="1.5" PointX="23.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSchemeMst" Width="1.5" PointX="9.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSitecount" Width="1.5" PointX="25.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSM" Width="1.5" PointX="27.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSSINMst" Width="1.5" PointX="27.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSubDivision" Width="1.5" PointX="3.75" PointY="59.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSubMenu" Width="1.5" PointX="27.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblSummaryReport" Width="1.5" PointX="27.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblTempBenificiaryDetRep" Width="1.5" PointX="28.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblTempDwnld" Width="1.5" PointX="29.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblTransaction" Width="1.5" PointX="29.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblTransactionLog" Width="1.5" PointX="29.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblUserCategory" Width="1.5" PointX="29.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblUserGpWardMap" Width="1.5" PointX="6" PointY="74.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblUserType" Width="1.5" PointX="1.5" PointY="53.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblUtilizationCertificateDtl" Width="1.5" PointX="14.25" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblUtilizationCertificateHdr" Width="1.5" PointX="8.25" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblWorkerType" Width="1.5" PointX="8.25" PointY="72.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblWorkFlowDtl" Width="1.5" PointX="6" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblWorkFlowHdr" Width="1.5" PointX="3.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblWorkflowTransactionLog" Width="1.5" PointX="15" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblWorkFlowTransaction" Width="1.5" PointX="10.5" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblWorkFlowTransactionStep" Width="1.5" PointX="12.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.UserDisMap" Width="1.5" PointX="6" PointY="77.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.UserLocationMap" Width="1.5" PointX="6" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.UserSubDivMap" Width="1.5" PointX="6" PointY="85.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.LocationCodeMissingUniqueData" Width="1.5" PointX="23.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TableCount" Width="1.5" PointX="16.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBlockDetailsold" Width="1.5" PointX="29.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblCasteMst" Width="1.5" PointX="31.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDedupeConditionMst" Width="1.5" PointX="31.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblDuplicateCardsGenerated" Width="1.5" PointX="31.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblLabel" Width="1.5" PointX="31.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblMaritalMst" Width="1.5" PointX="31.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblReligionMst" Width="1.5" PointX="31.75" PointY="23.75" IsExpanded="true" />
+        <AssociationConnector Association="SSYDemoModel.FK_tbl_Package_tbl_Ailments" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowTransactionSteps_TblClaimStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_tbl_Attachements_tbl_ClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_tblAttachements_TblLOVDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenAddress_TblBeneficiary9Lakhs38" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenAddressIssues_TblBeneficiary9Lakhs38" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaimEntry_TblBenNomineeDtls" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenSchemes_TblBenSchemes" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenSchemes_TblSchemeMst" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenSchemesDtls_TblBenSchemes" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBoardUser_TblBoard" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestHdr_TblBoard" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkerType_TblBoard" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBoardUser_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblCheckListDtl_TblCheckListHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeathCheckListDetails_TblCheckListDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDisabilityCheckListDetails_TblCheckListDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationCheckListDetails_TblCheckListDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblHealthFamilyCheckListDetails_TblCheckListDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFundCheckListDetails_TblCheckListDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblCheckListHdr_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK__TblClaim__Reason__3F5C4234" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaim_TblFinancialYear" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaim_TblLOVDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblClaimEntry" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeathClaimExceptionDetails_TblClaim" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDisabilityClaimExceptionDetails_TblClaim" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationClaimExceptionDetails_TblClaim" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationHdr_TblClaimEntry" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblHealthFamilyClaimExceptionDetails_TblClaim" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblBeneficiary" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFundClaimExceptionDetails_TblClaim" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaimConfigDetail_TblClaimConfigMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblclaimConfigdtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblClaimConfigDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationHdr_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundReleaseOrderDtl_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestDtl2_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowTransactions_TblClaimConfigHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaimStatus_TblWorkFlowDtl_WFDtlId" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaimStatus_TblWorkFlowHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblClaimStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationHdr_TblClaimStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestHdr_TblClaimStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblClaimStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowTransactions_TblClaimStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblPaymentProcessingHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblDeath_TblPaymentReleaseHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationHdr_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationHdr_TblPaymentProcessingHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationHdr_TblPaymentReleaseHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundReleaseOrderHdr_TblFinancialYear" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestHdr_TblFinancialYear" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblUtilizationCertificateHdr_TblFinancialYear" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundReleaseOrderDtl_TblFundReleaseOrderHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundReleaseOrderHdr_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundReleaseOrderHdr_TblRLOOffice" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundReleaseOrderHdr_TblRLOOfficeBank" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPaymentProcessingHdr_TblFundReleaseOrderHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblUtilizationCertificateDtl_TblFundReleaseOrderHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestDtl1_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestDtl2_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestExpensesDtl_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestExpensesDtl_TblLOVDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestHdr_TblRLOOffice" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestHdr_TblRLOOfficeBank" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblFundRequestHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblHealthFamilyPackages_TblPackage" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_tbl_LOVdtl_tbl_LOVHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblNewReg_TblUserType" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblRLOOffice_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblRLOOfficeUsers_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblUserGpWardMap_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_UserDisMap_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_UserLocationMap_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_UserSubDivMap_TblNewReg" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPaymentProcessingHdr_TblRLOOffice" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPaymentReleaseHdr_TblPaymentProcessingHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblPaymentProcessingHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPaymentReleaseHdr_TblRLOOfficeBank" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblProvidentFund_TblPaymentReleaseHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblRLOOffice_TblSubDivision" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblRLOOfficeBank_TblRLOOffice" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblRLOOfficeUsers_TblRLOOffice" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblUtilizationCertificateHdr_TblRLOOffice" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblUtilizationCertificateDtl_TblUtilizationCertificateHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowDtl_TblWorkFlowHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowTransactionSteps_TblWorkFlowDtl" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowTransactions_TblWorkFlowHdr" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkflowTransactionLogs_TblWorkFlowTransactionSteps" ManuallyRouted="false" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblWorkFlowTransactionSteps_TblWorkFlowTransactions" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblAgentAdditionalData" Width="1.5" PointX="25.75" PointY="31.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblNotiFication" Width="1.5" PointX="31.75" PointY="26.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenPFInterestRegister" Width="1.5" PointX="31.75" PointY="31.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBlockDetail" Width="1.5" PointX="8.25" PointY="67.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblEducationDtl" Width="1.5" PointX="5.25" PointY="36.625" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationDtl_TblBenFamilyMember" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblFundRequestDtl1_TblBlockDetails" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationDtl_TblClaimConfigDtl_PresentlyReading" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationDtl_TblEducationHdr" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblEducationDtl_TblLOVDtl_LastExamPassed" />
+        <EntityTypeShape EntityType="SSYDemoModel.BenJunkData2" Width="1.5" PointX="33.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBeneficiary" Width="1.5" PointX="0.75" PointY="25.5" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenAddress_TblBeneficiary" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenFamilyMember_TblBeneficiary" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblBenNomineeDtls_TblBeneficiary" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblClaimEntry_TblBeneficiary" />
+        <EntityTypeShape EntityType="SSYDemoModel.Pftable" Width="1.5" PointX="28.375" PointY="33.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenAddressIssue" Width="1.5" PointX="34.375" PointY="23.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenAddressIssues2" Width="1.5" PointX="34.375" PointY="29.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBeneficiaryPFAccount" Width="1.5" PointX="19.375" PointY="35.75" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPFDepositDtl" Width="1.5" PointX="12.75" PointY="47.625" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblPFDepositMaster" Width="1.5" PointX="10.5" PointY="64.25" />
+        <EntityTypeShape EntityType="SSYDemoModel.TblBenJUnkAddress" Width="1.5" PointX="34.375" PointY="35.75" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPFDepositDtl_TblBeneficiary" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPFDepositDtl_TblFinancialYear" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPFDepositDtl_TblPFDepositMaster" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPFDepositMaster_TblRLOOffice" />
+        <AssociationConnector Association="SSYDemoModel.FK_TblPFDepositMaster_TblWorkerType" />
+        <EntityTypeShape EntityType="SSYDemoModel.tbl_SiteSettings" Width="1.5" PointX="36.375" PointY="0.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

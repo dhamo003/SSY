@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<script type="text/javascript" src="https://www.bing.com/maps/sdk/mapcontrol?v=7.0"></script>
+<script src="~/Scripts/jquery.min.js"></script>
+<div id="mapArea">
+    <div id="map"></div>
+</div>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>BingMap</title>
+</head>
+<body>
+    <div>
+        <div id='myMap' />
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        var map = new Microsoft.Maps.Map(document.getElementById('map'), {
+            credentials: 'AhfcZBIh65ppnmacnnsdiowjP9EHxS9o-VS7ppRXjKGwRS6es4f64jPPQWm6VwYY',
+            mapTypeId: Microsoft.Maps.MapTypeId.road,
+            zoom: 17,
+            center: new Microsoft.Maps.Location(17.57689, 44.5037175),
+            enableSearchLogo: false
+        });
+
+        map.entities.clear();
+        var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), {
+            text: 'RTU',
+            visible: true,
+            draggable: false,
+            typeName: 'rtuPushpin',
+            textOffset: new Microsoft.Maps.Point(30, 5)
+        });
+        map.entities.push(pushpin);
+    });
+</script>

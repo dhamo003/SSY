@@ -1,0 +1,980 @@
+﻿
+@model SSY.Models.BenifSchemesDet
+@{
+	ViewBag.Title = "Dashboard";
+	Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" rel="stylesheet">
+<script src="~/Scripts/my_scripts/toaster.js"></script>
+
+<script>
+    var Schemes = @Html.Raw(Json.Encode(ViewBag.BenOccupation))
+    var Benifid = @Html.Raw(Json.Encode(ViewBag.Benid))
+    var status = @Html.Raw(Json.Encode(ViewBag.status))
+    var CheckPaymentSta = @Html.Raw(Json.Encode(ViewBag.chckpaystatus))
+    var ChkScheme = @Html.Raw(Json.Encode(ViewBag.ChkScheme))
+    var  DOB = @Html.Raw(Json.Encode(ViewBag.Dob))
+    var  Schemename = @Html.Raw(Json.Encode(ViewBag.SchemeName))
+    var  Schemestat = @Html.Raw(Json.Encode(ViewBag.SchemeStat))
+    var  PFstat = @Html.Raw(Json.Encode(ViewBag.PfStatus))
+    var  reamrks = @Html.Raw(Json.Encode(ViewBag.reamrks))
+
+    var  VerifyDate = @Html.Raw(Json.Encode(ViewBag.VerifyDate))
+    var  modifieddate = @Html.Raw(Json.Encode(ViewBag.modifieddate))
+    var  createddate = @Html.Raw(Json.Encode(ViewBag.createddate))
+
+    var RegType = @Html.Raw(Json.Encode(ViewBag.Regtype))
+    var IsActive = @Html.Raw(Json.Encode(ViewBag.isactive))
+    var Part2 = @Html.Raw(Json.Encode(ViewBag.Part2))
+    //var Part2 = @Html.Raw(Json.Encode(ViewBag.Part2))
+  var RegNumber = @Html.Raw(Json.Encode(ViewBag.RegNumber))
+  var DaysTORenewal = @Html.Raw(Json.Encode(ViewBag.DaysTORenewal))
+
+	  var SSynum = @Html.Raw(Json.Encode(ViewBag.ssin))
+
+
+</script>
+<style>
+	.regpop .label-data {
+		font-size: small !important;
+		font-weight: bold !important;
+	}
+
+	.regpop .label {
+		font-size: small !important;
+		font-weight: initial !important;
+	}
+
+	.custtext {
+		width: 200px;
+	}
+
+	.modal-backdrop {
+		display: none !important;
+	}
+
+	#divfooter {
+		display: none !important;
+	}
+
+	.profile-img {
+		height: 150px !important;
+		margin-left: 20px;
+	}
+
+	fieldset.custom-border1 {
+		border: 1px groove blue !important;
+		padding: 0 1.4em 1.4em 1.4em !important;
+		-webkit-box-shadow: 0px 0px 0px 0px #f00;
+		box-shadow: 0px 0px 0px 0px #f00;
+		border-radius: 6px;
+	}
+
+	legend.custom-border1 {
+		font-size: 1.1em !important;
+		font-weight: bold !important;
+		text-align: left !important;
+		width: auto;
+		padding: 0 10px;
+		border-bottom: none;
+	}
+
+	fieldset.custom-border {
+		border: none !important;
+	}
+
+	legend.custom-border {
+	}
+
+	.beniinformation {
+		margin-left: 50px;
+	}
+
+	.table.table-bordered tbody td {
+		border-bottom-width: 1px !important;
+	}
+
+	.toast-success {
+		margin-bottom: 40px !important;
+	}
+</style>
+
+<div class="card">
+	<div class="container-fliud" id="divBenDash">
+		<div class="wrapper row">
+
+			<div class="container col-md-12" style="margin-left:0px;">
+				<table class="table table-bordered" style="text-align:left;background-color:white;">
+					<tbody>
+						<tr id="edistrenewalupdate" style="display: none">
+							<td style=" height: 30px; font-size: 20px;color:red;" colspan="7">
+								Your e-District Renewal Scheme Subscription is about to expire in @ViewBag.DaysTORenewal Days, Please Renewal soon.
+							</td>
+						</tr>
+						<tr>
+							<td rowspan="6">
+
+								<img src="@ViewBag.image" style="float:initial;max-width:120px" />
+							</td>
+							<td style="text-align:left;width: 100px;"><b>NAME</b></td>
+
+							<td style="text-align:left"><label>@ViewBag.Name</label></td>
+							<td style="text-align:left;width: 100px;"><b>D.O.B</b></td>
+
+							<td style="text-align:left"><label id="lbldob">@ViewBag.Dob</label></td>
+
+							<td style="text-align:left;width: 135px;"><b>@ViewBag.LName</b></td>
+							<td style="text-align:left"><label id="lblregno">@ViewBag.ssin</label></td>
+						</tr>
+						<tr>
+
+							<td style="text-align:left;width: 100px;"><b>AGE</b></td>
+
+							<td style="text-align:left"><label id="lblBenage"></label></td>
+
+							<td style="text-align:left;width: 100px;"><b>MOBILE</b></td>
+							<td style="text-align:left"><label id="lblmobile">@ViewBag.MobileNo</label><a href="#" data-toggle="modal" onClick="GetBenDet('@ViewBag.MobileNo');" id='MobileVerify' style="display:block;">Verify</a></td>
+							<td style="text-align:left;width: 100px;"><b>OCCUPATION</b></td>
+
+							<td style="text-align:left"><label id="lbloccupation">@ViewBag.BenOccupation</label></td>
+
+						</tr>
+
+
+						<tr>
+
+							<td style="text-align:left;width: 100px;"><b>STATUS</b></td>
+							<td style="text-align:left"><label id="lblmobile">@ViewBag.status</label> <a href="/Registration/UserReapply" class="BenReapply" id="reapply" style="display:none;"> Reapply </a> </td>
+							<td style="text-align:left;width: 100px;"><b>FORM</b></td>
+
+							<td style="text-align:left"><a href="#" class="BenCls" onclick="Bentrnasclick(@ViewBag.Benid);"> View </a></td>
+							<td style="text-align:left;width: 250px;"><b><label id="lbldate"></label></b></td>
+							<td style="text-align:left;"><label id="lblstaDate"></label></td>
+						</tr>
+
+
+					</tbody>
+				</table>
+				<table class="table table-bordered tblpfdet" style="text-align:left;background-color:white;display:block;">
+					<tbody>
+						<tr style="background-color:lightgray;">
+
+							<td colspan="4"><center><b>PF Details</b></center></td>
+						</tr>
+						<tr>
+							<td><b><label id="lblPf"></label></b></td>
+
+							<td><b><label id="lblPfBal"></label></b></td>
+
+							<td><b><label id="lblAmtCon"></label></b></td>
+
+							<td><b><label id="lblSumAmt"></label></b></td>
+
+						</tr>
+
+
+					</tbody>
+
+				</table>
+
+
+			</div>
+
+
+		</div>
+
+
+		<div id="divotp" class="modal fade" role="dialog" style="display:none">
+			@*<div class="col-sm-12">
+			<div class="form-group" style="margin-left:500px;">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label ">OTP</span>
+					@Html.TextBox("OtpVerfy", "", null, new { @class = "form-control ", placeholder = "Enter OTP", req = "Req", @maxlength = 4, onkeypress = "return onlynumber(event,this)", style = "width:175px" })
+					<button type="button" class="btn btn-primary" onclick="ResendOtp()">Resend OTP</button>
+				</div>
+				<br>
+				<a class="btn btn-primary" onclick="OtpSubmit()" style="margin-left:100px;">Submit Form</a>
+			</div>
+		</div>*@
+			<div class="col-sm-3">
+			</div>
+			<div class="col-sm-6">
+				<div class="modal-dialog modal-lg">
+					<!-- Modal content-->
+					<center>
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"></h4>
+							</div>
+							@*<div class="modal-body" style="height: 150px;overflow-y: auto;">*@
+
+							<div class="form-group" style="margin-left:100px;">
+								<div class="input-group extra-space">
+									@*<span class="input-group-addon input-label ">OTP</span>*@ OTP
+									@Html.TextBox("OtpVerfy", "", null, new { @class = "form-control ", placeholder = "Enter OTP", req = "Req", @maxlength = 4, onkeypress = "return onlynumber(event,this)", style = "width:175px" })
+									<button type="button" class="btn btn-primary" onclick="ResendOtp()">Resend OTP</button>
+								</div>
+								<br>
+								<a class="btn btn-primary" onclick="OtpSubmit()" style="margin-left:100px;">Submit</a>
+							</div>
+
+
+							@*</div>*@
+						</div>
+					</center>
+				</div>
+			</div>
+			<div class="col-sm-3">
+			</div>
+
+		</div>
+
+			<div class="row">
+
+				<div id="Bendivpendingremark" style="display: none">
+					<center><b> <label id="lblreason"></label><label id="BenlblremarkPend" style="font-size:medium;">@ViewBag.reamrks</label></b></center>
+				</div>
+			</div>
+
+			@*Part 2 Filling Benificiary*@
+			<div class="row" id="divshowpart2" style="display:none;">
+				<div class="col-md-5">
+
+
+
+					<table class="table table-striped table-bordered">
+
+						<tr>
+							<td>
+								Do you want to fill up the remaining information
+							</td>
+							<td>
+								<button type="button" class="btn btn-primary" onclick="ConfirmDet()">Click</button>
+
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-5" id="idpassbk">
+					<h5 class="product-description"><b>Identity Card-Cum-Pass Book for Provident Fund</b></h5>
+					<table class="table table-striped table-bordered">
+						<tr>
+							<td>Identity Card-Cum-Pass Book for Provident Fund</td>
+
+						</tr>
+						<tr>
+							<td>
+
+								<center> <a href="#" id="identitycumbook" style="color: black !important; text-decoration: none"><img src="/Content/images/Download.png" style="height:40px;" /></a></center>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-md-5">
+					<h5 class="product-description"><b>Availed Scheme Details</b></h5>
+					<table class="table table-striped table-bordered">
+
+						<tr>
+							<th>Description</th>
+							<th>Scheme Certificate</th>
+
+							<th>Status</th>
+						</tr>
+						<tr>
+							<td>SSY</td>
+							<td><a href="#" id="smccrd">SMC Card Download <img src="/Content/images/Arrow-Down_ani.gif" style="height:40px;" /></a></td>
+
+							<td>@ViewBag.status</td>
+						</tr>
+
+					</table>
+				</div>
+
+			</div>
+			<div class="row" id="divSchemeBOCWA" style="display:none">
+
+				<div class="col-md-5">
+					<h5 class="product-description"><b>Eligible Schemes</b></h5>
+					<table class="table table-striped table-bordered" id="constructwork">
+
+						<tbody>
+							<tr id="trBOCW"><td>BOCWA</td><td><input type="checkbox" name="chkbocw" id="chkbocw" class="bocwchk"> Select the Checkbox</td></tr>
+
+						</tbody>
+
+					</table>
+
+
+				</div>
+
+			</div>
+			<div class="row" id="divSchemeWBTWSSS" style="display:none">
+
+				<div class="col-md-5">
+					<h5 class="product-description"><b>Eligible Schemes</b></h5>
+
+					<table class="table table-striped table-bordered">
+						<tbody>
+							<tr id="trWBTWSSS"><td>WBTWSSS</td><td><input type="checkbox" id="chkregwbtwss" name="chkregwbtwss">Select the checkbox</td></tr>
+
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+			@*<div class="row">
+			<center>
+				<div class="col-md-12" id="diveschem">
+					<h3 class="product-description">Eligible Schemes</h3>
+					<table class="table table-striped table-bordered" id="constructwork" style="display:none;width: 497px;">
+						<center>
+							<tbody>
+								<tr id="trBOCW"><td>BOCWA</td><td><input type="checkbox" name="chkbocw" id="chkbocw" class="bocwchk"> Select the Checkbox</td></tr>
+								<tr id="trpf1"><td>PF</td><td><input type="checkbox" class="bocwpf" id="pfbocwdet" name="pfbocwdet"> Check Box to Register</td></tr>
+							</tbody>
+						</center>
+					</table>
+					<table class="table table-striped table-bordered" id="Transportwrk" style="display:none; width: 497px;">
+						<tbody>
+							<tr id="trWBTWSSS"><td>WBTWSSS</td><td><input type="checkbox" id="chkregwbtwss" name="chkregwbtwss">Select the checkbox</td></tr>
+							<tr id="trpf2"><td>PF</td><td><input type="checkbox" class="bocwpf" id="pfwbtdet" name="pfbocwdet"> Check Box to Register</td></tr>
+						</tbody>
+					</table>
+					<table class="table table-striped table-bordered" id="Others" style="display:none;width: 497px;">
+						<tbody>
+							<tr id="trpf3"><td>PF</td><td><input type="checkbox" class="bocwpf" id="pfotherdet" name="pfbocwdet"> Check Box to Register</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</center>
+		</div>*@
+
+			@*  <div class="row">
+			<div class="col-md-12">
+				<h3 class="product-description">Existing Scheme Details</h3>
+				<table class="table table-striped table-bordered">
+					<!--<thead><tr><th></th><th></th></tr></thead>-->
+					<tbody>
+						<tr><td>XYZWH</td><td></td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>*@
+			<div class="row">
+
+			</div>
+		</div>
+
+	<div id="DivPart2" style="display:none;">
+		<iframe src="" frameborder="0" class="col-md-12 iframeheight loadurl" id="RegFrmae" width="1200" height="600"></iframe>
+
+	</div>
+</div>
+
+
+<div class="modal fade" id="schemeModal" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<p>This is a large modal.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<input type="hidden" id="BenSno" value="0" name="BenSno" />
+<input type="hidden" id="BenMobile" value="0" name="BenMobile" />
+@*<input type="hidden" id="SelfEmpNo" value="1112121231" name="SelfEmpNo" />*@
+@Html.Partial("_BenInformation")
+<script>
+    $(document).ready(function(){
+        $('#divsmc').hide();
+$("#divshowpart2").hide();
+        //BottomLeftSuccessMessage("Your Eligible For BOCWA");
+
+        if (Schemes == "ConstructionWorker") {
+
+            $("#divSchemeBOCWA").show();
+
+        }
+        if (Schemes == "TransportWorker") {
+            $("#divSchemeWBTWSSS").show();
+        }
+
+        if(Part2 =="N")
+        {
+            $("#divshowpart2").show(1000);
+        }
+        else
+        {
+            $("#divshowpart2").hide();
+
+        }
+//alert(DaysTORenewal);
+		if ((Schemes == "TransportWorker" || Schemes == "ConstructionWorker") && parseInt(DaysTORenewal)<="100") {
+			//$("#edistrenewalupdate").show();
+		}
+
+        if(PFstat == 1)
+        {
+            //$("#trpf1").hide();
+            $("input[name=pfbocwdet]").prop('checked', true);
+        }
+        if(ChkScheme =="1")
+        {
+             
+            $("#diveschem").hide();
+        }
+        else
+        {
+            $("#diveschem").show();
+        }
+
+        if (status == "Pending" ) {
+
+
+            if(RegType == 'N' ){
+
+
+
+                $("#lbldate").text("Date Of Application").addClass('label-data').css("font-weight","bold");
+
+                $("#lblstaDate").text(createddate).addClass('label-data');
+            }
+
+            else if(RegType == 'L' && IsActive == true)
+            {
+                $("#lbldate").text("Date Of Updation").addClass('label-data');
+                $("#lblstaDate").text(modifieddate).addClass('label-data');
+            }
+            else
+            {
+                $("#lbldate").text("Date Of Updation").addClass('label-data');
+                $("#lblstaDate").text("ÇAF not filled up").addClass('label-data');
+
+            }
+
+        }
+
+
+        if(status =='Approved')
+        {
+            //$("#idAvailed").show();
+            $("#diveschem").show();
+
+            $("#lbldate").text("Date Of Approval").css("font-weight", "bold");
+            $("#lblstaDate").text(VerifyDate);
+
+            if(ChkScheme =="1")
+            {
+                 
+                $("#diveschem").hide();
+            }
+        }
+
+        if(status =='Send Back')
+        {
+
+            $("#reapply").show();
+            $("#lblreason").text("Reason For Send Back :");
+            $("#Bendivpendingremark").show()
+            $("#BenlblremarkPend").text(reamrks).addClass('label-data').css({ color: "red!important" });
+            $("#lbldate").text("Date Of SentBack").css("font-weight", "bold");;
+            $("#lblstaDate").text(VerifyDate);
+        }
+        if(status =='Rejected')
+        {
+            $("#lblreason").text("Reason For Rejected :");
+            $("#Bendivpendingremark").show()
+            $("#BenlblremarkPend").text(reamrks).addClass('label-data').css({ color: "red!important" });
+            $("#lbldate").text("Date Of Rejected").css("font-weight", "bold");;
+            $("#lblstaDate").text(VerifyDate);
+        }
+        $("#tblbocwdet").hide();
+        $("#transwrk").hide();
+        $("#divbocw").hide();
+        datepicker()
+         
+        var d=   DOB.split("/");
+        var Age = calculateAge($.trim(d[2])+'-'+$.trim(d[0])+'-'+$.trim(d[1]));
+        $("#lblBenage").text(Age);
+		$("input[name=pfbocwdet][value=" + PFstat + "]").prop('checked', true);
+
+		if (RegNumber != "") {
+			$.get('@Url.Action("GetPFBalanceDetails", "Registration")', { PfNumber: RegNumber }, function (res) {
+				$(".tblpfdet").show();
+				$("#lblPfBal").text("Rs. " + res.Opening_Balance);
+				$("#lblPf").text("PF Balance as on " + res.Date);
+
+				$("#lblAmtCon").text("Amount Contributed thereafter");
+
+				$("#lblSumAmt").text("Rs. " + res.Closing_Balance);
+			});
+		}
+		else {
+
+			$.get('@Url.Action("GetPFBalanceDetails", "Registration")', { PfNumber: SSynum }, function (res) {
+				$(".tblpfdet").show();
+				$("#lblPfBal").text("Rs. " + res.Opening_Balance);
+				$("#lblPf").text("PF Balance as on " + res.Date);
+
+				$("#lblAmtCon").text("Amount Contributed thereafter");
+
+				$("#lblSumAmt").text("Rs. " + res.Closing_Balance);
+			});
+
+		}
+
+		if(RegType == "L")
+          {
+        $.get('@Url.Action("GetPfBalance", "GetPfBal")', {PfNumber : RegNumber}, function (response) {
+            if(response.Code !="999")
+            {
+                //  alert(response);
+
+                $(".tblpfdet").show();
+                $("#lblPfBal").text("Rs. "+response.Balance);
+                $("#lblPf").text("PF Balance as on "+response.Date);
+
+                $("#lblAmtCon").text("Amount Contributed thereafter");
+
+                $("#lblSumAmt").text("Rs. "+response.Contribution);
+            }
+
+        });
+         }
+    })
+    function datepicker()
+    {
+        $(".JoinDate,.EndDate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2017",
+            autoclose: true
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $(".JoinDate,.EndDate").val(today);
+    }
+    $('#chkbocw').change(function() {
+        var CheckReg = $(this).is(':checked');
+
+
+        alert(CheckReg);
+        if(status !='Approved')
+        {
+            alert("Your Application Is "+status)
+            return false;
+        }
+        if (CheckReg == true) {
+          //  $("#tblbocwdet").show();
+           // $("#divbocw").show();
+          //  return false;
+        }
+
+        return false;
+    });
+    $('#chkregwbtwss').change(function() {
+        var CheckReg = $(this).is(':checked');
+        if(status !='Approved')
+        {
+            alert("Your Application Is "+status)
+            return false;
+        }
+        if (CheckReg == true) {
+            $("#transwrk").show();
+            return false;
+        }
+        else
+            $("#transwrk").hide();
+        return false;
+    });
+
+    //Upload Documents
+    $('#chkSmc').change(function() {
+        var isvalid = $(this).is(':checked');
+        // alert(isvalid);
+        if(isvalid == true)
+        {
+            $("#frmuploaddocu").attr("src", "/Registration/UploadPhotoSignfromBeni?Bensno="+Benifid+"&CreatedBy="+Benifid+"&User=Beni");
+
+
+            $('#divsmc').show(1000);
+
+        }
+        else
+        {
+            $('#divsmc').hide(1000);
+        }
+    });
+
+    //For Bocw Submit
+    function btnsub()
+    {
+         
+        var SchemerowCount = $('.tblbocwdet tr').length;
+        var adddoc  =  "";
+        for (i = 1;i < SchemerowCount; i++)
+        {
+            adddoc +=  $("#Nameid"+i).text()+"$";
+            adddoc += $("#Descrid"+i).text()+"$";
+            adddoc +=  $("#regisid"+i).text()+ "$";
+            adddoc +=  $("#postid"+i).text()+ "$" ;
+            adddoc +=  $("#Dojid"+i).text()+"$";
+            adddoc +=  $("#Doeid"+i).text()+"$";
+            adddoc +=  $("#remrkid"+i).text()+"~ ";
+        }
+        adddoc +="";
+        $.get('@Url.Action("SaveBocwScheme", "Home")', {ID :adddoc,SchemerowCount:SchemerowCount,Benifid :Benifid,Createdby :Benifid }, function (dat) {
+            alert(dat);
+        });
+    }
+    //For WBTWSS Submit
+    function btnsubWbt()
+    {
+        var TransWorker = $("input[name='TransWorkstatus']:checked").val();
+        var NatuVehic = $("#ddlNtofvehi").val();
+        var NatuDuty = $("#ddlNtofduty").val();
+        $.get('@Url.Action("SaveWBTScheme", "Home")', {Type:TransWorker,Vehicle:NatuVehic,Duty:NatuDuty,Benifid :Benifid,Createdby :Benifid}, function (dat) {
+            alert(dat);
+            $("#transwrk").hide();
+        });
+    }
+    //Add data to table
+    function AddBocw()
+    {
+        if (($("#name").val()) == "" || ($("#name").val()) == null) {
+            alert("Please Enter Name");
+            $("#name").focus();
+            return false;
+        }
+        if (($("#description").val()) == null || ($("#description").val()) == "") {
+            alert("Please Enter Description");
+            $("#description").focus();
+            return false;
+        }
+        if (($("#registration").val())  == null || ($("#registration").val())  == "") {
+            alert("Please Enter Registration No");
+            $("#registration").focus();
+            return false;
+        }
+        if (($("#post").val()) == null || ($("#post").val()) == "") {
+            alert("Please Enter Post & Nature of Work");
+            $("#post").focus();
+            return false;
+        }
+        if (($("#DoJ").val()) == null || ($("#DoJ").val()) == "") {
+            alert("Please Select Date of Joining");
+            $("#DoJ").focus();
+            return false;
+        }
+        if (($("#DOE").val()) == null || ($("#DOE").val()) == "") {
+            alert("Please Select Date of Relieving Date");
+            $("#DOE").focus();
+            return false;
+        }
+        if (($("#remark").val()) == null || ($("#remark").val()) == "") {
+            alert("Please Enter Remark");
+            $("#remark").focus();
+            return false;
+        }
+        var rowCount = $('.tblbocwdet tr').length;
+        $('.tblbocwdet').append('<tr><td><label class="label-data" id="snoid' + rowCount + '">' + rowCount + ' </label></td><td><label class="label-data" id="Nameid' + rowCount + '">' + ($("#name").val()) + ' </label></td><td><label class="label-data" id="Descrid' + rowCount + '">' + ($("#description").val()) + ' </label></td><td><label class="label-data" id="regisid' + rowCount + '">' + ($("#registration").val()) + ' </label></td><td><label class="label-data" id="postid' + rowCount + '">' + ($("#post").val()) + ' </label></td><td><label class="label-data" id="Dojid' + rowCount + '">' + ($("#DoJ").val()) + ' </label></td><td><label class="label-data" id="Doeid' + rowCount + '">' + ($("#DOE").val()) + ' </label></td><td><label class="label-data" id="remrkid' + rowCount + '">' + ($("#remark").val()) + ' </label></td><td><button type="button" class="removedelbutton" title="Remove this row">X</button></td></tr>')
+        $("#name").val('');
+        $("#description").val('');
+        $("#registration").val('');
+        $("#post").val('');
+        $("#DoJ").val('');
+        $("#DOE").val('');
+        $("#remark").val('');
+    }
+    //function Addemphist()
+    //{
+    //    var rowCount = $('.tblemphist tr').length;
+    //    $('.tblemphist').append('<tr><td><input id="Sno1'+rowCount+'" type="text"  class="form-control" name="empSno" value="'+(rowCount)+'" style="width:39px;" readonly="readonly"></td><td><label class="label-data" id="Nameid' + rowCount + '">' + ($("#name").val()) + ' </label></td><input id="Dojid'+rowCount+'" type="text" name="namdob" class="form-control namdob"  style="width:130px;">
+    //        <td><label class="label-data" id="Dojid' + rowCount + '">' + ($("#DoJ").val()) + ' </label></td><td><label class="label-data" id="Doeid' + rowCount + '">' + ($("#DOE").val()) + ' </label></td><td><button type="button" class="removedelbutton" title="Remove this row">X</button></td></tr>')
+    //}
+    $("#smccrd").click(function(){
+
+        if(Part2 == "Y")
+        {
+            if(status !='Approved')
+            {
+                alert("Your application is "+status);
+                return false;
+
+
+            }
+            else
+            {
+
+            window.location.href = "/SSYIDCard/SSYIDCardPDF.aspx?Benifid="+Benifid;
+
+            }
+        }
+
+        else
+        {
+            alert("Unable generate SMC card, Please fill remaining information");
+            return false;
+        }
+
+
+    })
+    $("#schemecert").click(function(){
+        //ChkScheme
+        if(ChkScheme == "0")
+        {
+            alert("Scheme certificate will be downloaded when Scheme Applied");
+            return false;
+        }
+        if(CheckPaymentSta =="0")
+        {
+            alert("Scheme certificate will be downloaded after successful payment");
+            return false;
+        }
+        window.location.href = "/Home/SchemeCertificate/?Benifid="+Benifid;
+    })
+    //For deleting
+    $(document).on('click', 'button.removedelbutton', function () { // <-- changes
+        var SchemerowCount = $('.tblbocwdet tr').length;
+        var $tr = $(this).closest('tr');
+        var myRow = $tr.index();
+        if(myRow == SchemerowCount-2)
+        {
+            $(this).closest('tr').remove();
+            return false;
+        }
+        else
+        {
+            alert("Only last row will be deleted");
+            return false;
+        }
+    });
+    var name = Schemes;
+    if(name == "ConstructionWorker")
+    {
+         
+        $("#constructwork").show();
+        $("#Transportwrk").hide();
+        $("#Others").hide();
+    }
+    if(name == "TransportWorker")
+    {
+        $("#Transportwrk").show();
+        $("#constructwork").hide();
+        $("#Others").hide();
+    }
+    if(name == "Others")
+    {
+        $("#Others").show();
+        $("#constructwork").hide();
+        $("#Transportwrk").hide();
+    }
+
+    $("#identitycumbook").click(function()
+    {
+        if(Part2 =='Y')
+        {
+            if(status !='Approved')
+            {
+                alert("Your Application Is "+status)
+                return false;
+
+            }
+            if(PFstat =="0")
+            {
+                alert("PF opt is not selected");
+                return false;
+            }
+
+            window.location.href = "/Home/SchemeCertificate/?Benifid=" + Benifid;
+        }
+        else
+        {
+            alert("Remaining information is pending");
+            return false;
+        }
+
+    })
+
+    function DocumnetsFinalSubmit()
+    {
+        if ($("#Photo").val() == "" || $("#Photo").val() == null || $("#Photo").val() == 0) {
+            alert("Please Choose Photo");
+            $("#Photo").focus();
+            return false;
+        }
+        if ($("#Signature").val() == "" || $("#Signature").val() == null || $("#Signature").val() == 0) {
+            alert("Please Choose Signature");
+            $("#Signature").focus();
+            return false;
+        }
+        var form = $('#UploadForm')[0];
+
+        var data = new FormData(form);
+
+        $.ajax({
+            url: '/Registration/SubmitPhotoSign',
+            type: 'post',
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data: data,
+            success: function(data) {
+
+                if(data.Code == "000")
+                {
+                    alert(data.Message);
+
+                    //BenSno = data.BenSno;
+                    //$("#divConfirmSmcCard").modal('show');
+                    window.location.href = "/Home/Dashboard";
+
+
+                }
+                else
+                {
+                    alert(data.Message);
+                    return false;
+                    // $("#lblMessage"+data.Value).text(data.Message);
+                }
+
+
+            }
+        });
+    }
+
+    $('INPUT[type="file"]').change(function () {
+         
+
+        var fname  =  "";
+
+        if(this.id == "Photo")
+        {
+            fname ="photo";
+        }
+        if(this.id == "Signature")
+        {
+            fname ="signature";
+        }
+
+
+        if(this.id == "Photo"  || this.id == "Signature")
+        {
+            if (this.files[0].size < 2000000) {
+                var ext = this.value.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                        break;
+                    default:
+
+                        alert('Please choose ' + fname + ' only jpg,jpeg or png,pdf File');
+
+                        this.value = '';
+                        this.focus();
+                }
+            }
+            else {
+                alert('Please choose size of ' + fname + ' file below 2MB');
+                this.value = '';
+                this.focus();
+            }
+        }
+
+	});
+
+	function GetBenDet(Id) {
+		//alert("Id = " + Id)
+		$("#BenMobile").val(Id);
+			
+		$.get('@Url.Action("SenOtpForMobileVerify", "Registration")', { MobileNumber: Id}, function (dat) {
+            alert(dat);
+            //$("#divotp").show();
+            //$("#divotp").focus();
+			$("#divotp").modal('show');
+        });
+	}
+
+	function ResendOtp(){
+         
+		$.get('@Url.Action("SenOtpForMobileVerify", "Registration")', { MobileNumber: $("#BenMobile").val()}, function (dat) {
+            alert(dat);
+            //$("#divotp").show();
+            //$("#divotp").focus();
+        });
+    }
+
+	function OtpSubmit() {
+         
+        var otp = $("#OtpVerfy").val();
+        if(otp == null || otp == ""){
+            alert("Please Enter OTP");
+            return false;
+        }
+		$.get('@Url.Action("VerifiyOtp", "Registration")', { MobileNumber: $("#BenMobile").val(),OTP : otp}, function (dat) {
+             
+            if(dat == "1"){
+                alert("Invalid OTP");
+                return false;
+            }
+            else
+			{
+				//$("#Deathform").submit();
+				alert("Mobile Number Verifyed Successfully");
+				$("#divotp").modal('hide');
+				$("#MobileVerify").hide();
+            }
+        });
+        return false;
+		}
+
+    function ConfirmDet()
+    {
+      //  var conexistreg = $("input[name='conexistregstatus']:checked").val()
+
+
+      //  if(conexistreg == "Yes")
+       // {
+            $('#divBenDash').hide();
+            $('#DivPart2').show(1000);
+
+            $("#RegFrmae").attr("src", "/Registration/BeniPart2?BeniSno="+Benifid+"&CreatedBy="+Benifid+"&Type="+"Beni");
+
+
+
+
+            return false;
+       // }
+       // else
+       // {
+           // Endform()
+            ///var url = "/SSYIDCard/SmcCardView.aspx/?Benifid="+BenSno;
+            //$('iframe#ifr').attr('src', url);
+            //$('#myModal').modal('show');
+        //}
+    }
+</script>

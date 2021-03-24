@@ -1,0 +1,147 @@
+﻿/*toggle button css start*/
+.switch {
+    position: relative;
+    display: inline-block !important;
+    width: 60px;
+    height: 34px;
+}
+
+    .switch .cus_checkboxinput {
+        width: 30px;
+        height: 16px;
+        margin: 8px 21px;
+    }
+
+/*.ui-state-default, .ui-widget-content .ui-state-default{
+    display: none;
+}*/
+/*toggle button css end*/
+
+
+
+/*table design started*/
+#ID_MenuTable > .jtable {
+    border: unset !important;
+}
+#ID_MenuTable .jtable-main-container > table.jtable > thead th {
+    padding: 15px !important;
+    width: 0% !important;
+}
+#ID_MenuTable .jtable-main-container > table.jtable > tbody > tr > td {
+    border: unset !important;
+    border-bottom: 1px solid #ddd !important;
+}
+#ID_MenuTable .jtable-main-container > table.jtable {
+    border: unset;
+}
+#ID_MenuTable .jtable-main-container > div.jtable-title {
+    padding: 10px;
+    padding-left: unset !important;
+    text-align: center;
+}
+#ID_MenuTable .jtable-main-container > div.jtable-bottom-panel {
+    background-color: unset;
+     color: unset; 
+     min-height: unset; 
+    font-size: 14px;
+     border:unset; 
+     padding: 15px 0px;
+}
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number,
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-space,
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-first,
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-last,
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-previous,
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-next,
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-active {
+        width: 35px;
+        height: 35px;
+        padding: 10px 0px;
+        text-align: center;
+        border-radius: 20px;
+    }
+        #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number:nth-child(5), #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number:nth-child(6) {
+            vertical-align: middle;
+        }
+    #ID_MenuTable .jtable-main-container > div.jtable-bottom-panel span.jtable-page-info {
+        padding: 30px 0px;
+    }
+/*table design end*/
+
+
+
+/*MenuManagement page design start*/
+.#ID_Con_UserTypes btn-group button > .caret {
+    float: right;
+    vertical-align: middle;
+    margin: 10px 0px;
+}
+#ID_Con_UserTypes .btn-group {
+    width: 100%;
+}
+#ID_Con_UserTypes .btn-group > button {
+    text-align: left;
+    width: 100% !important;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    box-shadow: unset;
+}
+.TBL_Edit {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: #06623b;
+    padding: 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0px 11px;
+    color: #fff;
+}
+.popupBody {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+}
+.popupContent {
+    width: 40%;
+    margin: 7% auto;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.7) 0px 0px 18px 2px;
+}
+.popup_title {
+    padding: 10px 15px;
+    background-color: #094C86;
+    color: #fff;
+    font-size: 20px;
+}
+.popup_feeds {
+    padding: 15px;
+}
+.popup_footer {
+    border-top: 1px solid #ddd;
+    padding: 10px 0px;
+    margin-top: 30px;
+}
+.theme_btn {
+    background-color: #094C86;
+    color: #fff;
+    padding: 7px 15px;
+    border: 1px solid #094C86;
+    border-radius: 20px;
+    margin: 0px 3px;
+    width: 100px;
+}
+.theme_flotbtn {
+    background-color: #fff;
+    color: #094C86;
+    padding: 7px 15px;
+    border: 1px solid #094C86;
+    border-radius: 20px;
+    margin: 0px 3px;
+    width: 100px;
+}
+/*MenuManagement page design end*/

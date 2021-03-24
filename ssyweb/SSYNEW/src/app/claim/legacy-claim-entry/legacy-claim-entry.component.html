@@ -1,0 +1,136 @@
+<div id="widget-grid">
+    <!--content-->
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Legacy Claim Entry</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <fieldset id="legacyEntry">
+                                <section>
+                                    <div class="row">
+                                    <!--<section class="col col-6">
+                                            <label class="label">Legacy Claim Ref No.: </label>
+                                            <label class="input">
+                                                <input type="text" name="leagacyCalimRefNo" placeholder="Legacy Claim Ref No." [(ngModel)]="claim.claimRefernceNo">
+                                            </label>
+                                        </section>-->
+                                        <section class="col col-6">
+                                            <!--<label class="label">Date of Payment: </label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-calendar"></i>
+                                                    <input type="text" name="date" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig" placeholder="DD/MM/YYYY" value="{{ claim.claimDate | date: 'dd/MM/yyyy' }}"
+                                                            [(ngModel)]="claim.claimDate" readonly>
+                                                </label>-->
+                                            <label class="label">Date of Payment <span [style.color]="!dateofPaymentValid?'red':''"><b>*</b></span></label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-calendar"></i>
+                                                <input type="text" name="date" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                                       placeholder="DD/MM/YYYY" value="{{ claim.claimDate | date: 'dd/MM/yyyy' }}"
+                                                       [(ngModel)]="claim.claimDate" readonly
+                                                       #date="ngModel"
+                                                       [ngClass]="{'invalid-data':date.invalid && (!dateofPaymentValid), 'valid-data': date.valid && dateofPaymentValid}"
+                                                       required>
+                                            </label>
+                                            <div *ngIf="date.invalid && (!dateofPaymentValid)">
+                                                <span style="color: red;">Date of Payment is required </span>
+                                            </div>
+                                        </section>
+                                        <div class="col col-6">
+                                            <label class="label">Category <span [style.color]="!categoryValid?'red':''"><b>*</b></span></label>
+                                            <select class="form-control" name="category" [(ngModel)]="claim.claimCategory">
+                                                <option value="0" selected disabled>Choose an Option</option>
+                                                <option value="{{category.lovDtlId}}" *ngFor="let category of categoryLov">{{category.optionName}}</option>
+                                                <!--<option value="1">PF</option>
+                                                <option value="2">Health&Family</option>
+                                                <option value="3">DisabIlity</option>
+                                                <option value="4">Death</option>
+                                                <option value="5">Education</option>-->
+                                            </select>
+                                            <div *ngIf="!categoryValid">
+                                                <span style="color: red;">Category is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">Claim Amount Received <span [style.color]="!claimAmountValid?'red':''"><b>*</b></span> </label>
+                                            <label class="input">
+                                                <input type="text" name="claimAmount" placeholder="Claim Amount Received" [(ngModel)]="claim.claimAmount">
+                                            </label>
+                                            <div *ngIf="!claimAmountValid">
+                                                <span style="color: red;">Claim Amount Received is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label class="label">Old Regd No. <span [style.color]="!oldRegdNoValid?'red':''"><b>*</b></span> </label>
+                                            <label class="input">
+                                                <input type="text" name="oldRegdNo" placeholder="Old Regd No." [(ngModel)]="claim.oldRegdNo">
+                                            </label>
+                                            <div *ngIf="!oldRegdNoValid">
+                                                <span style="color: red;">Old Regd No is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="row">
+                                                <div class="col col-6">
+                                                    <label class="label">Status:</label>
+                                                    <select class="form-control" name="status" [(ngModel)]="claim.status">
+                                                        <option value="0" selected>Choose an Option</option>
+                                                        <option value="1">Saved</option>
+                                                        <option value="2">Submitted</option>
+                                                        <option value="3">Sendback from Inspector</option>
+                                                        <option value="4">Forwarded to ALC</option>
+                                                        <option value="5">Sendback from ALC</option>
+                                                        <option value="5">Reject from ALC</option>
+                                                        <option value="5">Approved by ALC</option>
+                                                        <option value="5">Forced Closed</option>
+                                                    </select>
+                                                </div>
+                                        </div>-->
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">Remarks: </label>
+                                            <label class="textarea textarea-resizable">
+                                                <textarea rows="3" class="custom-scroll" name="remarks" [(ngModel)]="claim.remarks" placeholder="Remarks"></textarea>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <form class="smart-form">
+                <fieldset class="top-10"></fieldset>
+                <footer>
+                    <a id="btnSava" class="btn btn-success" (click)="SaveLegacyClaim(claim)"> Save </a>
+                    <a class="btn btn-danger" (click)="CancelClick()"> Cancel</a>
+                </footer>
+            </form>
+        </article>
+    </div>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body">
+                <p id="mesgSubmit">{{successMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

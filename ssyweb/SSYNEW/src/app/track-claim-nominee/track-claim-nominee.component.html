@@ -1,0 +1,163 @@
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Track Claim</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <!-- Success states for elements -->
+                        <form class="smart-form">
+                            <fieldset>
+                                <section></section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">SSIN <span [style.color]="!ssnNoValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="benSno" class="form-control" [(ngModel)]="ssin" placeholder="Enter SSIN"
+                                                   NumbersOnly maxlength="50"
+                                                   #benSno="ngModel"
+                                                   [ngClass]="{'invalid-data': benSno.invalid && (!ssnNoValid || benSno.touched), 'valid-data': benSno.valid && ssnNoValid}"
+                                                   required>
+                                            <div *ngIf="benSno.invalid && (!ssnNoValid ||benSno.touched)">
+                                                <span style="color: red;">SSIN is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6">
+                                            <label class="label">Mobile Number <span [style.color]="!nomineeContactValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="nomineeContact" class="form-control" placeholder="Mobile Number" [(ngModel)]="nomineeMobileNumber"
+                                                   NumbersOnly minlength="10" maxlength="10"
+                                                   #nomineeContact="ngModel"
+                                                   [ngClass]="{'invalid-data': nomineeContact.invalid && (!nomineeContactValid || nomineeContact.touched ), 'valid-data': nomineeContact.valid && nomineeContactValid}"
+                                                   required>
+                                            <div *ngIf="nomineeContact.invalid && (!nomineeContactValid ||nomineeContact.touched) && !nomineeContact.errors.minlength">
+                                                <span style="color: red;">Mobile Number is required </span>
+                                            </div>
+                                            <div *ngIf="nomineeContact.invalid && (nomineeContact.errors.minlength) ">
+                                                <span style="color: red;">Invalid Mobile Number </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section *ngIf="isOtpVisible">
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">OTP <span [style.color]="!otpValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="otp" class="form-control" placeholder="OTP" [(ngModel)]="otpNumber"
+                                                   NumbersOnly minlength="4" maxlength="4"
+                                                   #otp="ngModel"
+                                                   [ngClass]="{'invalid-data': otp.invalid && (!otpValid || otp.touched ), 'valid-data': otp.valid && otpValid}"
+                                                   required>
+                                            <div *ngIf="otp.invalid && (!otpValid ||otp.touched) && !otp.errors.minlength">
+                                                <span style="color: red;">OTP is required </span>
+                                            </div>
+                                        </div>
+                                        <div class="col col-6" style="padding-left:50px;padding-bottom:10px;padding-top:31px;">
+                                            <a class="btn btn-success" (click)="VerifyOTP()">Verify</a>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section *ngIf="isClaimNoVisible">
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <label class="label">Claim Reference No. <span [style.color]="!claimNoValid?'red':''"><b>*</b></span></label>
+                                            <input type="text" name="claimReferenceNo" class="form-control" placeholder="Claim Reference No." [(ngModel)]="claimRefNo"
+                                                   NumbersOnly #claimReferenceNo="ngModel"
+                                                   [ngClass]="{'invalid-data': claimReferenceNo.invalid && (!claimNoValid || claimReferenceNo.touched ), 'valid-data': claimReferenceNo.valid && claimNoValid}"
+                                                   required>
+                                            <div *ngIf="claimReferenceNo.invalid && (!claimNoValid ||claimReferenceNo.touched)">
+                                                <span style="color: red;">Claim Reference No. is required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section *ngIf="isClaimTrackVisible">
+                                    <header>Claim Track</header>
+                                    <fieldset>
+                                        <section>
+                                            <!-- row -->
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="width:98%">
+                                                    <div class="well well-sm">
+                                                        <div class="smart-timeline">
+                                                            <ul class="smart-timeline-list">
+
+                                                                <li *ngFor="let item of claimsTrack">
+                                                                    <div class="smart-timeline-icon">
+                                                                        <i class="fa fa-user"></i>
+                                                                    </div>
+                                                                    <div class="smart-timeline-time">
+                                                                        <small>{{formatDate(item.actionDate)}}</small>
+                                                                    </div>
+                                                                    <div class="smart-timeline-content">
+                                                                        <p>
+                                                                            <a href="javascript:void(0);"><strong>{{item.userName}} - {{item.action}}</strong></a>
+                                                                        </p>
+                                                                        <p>
+                                                                            {{item.actionComments}}
+                                                                        </p>
+                                                                    </div>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </section>
+                                    </fieldset>
+                                </section>
+                            </fieldset>
+
+                            <footer>
+                                <a class="btn btn-success" *ngIf="isSendVisible" (click)="SendOTP()">Send OTP</a>
+                                <a class="btn btn-success" *ngIf="isReapplyVisible" (click)="Reapply()">Reapply</a>
+                                <a class="btn btn-success" *ngIf="isRefertoALCVisible" (click)="applyRefertoALC()">Refer to ALC</a>
+                                <a class="btn btn-success" *ngIf="isRefertoDLCVisible" (click)="applyRefertoDLC()">Refer to DLC</a>
+                                <a class="btn btn-blue" *ngIf="isPullTrackVisible" (click)="PullTrack()">Pull Track</a>
+
+                                <a class="btn btn-default" (click)="clearClaim()">Reset</a>
+                                <a class="btn btn-danger" href="/">Cancel</a>
+                            </footer>
+                        </form>
+                        <!--/ Success states for elements -->
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- WIDGET END -->
+    </div>
+    <!-- end row -->
+</section>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,7 @@
+.invalid-data {
+    border: 1px solid red;
+}
+
+.valid-data {
+    border: 1px solid rgb(19, 92, 4);
+}

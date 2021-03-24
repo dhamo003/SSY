@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "DistrictWiseSum";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+}
+   
+<script src="~/Scripts/jquery.min.js"></script>
+<br />
+<div class="container-fliud" style="height:300px;">
+    <div class="col-md-10" style="margin-left:110px;">
+        
+        <table class="table table-striped table-bordered   dt-responsive nowrap DistrictWiseSum" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                   
+                    <th><b>Sno</b></th>
+                    <th><b>District</b></th>
+                    <th><b>Applications Submitted </b></th>
+                    <th><b>Applications Approved</b></th>
+                    <th><b>Application Pending </b></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.get('@Url.Action("GetDistrictSum", "Home")', {}, function (result) {
+            $('.DistrictWiseSum tbody').empty();
+            $.each(result, function (i, data) {
+              
+                var num = i + 1;
+            
+                $('.DistrictWiseSum').append('<tr><td>' + num + '</td><td>' + data.DistrictName + '</td><td>' + data.Submitted + '</td><td>' + data.Approved + '</td><td>' + data.Pending + '</td></tr>')
+               
+            });
+            $('.DistrictWiseSum').DataTable({
+               
+            });
+        });
+    });
+</script>

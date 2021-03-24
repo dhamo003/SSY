@@ -1,0 +1,321 @@
+﻿body {
+    font-family: 'Segoe UI' !important;
+}
+.pdr-0{
+    padding-right: 0 !important;
+}
+.table.table-striped thead tr th {
+    background: #094c86;
+    color: #fff;
+    padding: 16px 10px;
+    font-size: 14px;
+}
+.table.table-striped thead tr th a{
+    color: #fff;
+}
+.table.table-striped thead tr th, .table.table-striped tbody tr td {
+    border-right: 1px solid #ddd;
+    vertical-align: middle;
+}
+.table.table-striped tbody tr td {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 16px;
+}
+.table.table-striped tbody tr td a {
+    padding: 0 2px;
+    font-size: 13px;
+}
+.table.table-striped ul.pagination {
+    float: right;
+}
+h3 {
+    font-size: 24px;
+    font-weight: 600;
+}
+#content {
+    background: #fff;
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+    bottom: auto !important;
+    top: 50% !important;
+    margin-top: -9px;
+}
+#main {
+    background: #fff;
+}
+.multiselect-native-select button{
+    width: 170px !important;
+}
+#divloc .dropdown-menu {
+    margin-top: 0;
+    width: 220px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    z-index: 9999 !important;
+}
+#divsub .dropdown-menu, #status {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    z-index: 9999 !important;
+}
+
+
+#divRepUserId .dropdown-menu {
+    margin-top: 0;
+    width: 220px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    z-index: 9999 !important;
+}
+iframe {
+    margin: 0 !important;
+}
+body{
+    overflow-x: hidden;
+}
+.scheme-num-block {
+    float: right;
+    margin: 0 25px 20px 0;
+    max-width: 300px;
+}
+/*.dataTables_wrapper.form-inline table.dataTable {
+    overflow-y: scroll;
+    width: 1036px !important;
+    table-layout: fixed;
+}*/
+html #Div1 {
+    width: 100% !important;
+    margin-left: 5px;
+}
+table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+    padding: 7px 30px 7px 10px !important;
+    word-wrap: break-word;
+    white-space: normal;
+    width: auto !important;
+}
+div.dataTables_wrapper div.dataTables_paginate {
+    width: auto;
+    /*padding-right: 16px;*/
+}
+div.dataTables_info {
+    float: left;
+}
+html .dataTables_filter{
+    margin-left: 0;
+}
+.two-inline-btns {
+    clear: both;
+    text-align: right;
+    padding-right: 15px;
+}
+.page-footer{
+    /*position: fixed;*/
+}
+.legacy-filter-search {
+    width: 300px;
+    float: right;
+    padding-right: 40px;
+}
+.dettable{
+    margin-left: 5px !important;
+}
+html div.dataTables_wrapper div.dataTables_paginate {
+    margin-top: 10px;
+}
+html .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.approved-table tbody {
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+}
+.pending-approved-table tbody{
+    border-right: 1px solid #ddd;
+}
+.ssv-search {
+    margin: 10px 0;
+}
+.ssv-search input {
+    height: 30px;
+    padding: 0 10px 0 10px;
+}
+.ssv-search button{
+    border: none;
+    background: #094c86;
+    color: #fff;
+    height: 30px;
+    padding: 0 10px;
+}
+.jarviswidget > div{
+    border: none;
+}
+
+.smart-form-main {
+    font-size: 15px;
+    padding-top: 20px;
+}
+.smart-form-main label {
+    font-weight: normal;
+}
+.smart-form-main fieldset {
+    padding: 0;
+    margin: 0 0 10px;
+}
+.smart-form-main section{
+    margin: 0;
+}
+.smart-form-main label.label {
+    font-size: 18px !important;
+    color: #e87722;
+    font-weight: 700;
+    margin: 0 0 12px;
+    padding: 0;
+}
+.smart-form-main .row {
+    margin-bottom: 8px;
+    padding:4px;
+}
+.smart-form-block {
+    margin-bottom: 20px;
+}
+.smart-form-link {
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 13px;
+    display: inline-block;
+    font-size: 16px;
+}
+.smart-form-reg-blk {
+    border: 1px solid #d0d0ce;
+    padding: 20px 20px 10px 20px;
+}
+.form-group select.dropdown-menu{
+    width: auto !important;
+}
+.multiselect-native-select button.multiselect{
+    overflow: hidden;
+}
+html .ui-widget-header .ui-icon {
+    background-image: url(../images/ui-icons_444444_256x240.png) !important;
+    font-size: 0;
+    background-position: -80px -192px !important;
+}
+html .ui-widget-header .ui-datepicker-next .ui-icon {
+    background-position: -48px -192px !important;
+}
+html .ui-widget-header .ui-datepicker-next.ui-state-disabled .ui-icon {
+    opacity: 0.5;
+}
+aside#left-panel ul li a span ~ i {
+    float: right;
+    padding-right: 3px;
+}
+.minified nav ul > li > a:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+nav > ul > li > a b {
+    right: 20px;
+    font-size: 20px;
+    top: 6px;
+}
+.minified nav > ul > li > a > b{
+    display: block;
+    right: 14px;
+    top: 2px;
+}
+.minified nav ul > li > a{
+    height: 38px;
+}
+.minified .login-info span span {
+    color: #fff;
+    position: absolute;
+    margin-top: -21px;
+    width: 200px;
+    display: block;
+    margin-left: 0;
+}
+nav ul ul span.menu-item-parent{
+    font-size: 12px;
+}
+.minifyme{
+    display: none;
+}
+.welcome-dropdown-menu{
+    display: none;
+}
+.welcome-dropdown button {
+    background: none;
+    border: none;
+    color: #fff;
+}
+.welcome-dropdown {
+    float: right;
+    margin: 14px 0px 0 20px;
+    cursor: pointer;
+}
+.welcome-dropdown button i.fa-user {
+    padding-right: 6px; 
+}
+ul.welcome-dropdown-menu {
+    list-style: none;
+    background: #fff;
+    padding: 5px 0 0;
+}
+ul.welcome-dropdown-menu li a {
+    font-size: 13px;
+    border-bottom: 1px solid #d0d0ce;
+    display: block;
+    padding: 6px 18px;
+}
+
+ul.welcome-dropdown-menu li a i {
+    padding: 0 8px 6px 0;
+}
+.head-right{
+    padding-top: 26px;
+}
+.admin-label {
+    text-align: right;
+    padding: 0 80px 0 0;
+    color: #fff;
+    position: relative;
+    top: 7px;
+}
+ul.welcome-dropdown-menu li a span {
+    padding-right: 10px;
+    font-size: 14px !important;
+}
+/*#left-panel{
+    overflow: auto;
+    height: 100%;
+}*/
+a.text-white.updatenoty {
+    background: white;
+    margin: 15px 9px 25px 22px;
+    cursor: pointer;
+    float: right;
+    background: none;
+    border: none;
+    color: #fff;
+}
+
+.smart-form header {
+    margin: 0 0 0 0 !important;
+}
+.smart-form-main section {
+    padding-top:7px;
+}
+.modal-dialog.modal-lg {
+    left:0 !important;
+}
+.hidden-xs {
+    display: inline-block !important;
+}

@@ -1,0 +1,675 @@
+﻿@{
+    ViewBag.Title = "Deduplication Details";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<script src="~/Content/usermodule/jquery.min.js"></script>
+<script src="~/Content/usermodule/grid.locale-en.js"></script>
+<script src="~/Content/usermodule/jquery.jqGrid.js"></script>
+<link href="~/Content/usermodule/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/usermodule/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/my_scripts/Helper.js"></script>
+<script>
+    var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+</script>
+<style>
+    .clsRow {
+        margin-top: 5px !important;
+    }
+    .modal-backdrop {
+        position: relative !important;
+    }
+    .colorcode {
+        background-color: #134479;
+    }
+    #DynamicTable tr:first-child td {
+        background-color: #005fbf;
+    }
+    .theader {
+        background-color: #134479 !important;
+        color: white !important;
+    }
+    .pretty {
+        text-align: center !important;
+    }
+    table thead tr th {
+        background-color: #134479 !important;
+        color: #ffffff !important;
+    }
+    .ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+        font-family: Segoe UI;
+        vertical-align: middle;
+        position: relative;
+    }
+    .ui-jqgrid tr.jqgrow {
+        outline-style: none;
+        font-family: Segoe UI;
+        font-size: 13px;
+        font-weight: 600 !important;
+    }
+    .trrow {
+        font-family: Segoe UI;
+        font-weight: 600;
+        font-size: 12px;
+    }
+    span.ui-jqgrid-resize-ltr {
+        display: none !important;
+    }
+    #newTablesDiv {
+        font-family: 'Segoe UI';
+        font-size: 13px;
+    }
+    .tabsub {
+        font-family: 'Segoe UI' !important;
+        font-size: 12px !important;
+    }
+    .CSSRowSTyleToApply {
+        background-color: red;
+    }
+    .ui-jqgrid-htable th {
+        background: #094c86 !important;
+        color : white !important;
+    }
+    .ui-jqgrid-htable th div {
+        height : 35px !important;
+    }
+</style>
+<script>
+    $.jgrid.defaults.width = 1120;
+</script>
+<a href="/Home/DeDupGroup" class="btn btn-primary pull-right btnback" style="margin-right:10px;"> <span class="glyphicon glyphicon-backward"></span> Back</a>
+<div id="page-content-wrapper">
+    <div class="container">
+        <div class="container ng-scope">
+            <input type="hidden" name="groupnumber" value="@Session["GroupNo"].ToString()" id="groupnumber">
+            <div class="row">
+                <div class="col-sm-4"><label>Group Number :<b>@Session["GroupNo"].ToString()</b></label> </div>
+                <div class="col-sm-7"></div>
+                <div class="col-sm-1">
+                    <span id="btnprint" style="position: relative;left: 70%;">
+                        <img src="~/Content/images/print1.png" alt="print" style="width: 25px; height: 24px" title="Print" />
+                    </span>
+                </div>
+            </div>
+            <br />
+            <div class="row clsRow">
+                <div class="col-sm-12" id="Group">
+                    <table id="ssyDupGrid"></table>
+                    <div id="jqUnqGridPager"></div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2"><a type="button" id="btnSub" value="SubGroup" class="btn btn-block btn-sm btn-info"><b>Sub Group</b></a></div>
+                <div class="col-sm-2"><a type="button" id="btnReset" value="Reset Group" class="btn btn-block btn-sm btn-danger"><b>Reset Group</b></a></div>
+                @*<div class="col-sm-2"><a href="#ActHistory" role="button" data-toggle="modal" class="btn btn-block btn-sm btn-success" id="actHis"><b>Action History</b></a></div>*@
+                <div class="col-sm-2"><a href="#" class="btn btn-block btn-sm btn-success" id="grpSub"><b>Submit</b></a></div>
+                <div class="col-sm-2"></div>
+            </div>
+            <br />
+            <div class="row clsRow">
+                <div class="col-sm-12">
+                    <table id="ssyUnqGrid"></table>
+                    <div id="jqUnqGridPager"></div>
+                </div>
+            </div>
+            <br />
+            <div class="row clsRow">
+                <div class="col-sm-12">
+                    <div id='newTablesDiv'> </div>
+                    <div id="noDataCase"> </div>
+                </div>
+            </div>
+            <br />
+            <div id="dvTable" class="table" border="0" style="display:none"></div>
+            <div id="dvTable1" class="table" border="0" style="display:none"></div>
+            <div id="dvTable2" class="table" border="0" style="display:none"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ActHistory" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"></div>
+<script>
+    var datatableCurrPage;
+    var oTable;
+    var oTable1;
+    var grpNo = 64, mainGroupNo, newGroupNo = 65, newGroupId = "";
+    var subgroupdone = false;
+    var submitgroup = false;
+    var previous = false;
+    var loanAmount = 0;
+    $(document).ready(function () {
+        $.post("/Home/GetSubGroups", function (result) {
+            if (result.length > 0) {
+                for (i = 1; i < result.length; i++) {
+                     
+                    BindData(result[i])
+                }
+            }
+        })
+        function BindData(goupN) {
+            var GroupMum = goupN;
+            var character = GroupMum.charAt(GroupMum.length - 1);
+            grpNo = character.charCodeAt(0);
+            $('#newTablesDiv').append('<div><table class="tabsub"><tr><td><h4>Group Number: ' + GroupMum + '</h4></td></tr></table></div><br/>');
+            var table11 = $("<table  class='tabsub' id=" + GroupMum + " border='1' style=' border-collapse: collapse;'></table>").appendTo("#newTablesDiv");
+            //Create table header row
+            var rowHeader = $("<tr></tr>").appendTo(table11);
+            $("<td></td>").text("SNo").appendTo(rowHeader);
+            $("<td></td>").text("Scheme").appendTo(rowHeader);
+            $("<td></td>").text("RegNo").appendTo(rowHeader);
+            $("<td style='width: 132px;'></td>").text("Name").appendTo(rowHeader);
+            $("<td style='width: 132px;'></td>").text("Father Name").appendTo(rowHeader)
+            $("<td style='width: 132px;'></td>").text("DOB").appendTo(rowHeader);
+            $("<td style='width: 132px;'></td>").text("Address").appendTo(rowHeader);
+            $("<td style='width: 132px;'></td>").text("District").appendTo(rowHeader);
+            $("<td style='width: 132px;'></td>").text("Location").appendTo(rowHeader);
+            $("<td style='width: 132px;'></td>").text("RLO").appendTo(rowHeader);
+            rowHeader.css({ "background-color": "#134479", "color": "#ffffff", "text-align": "center" });
+            $.post("/Home/GetDetailedSubGroups?SubGID=" + goupN, function (result) {
+                //$.each(result, function (i, value) {
+                for (i = 0; i < result.length; i++) {
+                     
+                    //Create new row for each record
+                    var row = $("<tr></tr>").appendTo(table11);
+                    $("<td></td>").text(result[i].SNo).appendTo(row);
+                    $("<td></td>").text(result[i].Source).appendTo(row);
+                    $("<td></td>").text(result[i].RegNo).appendTo(row);
+                    $("<td></td>").text(result[i].NAME).appendTo(row);
+                    $("<td></td>").text(result[i].FATHER_NAME).appendTo(row);
+                    $("<td></td>").text(result[i].DOB).appendTo(row);
+                    $("<td></td>").text(result[i].Address).appendTo(row);
+                    $("<td></td>").text(result[i].RINFO_DISTRICT_NAME).appendTo(row);
+                    $("<td></td>").text(result[i].RINFO_LOCATION_NAME).appendTo(row);
+                    $("<td></td>").text(result[i].RINFO_RLO_NAME).appendTo(row);
+                }
+            });
+            //})
+        }
+        $("#btnprint").click(function () {
+             
+            //Clear result div
+            $("#dvTable").html("");
+            //Crate table html tag
+            var table = $("<table id=DynamicTable border='1' style=' margin-left: 1cm; margin-right: 1cm; border-collapse: collapse;'></table>").appendTo("#dvTable");
+            var table1 = $("<table id=DynamicTable1 border='1' style=' margin-left: 1cm; margin-right: 1cm; border-collapse: collapse;'></table>").appendTo("#dvTable1");
+            var table2 = $("<table id=DynamicTable2 border='1' style=' margin-left: 1cm; margin-right: 1cm; border-collapse: collapse;'></table>").appendTo("#dvTable2");
+            //Create table header row
+            var rowHeader = $("<tr></tr>").appendTo(table);
+            $("<td></td>").text("SNo").appendTo(rowHeader);
+            $("<td></td>").text("Scheme").appendTo(rowHeader);
+            $("<td></td>").text("RegNo").appendTo(rowHeader);
+            $("<td></td>").text("Name").appendTo(rowHeader);
+            $("<td></td>").text("Father Name").appendTo(rowHeader)
+            $("<td></td>").text("DOB").appendTo(rowHeader);
+            $("<td></td>").text("Address").appendTo(rowHeader);
+            $("<td></td>").text("District").appendTo(rowHeader);
+            $("<td></td>").text("Location").appendTo(rowHeader);
+            $("<td></td>").text("RLO").appendTo(rowHeader);
+            rowHeader.css({ "background-color": "#005fbf", "color": "#D4FFAA" });
+            //Create table header row
+            var rowHeader2 = $("<tr></tr>").appendTo(table2);
+            $("<td></td>").text("SNo").appendTo(rowHeader2);
+            $("<td></td>").text("Scheme").appendTo(rowHeader2);
+            $("<td></td>").text("RegNo").appendTo(rowHeader2);
+            $("<td></td>").text("Name").appendTo(rowHeader2);
+            $("<td></td>").text("Father Name").appendTo(rowHeader2);
+            $("<td></td>").text("DOB").appendTo(rowHeader2);
+            $("<td></td>").text("Address").appendTo(rowHeader2);
+            $("<td></td>").text("District").appendTo(rowHeader2);
+            $("<td></td>").text("Location").appendTo(rowHeader2);
+            $("<td></td>").text("RLO").appendTo(rowHeader2);
+            rowHeader2.css({ "background-color": "#005fbf", "color": "#D4FFAA" });
+            //Get JSON data by calling action method in controller
+            $.get('/Home/GetGroupDuplicateDetails', function (data) {
+                $.each(data, function (i, value) {
+                    //Create new row for each record
+                    var row = $("<tr></tr>").appendTo(table);
+                    $("<td></td>").text(value.SNo).appendTo(row);
+                    $("<td></td>").text(value.Source).appendTo(row);
+                    $("<td></td>").text(value.RegNo).appendTo(row);
+                    $("<td></td>").text(value.NAME).appendTo(row);
+                    $("<td></td>").text(value.FATHER_NAME).appendTo(row);
+                    $("<td></td>").text(value.DOB).appendTo(row);
+                    $("<td></td>").text(value.Address).appendTo(row);
+                    $("<td></td>").text(value.RINFO_DISTRICT_NAME).appendTo(row);
+                    $("<td></td>").text(value.RINFO_LOCATION_NAME).appendTo(row);
+                    $("<td></td>").text(value.RINFO_RLO_NAME).appendTo(row);
+                });
+                var divToPrint = $("#DynamicTable");
+                myPrint($("#DynamicTable"), "");
+                $.get('/Home/GetGroupUniqueDetails', function (data) {
+                    $.each(data, function (i, value) {
+                        var row = $("<tr></tr>").appendTo(table2);
+                        $("<td></td>").text(value.SNo).appendTo(row);
+                        $("<td></td>").text(value.Source).appendTo(row);
+                        $("<td></td>").text(value.RegNo).appendTo(row);
+                        $("<td></td>").text(value.NAME).appendTo(row);
+                        $("<td></td>").text(value.FATHER_NAME).appendTo(row);
+                        $("<td></td>").text(value.DOB).appendTo(row);
+                        $("<td></td>").text(value.Address).appendTo(row);
+                        $("<td></td>").text(value.RINFO_DISTRICT_NAME).appendTo(row);
+                        $("<td></td>").text(value.RINFO_LOCATION_NAME).appendTo(row);
+                        $("<td></td>").text(value.RINFO_RLO_NAME).appendTo(row);
+                    });
+                     
+                    var divToPrint = $("#DynamicTable2");
+                    myPrint($("#DynamicTable2"), "");
+                });
+                var rowHeader1 = $("<tr></tr>").appendTo(table1);
+                $("<td></td>").text("Action Taken").appendTo(rowHeader1);
+                $("<td width:100px></td>").text("Created By").appendTo(rowHeader1);
+                rowHeader1.css({ "background": "red", "color": "#134479" });
+                //Get JSON data by calling action method in controller
+                //$.get('/Home/ActionHistoryJosn?noofrec=' + "" + "&selrec=" + "", function (data) {
+                //    $.each(data, function (i, value) {
+                //         
+                //        //Create new row for each record
+                //        var row1 = $("<tr></tr>").appendTo(table1);
+                //        $("<td></td>").text(value.Action).appendTo(row1);
+                //        $("<td></td>").text(value.CreatedBy).appendTo(row1);
+                //    });
+                //     
+                //    var divToPrint = $("#DynamicTable1");
+                //    myPrint($("#DynamicTable1"), "");
+                //});
+                $.get('/Home/GetSingleActionHistory', function (data) {
+                    $.each(data, function (i, value) {
+                         
+                        //Create new row for each record
+                        var row1 = $("<tr></tr>").appendTo(table1);
+                        $("<td></td>").text(value.Actions).appendTo(row1);
+                        $("<td></td>").text(value.Userid).appendTo(row1);
+                    });
+                     
+                    var divToPrint = $("#DynamicTable1");
+                    myPrint($("#DynamicTable1"), "");
+                });
+            });
+        });
+        $("#btnSub").click(function () {
+             
+            var uniqueIDLength = jQuery("#Group").length;
+            var checked = $('#Group input:checked').length;
+            var chkbox = $('#Group input:checkbox').length;
+            //not allow subgroup if exists 3 or less records and also n-1 recods subgroup
+            if (chkbox <= 4 || (chkbox - checked <= 2)) {
+                alert("Can not form a SubGroup");
+                $('#Group input:checkbox').removeAttr('checked');
+                return false;
+            }
+            var isChecked = $('#cb_ssyDupGrid')[0].checked;
+            if (isChecked) {
+                alert("can not select all the records");
+                for (var i = 0; i < uniqueIDLength; i++) {
+                    uniqueIDArray[i].checked = false;
+                }
+                return false;
+            }
+            var s3 = 0, currentCheckboxID, subGroupNo;
+            var myArray = [], subGroupArray = [];
+            var selectedCheckBoxValues = $("#Group [type='checkbox']:checked").length;
+            if (selectedCheckBoxValues <= 1) {
+                alert('Please select atleast 2 records');
+            }
+            else {
+                var selRowIds = $("#ssyDupGrid").getGridParam("selarrrow");
+                var j = selRowIds.length;
+                var unqIdsList = "";
+                for (var i = 0; i < selRowIds.length; i++) {
+                    var rowData = $("#ssyDupGrid").jqGrid('getRowData', selRowIds[i]);
+                    unqIdsList += rowData.PSX_ID + ",";
+                }
+                // alert(unqIdsList);
+                // $("#ssyDupGrid input:checked").each(function ()
+                for (i = 0; i <= $("#ssyDupGrid input:checked").length ; i++) {
+                    var i = 0;
+                    var s2;
+                    if ($("#ssyDupGrid input:checked")[i].checked == true) {
+                         
+                        s3++;
+                        //alert($("#ssyDupGrid input:checked")[i].id);
+                        var ID = $("#ssyDupGrid input:checked")[i].id;
+                        $("#ssyDupGrid input:checked")[i].click();
+                        $("#" + ID).attr('disabled', 'true')
+                        if (s3 == 1) {
+                            currentCheckboxID = ID;
+                            subGroupNo = getGroupNo();
+                            $('#newTablesDiv').append('<div style="float:left;"><table><tr><td><h4>Group Number: ' + subGroupNo + '</h4></td></tr></table></div><br/>');
+                            $('#newTablesDiv').append('<br/><br/><table id="' + subGroupNo + '" class="pretty" border="1"><thead class="theader"></thead></table><br/>');
+                            $('#' + subGroupNo + ' thead').append($('#gbox_ssyDupGrid thead').html());
+                            //$('#'+currentCheckboxID+' thead tr input:checkbox').remove();   //checkbox removing for subgroups
+                        }
+                        myArray.push(currentCheckboxID);
+                        subGroupArray.push(subGroupNo);
+                        $('#' + subGroupNo).append('<tr class="trrow">' + $("#" + ID).parent().parent().html() + '</tr>');
+                        //$(this).parent().parent().remove();   //removing subgrouped records in main group
+                        //$('#'+currentCheckboxID+' tbody tr input:checkbox').remove();   //checkbox removing for subgroups
+                        var selRowId = $("#ssyDupGrid").jqGrid("getGridParam", "selrow");
+                        var rowData = $("#ssyDupGrid").jqGrid("getRowData", ID.replace("jqg_ssyDupGrid_", ""));
+                    }
+                }
+                $.get("/Home/SubGroupUpdate?PSXIDlist=" + unqIdsList + "&subGroupNo=" + subGroupNo, function (result) {
+                     
+                    alert(result);
+                    //if (result.statusCode == "000") {
+                    //    alert(result.message);
+                    //}
+                })
+                subgroupdone = true;
+            }
+            function getGroupNo() {
+                 
+                //get the mainGroupNo from the hidden variable
+                mainGroupNo = $('#groupnumber').val();
+                if (grpNo < 90 && grpNo >= 64) {
+                    var asciigrpNo;
+                    grpNo += 1;
+                    //changing the grpNo value to its ascii value
+                    asciigrpNo = String.fromCharCode(grpNo);
+                    return mainGroupNo + newGroupId + asciigrpNo;
+                }
+                else {
+                    grpNo -= 25;
+                    if (newGroupNo < 91 && newGroupNo >= 65) {
+                        newGroupId = String.fromCharCode(newGroupNo);
+                    }
+                    newGroupNo += 1;
+                    // changing the grpNo value to its ascii value
+                    asciigrpNo = String.fromCharCode(grpNo);
+                    return mainGroupNo + newGroupId + asciigrpNo;
+                }
+            }
+        });
+        $("#btnReset").click(function () {
+             
+            var myArray = $('#groupnumber').val();
+            if (confirm("Do you wish to transform the Group to unverified Grp?")) {
+                var selectedCheckBoxValues = $("#newTablesDiv table tbody [type='checkbox']").length;
+                //if (selectedCheckBoxValues == 0) {
+                //    //$('#gRecordsResults [type="checkbox"]').prop('checked',false);
+                //    document.getElementById("#ssyDupGrid").reset();
+                //    $('#termSheetPopup').find('input[type=checkbox]:checked').removeAttr('checked');
+                //    alert("Nothing has been Splited to Reset");
+                //}
+                //else {
+                //}
+                $.get("/Home/SubGroupDelete?subGroupNo=" + myArray, function (result) {
+                     
+                    alert(result.Message);
+                    jQuery('#ssyDupGrid').trigger('reloadGrid');
+                    jQuery('#ssyUnqGrid').trigger('reloadGrid');
+                    $("#newTablesDiv").html("");
+                })
+                grpNo = 64;
+            }
+            subgroupdone = false;
+        });
+    });
+    var CellValue = "";
+    jQuery("#ssyDupGrid").jqGrid({
+        url: '/Home/GetGroupDuplicateDetails',
+        datatype: "json",
+        height: 120,
+        multiselect: true,
+        colNames: ['Sno', 'Scheme', 'RegNo', 'PSX_ID', 'Name', 'Mother Name', 'Father Name', 'Spouse Name', 'DOB', 'UniqueID', 'Address', 'District', 'Location', 'RLO', 'SubStatus','Check','','','','','','SA Actions','Dlc Actions','Inspector Actions','Rlo Actions'],
+        colModel: [
+            { name: 'SNo', index: 'SNo', width: 25, align: "center" },
+            { name: 'Source', index: 'Source', width: 40, align: "left" },
+            { name: 'RegNo', index: 'RegNo', width: 60, align: "left" },
+            { name: 'PSX_ID', index: 'PSX_ID', width: 30, align: "center", hidden: true },
+            { name: 'NAME', index: 'NAME', width: 50, align: "center" },
+            { name: 'MOTHER_NAME', index: 'MOTHER_NAME', width: 60, align: "center", hidden: true },
+            { name: 'FATHER_NAME', index: 'FATHER_NAME', width: 65, align: "center" },
+            { name: 'SPOUSE_NAME', index: 'SPOUSE_NAME', width: 60, align: "center", hidden: true },
+            { name: 'DOB', index: 'DOB', width: 45, align: "center" },
+            { name: 'UNIQUE_ID', index: 'UNIQUE_ID', width: 60, align: "center", hidden: true },
+            { name: 'Address', index: 'Address', width: 60, align: "center" },
+            { name: 'RINFO_DISTRICT_NAME', index: 'RINFO_DISTRICT_NAME', width: 40, align: "center" },
+            { name: 'RINFO_LOCATION_NAME', index: 'RINFO_LOCATION_NAME', width: 40, align: "center" },
+            { name: 'RINFO_RLO_NAME', index: 'RINFO_RLO_NAME', width: 40, align: "center" },
+            { name: 'SUB_GROUP_STATUS', index: 'SUB_GROUP_STATUS', width: 60, align: "center", hidden: true },
+        { name: 'Check', index: 'Check', width: 60, align: "center",hidden: true},
+         { name: 'ActionCheck', index: 'ActionCheck', width: 60, align: "center",hidden: true},
+          { name: 'DlcActions', index: 'DlcActions', width: 60, align: "center",hidden: true},
+           { name: 'RloActions', index: 'RloActions', width: 60, align: "center",hidden: true},
+            { name: 'InspectorActions', index: 'InspectorActions', width: 60, align: "center",hidden: true},
+            {name: 'SaActions', index: 'SaActions', width: 60, align: "center",hidden: true},
+             { name: 'Sedit', index: 'Sedit', width: 55, align: "center", formatter: SViewDetails },
+         { name: 'Dedit', index: 'Dedit', width: 55, align: "center", formatter: DViewDetails },
+          { name: 'Iedit', index: 'Iedit', width: 80, align: "center", formatter: IViewDetails },
+           { name: 'Redit', index: 'Redit', width: 55, align: "center", formatter: RViewDetails }
+        ],
+        rowNum: 100000,
+        rowList: [10, 20, 30],
+        caption: "<h5><b>Group Duplicate Details</b></h5>",
+        onCellSelect: function (row, col, content, event) {
+             
+            CellValue = col;
+        },
+        onSelectRow: function (id) {
+             
+            var selectedRowId = $('#ssyDupGrid').jqGrid ('getGridParam', 'selrow');
+            var cm = jQuery("#ssyDupGrid").jqGrid("getGridParam", "colModel");
+            //  alert(CellValue);
+            var checkst =     $("#jqg_ssyDupGrid_" + id).is(":checked");
+            // alert(checkst)
+            if(CellValue !="0" && checkst == true)
+            {
+                jQuery("#jqg_ssyDupGrid_" + id).attr("checked", false);
+            }
+            //if(CellValue =="0" && checkst == false)
+            //{
+            //    jQuery("#jqg_ssyDupGrid_" + id).attr("checked", true);
+            //}
+            //if(CellValue =="0" && checkst == true)
+            //{
+            //    jQuery("#jqg_ssyDupGrid_" + id).attr("checked", false);
+            //}
+        },
+        loadComplete: function () {
+             
+            var ids = jQuery("#ssyDupGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var Status = jQuery("#ssyDupGrid").jqGrid('getCell', ids[i], 'SUB_GROUP_STATUS');
+                var check = jQuery("#ssyDupGrid").jqGrid('getCell', ids[i], 'Check');
+                if (check == "0")
+                {
+                    $("#ssyDupGrid").jqGrid('setRowData',rowId,false, {background:'#ffe5e5'});
+                    jQuery("#jqg_ssyDupGrid_" + rowId).attr("disabled", true);
+                }
+                if (check == "1")
+                {
+                    $("#ssyDupGrid").jqGrid('setRowData',rowId,false, {background:'#FFFFFF'});
+                }
+                if (Status == "true") {
+                    jQuery("#jqg_ssyDupGrid_" + rowId).attr("disabled", true);
+                }
+            }
+        }
+    });
+    //  });
+    var myGrid = $("#ssyDupGrid");
+    $("#cb_"+myGrid[0].id).hide();
+    jQuery("#ssyUnqGrid").jqGrid({
+        url: '/Home/GetGroupUniqueDetails',
+        datatype: "json",
+        height: 120,
+        colNames: ['Sno', 'Scheme', 'RegNo', 'PSX_ID', 'Name', 'Mother Name', 'Father Name', 'Spouse Name', 'DOB', 'UniqueID', 'Address', 'District', 'Location', 'RLO',''],
+        colModel: [
+            { name: 'SNo', index: 'SNo', width: 20, align: "center" },
+            { name: 'Source', index: 'Source', width: 30, align: "left" },
+            { name: 'RegNo', index: 'RegNo', width: 45, align: "left" },
+            { name: 'PSX_ID', index: 'PSX_ID', width: 30, align: "center", hidden: true },
+            { name: 'NAME', index: 'NAME', width: 60, align: "center" },
+            { name: 'MOTHER_NAME', index: 'MOTHER_NAME', width: 60, align: "center", hidden: true },
+            { name: 'FATHER_NAME', index: 'FATHER_NAME', width: 60, align: "center" },
+            { name: 'SPOUSE_NAME', index: 'SPOUSE_NAME', width: 60, align: "center", hidden: true },
+            { name: 'DOB', index: 'DOB', width: 60, align: "center" },
+            { name: 'UNIQUE_ID', index: 'UNIQUE_ID', width: 60, align: "center", hidden: true },
+            { name: 'Address', index: 'Address', width: 60, align: "center" },
+            { name: 'RINFO_DISTRICT_NAME', index: 'RINFO_DISTRICT_NAME', width: 60, align: "center" },
+            { name: 'RINFO_LOCATION_NAME', index: 'RINFO_LOCATION_NAME', width: 60, align: "center" },
+            { name: 'RINFO_RLO_NAME', index: 'RINFO_RLO_NAME', width: 60, align: "center" },
+        { name: 'Check', index: 'Check', width: 60, align: "center",hidden: true}
+        ],
+        rowNum: 100000,
+        rowList: [10, 20, 30],
+        caption: "<h5><b>Group Unique Details</b></h5>",
+        loadComplete: function () {
+             
+            var ids = jQuery("#ssyUnqGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var check = jQuery("#ssyUnqGrid").jqGrid('getCell', ids[i], 'Check');
+                //  alert(check);
+                if (check == "0")
+                {
+                    $("#ssyUnqGrid").jqGrid('setRowData',rowId,false, {background:'#ffe5e5'});
+                }
+                if (check == "1")
+                {
+                    $("#ssyUnqGrid").jqGrid('setRowData',rowId,false, {background:'#FFFFFF'});
+                }
+            }
+        }
+    });
+    $('#grpSub').click(function () {
+         
+        var selRowIds = $("#ssyDupGrid").getGridParam("selarrrow");
+        var j = selRowIds.length;
+        if(j ==0)
+        {
+            alert("Please Select Row.");
+            return false;
+        }
+        var unqIdsList = "";
+        for (var i = 0; i < selRowIds.length; i++) {
+            var rowData = $("#ssyDupGrid").jqGrid('getRowData', selRowIds[i]);
+            if(rowData.ActionCheck =="0")
+            {
+                alert("Before Submit you have to take action ");
+                return false;
+            }
+            unqIdsList += rowData.PSX_ID + ",";
+        }
+        //  alert(unqIdsList);
+        $.ajax({
+            url: '/Home/SaveGroupDetails',
+            type: 'GET',
+            data: { unqList: unqIdsList },
+            success: function (res) {
+                alert(res);
+                //callbackFunction;
+                jQuery('#ssyDupGrid').trigger('reloadGrid');
+                jQuery('#ssyUnqGrid').trigger('reloadGrid');
+            }
+        });
+    });
+    $("#actHis").click(function () {
+         
+        var selRecs = $("#ssyDupGrid").getGridParam("selarrrow").length;
+        if (selRecs == "" || selRecs == null)
+            selRecs = 0;
+        var totDupRecs = jQuery("tr", "#ssyDupGrid").length;
+        var totUnqRecs = jQuery("tr", "#ssyDupGrid").length;
+        openPopupWindow("/Home/ActionHistory/?noofrec=" + ((totDupRecs - 1) + (totUnqRecs - 1)) + "&selrec=" + selRecs, "#ActHistory", callbackFunction);
+    });
+    callbackFunction = function () {
+        jQuery('#ssyDupGrid').trigger('reloadGrid');
+        jQuery('#ssyUnqGrid').trigger('reloadGrid');
+    }
+    function DViewDetails(cellvalue, options, rowObject) {
+        //   
+        return '<a href="#" data-toggle="modal" data-target=".DeeDoopActionHispop" class="" onclick="DlcGetGroupID(' + rowObject.PSX_ID +","+rowObject.Check + ","+rowObject.SNo+')"><b>View ('+rowObject.DlcActions+')</b></a>';
+    }
+    function SViewDetails(cellvalue, options, rowObject) {
+        //   
+        return '<a href="#" data-toggle="modal" data-target=".DeeDoopActionHispop" class="" onclick="SAGetGroupID(' + rowObject.PSX_ID +","+rowObject.Check + ","+rowObject.SNo+')"><b>View ('+rowObject.SaActions+')</b></a>';
+    }
+    function RViewDetails(cellvalue, options, rowObject) {
+        return '<a href="#" data-toggle="modal" data-target=".DeeDoopActionHispop" class="" onclick="RloGetGroupID(' + rowObject.PSX_ID +","+rowObject.Check +","+rowObject.SNo+ ')"><b>View ('+rowObject.RloActions+')</b></a>';
+    }
+    function IViewDetails(cellvalue, options, rowObject) {
+        return '<a href="#" data-toggle="modal" data-target=".DeeDoopActionHispop" class="" onclick="InspecGetGroupID(' + rowObject.PSX_ID +","+rowObject.Check +","+rowObject.SNo+ ')"><b>View ('+rowObject.InspectorActions+')</b></a>';
+    }
+    //Sa Click
+    function SAGetGroupID(Id,Value,Sno)
+    {
+        //  alert(Id +""+Value);
+        $("#DivDeeDoop").show();
+        $("#DeeDoopHiddenId").text(Id);
+        if(UserTypeid !="1")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        if(Value == "0")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        GetActionHistoryDetails(Id,1,Sno)
+    }
+    function DlcGetGroupID(Id,Value,Sno)
+    {
+        $("#DivDeeDoop").show();
+        $("#DeeDoopHiddenId").text(Id);
+        if(UserTypeid !="7")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        if(Value == "0")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        GetActionHistoryDetails(Id,7,Sno)
+    }
+    function RloGetGroupID(Id,Value,Sno)
+    {
+        $("#DeeDoopHiddenId").text(Id);
+        $("#DivDeeDoop").show();
+        if(UserTypeid !="6")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        if(Value == "0")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        GetActionHistoryDetails(Id,6,Sno)
+    }
+    function InspecGetGroupID(Id,Value,Sno)
+    {
+        $("#DeeDoopHiddenId").text(Id);
+         
+        $("#DivDeeDoop").show();
+        if(UserTypeid !="5")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        if(Value == "0")
+        {
+            $("#DivDeeDoop").hide();
+        }
+        GetActionHistoryDetails(Id,5,Sno)
+    }
+    function GetActionHistoryDetails(Id,Roleid,Sno)
+    {
+         
+        $("#DeeDoopaction").val("");
+        var GroupNo = $("#groupnumber").val();
+        $("#lblSchemeGroupNo").text(" : "+GroupNo);
+        var rowData = $("#ssyDupGrid").jqGrid('getRowData', Sno);
+        $("#lblSchemeName").text(" : "+rowData.Source)
+        $("#lblSchemeRegNo").text(" : "+rowData.RegNo)
+        $("#lblchemeUserName").text(" : "+rowData.NAME)
+        $.get('@Url.Action("GetActionHistoryDetails", "Home")', { Id: Id,Roleid : Roleid }, function (result) {
+             
+            $('.DeeDoopActionHistory tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                 
+                $('.DeeDoopActionHistory').append('<tr><td>' + data.Name + '</td><td>' + data.Actions + '</td><td>' + data.CreatedDate + '</td></tr>')
+            });
+        });
+    }
+</script>

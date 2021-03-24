@@ -1,0 +1,100 @@
+﻿{
+  "NEFTDetails": [
+    {
+      "nameofthePayee": "TEST NAME 01",
+      "contactNumber": "9999999991",
+      "idNumber": "100001",
+      "natureOfId": "NATURE01",
+      "nameOfBank": "BANK NAME 01",
+      "bankBranchCode": "BAND CODE 01",
+      "accountNumber": "11112223334441",
+      "IFSCCode": "IFSCCODE01",
+      "amount": "10000",
+      "narration": "Transfer Narration 01"
+    },
+    {
+      "nameofthePayee": "TEST NAME 02",
+      "contactNumber": "9999999992",
+      "idNumber": "100002",
+      "natureOfId": "NATURE01",
+      "nameOfBank": "BANK NAME 02",
+      "bankBranchCode": "BAND CODE 02",
+      "accountNumber": "11112223334442",
+      "IFSCCode": "IFSCCODE02",
+      "amount": "20000",
+      "narration": "Transfer Narration 02"
+    },
+    {
+      "nameofthePayee": "TEST NAME 03",
+      "contactNumber": "9999999993",
+      "idNumber": "100003",
+      "natureOfId": "NATURE03",
+      "nameOfBank": "BANK NAME 03",
+      "bankBranchCode": "BAND CODE 03",
+      "accountNumber": "11112223334443",
+      "IFSCCode": "IFSCCODE03",
+      "amount": "10003",
+      "narration": "Transfer Narration 03"
+    },
+    {
+      "nameofthePayee": "TEST NAME 04",
+      "contactNumber": "9999999994",
+      "idNumber": "100004",
+      "natureOfId": "NATURE04",
+      "nameOfBank": "BANK NAME 04",
+      "bankBranchCode": "BAND CODE 04",
+      "accountNumber": "11112223334444",
+      "IFSCCode": "IFSCCODE04",
+      "amount": "10004",
+      "narration": "Transfer Narration 04"
+    },
+    {
+      "nameofthePayee": "TEST NAME 05",
+      "contactNumber": "9999999995",
+      "idNumber": "100005",
+      "natureOfId": "NATURE05",
+      "nameOfBank": "BANK NAME 05",
+      "bankBranchCode": "BAND CODE 05",
+      "accountNumber": "11112223334445",
+      "IFSCCode": "IFSCCODE05",
+      "amount": "10005",
+      "narration": "Transfer Narration 05"
+    },
+    {
+      "nameofthePayee": "TEST NAME 06",
+      "contactNumber": "9999999996",
+      "idNumber": "100006",
+      "natureOfId": "NATURE06",
+      "nameOfBank": "BANK NAME 06",
+      "bankBranchCode": "BAND CODE 06",
+      "accountNumber": "11112223334446",
+      "IFSCCode": "IFSCCODE06",
+      "amount": "10006",
+      "narration": "Transfer Narration 06"
+    },
+    {
+      "nameofthePayee": "TEST NAME 07",
+      "contactNumber": "9999999997",
+      "idNumber": "100007",
+      "natureOfId": "NATURE07",
+      "nameOfBank": "BANK NAME 07",
+      "bankBranchCode": "BAND CODE 07",
+      "accountNumber": "11112223334447",
+      "IFSCCode": "IFSCCODE07",
+      "amount": "10007",
+      "narration": "Transfer Narration 07"
+    },
+    {
+      "nameofthePayee": "TEST NAME 08",
+      "contactNumber": "9999999998",
+      "idNumber": "100008",
+      "natureOfId": "NATURE08",
+      "nameOfBank": "BANK NAME 08",
+      "bankBranchCode": "BAND CODE 08",
+      "accountNumber": "11112223334448",
+      "IFSCCode": "IFSCCODE08",
+      "amount": "10008",
+      "narration": "Transfer Narration 08"
+    }
+  ]
+}

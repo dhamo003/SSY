@@ -1,0 +1,190 @@
+﻿{
+  "claims": [
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "claimType": "Education",
+      "submittedDate": "08-09-2018",
+      "claimAmount": 2000
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "claimRefernceNo": "256489557943",
+      "submittedDate": "08-09-2018",
+      "mode": "Agent",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "claimRefernceNo": "33123123123123",
+      "submittedDate": "08-09-2018",
+      "mode": "Self",
+      "claimType": "Disability",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    },
+    {
+      "ssin": "1234567890",
+      "benName": "testUser1",
+      "benType": "Construction Worker",
+      "claimRefernceNo": "256489558543",
+      "submittedDate": "08-09-2018",
+      "claimType": "Health & Family",
+      "claimAmount": 2000
+
+    }
+
+  ]
+}

@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "OuputCache";
+}
+<script src="~/Scripts/jquery.js"></script>
+<h2>OuputCache</h2>
+
+@ViewBag.Date
+
+
+<br/>
+<label id="Nowdate">
+
+</label>
+
+<a href="#" id="btnclick">Click</a>
+
+<script>
+
+   
+    $(document).ready(function () {
+
+      
+       
+    })
+
+    $("#btnclick").click(function () {
+
+        $.get('@Url.Action("GetOuputCache", "Test")', { Id: 1002 }, function (result) {
+
+            $("#Nowdate").text(result);
+        });
+    })
+
+</script>
+

@@ -1,0 +1,3047 @@
+﻿<style>
+    .modal {
+        z-index: 999998 !important;
+    }
+
+    .modal-dialog {
+        width: 95% !important;
+        position: sticky !important;
+    }
+
+    /*.maxheightoverflow-y {
+        max-height: 550px;
+        padding: 10px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }*/
+    .minheightoverflowxy {
+        height: 440px;
+        overflow-y: auto;
+    }
+
+    label {
+        display: block !important;
+    }
+
+        label:nth-child(2) {
+            font-weight: bold !important;
+        }
+
+
+    /*For Print Style*/
+    td:nth-child(2) {
+        padding: 8px 20px;
+    }
+
+    label {
+        font-weight: normal !important;
+    }
+</style>
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
+
+
+<div class="modal fade regpop" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content beniinformation">
+
+            <div class="modal-header" style="background-color:#FFA07A;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" style="color:white;">Samajik Suraksha Yojana</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 minheightoverflowxy">
+
+
+                        <div class="">
+
+                            @*  style="display: none"*@
+                            <div id="divpendingremark" style="display:none;">
+
+                                <center><b> <label><font size="4" color="red"> Reason for Rejected :  </font></label><label id="lblremarkPend" style="font-size:medium;"></label></b></center>
+                                <iframe src="" frameborder="0" id="ImgRejectedDoc" style="width: 100%; height: 300px;"></iframe>
+
+                            </div>
+                            <div style="display:none">
+                                <label id="lblRegType" style="display:none"></label>
+                            </div>
+
+                            <div id="divSentbackRem" style="display:none;">
+
+                                <center><b> <label><font size="4" color="red"> Reason for SentBack :  </font></label><label id="lblSentbackRem" style="font-size:medium;"></label></b></center>
+
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-4">
+
+                                    <div id="MainImage">
+                                        @*<img src="@ViewBag.ImageName" />*@
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label style="">Name:</label>
+
+                                        <label id="lblusername"></label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label style="" id="lblTrname"></label>
+
+                                        <label id="lblTempregno"></label>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>বাংলা নাম:</label>
+
+                                        <label id="lblbengname"></label>@*<a href="#" id="edit" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label style="">Mother Name:</label>
+
+                                        <label id="lblmotherName"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label style="">Father Name:</label>
+
+                                        <label id="lblfathrname"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Date of Birth:</label>
+
+                                        <label id="lbldob"></label>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4"> </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Age:</label>
+                                        <label id="lblage"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="height: 50px;">
+                                    <div class="form-group">
+                                        <label>Gender:</label>
+
+                                        <label id="lblgender"></label>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6" id="divRegNo" style="display:none;">
+
+                                    <label id="lblRegNoText"></label>
+
+                                    <label id="lblRegNo"></label>
+
+                                </div>
+                                <div class="col-md-2" id="divDeathNo" style="display:none;">
+
+                                    <label id="lblDeathText"></label>
+
+                                    <label id="lblDeathCrNo"></label>
+
+                                </div>
+                                <div class="col-md-4" id="divregdate" style="display:none;">
+
+                                    <label>Registered Date:</label>
+
+                                    <label id="RegDatelbl"></label>
+                                    @*@Html.TextBox("RegDatelbl", "", null, new {  @class = "form-control" })*@
+
+                                </div>
+                            </div>
+
+
+                            @*width: 940px; margin-left: 0px;*@
+                            <div class="row" id="divwbtss" style="display: none">
+                                <fieldset class="custom-border color-white">
+                                    <legend class="custom-border color-white">WBTSS</legend>
+
+                                    <br />
+                                    <br />
+                                    <div class="col-md-4">
+                                        <label>Name Of Vehicle :</label>
+                                        <label id="lblnamevehi"></label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Nature Of Duties :</label>
+                                        <label id="lblnofduties"></label>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+
+                            <div class="row back1" id="divbocw" style="display: none">
+
+                                @* where applicant is working & Worked.*@
+                                @*    of the Worker/applicant*@
+                                <div class="container-fluid">
+                                    <fieldset class="custom-border color-white">
+                                        <legend class="custom-border color-white">BOCWA Scheme Details</legend>
+                                        <table class="table table-bordered tblbocwdetl">
+                                            <thead>
+                                                <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                                    <th class="">S.No</th>
+                                                    <th class="">Name and address of the authority</th>
+                                                    <th class="">Detailed description and address of the establishment </th>
+                                                    <th class="">Registration no</th>
+                                                    <th class="">Post & Nature of Work</th>
+                                                    <th class="">Date of Start date</th>
+                                                    <th class="">Date of End date</th>
+                                                    <th class="">Remarks</th>
+                                                    <th class=""></th>
+                                                </tr>
+                                            </thead>
+
+                                        </table>
+
+                                    </fieldset>
+
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+                                    <fieldset class="custom-border color-white">
+
+                                        <legend class="custom-border color-white"><span class="leg-sty">Beneficiary Details</span></legend>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label style="">Name:</label>
+
+                                                <label id="lblfrstname"></label>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Marital Status:</label>
+
+                                                <label id="lblmarital"></label>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4" id="divhus" style="">
+                                            <div class="form-group">
+                                                <label>Husband Name : </label>
+
+                                                <label id="lblhusname"></label>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <div class="form-group">
+                                                <label>Religion :</label>
+                                                <label id="lblrelgn"></label>
+
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Social Category :</label>
+                                                <label id="lblsoccat"></label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>BPL No.:</label>
+                                                <label id="lblbplno"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Occupation: </label>
+                                                <label id="lbloccu"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+
+                                            <div class="form-group">
+                                                <label>Mobile no:</label>
+
+                                                <label id="lblmobno"></label>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Email :</label>
+
+                                                <label id="lblemail"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4" id="divNommobno" style="display:none;">
+
+
+                                            <div class="form-group">
+                                                <label>Nominee Mobile no:</label>
+
+                                                <label id="lblNomineemobno"></label>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <fieldset class="custom-border color-white">
+                                <legend class="custom-border color-white"><span class="leg-sty">Permanent Address</span></legend>
+                                <div class="col-md-4">
+
+
+                                    <div class="form-group">
+                                        <label>State:</label>
+                                        <label id="PerState" class="label-data">West Bengal</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>District:</label>
+                                        <label id="PerDist"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>Sub Division:</label>
+
+                                        <label id="PerSubDiv"></label>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation :</label>
+                                        <label id="PerBMC"></label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation (Name):</label>
+                                        <label id="PerMunc"></label>
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>P.S:</label>
+                                        <label id="PerPs"></label>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>P.O:</label>
+                                        <label id="PerPo"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PIN code:</label>
+                                        <label id="PerPinCode"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>GP/Ward:</label>
+                                        <label id="PerGp"></label>
+
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <div class="col-md-4">
+
+
+
+                                    <div class="form-group">
+                                        <label>Village/Street/Road:</label>
+                                        <label id="PerVillage"></label>
+
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-border color-white">
+                                <legend class="custom-border color-white"><span class="leg-sty">Present Address</span></legend>
+                                <div class="col-md-4">
+
+
+                                    <div class="form-group">
+                                        <label>State:</label>
+                                        <label id="PreState2" class="label-data">West Bengal</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>District:</label>
+                                        <label id="PreDist2"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>Sub Division:</label>
+
+                                        <label id="PreSubDiv2"></label>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation :</label>
+                                        <label id="PreBMC2"></label>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group">
+                                        <label>Block/Municiplaity/Corporation (Name):</label>
+                                        <label id="PreMunc2"></label>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>P.S:</label>
+                                        <label id="PrePs2"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>P.O:</label>
+                                        <label id="PrePo2"></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PIN code:</label>
+                                        <label id="PrePinCode2"></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>GP/Ward:</label>
+                                        <label id="PreGp2"></label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>Village/Street/Road:</label>
+
+                                        <label id="PreVillage2"></label>
+
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white"><span class="leg-sty">Dependent Details</span></legend>
+                                <table class="table table-bordered tblfamily">
+                                    <thead>
+                                        <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                            <th>S.No</th>
+                                            <th>Registration No. </th>
+                                            <th>Dependent Name</th>
+                                            <th>Relationship</th>
+                                            <th>Gender</th>
+                                            @* <th>DOB</th>*@
+                                            <th>Age (Years)</th>
+                                            <th>Aadhaar No, if any</th>
+                                            <th>PassBook</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </fieldset>
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white"><span class="leg-sty">Nominee Details </span></legend>
+                                <table class="table table-bordered tblNaminee">
+                                    <thead>
+                                        <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                            <th style="display: none"></th>
+
+                                            <th>S.No</th>
+                                            <th>Name</th>
+                                            <th>
+                                                Relation
+                                                <br />ship
+                                            </th>
+                                            <th>Gender</th>
+                                            @*     <th>DOB</th>*@
+                                            <th>
+                                                Age<br />
+                                                (Years)
+                                            </th>
+
+                                            <th>
+                                                Share<br />
+                                                Allocation
+                                            </th>
+                                            <th>Bank Acc No</th>
+                                            <th>Branch Name</th>
+                                            <th style="width:5px;">IFSC<br />Code</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </fieldset>
+
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">Proof Details</legend>
+
+
+                                <div class="col-md-4">
+                                    <label>Aadhaar Card No :</label>
+                                    <label id="lblaadharno"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Epic Card :</label>
+                                    <label id="lblepiccard"></label>
+                                </div>
+                                <div class="col-md-4" style="display:none;">
+                                    <label>Bank Account No :</label>
+                                    <label id="lblbnkaccountno"></label>
+                                </div>
+                            </fieldset>
+
+
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">Form Details</legend>
+
+
+                                <div class="col-md-4">
+                                    <label>Issuing Authority :</label>
+                                    <label id="lblissueauth"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Name of the area of certificate issuing authority :</label>
+                                    <label id="lblauthortyloc"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Full Name of the certificate issuing authority :</label>
+                                    <label id="lblauthname"></label>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">PF/ESI Details</legend>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PF Number :</label>
+                                        <label id="labelpfnum"></label>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>ESI Number :</label>
+                                        <label id="LblESInum"></label>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Pf Option :</label>
+                                        <label id="PfOptionBene"> </label>
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-border">
+                                <legend class="custom-border color-white">Employee Type</legend>
+                                @*<div class="col-md-12">
+                                        <label>I am a Self-Employed Worker Worker engaged in the scheduled unorganised sector under the scheme</label>
+                                    </div>*@
+                                <br />
+                                <br />
+                                <div class="col-md-4">
+                                    <label>Name of my occupation :</label>
+                                    <label id="empoccu"></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Self Employment :</label>
+                                    <label id="empselfemp"></label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Unorganised :</label>
+                                    <label id="empunorganised"></label>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>Establishment Address :</label>
+                                    <label id="empestaddr"></label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-border color-white">
+
+                                <legend class="custom-border color-white">Income Details</legend>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>My monthly family income from all sources: Rs. </label>
+                                        <label id="lblmnthincme"></label>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <legend class="custom-border color-white"><span class="leg-sty">Bank Details</span></legend>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label>District :</label>
+                                            <label id="bnkdis"></label>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label>Bank Name :</label>
+                                            <label id="bnkname"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Account Number :</label>
+                                            <label id="bnkactnum"></label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Location :</label>
+                                            <label id="bnkloc"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Name :</label>
+                                            <label id="brnchname"></label>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>IFSC Code :</label>
+                                            <label id="bnkifsc"></label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="divtblrejApp">
+                                    <legend class="custom-border color-white"><span class="leg-sty">SentBack Details</span></legend>
+                                    <table class="table table-bordered tblrejectedApp">
+                                        <thead>
+                                            <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                                <th style="display: none"></th>
+
+                                                <th>Date</th>
+                                                <th>Remarks</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+
+                                <div id="divtbltblDeedoopDet">
+                                    <legend class="custom-border color-white"><span class="leg-sty">Duplicate Details</span></legend>
+                                    <table class="table table-bordered  tblDeedoopDet">
+                                        <thead>
+                                            <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+
+
+                                                <th>Name</th>
+                                                <th>Father Name</th>
+                                                <th>Husband Name</th>
+                                                <th>Scheme Regnum</th>
+                                                <th>Dob</th>
+                                                <th>Aadhar Card</th>
+                                                <th>Epic Card</th>
+                                                <th>Bank Acc No</th>
+                                                <th>District</th>
+                                                <th>SubDivision</th>
+                                                <th>Block</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+
+                                <div id="divRevived" style="display:none;">
+                                    <legend class="custom-border color-white">Revived</legend>
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered  tblReview">
+                                            <thead>
+                                                <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                                    <th>User Name</th>
+                                                    <th>User Type</th>
+                                                    <th>Reason</th>
+                                                    <th>Revived Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                            <fieldset>
+
+
+                                <div id="divCreatedBy" style="display:none;">
+                                    <legend class="custom-border color-white">Application Registred By</legend>
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p>Name:</p>
+
+                                                    <label id="lblCName" class="lblValue"></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p>Arn:</p>
+
+                                                    <label id="lblCArn" class="lblValue"></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p>Mobile No:</p>
+
+                                                    <label id="lblCMobileNo" class="lblValue"></label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p>Pan Card:</p>
+
+                                                    <label id="lblCPan" class="lblValue"></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p>Aadhaar Card:</p>
+
+                                                    <label id="lblCAadhaar" class="lblValue"></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p>Designation</p>
+
+                                                    <label id="lblCDesignation" class="lblValue"></label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 minheightoverflowxy">
+
+                        @*<fieldset class="custom-border">
+                            <legend class="custom-border color-white">Upload Documents</legend>*@
+
+
+                        <div class="panel-group text-center" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#lblphoto">
+                                            <span class="glyphicon glyphicon-credit-card">
+                                            </span>Photo of the Applicant
+                                        </a>
+                                    </h4>
+                                </div>
+                                @*<div id="pancard" class="panel-collapse collapse">*@
+                                <div class="panel-collapse collapse" id="lblphoto">
+
+                                    <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnPhoto" download>Download</a>
+
+                                    <div id="BenPhoto"></div>
+                                    @*  <a href="slo/GopalKrishna/pancard.jpg" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=600px'); return false;">
+                                        <img src="slo/GopalKrishna/pancard.jpg" class="img-responsive" alt="..." style="width:100%;padding:15% 0;"></a>*@
+                                    @*</div>*@
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#agrrement">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Signature of the Applicant
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    <div id="agrrement" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnsign" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblsig" style="width: 100%; height: 300px;"></iframe>
+
+
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#aadhar">
+                                                <span class="glyphicon glyphicon-credit-card">
+                                                </span>Aadhaar Card
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="aadhar" class="panel-collapse collapse">
+
+
+                                        <b>Aadhaar Number :</b>  <label id="lbladharno"></label>
+                                        <br />
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnAadhar" download>Download</a>
+
+
+
+
+                                        <iframe src="" frameborder="0" id="lbladharnoproof" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#voter">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Bank Passbook
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="voter" class="panel-collapse collapse">
+
+                                        <b>Account Number :</b>  <label id="lblaccno"></label>
+                                        <br />
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnPassBook" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblbnkpassbk" style="width: 100%; height: 300px;"></iframe>
+
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#passbook">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Epic Card
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="passbook" class="panel-collapse collapse">
+                                        <b>Epic Card  Number :</b>  <label id="lblEpicno"></label>
+                                        <br />
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnIdproof" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblidproof" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#otherDoc">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Other Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="otherDoc" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnOtherDoc" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblOtherDoc" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default" id="divDeathDocument" style="display:none">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#DeathDoc">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Death Certificate Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DeathDoc" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnDeathDoc" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblDeathDoc" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default" id="divDeathNomineeDocument" style="display:none">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#DeathNomineeDoc">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Nominee Identity Proof
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DeathNomineeDoc" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnDeathNomineeDoc" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblDeathNomineeDoc" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#Form">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Form-1
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="Form" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnform" download>Download</a>
+                                        <iframe src="" frameborder="0" id="lblform" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-default divSchemeCerti" style="display:none;">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#SchemeCert">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Front page of the pass book under SASPFUW/ Identity Card issued to the construction worker/ Identity Card issued to the transport worker
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="SchemeCert" class="panel-collapse collapse">
+
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnCertificate" download>Download</a>
+                                        <iframe src="" frameborder="0" id="BeniSchemeCert" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#DepForm">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Dependency PassBook
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DepForm" class="panel-collapse collapse">
+
+
+                                        <iframe src="" frameborder="0" id="DependentForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#NameChange">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Name Change Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="NameChange" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnNameChange" download>Download</a>
+                                        <iframe src="" frameborder="0" id="NameChangeForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#DOBChange">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>DOB Change Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DOBChange" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnDOBChange" download>Download</a>
+                                        <iframe src="" frameborder="0" id="DobChangeForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#AddersChange">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Address Change Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="AddersChange" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnAddersChange" download>Download</a>
+                                        <iframe src="" frameborder="0" id="AddersChangeForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#BankChange">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Bank Change Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="BankChange" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnBankChange" download>Download</a>
+                                        <iframe src="" frameborder="0" id="BankChangeForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#HusbndNameChange">
+                                                <span class="glyphicon glyphicon-file">
+                                                </span>Husband Name Change Document
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="HusbndNameChange" class="panel-collapse collapse">
+                                        <a href='' target="_blank" style="color: black !important; text-decoration: none" id="dwnHusbndNameChange" download>Download</a>
+                                        <iframe src="" frameborder="0" id="HusbndNameChangeForm" style="width: 100%; height: 300px;"></iframe>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            @*   <div class="row">
+                                    <table>
+                                        <tr>
+
+                                            <td>
+
+                                                <label>Photo</label>
+
+                                                <div class="tab-pane active" id="lblphoto">
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                    <br />
+                                    <table>
+                                        <tr>
+                                            <td>
+
+                                                <label>Signature</label>
+
+                                                <iframe src="" frameborder="0" id="lblsig" style="width: 100%; height: 300px;"></iframe>
+
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                    <br />
+
+                                    <table>
+                                        <tr>
+
+                                            <td>
+
+                                                <label>Aadhar Card :</label>
+                                                <label id="lbladharno"></label>
+
+                                                <iframe src="" frameborder="0" id="lbladharnoproof" style="width: 100%; height: 300px;"></iframe>
+
+                                            </td>
+
+
+                                        </tr>
+                                    </table>
+                                    <br />
+                                    <table>
+                                        <tr>
+
+                                            <td>
+
+                                                <label>Bank Passbook :</label>
+                                                <label id="lblaccno"></label>
+
+                                                <iframe src="" frameborder="0" id="lblbnkpassbk" style="width: 100%; height: 300px;"></iframe>
+
+
+                                            </td>
+
+
+                                        </tr>
+                                    </table>
+
+                                    <br />
+
+                                    <table>
+                                        <tr>
+
+                                            <td>
+
+                                                <label>ID Proof</label>
+                                                <label id="lblEpicno"></label>
+
+                                                <iframe src="" frameborder="0" id="lblidproof" style="width: 100%; height: 300px;"></iframe>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+
+                                    <br />
+
+                                    <table>
+                                        <tr>
+
+                                            <td>
+
+                                                <label>Form</label>
+                                                <label id="lblform"></label>
+
+                                                <iframe src="" frameborder="0" id="lblformid" style="width: 100%; height: 300px;"></iframe>
+
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+
+
+
+
+                                </div>*@
+
+
+
+                            @*  </fieldset>*@
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <label id="checkUniq"></label>
+
+
+                    <a href="#" id="revived" data-toggle="modal" data-target="#divReview" class="btn btn-success CLSrevived" style="display: none; margin-bottom: -25px;">Revived</a>
+
+                    <a class="btn btn-warning" onclick="printDiv()" style="margin-right:276px;margin-bottom:-25px;">Print</a>
+
+                    @*  <a class="btn btn-default" data-dismiss="modal">Close</a>*@
+                    <div id="divfooter" style="margin-bottom:-25px;margin-top: -9px;">
+
+                        <a href="#" id="UVerified" onclick="UpdateStatus(1)" class="btn btn-success VerifyName" style="display:none;">Verified</a>
+
+                        <a href="#" id="DVerified" class="btn btn-primary VerifyName" data-toggle="modal" data-target="#divDeedoopremrk" style="display:none;">Verified</a>
+
+                        <a href="#" id="btnRejectedApp" class="btn btn-primary" data-toggle="modal" data-target="#divremrk">Rejected</a>
+
+                        <a href="#" id="btnSendBackApp" class="btn btn-warning" data-toggle="modal" data-target="#divSendbackremrk">Send Back</a>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+
+</div>
+
+@Html.Partial("_DedoopPopup")
+
+<center>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog" style="margin-left:-450px;">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 380px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body" style="height: 64px;">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>
+                                Name
+
+                            </label>
+                            @Html.TextBox("txtbenname", "", new { @class = " valid", maxlength = "25", onkeypress = "return onlyAlphabets(event,this)" })
+
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <b>NOTE :  Hit Space, Enter or Tab to transliterate. </b>
+                </div>
+                <div class="modal-footer" style="margin-top:50px;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="btnupdate">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</center>
+
+@*Action History*@
+
+<div class="modal fade ActionHispop" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Action History</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="">
+
+
+                    <div class="row back1">
+
+                        <center></center>
+
+                        @*<fieldset class="custom-border">*@
+                        @*  <legend class="custom-border color-white"><span class="leg-sty">Duplicate Data</span></legend>*@
+                        <table class="table table-striped table-bordered ActionHistory" cellspacing="0" width="100%">
+                            <thead style="background-color:#87CEEB">
+                                <tr>
+                                    <th>S.No</th>
+                                    @* <th>Applicant Id</th>*@
+
+
+
+                                    <th>User Name</th>
+
+                                    <th>User Type</th>
+
+                                    <th>Action</th>
+                                    <th>Reason</th>
+
+                                    <th>Date & Time</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        </center>
+
+                        @*</fieldset>*@
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /.modal-content -->
+</div>
+
+
+
+
+<div id="prntform" style="display:none;">
+    <center>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="prntMainImage">
+                            @*<img src="@ViewBag.ImageName" />*@
+                        </div>
+                    </td>
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>Name: </b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlblusername"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>বাংলা নাম:</b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlblbengname"></label>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <label><b>SSIN/Reg.no: </b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlblTempregno"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Mother Name</b><label>
+                                    </td>
+                                    <td><label id="prntlblMothername"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Father Name: </b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlblfathrname"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Date of Birth: </b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlbldob"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Age: </b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlblage"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Gender: </b> </label>
+                                    </td>
+                                    <td>
+                                        <label id="prntlblgender"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+                <tr style="display:none;">
+                    <td colspan="2">
+                        <label><b>WBTSS </b> </label>
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+
+                <tr style="display:none;">
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>Name Of Vehicle : </b> </label>
+                                        <br>
+                                        <label id="prntlblnamevehi"></label>
+                                    </td>
+                                    <td>
+                                        <label><b>Nature Of Duties :</b> </label>
+                                        <br>
+                                        <label id="prntlblnofduties"></label>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr style="display:none;">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label><b>BOCWA Scheme Details</b></label>
+                                    <hr style="margin:10px 0;">
+                                    <table border="1" cellspacing="0" cellpadding="1" class="tblbocwdetl">
+                                        <thead>
+                                            <tr style="background: #333; color: white;">
+                                                <th>S.No</th>
+                                                <th>Whether Registered under SASPFUW/BOCW/WBTWSS. If yes, then provide Registration No. </th>
+                                                <th>Dependent Name</th>
+                                                <th>Relationship</th>
+                                                <th>Gender</th>
+                                                <th>Age (Years)</th>
+                                                <th>Aadhaar No, if any</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <br>
+                <tr>
+                    <td colspan="2">
+                        <label><b>Benificiary Details</b></label>
+
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+
+                                    <td>
+                                        <label><b>Marital Status :</b> </label>
+
+                                        <label id="prntlblmarital"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Hushband Name : </b> </label>
+
+                                        <label id="prntlblhusname"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Religion : </b> </label>
+
+                                        <label id="prntlblrelgn"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <label><b> Social Category : </b> </label>
+
+                                        <label id="prntlblsoccat"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> BPL No. : </b> </label>
+
+                                        <label id="prntlblbplno"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Occupation : </b> </label>
+
+                                        <label id="prntlbloccu"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b> Mobile no : </b> </label>
+
+                                        <label id="prntlblmobno"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Email : </b> </label>
+
+                                        <label id="prntlblemail"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <label><b>Permanent Address</b></label>
+
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+
+                                    <td>
+                                        <label><b>State:</b> </label>
+
+                                        <label id="prntPerState">West Bengal</label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> District : </b> </label>
+
+                                        <label id="prntPerDist"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Sub Division : </b> </label>
+
+                                        <label id="prntPerSubDiv"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <label><b> Block/Municiplaity/Corporation : </b> </label>
+
+                                        <label id="prntPerBMC"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Block/Municiplaity/Corporation (Name) :</b> </label>
+
+                                        <label id="prntPerMunc"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> P.S : </b> </label>
+
+                                        <label id="prntPerPs"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b> P.O : </b> </label>
+
+                                        <label id="prntPerPo"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> PIN code : </b> </label>
+
+                                        <label id="prntPerPinCode"></label>
+                                    </td>
+
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> GP/Ward : </b> </label>
+
+                                        <label id="prntPerGp"></label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b> Village/Street/Road : </b> </label>
+
+                                        <label id="prntPerVillage"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="2">
+                        <label><b>Present Address</b></label>
+
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+
+                                    <td>
+                                        <label><b>State:</b> </label>
+
+                                        <label id="prntPreState2">West Bengal</label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> District : </b> </label>
+
+                                        <label id="prntPreDist2"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Sub Division : </b> </label>
+
+                                        <label id="prntPreSubDiv2"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <label><b> Block/Municiplaity/Corporation : </b> </label>
+
+                                        <label id="prntPreBMC2"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Block/Municiplaity/Corporation (Name) :</b> </label>
+
+                                        <label id="prntPreMunc2"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> P.S : </b> </label>
+
+                                        <label id="prntPrePs2"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b> P.O : </b> </label>
+
+                                        <label id="prntPrePo2"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> PIN code : </b> </label>
+
+                                        <label id="prntPrePinCode2"></label>
+                                    </td>
+
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> GP/Ward : </b> </label>
+
+                                        <label id="prntPreGp2"></label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b> Village/Street/Road : </b> </label>
+
+                                        <label id="prntPreVillage2"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label><b>Dependent Details</b></label>
+                                    <hr style="margin:10px 0;">
+                                    <table border="1" cellspacing="0" cellpadding="1" class="tblfamily">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Whether Registered under SASPFUW/BOCW/WBTWSS. If yes, then provide Registration No. </th>
+                                                <th>Dependent Name</th>
+                                                <th>Relationship</th>
+                                                <th>Gender</th>
+                                                <th>Age (Years)</th>
+                                                <th>Aadhaar No, if any</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label><b>Nominee Details </b></label>
+                                    <hr style="margin:10px 0;">
+                                    <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tblNaminee">
+                                        <thead>
+                                            <tr>
+                                                <th style="display: none"></th>
+                                                <th>S.No</th>
+                                                <th>Name</th>
+                                                <th>Relationship with applicant</th>
+                                                <th>Gender</th>
+                                                <th>Age (Years)</th>
+                                                <th>Share Allocation</th>
+                                                <th>Bank Account No.</th>
+                                                <th>Branch Name</th>
+                                                <th>IFSC Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <label><b>Proof Details</b></label>
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>Aadhaar Card No : </b> </label>
+
+                                        <label id="prntlblaadharno"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Epic Card :</b> </label>
+
+                                        <label id="prntlblepiccard"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Bank Account No : </b> </label>
+
+                                        <label id="prntlblbnkaccountno"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <label><b>Form Details</b></label>
+                        <hr style="margin:10px 0;">
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>Issuing Authority : </b> </label>
+
+                                        <label id="prntlblissueauth"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Authority Location :</b> </label>
+
+                                        <label id="prntlblauthortyloc"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Authority Name : </b> </label>
+
+                                        <label id="prntlblauthname"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td colspan="2">
+                        <label><b>PF/ESI Details </b> </label>
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>PF Number : </b> </label>
+
+                                        <label id="prntpfnum"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>ESI Number : </b> </label>
+
+                                        <label id="prntesinum"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Pf Option : </b> </label>
+
+                                        <label id="prntlblOption"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <label>
+                            <b>
+                                Employee Type
+                            </b>
+                        </label>
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label><b>I am a Self-Employed Worker Worker engaged in the scheduled unorganised sector under the scheme</b></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>Name of my occupation : </b> </label>
+
+                                        <label id="prntempoccu"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Self Employment :</b> </label>
+
+                                        <label id="prntempselfemp"></label>
+                                    </td>
+
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Unorganised :</b> </label>
+
+                                        <label id="prntempunorganised"></label>
+                                    </td>
+
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b> Establishment Address : </b> </label>
+
+                                        <label id="prntempestaddr"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <label><b>Income Details </b> </label>
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label><b>My monthly family income from all sources: Rs</b> </label>
+                        <label id="prntlblmnthincme"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label><b>Bank Details </b> </label>
+                        <hr style="margin:10px 0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label><b>District : </b> </label>
+
+                                        <label id="prntbnkdis" class="label-data"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Bank Name : </b> </label>
+
+                                        <label id="prntbnkname" class="label-data"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Account Number : </b> </label>
+
+                                        <label id="prntbnkactnum" class="label-data"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>Location : </b> </label>
+
+                                        <label id="prntbnkloc" class="label-data"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Branch Name : </b> </label>
+
+                                        <label id="prntbrnchname" class="label-data"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                    <td>
+                                        <label><b>IFSC Code : </b> </label>
+
+                                        <label id="prntbnkifsc" class="label-data"></label>
+                                    </td>
+                                    <td style="width:20px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <div id="divprntrejected">
+                            <legend class="custom-border color-white"><span class="leg-sty">SentBack Details</span></legend>
+                            <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tblrejectedApp">
+                                <thead>
+                                    <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                        <th style="display: none"></th>
+
+                                        <th>Rejected Date</th>
+                                        <th>Remarks</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="divprntdeedoop">
+                            <legend class="custom-border color-white"><span class="leg-sty">Duplicate Details</span></legend>
+                            <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tblDeedoopDet">
+                                <thead>
+                                    <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+
+
+                                        <th>Name</th>
+                                        <th>Father Name</th>
+                                        <th>Scheme Regnum</th>
+                                        <th>Dob</th>
+                                        <th>Aadhar Card</th>
+                                        <th>Epic Card</th>
+                                        <th>Bank Acc No</th>
+                                        <th>District</th>
+                                        <th>SubDivision</th>
+                                        <th>Block</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+</div>
+
+
+
+
+<script>
+     UserType=@Convert.ToString(Session["UserType"]);
+    $(document).ready(function () {
+
+        $(".regpop").draggable({
+            handle: ".modal-header"
+        });
+
+        //$("#RegDatelbl").datepicker({
+        //    dateFormat: "dd-mm-yy",
+        //    changeYear: true,
+        //    yearRange: "1960:2020",
+        //    autoclose: true,
+        //    maxDate: new Date()
+        //})
+    })
+
+
+    //BenActionHistory
+
+    function BenActionHistory(id) {
+
+
+
+
+
+        // alert(id);
+
+        $.get('@Url.Action("GetActionHistory", "Home")', { BenId: id }, function (result) {
+             
+
+            var table = $('.ActionHistory').DataTable();
+            table.destroy();
+
+            $('.ActionHistory tbody').empty();
+
+
+            $.each(result, function (i, data) {
+
+                var num = i + 1;
+                 
+                //var uploaddata = data.BenPhoto + ',' + data.BenSignature + ',' + data.BenPassBook + ',' + data.BenIdentity + ',' + data.BenForm
+
+                // alert(data.UploadDocument);
+                $('.ActionHistory').append('<tr><td>' + num + '</td><td>' + data.User_Name + '</td><td>' + data.UserTypeName + '</td><td>' + data.Type + '</td><td>' + data.Reason + '</td><td>' + data.CreatedDate + '</td></tr>')
+
+            });
+
+
+            $('.ActionHistory').DataTable({
+
+            });
+        });
+    }
+
+    //Print
+    function printDiv() {
+
+        var printContents = document.getElementById('prntform').innerHTML;
+
+        $("fieldset.custom-border").css('border', 'none !important');
+
+        //    alert(printContents);
+        w = window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+
+    function Bentrnasclick(id) {
+
+        $(".regpop").modal("show");
+
+        $('#revived').hide();
+
+        var checkAppStatus = $("#BeniAppSt").val();
+
+        if (checkAppStatus != 0) {
+
+            $("#divfooter").hide();
+
+        }
+
+
+        if ($("#AcUserType").val() > 1 && $("#pageval").val() == 1) {
+
+
+            var Schemeid = $("#schemeid").val();
+
+            $.get('@Url.Action("BenSaveActionHistory", "Home")', { UserId: $("#AcDepUserId").val(), BenUserId: id, Reason: "Viewed", Type: "Viewed", Schemeid: Schemeid }, function (res) {
+
+                // alert(res);
+            });
+        }
+
+
+        $.get('@Url.Action("GetbenDetails", "Registration")', { bensno: id }, function (res) {
+
+            var IsUnique = res.IsUnique;
+
+            if (IsUnique == "P") {
+                $("#divfooter").hide();
+            }
+
+            if (IsUnique == "Y") {
+                //$("#divfooter").show();
+                $("#UVerified").show();
+                $("#DVerified").hide();
+            }
+
+            if (IsUnique == "N") {
+                $("#DVerified").show();
+                $("#UVerified").hide();
+            }
+
+
+
+            if (res.Status == 3) {
+                $("#divSentbackRem").show()
+
+                $("#lblSentbackRem").text(res.Remarks).addClass('label-data').css({ color: "red!important" });
+
+                $("#divpendingremark").hide()
+            }
+
+            if (res.Status == 2) {
+                 
+                //  alert(res.Remarks);
+                $("#divpendingremark").show()
+
+                $("#divSentbackRem").hide()
+
+                $("#lblremarkPend").text(res.Remarks).addClass('label-data').css({ color: "red!important" });
+
+                //alert(res.RejectedDocumnet);
+                if (res.RejectedDocumnet != "") {
+                    //$("#ImgRejectedDoc").show();
+                    $("#ImgRejectedDoc").attr('src', res.RejectedDocumnet);
+
+                }
+                else {
+                    $("#ImgRejectedDoc").hide();
+                }
+                //  alert(res.RegType);
+                if (res.RegType == "N") {
+
+                    $('#revived').hide();
+                }
+                else {
+                    $('#revived').show();
+                }
+            }
+
+            if (res.Status == "0" || res.Status == "1") {
+                $("#divpendingremark").hide()
+                $("#divSentbackRem").hide()
+
+
+            }
+
+
+
+
+
+
+            $("#checkUniq").text(IsUnique);
+
+
+            //Change 2018-04-18 added regdate mandatery
+            $("#lblRegType").text(res.RegType);
+
+
+            if (res.RegDate != null && res.RegDate != '') {
+
+                $("#RegDatelbl").text(res.RegDate);
+            }
+            else {
+                $("#RegDatelbl").text("NA");
+            }
+
+
+
+
+            $("#lblRegNo").text(res.RegNumber);
+
+            // alert("1");
+
+
+            if (res.RegType == "L" || (res.RegType == "N" && res.RegNumber.length > 0 && res.RegDate.length > 0)) {
+
+                if (res.RegDate != null && res.RegDate != '') {
+
+
+                    var regDt = res.RegDate.split('-');
+
+                    var Dt = regDt[1] + "/" + regDt[0] + "/" + regDt[2];
+
+                    var date1 = new Date(Dt);
+                    var cmpDate = "03-31-2017";
+
+                    var valu = Date.parse(cmpDate) - Date.parse(date1);
+
+                    if (valu > 0 && res.RegType == "N") {
+                        $("#lblRegNoText").text('Registration No under while SASPFUW/ BOCW/ WBTWSSS');
+                    }
+                    else if (valu < 0 && res.RegType == "N") {
+                        $("#lblRegNoText").text('Temporary Registration No under SSY');
+                    }
+                    else {
+                        $("#lblRegNoText").text('Registration No');
+                    }
+                }
+                $("#divRegNo").show();
+                $("#divregdate").show();
+            }
+            else {
+                $("#divRegNo").hide();
+                $("#divregdate").hide();
+            }
+
+
+
+            //   alert("2");
+
+
+
+            $("#BenSno").val(res.BenSno);
+
+            $('#MainImage,#prntMainImage').empty();
+
+            $('#lblOtherDoc').empty();
+            $('#lblidproof').empty();
+            $('#lblsig').empty();
+            $('#BenPhoto').empty();
+            $('#lblbnkpassbk').empty();
+            $('#lblform').empty();
+
+            $("#DependentForm").empty();
+
+            $('#BeniSchemeCert').empty();
+
+
+            $('#MainImage').prepend('<img  class="profile-img" src="' + res.BenPhoto + '" style="height:150px" />')
+            $('#prntMainImage').prepend('<img src="' + res.BenPhoto + '" style="height:150px;" />');
+
+
+            $("#lblOtherDoc").attr('src', res.BenOtherDoc);
+			$("#dwnOtherDoc").attr("href", res.BenOtherDoc)
+
+
+			$("#btnSendBackApp").show();
+
+			if (res.BenDeathCertificateNo != null) {
+				$("#divDeathDocument").show();
+				$("#divDeathNomineeDocument").show();
+
+				$("#btnSendBackApp").hide();
+
+				$("#lblDeathDoc").attr('src', res.BenOtherDoc);
+				$("#dwnDeathDoc").attr("href", res.BenOtherDoc)
+
+				$("#lblDeathNomineeDoc").attr('src', res.OldSchemePassBook);
+				$("#dwnDeathNomineeDoc").attr("href", res.OldSchemePassBook)
+
+				$("#divDeathNo").show();
+
+				$("#divNommobno").show();
+
+				$("#lblDeathText").text('Death Certificate No');
+				$("#lblDeathCrNo").text(res.BenDeathCertificateNo);
+
+				$("#lblNomineemobno").text(res.BenNomMobileNo);
+
+
+			}
+
+
+
+            $("#lblidproof").attr('src', res.BenIdentity);
+            $("#dwnIdproof").attr("href", res.BenIdentity)
+
+
+
+            $("#lblsig").attr('src', res.BenSignature);
+
+            $("#dwnsign").attr("href", res.BenSignature)
+
+
+
+            $('#BenPhoto').prepend('<img  src="' + res.BenPhoto + '" />')
+
+
+            $("#dwnPhoto").attr("href", res.BenPhoto)
+
+            $("#lblbnkpassbk").attr('src', res.BenPassBook);
+
+
+
+            $("#dwnPassBook").attr("href", res.BenPassBook)
+            //$('#lblbnkpassbk').prepend('<img src="' + res.BenPassBook + '" />')
+
+            $("#lbladharnoproof").attr('src', res.BenAadhar);
+
+            $("#dwnAadhar").attr("href", res.BenAadhar)
+
+
+
+            //$('#lbladharnoproof').prepend('<img src="' + res.BenAadhar + '" />')
+
+            $("#lblform").attr('src', res.BenForm);
+
+            $("#dwnform").attr("href", res.BenForm)
+
+
+
+
+            //  if()
+
+            if (res.SchemeCertificate.indexOf("/UploadFiles/SchemeCertificate/") >= 0) {
+                // alert("Enter Scheme Certificate");
+                $(".divSchemeCerti").show();
+                $("#BeniSchemeCert").attr('src', res.SchemeCertificate);
+                $("#dwnCertificate").attr("href", res.SchemeCertificate)
+            }
+            else {
+                $(".divSchemeCerti").hide();
+            }
+
+            //alert("3");
+            //$('#lblformid').prepend('<img src="' + res.BenForm + '" />')
+
+
+
+
+
+            $("#lblfrstname,#prntlblfrstname").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+            $("#lblfathrname,#prntlblfathrname").text(res.BenFatherFirstName).addClass('label-data');
+            $("#lblmotherName,#prntlblMothername").text(res.MotherName).addClass('label-data');
+
+
+            $("#lbldob,#prntlbldob").text(res.BenDob).addClass('label-data');
+            $("#lblage,#prntlblage").text(res.BenAge).addClass('label-data');
+            $("#lblgender,#prntlblgender").text(res.BenGender).addClass('label-data');
+            $("#lblmarital,#prntlblmarital").text(res.MaritualName).addClass('label-data');
+			$("#lblemail,#prntlblemail").text(res.Email).addClass('label-data');
+			//alert(UserType);
+
+            if (UserType && UserType == "8" || UserType == "9" || UserType == "10" || UserType == "11") {
+				$("#lblbengname,#prntlblbengname").text("").addClass('label-data');
+}
+			else
+            $("#lblbengname,#prntlblbengname").text(res.BengaliName).addClass('label-data');
+
+
+            $("#lbladharno,#lblaadharno,#prntlblaadharno").text(res.AadharCard).addClass('label-data');
+
+
+            if (res.AadharCard == "") {
+                $("#dwnAadhar").hide();
+
+
+            }
+
+            else {
+                $("#dwnAadhar").show();
+
+            }
+
+
+            if (res.EpicCard == "") {
+                $("#dwnIdproof").hide();
+
+
+            }
+
+            else {
+                $("#dwnIdproof").show();
+
+            }
+            $("#lblaccno,#lblbnkaccountno,#prntlblbnkaccountno").text(res.BenBankAccNo).addClass('label-data');
+            $("#lblEpicno,#lblepiccard,#prntlblepiccard").text(res.EpicCard).addClass('label-data');
+
+            if (res.BenGender == "Male") {
+                $("#divhus").hide();
+            }
+
+            else {
+                if (res.MaritualName == "Married" && res.BenGender == "Female") {
+                    $("#divhus").show();
+
+                    $("#lblhusname").text(res.HusbandName).addClass('label-data');
+                }
+
+            }
+
+
+            if (res.BenIdCardType == "1")
+                $("#lblIC").text('Aadhar Card' + '-' + res.BenIdCardNo).addClass('label-data');
+            else
+
+                $("#lblIC").text('Epic Card' + '-' + res.BenIdCardNo).addClass('label-data');
+
+            $("#lblrelgn,#prntlblrelgn").text(res.ReligionName).addClass('label-data');
+            $("#lblsoccat,#prntlblsoccat").text(res.Social_Name).addClass('label-data');
+            $("#lblbplno,#prntlblbplno").text(res.BenBplNo).addClass('label-data');
+            $("#lbloccu,#prntlbloccu").text(res.BenOccupation).addClass('label-data');
+            $("#lblmobno,#prntlblmobno").text(res.BenMobileNo).addClass('label-data');
+
+
+
+            $("#lblissueauth,#prntlblissueauth").text(res.IssAuthName).addClass('label-data');
+            //$("#lblauthortyloc,#prntlblauthortyloc").text(res.empunorganised).addClass('label-data');
+            $("#lblauthortyloc,#prntlblauthortyloc").text(res.AuthorityLocation).addClass('label-data');
+            
+            $("#lblauthname,#prntlblauthname").text(res.BenIssuingAuthName).addClass('label-data');
+            $("#labelpfnum,#prntpfnum").text(res.BenProvisionNo).addClass('label-data');
+
+            $("#LblESInum,#prntesinum").text(res.BenEsiNumber).addClass('label-data');
+
+            $("#lblmnthincme,#prntlblmnthincme").text(res.BenMonthlyIncom).addClass('label-data');
+            $("#empoccu,#prntempoccu").text(res.BenEmpType).addClass('label-data');
+
+            $("#empselfemp,#prntempselfemp").text("").addClass('label-data');
+            $("#empunorganised,#prntempunorganised").text("").addClass('label-data');
+
+            if (res.IndType == 1) {
+
+                $("#empselfemp,#prntempselfemp").text(res.IndustryName).addClass('label-data');
+
+                $("#empunorganised,#prntempunorganised").text('NA').addClass('label-data');
+
+
+
+            }
+
+
+            if (res.IndType == 2) {
+
+                $("#empunorganised,#prntempunorganised").text(res.IndustryName).addClass('label-data');
+                $("#empselfemp,#prntempselfemp").text('NA').addClass('label-data');
+
+
+            }
+            $("#empestaddr,#prntempestaddr").text(res.BenEstablishedAddress).addClass('label-data');
+
+            $("#bnkifsc,#prntbnkifsc").text(res.BenBankIfscCode).addClass('label-data');
+
+            $("#bnkdis,#prntbnkdis").text(res.DistrictName).addClass('label-data');
+            $("#bnkname,#prntbnkname").text(res.BankName).addClass('label-data');
+            //alert(res.Location);
+            $("#bnkloc,#prntbnkloc").text(res.LocName).addClass('label-data');
+            $("#bnkactnum,#prntbnkactnum").text(res.BenBankAccNo).addClass('label-data');
+            $("#brnchname,#prntbrnchname").text(res.BankBranchName).addClass('label-data');
+
+            var pfoption = "";
+
+            if (res.BenPFStatus == true)
+                pfoption = "Yes";
+
+            if (res.BenPFStatus == false)
+                pfoption = "No";
+            if (res.BenPFStatus == null)
+                pfoption = "NA";
+
+            $("#PfOptionBene,#prntlblOption").text(pfoption).addClass('label-data');
+
+
+
+            $("#lblusername,#prntlblusername").text(res.BenFirstName + ' ' + res.BenMiddleName + ' ' + res.BenLastName).addClass('label-data');
+
+            if (res.SSIN == null || res.SSIN == "" || res.SSIN == "NA") {
+
+
+                $("#lblTempregno,#prntlblTempregno").text(res.BenTempRegNo).addClass('label-data');
+
+                $("#lblTrname").text("Temporary SSIN");
+
+
+
+            }
+            else {
+
+                $("#lblTempregno,#prntlblTempregno").text(res.SSIN).addClass('label-data');
+
+                $("#lblTrname").text("SSIN");
+
+
+                if (res.Status != 1) {
+                    if (res.BeneType == "OldReg" || res.BeneType == "Legacy1" || res.BeneType =="Legacy2") {
+                        $("#lblTempregno,#prntlblTempregno").text("NA").addClass('label-data');
+                        $("#lblTrname").text("SSIN");
+
+                    }
+                }
+
+            }
+
+
+
+
+
+        });
+
+
+		$.get('@Url.Action("GetChangedDocuments", "Registration")', { bensno: id }, function (res) {
+
+			$('#NameChangeForm').empty();
+			$('#DobChangeForm').empty();
+			$('#AddersChangeForm').empty();
+			$('#BankChangeForm').empty();
+			$('#HusbndNameChangeForm').empty();
+
+			$("#dwnNameChange").attr("href", res.NameRelatedDouments)
+			if (res.NameRelatedDouments == "pdf") {
+				if (res.NameRelatedDouments.substring(1, 12) == "UploadFiles") {
+					$("#NameChangeForm").attr('src', res.NameRelatedDouments);
+				}
+				else {
+					$("#NameChangeForm").attr('src', 'data:application/' + res.NameProofExtension + ';base64,' + res.NameRelatedDouments); //for pdf file
+				}
+			}
+			else {
+				if (res.NameRelatedDouments.substring(1, 12) == "UploadFiles") {
+					$("#NameChangeForm").attr('src', res.NameRelatedDouments);
+				}
+				else {
+					$("#NameChangeForm").attr('src', 'data:image/' + res.NameProofExtension + ';base64,' + res.NameRelatedDouments); //for image file
+				}
+			}
+
+			$("#dwnDOBChange").attr("href", res.DobRelatedDocuments)
+			if (res.DobRelatedDocuments == "pdf") {
+				if (res.DobRelatedDocuments.substring(1, 12) == "UploadFiles") {
+					$("#DobChangeForm").attr('src', res.DobRelatedDocuments);
+				}
+				else {
+					$("#DobChangeForm").attr('src', 'data:application/' + res.DOBProofExtension + ';base64,' + res.DobRelatedDocuments); //for pdf file
+				}
+			}
+			else {
+				if (res.DobRelatedDocuments.substring(1, 12) == "UploadFiles") {
+					$("#DobChangeForm").attr('src', res.DobRelatedDocuments);
+				}
+				else {
+					$("#DobChangeForm").attr('src', 'data:image/' + res.DOBProofExtension + ';base64,' + res.DobRelatedDocuments); //for image file
+				}
+			}
+
+			$("#dwnAddersChange").attr("href", res.AddressDocument)
+			if (res.AddressDocument == "pdf") {
+				if (res.AddressDocument.substring(1, 12) == "UploadFiles") {
+					$("#AddersChangeForm").attr('src', res.AddressDocument);
+				}
+				else {
+					$("#AddersChangeForm").attr('src', 'data:application/' + res.AddressExten + ';base64,' + res.AddressDocument); //for pdf file
+				}
+			}
+			else {
+				if (res.AddressDocument.substring(1, 12) == "UploadFiles") {
+					$("#AddersChangeForm").attr('src', res.AddressDocument);
+				}
+				else {
+					$("#AddersChangeForm").attr('src', 'data:image/' + res.AddressExten + ';base64,' + res.AddressDocument); //for image file
+				}
+			}
+
+			$("#dwnBankChange").attr("href", res.BankDocument)
+			$("#BankChangeForm").attr('src', res.BankDocument);
+
+			$("#dwnHusbndNameChange").attr("href", res.HusbandRelatedDouments)
+			if (res.HusbandRelatedDouments == "pdf") {
+				if (res.HusbandRelatedDouments.substring(1, 12) == "UploadFiles") {
+					$("#HusbndNameChangeForm").attr('src', res.HusbandRelatedDouments);
+				}
+				else {
+					$("#HusbndNameChangeForm").attr('src', 'data:application/' + res.HusbandProofExtension + ';base64,' + res.HusbandRelatedDouments); //for pdf file
+				}
+			}
+			else {
+				if (res.HusbandRelatedDouments.substring(1, 12) == "UploadFiles") {
+					$("#HusbndNameChangeForm").attr('src', res.HusbandRelatedDouments);
+				}
+				else {
+					$("#HusbndNameChangeForm").attr('src', 'data:image/' + res.HusbandProofExtension + ';base64,' + res.HusbandRelatedDouments); //for image file
+				}
+			}
+
+
+		});
+
+
+
+        $.get('@Url.Action("GetbenAddressDetails", "Registration")', { bensno: id }, function (res) {
+
+            $.each(res, function (i, data) {
+
+                if (data.BenAddressType == "Permanent") {
+
+                    $("#PerDist,#prntPerDist").text(data.DistrictName).addClass('label-data');
+                    $("#PerSubDiv,#prntPerSubDiv").text(data.SubDivisionName).addClass('label-data');
+                    $("#PerMunc,#prntPerMunc").text(data.BlockName).addClass('label-data');
+                    $("#PerPs,#prntPerPs").text(data.PsName).addClass('label-data');
+                    $("#PerPo,#prntPerPo").text(data.PoName).addClass('label-data');
+                    $("#PerBMC,#prntPerBMC").text(data.LocTypeName).addClass('label-data');
+                    $("#PerPinCode,#prntPerPinCode").text(data.BenPincode).addClass('label-data');
+                    $("#PerGp,#prntPerGp").text(data.GPName).addClass('label-data');
+                    $("#PerVillage,#prntPerVillage").text(data.BenVsr).addClass('label-data');
+                }
+                if (data.BenAddressType == "Present") {
+
+                    $("#PreDist2,#prntPreDist2").text(data.DistrictName).addClass('label-data');
+                    $("#PreSubDiv2,#prntPreSubDiv2").text(data.SubDivisionName).addClass('label-data');
+
+                    $("#PreBMC2,#prntPreBMC2").text(data.LocTypeName).addClass('label-data');
+
+                    $("#PreMunc2,#prntPreMunc2").text(data.BlockName).addClass('label-data');
+
+                    $("#PrePs2,#prntPrePs2").text(data.PsName).addClass('label-data');
+
+                    $("#PrePo2,#prntPrePo2").text(data.PoName).addClass('label-data');
+
+                    $("#PrePinCode2,#prntPrePinCode2").text(data.BenPincode).addClass('label-data');
+
+                    $("#PreGp2,#prntPreGp2").text(data.GPName).addClass('label-data');
+
+                    $("#PreVillage2,#prntPreVillage2").text(data.BenVsr).addClass('label-data');
+
+
+
+                }
+
+            });
+
+
+
+        })
+
+        $.get('@Url.Action("GetFamilyDetails", "Registration")', { bensno: id }, function (res) {
+
+            $('.tblfamily tbody').empty();
+
+             
+            $.each(res, function (i, data) {
+
+                var rowCount = $('.tblfamily tr').length;
+
+                var Sno = i + 1;
+
+                // alert(i);
+
+
+                if (data.SchemePassBook != "")
+                    $('.tblfamily').append('<tr><td><label class="label-data" id="FamSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="FamWRU' + rowCount + '">' + data.BenFamilySchRegNo + '</label></td><td><label class="label-data" id="FamDept' + rowCount + '">' + data.BenDependentName + '</label></td><td><label class="label-data" id="DDLFamRel' + rowCount + '">' + data.BenDependentRelation + ' </label></td><td><label class="label-data" id="DDLFamGender' + rowCount + '">' + data.BenFamilyGender + '</label></td><td><label class="label-data" id="FamAge' + rowCount + '">' + data.BenFamilyAge + ' </label></td><td><label class="label-data" id="AdhNoFam' + rowCount + '">' + data.BenFamilyAadhaarNo + '</label></td><td><a href="#" id=' + data.BenSno + ' rel="noreferrer" onClick = "LoadPassBook(' + data.BenFamilyMemSno + '); ">View</a></td></tr>')
+
+                else
+                    $('.tblfamily').append('<tr><td><label class="label-data" id="FamSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="FamWRU' + rowCount + '">' + data.BenFamilySchRegNo + '</label></td><td><label class="label-data" id="FamDept' + rowCount + '">' + data.BenDependentName + '</label></td><td><label class="label-data" id="DDLFamRel' + rowCount + '">' + data.BenDependentRelation + ' </label></td><td><label class="label-data" id="DDLFamGender' + rowCount + '">' + data.BenFamilyGender + '</label></td><td><label class="label-data" id="FamAge' + rowCount + '">' + data.BenFamilyAge + ' </label></td><td><label class="label-data" id="AdhNoFam' + rowCount + '">' + data.BenFamilyAadhaarNo + '</label></td><td></td></tr>')
+
+            });
+
+        });
+
+        $.get('@Url.Action("GetNamineeDetails", "Registration")', { bensno: id }, function (res) {
+            $('.tblNaminee tbody').empty();
+            $.each(res, function (i, data) {
+
+                var rowCount = $('.tblNaminee tr').length;
+
+                var Sno = i + 1;
+
+                $('.tblNaminee').append('<tr><td style="display:none"><label class="label-data" id="namid' + rowCount + '">' + data.BenNomineeSno + '</label></td><td><label class="label-data" id="NamiSno' + Sno + '">' + Sno + ' </label></td><td><label class="label-data" id="NamiName' + rowCount + '">' + data.BenNomineeName + '</label></td><td><label class="label-data" id="DDLNamRel' + rowCount + '">' + data.BenNomineeRelation + '</label></td><td><label class="label-data" id="DDLNamGender' + rowCount + '">' + data.BenNomineeGender + '</label></td><td><label class="label-data" id="NamAge' + rowCount + '">' + data.BenNomineeAge + '</label></td><td><label  class="label-data" id="SahreAlo' + rowCount + '">' + data.BenNomineeShareAllocation + '</label></td><td><label class="label-data" id="BankActNo' + rowCount + '">' + data.BenNomineeBankAccNo + '</label></td><td><label class="label-data" id="BranchName' + rowCount + '">' + data.BenNomineeBankBranch + '</label></td><td><label class="label-data" id="NamIfscCode' + rowCount + '">' + data.BenNomineeBankIfscCode + ' </label></td></tr>');
+
+
+            });
+
+        });
+
+        $.get('@Url.Action("GetBOCWDetails", "Home")', { bensno: id, schemeid: 2 }, function (res) {
+            $('.tblbocwdetl tbody').empty();
+            $.each(res, function (i, data) {
+
+                var rowCount = $('.tblbocwdetl tr').length;
+
+                $("#SchemeBenId").val(data.SchemeBenId);
+
+                $('.tblbocwdetl').append('<tr><td><label class="label-data" id="snoid' + rowCount + '">' + rowCount + ' </label></td><td><label class="label-data" id="Nameid' + rowCount + '">' + data.Name + ' </label></td><td><label class="label-data" id="Descrid' + rowCount + '">' + data.AddressofEstablishment + ' </label></td><td><label class="label-data" id="regisid' + rowCount + '">' + data.RegistrationNo + ' </label></td><td><label class="label-data" id="postid' + rowCount + '">' + data.WorkerType + ' </label></td><td><label class="label-data" id="Dojid' + rowCount + '">' + data.JoiningDate + ' </label></td><td><label class="label-data" id="Doeid' + rowCount + '">' + data.RelievingDate + ' </label></td><td><label class="label-data" id="remrkid' + rowCount + '">' + data.SchemeRemarks + ' </label></td></tr>')
+
+            });
+
+        });
+
+        $.get('@Url.Action("GetBOCWDetails", "Home")', { bensno: id, schemeid: 3 }, function (res) {
+
+
+            $.each(res, function (i, data) {
+
+
+                $("#SchemeBenId").val(data.SchemeBenId);
+                $("#lblnamevehi,#prntlblnamevehi").text(data.VehicleName).addClass('label-data');
+                $("#lblnofduties,#prntlblnofduties").text(data.DutyName).addClass('label-data');
+            });
+
+        });
+
+        $.get('@Url.Action("GetRejectedDetails", "Home")', { bensno: id }, function (res) {
+            // alert(res);
+            $('.tblrejectedApp tbody').empty();
+            if (res == "") {
+
+                $("#divtblrejApp,#divprntrejected").hide();
+            }
+            else {
+                $("#divtblrejApp,#divprntrejected").show();
+                $.each(res, function (i, data) {
+
+                    var rowCount = $('.tblrejectedApp tr').length;
+
+                    //$("#SchemeBenId").val(data.SchemeBenId);
+
+                    $('.tblrejectedApp').append('<tr><td>' + data.Date + '</td><td>' + data.Remarks + '</td></tr>')
+
+                });
+            }
+        });
+
+        $.get('@Url.Action("GetDedoopDetails", "Home")', { bensno: id }, function (res) {
+            // alert(res);
+            $('.tblDeedoopDet tbody').empty();
+
+            if (res == "") {
+
+                $("#divtbltblDeedoopDet,#divprntdeedoop").hide();
+            }
+
+            else {
+
+                $("#divtbltblDeedoopDet,#divprntdeedoop").show();
+
+                $.each(res, function (i, data) {
+
+                    var rowCount = $('.tblDeedoopDet tr').length;
+
+                    //$("#SchemeBenId").val(data.SchemeBenId);
+
+                    //<td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + data.BenSno + ');" id=' + data.ApplicantName + '>' + data.ApplicantName + '</a></td>
+
+                    //$('.tblDeedoopDet').append('<tr><td>' + data.ApplicantName + '</td><td>' + data.FatherName + '</td><td>' + data.BenDOB + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td>' + data.BankAccNo + '</td><td>' + data.DistrictName + '</td><td>' + data.SubDivisionName + '</td><td>' + data.BlockName + '</td></tr>')
+                    $('.tblDeedoopDet').append('<tr><td><a href="#" data-toggle="modal" data-target=".dedup" onClick = "dedoopclick(' + data.BenSno + ');" id=' + data.ApplicantName + '>' + data.ApplicantName + '</a></td><td>' + data.FatherName + '</td><td>' + data.HusbandName + '</td><td>' + data.RegNumber + '</td><td>' + data.BenDOB + '</td><td>' + data.AadharCard + '</td><td>' + data.EpicCard + '</td><td>' + data.BankAccNo + '</td><td>' + data.DistrictName + '</td><td>' + data.SubDivisionName + '</td><td>' + data.BlockName + '</td></tr>')
+
+                });
+            }
+        });
+        $.get('@Url.Action("GetBenRevivedDetails", "Home")', { Benid: id }, function (res) {
+
+            $('.tblReview tbody').empty();
+
+            if (res == "0") {
+                $("#divRevived").hide();
+            }
+            else {
+                $("#divRevived").show();
+            }
+
+
+
+            $.each(res, function (i, n) {
+                $('.tblReview').append('<tr><td>' + n.Name + '</td><td>' + n.UserTypeName + '</td><td>' + n.Reason + '</td><td>' + n.CreatedDate + '</td></tr>')
+            });
+
+        });
+
+          $.get('@Url.Action("GetCreatedBInfo", "Home")', { benSno: id }, function (res) {
+            // alert(res);
+              if (res == "0") {
+
+
+                  $("#divCreatedBy").hide();
+
+                  $("#lblCDesignation,#lblCName,#lblCArn,#lblCMobileNo,#lblCPan,#lblCAadhaar,#lblCDesignation").text("");
+
+              }
+              else {
+                  $("#divCreatedBy").show();
+                  $("#lblCName").text(res.Name);
+                  $("#lblCArn").text(res.Arn);
+                  $("#lblCMobileNo").text(res.Mobileno);
+                  $("#lblCPan").text(res.Pan);
+                  $("#lblCAadhaar").text(res.Aadhar);
+                  $("#lblCDesignation").text(res.UserTypeName);
+
+
+              }
+        });
+
+
+
+    }
+    $("#edit").click(function () {
+        if (UserType && UserType == "8" || UserType == "9" || UserType == "10" || UserType == "11") {
+			$("#txtbenname").val("");
+		}
+		else {
+			$("#txtbenname").val($("#lblbengname").text());
+		}
+
+        //textbox
+    })
+    $("#btnupdate").click(function () {
+
+
+
+        if ($("#txtbenname").val() == "" || $("#txtbenname").val() == null) {
+            alert("Please Enter Bengali Name");
+            $("#txtbenname").focus();
+            return false;
+
+        }
+
+		var userid = $("#BenSno").val();
+        if (UserType && UserType == "8" || UserType == "9" || UserType == "10" || UserType == "11" || UserType == "3" || UserType == "4" || UserType == "6" || UserType == "7" || UserType == "12" || UserType == "13" || UserType == "14") {
+			alert("You are not Authorized to update. ");
+			$("#lblbengname").text("");
+		}
+		else {
+			$.get('@Url.Action("UpdateBengaliname", "Home")', { id: userid, bengaliname: $("#txtbenname").val() }, function (res) {
+
+				alert(res);
+				$("#lblbengname").text($("#txtbenname").val());
+
+
+			})
+		}
+
+
+
+    })
+
+    function onlyAlphabets(e, t) {
+        // ;
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+
+    $(function () {
+        $('#txtbenname').avro({ 'bangla': true },
+			function (isBangla) {
+
+			}
+		);
+    });
+
+
+
+    function LoadPassBook(Id) {
+        // alert(Id);
+
+
+
+
+
+        $.get('@Url.Action("GetsingleFamilyDetails", "Registration")', { Id: Id }, function (res) {
+             
+
+            $('#DependentForm').empty();
+
+            //alert(res.SchemePassBook);
+
+
+            $("#DependentForm").attr("src", res)
+
+        });
+
+
+
+
+
+
+    }
+
+    function BendeedoopDet(id) {
+        $(".regpop").modal('show');
+
+        Bentrnasclick(id);
+
+    }
+
+    //function allLetter(inputtxt) {
+    //    var Regex = '/^[^a-zA-Z]*$/';
+
+    //   // Regex.test(bengaliName)
+    //    if (Regex.test(inputtxt)) {
+    //        return true;
+    //    }
+    //    else {
+    //        // alert("message");
+    //        return false;
+    //    }
+    //}
+</script>
+
+

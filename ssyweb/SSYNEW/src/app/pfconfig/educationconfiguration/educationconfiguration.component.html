@@ -1,0 +1,278 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 nocollapse">
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+                <header>
+                    <h2>Education Configuration</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ">
+                            <!--smart-form-main-->
+                            <header>Date of Admission Exceeding</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic" [(ngModel)]="eduConfig.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value" placeholder="Value" [(ngModel)]="eduConfig.value"
+                                                   #value="ngModel" [ngClass]="{'invalid-data': value.invalid && ( !valueValid || value.touched ),
+                                                        'valid-data': valueValid && value.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value.invalid && (!valueValid || value.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="eduConfig.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid || interestCode.touched ),
+                                'valid-data': ruleValid && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="eduConfig.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <!--<div class="row">
+            <section class="col col-6">
+                <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid?'red':''"><b>*</b></span> </label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ eduConfig.dateEffectiveFrom | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="eduConfig.dateEffectiveFrom" readonly
+                           #effectiveFromDate="ngModel"
+                           [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid}"
+                           required>
+                </label>
+                <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid)">
+                    <span style="color: red;">Effective From Date is required </span>
+                </div>
+            </section>
+            <section class="col col-6">
+                <label class="label">Effective To Date:</label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ eduConfig.dateEffectiveTo | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="eduConfig.dateEffectiveTo" readonly
+                           #effectiveFromDate="ngModel"
+                           required>
+                </label>
+            </section>
+        </div>-->
+                            </fieldset>
+                            <header>Son Age Exceeding</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid1?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic1" [(ngModel)]="eduConfig1.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid1">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid1?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value1" placeholder="Value" [(ngModel)]="eduConfig1.value"
+                                                   #value1="ngModel" [ngClass]="{'invalid-data': value1.invalid && ( !valueValid1 || value1.touched ),
+                                                        'valid-data': valueValid1 && value1.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value1.invalid && (!valueValid1 || value1.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid1?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="eduConfig1.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid1 || interestCode.touched ),
+                                'valid-data': ruleValid1 && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid1 || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="eduConfig1.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                                <!--<div class="row">
+            <section class="col col-6">
+                <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid1?'red':''"><b>*</b></span> </label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ eduConfig1.dateEffectiveFrom | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="eduConfig1.dateEffectiveFrom" readonly
+                           #effectiveFromDate="ngModel"
+                           [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid1), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid1}"
+                           required>
+                </label>
+                <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid1)">
+                    <span style="color: red;">Effective From Date is required </span>
+                </div>
+            </section>
+            <section class="col col-6">
+                <label class="label">Effective To Date:</label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                           placeholder="DD/MM/YYYY" value="{{ eduConfig1.dateEffectiveTo | date: 'dd/MM/yyyy' }}"
+                           [(ngModel)]="eduConfig1.dateEffectiveTo" readonly
+                           #effectiveFromDate="ngModel"
+                           required>
+                </label>
+            </section>
+        </div>-->
+                            </fieldset>
+                            <header>Max Limit Exceeding</header>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Condition:<span [style.color]="!logicValid2?'red':''"><b>*</b></span></label>
+                                        <select class="form-control" name="logic2" [(ngModel)]="eduConfig2.logic">
+                                            <option value="0" selected>Choose an Option</option>
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                            <option value=">=">>=</option>
+                                            <option value="<="><=</option>
+                                            <option value="==">==</option>
+                                        </select>
+                                        <div *ngIf="!logicValid2">
+                                            <span style="color: red;">Logic is required </span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">Value:<span [style.color]="!valueValid2?'red':''"><b>*</b></span> </label>
+                                        <label class="input">
+                                            <input type="number" name="value2" placeholder="Value" [(ngModel)]="eduConfig2.value"
+                                                   #value2="ngModel" [ngClass]="{'invalid-data': value2.invalid && ( !valueValid2 || value2.touched ),
+                                                        'valid-data': valueValid2 && value2.valid  }" required>
+                                        </label>
+                                        <div *ngIf="value2.invalid && (!valueValid2 || value2.touched)">
+                                            <span style="color: red;">Value is required </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!--<section class="col col-6">
+                <label class="label">Rule:<span [style.color]="!ruleValid2?'red':''"><b>*</b></span></label>
+                <label class="input">
+                    <input type="text" name="interestCode" placeholder="Rule" [(ngModel)]="eduConfig2.ruleName"
+                           #interestCode="ngModel" [ngClass]="{'invalid-data': interestCode.invalid && ( !ruleValid2 || interestCode.touched ),
+                                'valid-data': ruleValid2 && interestCode.valid  }" required>
+                </label>
+                <div *ngIf="interestCode.invalid && (!ruleValid2 || interestCode.touched)">
+                    <span style="color: red;">Rule is required </span>
+                </div>
+            </section>-->
+                                    <section class="col col-6">
+                                        <label class="label">Description:</label>
+                                        <label class="input">
+                                            <textarea rows="3" cols="72" class="custom-scroll" name="description" placeholder="Description" [(ngModel)]="eduConfig2.description"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="label">Effective From Date:<span [style.color]="!effectiveFromDateValid2?'red':''"><b>*</b></span> </label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" name="effectiveFromDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                               placeholder="DD/MM/YYYY" value="{{ eduConfig2.dateEffectiveFrom | date: 'dd/MM/yyyy' }}"
+                                               [(ngModel)]="eduConfig2.dateEffectiveFrom" readonly
+                                               #effectiveFromDate="ngModel"
+                                               [ngClass]="{'invalid-data':effectiveFromDate.invalid && (!effectiveFromDateValid2), 'valid-data': effectiveFromDate.valid && effectiveFromDateValid2}"
+                                               required>
+                                    </label>
+                                    <div *ngIf="effectiveFromDate.invalid && (!effectiveFromDateValid2)">
+                                        <span style="color: red;">Effective From Date is required </span>
+                                    </div>
+                                </section>
+                                <section class="col col-6">
+                                    <label class="label">Effective To Date:</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" name="effectiveToDate" autocomplete="off" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
+                                               placeholder="DD/MM/YYYY" value="{{ eduConfig2.dateEffectiveTo | date: 'dd/MM/yyyy' }}"
+                                               [(ngModel)]="eduConfig2.dateEffectiveTo" readonly
+                                               #effectiveFromDate="ngModel"
+                                               required>
+                                    </label>
+                                </section>
+                            </div>
+                            <footer class="modal-footer">
+                                <a class="btn btn-primary" (click)="getHistoryData()">History</a>
+                                <a class="btn btn-default" *ngIf="isSaveVisible" (click)="clearData()">Reset</a>
+                                <a class="btn btn-success" *ngIf="isSaveVisible" (click)="saveEducationConfigData(eduConfig,eduConfig1,eduConfig2)">Save</a>
+                                <a class="btn btn-danger" (click)="cancelClick()"> Cancel</a>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" [config]="{backdrop: 'static',keyboard:false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success Message</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll">
+                <div [innerHTML]="successMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="okClick()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

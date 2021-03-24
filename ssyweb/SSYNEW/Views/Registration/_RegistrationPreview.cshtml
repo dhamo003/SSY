@@ -1,0 +1,672 @@
+﻿@{
+    ViewBag.Title = "RegistrationPreview";
+    Layout = null;
+}
+<style>
+    .modal-backdrop {
+        position: relative !important;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1040;
+        /*background-color: none !important;*/
+    }
+    label {
+        font-weight: normal !important;
+    }
+    .lblfontweight {
+        font-weight: 600 !important;
+    }
+</style>
+<div class="modal fade regpop" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:950px;margin-left:-100px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">Samajik Suraksha Yojana</h4>
+            </div>
+            <div class="modal-body" style="width:940px;margin-left:5px;">
+                <div class="row">
+                    <fieldset class="custom-border color-white">
+                        <legend class="custom-border"><span class="leg-sty">Beneficiary Details</span></legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="">First Name:</label>
+                                    <label class="lblfontweight" id="lblPrefrstname"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="">Middle Name:</label>
+                                    <label class="lblfontweight" id="lblPremiddlename"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="">Last Name:</label>
+                                    <label class="lblfontweight" id="lblPrelastname"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="">Father Name:</label>
+                                    <label class="lblfontweight" id="lblprefathrname"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Date of Birth:</label>
+                                    <label class="lblfontweight" id="lblpredob"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Age:</label>
+                                    <label class="lblfontweight" id="lblpreage"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gender:</label>
+                                    <label class="lblfontweight" id="lblpregender"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Marital Status:</label>
+                                    <label class="lblfontweight" id="lblpremarital"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Husband Name : </label>
+                                    <label class="lblfontweight" id="lblprehusname"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Email :</label>
+                                    <label class="lblfontweight" id="lblpreemail"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Religion :</label>
+                                    <label class="lblfontweight" id="lblprerelgn"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Social Category :</label>
+                                    <label class="lblfontweight" id="lblpresoccat"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>BPL Status: </label>
+                                    <label class="lblfontweight" id="lblprebolst"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>BPL No.:</label>
+                                    <label class="lblfontweight" id="lblprebplno"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mobile no:</label>
+                                    <label class="lblfontweight" id="lblpremobno"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                @*style = "text-transform:uppercase",*@
+                <div class="row">
+                    <fieldset class="custom-border color-white">
+                        <legend class="custom-border color-white"><span class="leg-sty">Permanent Address</span></legend>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>State:</label>
+                                <label class="lblfontweight" id="PerState">West Bengal</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>District:</label>
+                                <label class="lblfontweight" id="lblprevPerDist"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Sub Division:</label>
+                                <label class="lblfontweight" id="lblprevPerSubDiv"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Block/Municiplaity/Corporation :</label>
+                                <label class="lblfontweight" id="lblprevPerBMC"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Block/Municiplaity/Corporation (Name):</label>
+                                <label class="lblfontweight" id="lblprevPerMunc"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>P.S:</label>
+                                <label class="lblfontweight" id="lblprevPerPs"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>P.O:</label>
+                                <label class="lblfontweight" id="lblprevPerPo"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>PIN code:</label>
+                                <label class="lblfontweight" id="lblprevPerPinCode"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>GP/Ward:</label>
+                                <label class="lblfontweight" id="lblprevPerGp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Village/Street/Road:</label>
+                                <label class="lblfontweight" id="lblprevPerVillage"></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <br />
+                <div class="row">
+                    <fieldset class="custom-border color-white">
+                        <legend class="custom-border color-white"><span class="leg-sty">Present Address</span></legend>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>State:</label>
+                                <label class="lblfontweight" id="PreState2">West Bengal</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>District:</label>
+                                <label class="lblfontweight" id="lblprevPreDist2"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Sub Division:</label>
+                                <label class="lblfontweight" id="lblprevPreSubDiv2"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Block/Municiplaity/Corporation :</label>
+                                <label class="lblfontweight" id="lblprevPreBMC2"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Block/Municiplaity/Corporation (Name):</label>
+                                <label id="lblprevPreMunc2" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>P.S:</label>
+                                <label id="lblprevPrePs2" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>P.O:</label>
+                                <label id="lblprevPrePo2" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>PIN code:</label>
+                                <label id="lblprevPrePinCode2" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>GP/Ward:</label>
+                                <label id="lblprevPreGp2" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Village/Street/Road:</label>
+                                <label id="lblprevPreVillage2" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <br />
+                <div class="row">
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white"><span class="leg-sty">Dependent Details</span></legend>
+                        <table class="table table-bordered Prevtblfamily">
+                            <thead>
+                                <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                    <th>S.No</th>
+                                    <th style="width: 50px;">Whether Registered under SASPFUW/BOCW/WBTWSS. If yes, then provide Registration No. </th>
+                                    <th>Dependent Name</th>
+                                    <th>Relationship</th>
+                                    <th>Gender</th>
+                                    @* <th>DOB</th>*@
+                                    <th>Age (Years)</th>
+                                    <th>Aadhaar No, if any</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white"><span class="leg-sty">Nominee Details </span></legend>
+                        <table class="table table-bordered PrevtblNaminee">
+                            <thead>
+                                <tr style="background: #333; color: white; font-size: 14px; font-weight: 700;">
+                                    <th style="display: none"></th>
+                                    <th>S.No</th>
+                                    <th>Name</th>
+                                    <th>Relationship with applicant</th>
+                                    <th>Gender</th>
+                                    @*     <th>DOB</th>*@
+                                    <th>Age (Years)</th>
+                                    <th>Share Allocation</th>
+                                    <th>Bank Name</th>
+                                    <th>Bank Account No.</th>
+                                    <th>Branch Name</th>
+                                    <th>IFSC Code</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </fieldset>
+                </div>
+                <br />
+                <div class="row">
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white">Form 1</legend>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Issuing Authority:</label>
+                                <label id="lblpreIA"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Name of the area of certificate issuing authority:</label>
+                                <label id="lblPreauthloc"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Full Name of the certificate issuing authority:</label>
+                                <label id="lblpreauthName"></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white">PF/ESI Details</legend>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>PF Number :</label>
+                                <label id="pfprenum" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>ESI Number :</label>
+                                <label id="ESIprenum" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Pf Option :</label>
+                                <label id="lblpreoption" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white">Employee Type</legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Worker Type :</label>
+                                <label id="lblprevWorkerType" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Name of my occupation :</label>
+                                <label id="lblprevempoccu" class="lblfontweight"></label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Self Employment :</label>
+                                <label id="lblprevempselfemp" class="lblfontweight"></label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Establishment Address :</label>
+                                <label id="lblprevempestaddr" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <br />
+                    <fieldset class="custom-border color-white">
+                        <legend class="custom-border color-white">Income Details</legend>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>My monthly family income from all sources: Rs. </label>
+                                <label id="lblmnthincme" class="lblfontweight"></label>
+                            </div>
+                        </div>
+                        <div class="">
+                            <legend class="custom-border color-white"><span class="leg-sty">Bank Details</span></legend>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>District :</label>
+                                    <label id="lblprevbnkdis" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Bank Name :</label>
+                                    <label id="lblprevbnkname" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Account Number :</label>
+                                    <label id="lblprevbnkactnum" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Location :</label>
+                                    <label id="lblprevbnkloc" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Branch Name :</label>
+                                    <label id="lblprevbrnchname" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Address:</label>
+                                    <label id="lblprevAddress" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>IFSC Code :</label>
+                                    <label id="lblprevbnkifsc" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Reason :</label>
+                                    <label id="lblprevreason" class="lblfontweight"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white">Upload Documents</legend>
+                        <br />
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Photo of the Applicant</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_Photo" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:250px;height:250px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Signature of the Applicant</label>
+                                    </td>
+                                 
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_Signature" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:150px;height:200px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                           
+                            <table style="display:none" id="tblpreviewSchemecert">
+                                <tr>
+                                    <td>
+                                        <label>Front page of the pass book under SASPFUW/ Identity Card issued to the construction worker/ Identity Card issued to the transport worker</label> <label id="lblschemeCert"> </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_SchemeCert" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:500px;height:500px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Aadhar Card :</label> <label id="lblpreAno"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_adharnoproof" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:500px;height:500px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Bank Passbook :</label> <label id="lblpreBanAccNo"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_bnkpassbk" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:500px;height:500px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>ID Proof</label> <label id="lblpreepicNo"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_bnkpassbkidproof" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:500px;height:500px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Form 1</label> <label id="lblform"> </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <iframe id="image_upload_preview_form" src="http://placehold.it/100x100" alt="your image" frameborder="0" style="width:500px;height:500px;"></iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".btnpreview").click(function () {
+            var getddlfrstname = $("#ddlfrstname option:selected").text()
+            $("#lblPrefrstname").text(getddlfrstname + " " + $("#FirstName").val())
+            $("#lblPremiddlename").text($("#Middlename").val())
+            $("#lblPrelastname").text($("#lstname").val())
+            var getddlfathrsname = $("#ddlfathrsname option:selected").text()
+            $("#lblprefathrname").text(getddlfathrsname + " " + $("#FatherName").val())
+            $("#lblpredob").text($("#ddlyr").val() + "-" + $("#ddlmnth").val() + "-" + $("#ddlday").val())
+            $("#lblpreage").text($("#age").val())
+            var getgender = $("input[name='bengender']:checked").val()
+            $("#lblpregender").text(getgender)
+            $("#lblpremarital").text($("#maritalid option:selected").text())
+            var getddlhusname = $("#ddlhusname option:selected").text()
+            if ($("#HusbandName").val() == "" || $("#HusbandName").val() == null) {
+                $("#lblprehusname").text("NA")
+            }
+            else {
+                $("#lblprehusname").text(getddlhusname + " " + $("#HusbandName").val())
+            }
+            $("#lblpreemail").text($("#email").val())
+            $("#lblprerelgn").text($("#relgid option:selected").text())
+            $("#lblpresoccat").text($("#socatid option:selected").text())
+            if ($("#Aadharcard").val() == "" || $("#Aadharcard").val() == null) {
+                $("#lblpreAno").text("NA")
+            }
+            else {
+                $("#lblpreAno").text($("#Aadharcard").val())
+            }
+            if ($("#epiccard").val() == "" || $("#epiccard").val() == null) {
+                $("#lblpreepicNo").text("NA")
+            }
+            else {
+                $("#lblpreepicNo").text($("#epiccard").val())
+            }
+            if ($("#BankAccNo").val() == "" || $("#BankAccNo").val() == null) {
+                $("#lblpreBanAccNo").text("NA")
+            }
+            else {
+                $("#lblpreBanAccNo").text($("#BankAccNo").val())
+            }
+            var BplStatus = $("input[name='bplstatus']:checked").val()
+            var getBplStatus = "YES";
+            if (BplStatus == "NO")
+                getBplStatus = "NO";
+            $("#lblprebolst").text(getBplStatus)
+            if ($("#bplno").val() == "" || $("#bplno").val() == null) {
+                $("#lblprebplno").text("NA")
+            }
+            else {
+                $("#lblprebplno").text($("#bplno").val())
+            }
+            $("#lblpremobno").text($("#mobno").val())
+            //Preminent Address
+            $("#lblprevPerDist").text($("#perdistid option:selected").text())
+            $("#lblprevPerSubDiv").text($("#persubdivid option:selected").text())
+            $("#lblprevPerBMC").text($("#peraddBMC option:selected").text())
+            $("#lblprevPerMunc").text($("#peraddblock option:selected").text())
+            $("#lblprevPerPs").text($("#perpsid option:selected").text())
+            $("#lblprevPerPo").text($("#perPOid option:selected").text())
+            $("#lblprevPerPinCode").text($("#pincode").val())
+            $("#lblprevPerGp").text($("#ward option:selected").text())
+            $("#lblprevPerVillage").text($("#vlge1").val())
+            //Present Address
+            $("#lblprevPreDist2").text($("#PreAddrdistid option:selected").text())
+            $("#lblprevPreSubDiv2").text($("#preAddrsubdiv option:selected").text())
+            $("#lblprevPreBMC2").text($("#preaddBMC option:selected").text())
+            $("#lblprevPreMunc2").text($("#preaddBlock option:selected").text())
+            $("#lblprevPrePs2").text($("#preaddPS option:selected").text())
+            $("#lblprevPrePo2").text($("#preaddPO option:selected").text())
+            $("#lblprevPrePinCode2").text($("#pincode2").val())
+            $("#lblprevPreGp2").text($("#ward2 option:selected").text())
+            $("#lblprevPreVillage2").text($("#vlge2").val())
+            var getfamrowCount = $('.tblfamily tr').length;
+            var CheckDependentStatus = $("input[name='dependentdet']:checked").val();
+            if (CheckDependentStatus == "Yes") {
+                $('.Prevtblfamily tbody').empty();
+                for (i = 1; i < getfamrowCount; i++) {
+                    $('.Prevtblfamily').append('<tr><td>' + i + '</td><td>' + $("#FamWRU" + i).val() + '</td><td>' + $("#FamDept" + i).val() + '</td><td>' + $("#DDLFamRel" + i).val() + '</td><td>' + $("#DDLFamGender" + i).val() + '</td><td>' + $("#FamAge" + i).val() + '</td><td>' + $("#AdhNoFam" + i).val() + '</td></tr>')
+                }
+            }
+            var getnamrowCount = $('.tblNaminee tr').length;
+            var Checknomineedet = $("input[name='nomineedet']:checked").val();
+            if (Checknomineedet == "Yes") {
+                $('.PrevtblNaminee tbody').empty();
+                for (i = 1; i < getnamrowCount; i++) {
+                    $('.PrevtblNaminee').append('<tr><td>' + i + '</td><td>' + $("#NamiName" + i).val() + '</td><td>' + $("#DDLNamRel" + i).val() + '</td><td>' + $("#DDLNamGender" + i).val() + '</td><td>' + $("#NamAge" + i).val() + '</td><td>' + $("#SahreAlo" + i).val() + '</td><td>' + $("#Bankname" + i).val() + '</td><td>' + $("#BankActNo" + i).val() + '</td><td>' + $("#BranchName" + i).val() + '</td><td>' + $("#NamIfscCode" + i).val() + '</td></tr>')
+                }
+            }
+            $("#lblpreIA").text($("#issueauth option:selected").text())
+            $("#lblPreauthloc").text($("#authloc").val())
+            $("#lblpreauthName").text($("#authname").val())
+            $("#pfprenum").text($("#esinum").val())
+            $("#ESIprenum").text($("#esi").val())
+            var getpfsta = $("input[name='pfsta']:checked").val()
+            var PfOption = "NA";
+            if (getpfsta == "1")
+                PfOption = "YES";
+            if (getpfsta == "0")
+                PfOption = "NO";
+            $("#lblpreoption").text(PfOption)
+            var getWorkerType = $("input[name='Workertype']:checked").val()
+            $("#lblprevWorkerType").text(getWorkerType)
+            $("#lblprevempoccu").text($("#occu").val())
+            $("#lblprevempselfemp").text($("#selfemp").val())
+            $("#lblprevempestaddr").text($("#estbaddress").val())
+            $("#lblmnthincme").text($("#mnthyincme").val())
+            $("#lblprevbnkdis").text($("#bankdistid option:selected").text())
+            $("#lblprevbnkname").text($("#bankdistid option:selected").text())
+            $("#lblprevbnkactnum").text($("#actnumber").val())
+            $("#lblprevbnkloc").text($("#loc option:selected").text())
+            $("#lblprevbrnchname").text($("#brnch option:selected").text())
+            $("#lblprevbnkifsc").text($("#ifsccode").val())
+            $("#lblprevreason").text($("#txtreason").val())
+            $("#lblprevAddress").text($("#branchaddress").val())
+        });
+    });
+</script>

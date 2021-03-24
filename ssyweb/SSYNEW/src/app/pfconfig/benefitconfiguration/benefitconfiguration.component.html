@@ -1,0 +1,62 @@
+
+<div id="content">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Benefit Conguration</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+
+
+                        <p></p>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Configuration
+                                    </th>
+                                    <th>
+                                        Benefit Name
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let calim of claimConfig">
+                                    <td>
+                                        <a (click)="onEditClick(calim)" title="Edit" class="txt-color-red"><i class="fa fa-edit fa-lg"></i></a>
+                                        <a (click)="onHistoryClick(calim)" title="History" class="txt-color-red"><i class="fa fa-list" style="font-size:larger" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td>{{calim.claimName}}</td>
+                                    <td>{{calim.claimDescription}}</td>
+                                    <td>{{calim.statusName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

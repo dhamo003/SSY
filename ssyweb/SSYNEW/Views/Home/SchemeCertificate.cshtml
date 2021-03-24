@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "SchemeCertificate";
+    Layout = null;
+}
+<link href="~/Content/my_css/SchemeCertificate.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.min.js"></script>
+<div class="page">
+    <div class="container-fluid">
+        <center><h3><b>Form </b></h3></center>
+        <center>(See Clause 7 (1) (e) of SSY (RAR), 2017)</center>
+        <br />
+        <br />
+        <center><h3>Identity Card –Cum-Pass Book for Provident Fund under SSY Unorganized Workers</h3></center>
+    </div>
+    <br />
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Name of Gram Panchayat / Ward No: @ViewBag.Wardno</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Block / Municipality /Municipal Corporation: @ViewBag.Block</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>District: @ViewBag.District</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> 1. Name of Benificiary : @ViewBag.Name</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> 2. Father’s/Husband’s Name : @ViewBag.FatherName</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> 3. Aadhaar No. (If Any) : @ViewBag.Aadharnum</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> 4. Permanent Address: @ViewBag.PermananetAdd </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> 5. Date of Birth: @ViewBag.DOB</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> 6. Date of enrolment in the SSY:</label>
+                </div>
+            </div>
+            @*  <div class="col-md-4">
+                                <div class="form-group">
+                                <label> 7. Date of Maturity on attaining age of 60 Years:</label>
+                                </div>
+                            </div>
+                <div class="col-md-4">
+                                <div class="form-group">
+                                <label> 8. Name & Address of the Nominee(s):</label>
+                                </div>
+                            </div>
+                <div class="col-md-4">
+                                <div class="form-group">
+                                <label> 9. Relationship with the subscriber:</label>
+                                </div>
+                            </div>
+                <div class="col-md-4">
+                                <div class="form-group">
+                                <label> 10. Age of Nominee(s):</label>
+                                </div>
+                            </div>
+                <div class="col-md-4">
+                                <div class="form-group">
+                                <label> 11. Name of Father / Husband of the Nominee:</label>
+                                </div>
+                            </div>
+                <div class="col-md-4">
+                                <div class="form-group">
+                                <label> 12. SSY Account No.:</label>
+                                </div>
+                            </div>*@
+            <br />
+            <br />
+            <div class="row back1">
+
+                <table class="table table-bordered tblnomineedet">
+                    <thead>
+                        <tr style="background: #aeb6bf; color: white; font-size: 14px; font-weight: 700;">
+                            <th style="display:none"></th>
+                            <th>Sno.</th>
+                            <th>Date of Maturity on attaining age of 60 Years</th>
+                            <th>Name & Address of the Nominee(s)</th>
+                            <th>Relationship with the subscriber</th>
+                            <th>Age of Nominee(s)</th>
+                            <th>Name of Father / Husband of the Nominee</th>
+                            <th>SSY Account No.</th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> Signature of the Registering Authority </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> Signature of the Holder </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <label>Subscription Made:</label>
+        </div>
+        <br />
+        <div class="row back1">
+
+            <table class="table table-bordered tblsubcription">
+                <thead>
+                    <tr style="background: #aeb6bf; color: white; font-size: 14px; font-weight: 700;">
+                        <th style="display:none"></th>
+                        <th>MONTH & YEAR FOR WHICH SUBSCRIPTION MADE</th>
+                        <th>DATE OF SUBSCRIPTION COLLECTION</th>
+                        <th>AMOUNT</th>
+                        <th>SIGNATURE OF COLLECTING AGENT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>sdfdf</td>
+                        <td>sdff</td>
+                        <td>wtt</td>
+                        <td>sgsg</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $.get('@Url.Action("GetNamineeDetails", "Registration")', { bensno: 0 }, function (res) {
+         
+        $.each(res, function (i, data) {
+            var rowCount = $('.tblnomineedet tr').length;
+            //$('.tblNaminee').append('<tr><td style="display:none"><label id="namid'+rowCount+'">'+data.BenNomineeSno+'</label> </td><td><label id="NamiSno'+rowCount+'">'+rowCount+' </label> </td><td><label id="NamiName'+rowCount+'">'+data.BenNomineeName+'</label></td><td><label id="DDLNamRel'+rowCount+'">'+data.BenNomineeRelation+'</label></td><td><label id="DDLNamGender'+rowCount+'">'+data.BenNomineeGender+'</label> </td><td><label id="NamAge'+rowCount+'">'+data.BenNomineeAge+'</label></td><td><input id="SahreAlo'+rowCount+'" type="text" name="SahreAlo" tabindex="83" value ='+data.BenNomineeShareAllocation+' class="form-control" maxlength="10" onkeypress="return onlynumber(event,this)"></td><td> <input id="BankActNo'+rowCount+'" value='+data.BenNomineeBankAccNo+' type="text" name="BankActNo" tabindex="84" class="form-control" maxlength="16" onkeypress="return onlynumber(event,this)"></td><td><input id="BranchName'+rowCount+'" value='+data.BenNomineeBankBranch+' type="text" name="BranchName" tabindex="85" style="width: 100px;" class="form-control" maxlength="25" onkeypress="return onlyAlphabets(event,this)"> </td> <td>  <input id="NamIfscCode'+rowCount+'" value='+data.BenNomineeBankIfscCode+' type="text" name="NamIfscCode" tabindex="86" style="width: 85px;" class="form-control" maxlength="11" onkeypress="return IsAlphaNumaric(event)"></td></tr>');
+            alert(data.Dob);
+            $('.tblnomineedet').append('<tr><td style="display:none"><label id="namid' + rowCount + '">' + data.BenNomineeSno + '</label> </td><td><label id="NamiSno' + rowCount + '">' + rowCount + ' </label> </td><td><label id="namdob' + rowCount + '">' + data.Dob + '</label></td><td><label id="NamiName' + rowCount + '">' + data.BenNomineeName + '</label></td><td><label id="DDLNamRel' + rowCount + '">' + data.BenNomineeRelation + '</label></td><td><label id="NamAge' + rowCount + '">' + data.BenNomineeAge + '</label></td><td></td><td></td></tr>');
+        });
+    });
+</script>

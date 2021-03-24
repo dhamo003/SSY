@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "DistrictWiseStatus";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+    //Layout = null;
+}
+
+
+
+
+<style>
+    .dataTables_filter, .dataTables_length {
+        display: none !important;
+    }
+
+
+    thead {
+        background-color: #094c86 !important;
+    }
+
+    th {
+        text-align: center !important;
+        color: white !important;
+    }
+
+    .thtext {
+        text-align: left !important;
+    }
+
+    .thnum {
+        text-align: right !important;
+    }
+
+    body {
+        font-family: Segoe UI !important;
+    }
+</style>
+<script>
+    var fromDate=@Html.Raw(Json.Encode(ViewBag.fromDate));
+    var toDate=@Html.Raw(Json.Encode(ViewBag.toDate));
+</script>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<div class="welcome-bg-inside">
+
+    <div class="row">
+      @*  <center><h1>General Report</h1></center>*@
+
+        <div class="col-md-4" id="divCaptcha">
+            <div class="container-fluid" style="width: 300px;margin-left: 475px;margin-top:50px;">
+                <br />
+                <div>
+                    <img src="/Home/GetCaptchaImage" title="Captcha" style="margin-left: 90px;border:1px solid #3498db" />
+                </div>
+                <br />
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label class="">Captcha : </label>
+
+                        @Html.TextBox("clientCaptcha", null, new { @class = "form-control", name = "clientCaptcha", placeholder = "Write above text exactly", style = "margin-top: -33px;margin-left: 74px;width: 199px;" })
+
+
+                    </div>
+
+
+                    <div style="margin-left:295px;margin-top: -9px">
+
+                        <a class="btn btn-primary" onclick="DistWiseData()">Submit</a>
+
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top:10px;margin-left:120px;">
+                </div>
+
+            </div>
+        </div>
+
+       
+
+        <div class="col-sm-12">
+            <div class=" content-box-inner">
+
+                <div class="embed-responsive embed-responsive-16by9 z-depth-1" id="tbldistrict" style="display:none;">
+                    <iframe id="ifr"  class="embed-responsive-item"  style="height: 101%" allowfullscreen></iframe>
+
+                </div>
+
+                @*<div id="tbldistrict" style="display:none;height:350px;">
+                
+                    <iframe name="ifr" id="ifr" style="width: 103%;height:100%; position: relative; border: none; margin-bottom:5%;margin-left:22px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+
+
+
+                </div>*@
+        </div>
+    </div>
+</div>
+
+    </div>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.DistWiseStatus').DataTable({
+            "bSort": false,
+		});
+
+		$("#divCaptcha").hide();
+		$("#tbldistrict").show();
+		
+		var url = "/SSYIDCard/GeneralReport.aspx";
+
+		$('iframe#ifr').attr('src', url);
+
+    });
+
+
+
+    function DistWiseData() {
+
+        if($("#clientCaptcha").val() == "" || $("#clientCaptcha").val() == null )
+        {
+
+            alert("Please enter captcha");
+            $("#clientCaptcha").focus();
+            return false;
+
+        }
+
+
+        else
+        {
+
+
+
+            $.get('@Url.Action("ValidateCaptcha", "Home")', {Captcha : $("#clientCaptcha").val() }, function (Result) {
+
+
+                if(Result == "999"){
+                    $("#divCaptcha").show();
+                    alert("Sorry, please write exact text as written above.");
+                    $("#clientCaptcha").focus();
+
+                    return false;
+                }
+                else
+                {
+                    $("#tbldistrict").show();
+                    $("#divCaptcha").hide();
+                    var url = "/SSYIDCard/GeneralReport.aspx";
+
+                    $('iframe#ifr').attr('src', url);
+
+                }
+
+
+            });
+
+
+
+
+
+
+        }
+
+
+
+
+
+        // });
+    }
+
+    
+    function DistrictWise()
+    {
+        //alert("DistrictWiseStatus");
+        window.location.href="DistrictWiseStatus";
+    }
+
+
+</script>

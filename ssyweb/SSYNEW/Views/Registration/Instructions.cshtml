@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Instructions";
+    Layout = null;
+}
+
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script>
+    var Id = @Html.Raw(Json.Encode(ViewBag.Id))
+</script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<body>
+
+    <div id="DivEnglish" style="display :none;">
+        <center><h3 style="color:green"><b>Instructions To The Applicants</b></h3></center>
+
+        <ul>
+            <li>Please fill in all the fields for successful submission of information to generate SSIN.</li>
+            <br />
+            <li>While filling up application, you should provide your <b>Mobile Number</b>  <b>and</b> either <b>Aadhar Number or EPIC number</b> to register. You can provide all of them if you already possess such information.</li>
+            <br />
+            <li>
+                <b style="color:MAROON;">User ID and Password : </b> on successful submission of  the form, an SSIN is generated and your user ID and password will be displayed on the screen. You can login to access your personal information in following ways:
+                <ul>
+                    <br />
+                    <li>SSIN  will be your login ID and password will be your date of birth in DDMMYYYY format.</li>
+                    <br />
+                    <b style="margin-left:200px;">Or</b>
+                    <br />
+                    <li>Mobile number will be your login ID and password will be your date of birth in DDMMYYYY format.</li>
+                    <br />
+                    <b style="margin-left:200px;">Or</b>
+                    <br />
+                    <li>aadhar number will be your login id and password will be your date of birth in ddmmyyyy format.</li>
+                    <br />
+                    <b style="margin-left:200px;">Or</b>
+                    <br />
+                    <li>EPIC number will be your login ID and password will be your date of birth in DDMMYYYY format.</li>
+                </ul>
+            </li>
+        </ul>
+        <br />
+        <br />
+        <h4 style=""><font style="font-style:italic;color:PURPLE">If you have any other queries you are requested to contact your local SLO or LWFC office for further guidance and support.</font></h4>
+    </div>
+
+
+    <div id="DivBengali" style="display :none;">
+        <center><h3 style="color:green"><b>আবেদনকারীদের জন্য নির্দেশাবলী</b></h3></center>
+
+        <ul>
+            <li>নথিভূক্ত হতে ও SSIN তৈরির জন্য সমস্ত তথ্য সঠিকভাবে পূরণ করুন।</li>
+            <br />
+            <li>আবেদন করার সময়, আপনার মোবাইল নাম্বার অবশ্যই প্রদান করুন এবং আধার নম্বর অথবা সচিত্র ভোটার পরিচয় পত্রের (EPIC) নম্বর প্রদান করুন। আধার ও সচিত্র ভোটার পরিচয়পত্রের দুটি থাকলে দুটির নম্বরই প্রদান করতে পারেন।</li>
+            <br />
+            <li>
+                <b style="color:MAROON;">ইউজার আইডি এবং পাসওয়ার্ড : </b> সফলভাবে আপনার আবেদন জমা হলে একটি SSIN তৈরী হবে এবং আপনার ইউজার আইডি ও পাসওয়ার্ড পর্দায় প্রদর্শিত হবে। নিম্নলিখিত উপায়ে আপনি লগ ইন করে ব্যক্তিগত তথ্য অ্যাক্সেস করতে পারেন :
+                <ul>
+                    <br />
+                    <li>আপনার SSIN কে লগ ইন আইডি এবং DDMMYYYY বিন্যাসে আপনার জন্মতারিখ কে পাসওয়ার্ড হিসাবে ব্যবহার করতে পারেন</li>
+                    <br />
+                    <b style="margin-left:200px;">অথবা</b>
+                    <br />
+                    <li>আপনার মোবাইল নং কে লগ ইন আইডি এবং DDMMYYYY বিন্যাসে আপনার জন্মতারিখ কে পাসওয়ার্ড হিসাবে ব্যবহার করতে পারেন</li>
+                    <br />
+                    <b style="margin-left:200px;">অথবা</b>
+                    <br />
+                    <li>আপনার আধার নং কে লগ ইন আইডি এবং DDMMYYYY বিন্যাসে আপনার জন্মতারিখ কে পাসওয়ার্ড হিসাবে ব্যবহার করতে পারেন</li>
+                    <br />
+                    <b style="margin-left:200px;">অথবা</b>
+                    <br />
+                    <li>আপনার সচিত্র ভোটার পরিচয়পত্রের নং কে লগ ইন আইডি এবং DDMMYYYY বিন্যাসে আপনার জন্মতারিখ কে পাসওয়ার্ড হিসাবে ব্যবহার করতে পারেন.</li>
+                </ul>
+            </li>
+        </ul>
+        <br />
+        <br />
+        <h4 style=""><font style="font-style:italic;color:PURPLE">এ সংক্রান্ত আরও কিছু জিজ্ঞাস্য থাকলে আপনি আপনার স্থানীয় স্বনিযুক্ত শ্রম সংগঠকের (SLO )সাথে অথবা নিকটবর্তী শ্রমিক কল্যান সহায়তা কেন্দ্রে (LWFC ) যোগাযোগ করতে পারেন।</font></h4>
+    </div>
+
+</body>
+<script>
+    $( document ).ready(function() {
+
+        if(Id == "1")
+        {
+            $("#DivEnglish").show();
+
+            $("#DivBengali").hide();
+        }
+        else
+        {
+            $("#DivEnglish").hide();
+
+            $("#DivBengali").show();
+        }
+    });
+
+</script>
+   

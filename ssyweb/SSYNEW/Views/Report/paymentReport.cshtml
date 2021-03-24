@@ -1,0 +1,197 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "paymentReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+@*For Arrow mark setting*@
+<link href="~/Content/ssy_css/smoothness.jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link href="~/Content/my_css/buttons.dataTables.min.css" rel="stylesheet" />
+@*For Arrow mark setting end*@
+<link href="~/Content/ssy_css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Content/ssy_js/dataTables.buttons.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.jqueryui.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.buttons.min.js"></script>
+<script src="~/Content/ssy_js/buttons.flash.min.js"></script>
+<script src="~/Content/ssy_js/jszip.min.js"></script>
+<script src="~/Content/ssy_js/pdfmake.min.js"></script>
+<script src="~/Content/ssy_js/vfs_fonts.js"></script>
+<script src="~/Content/ssy_js/buttons.html5.min.js"></script>
+<script src="~/Content/ssy_js/buttons.print.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    #fromdate, #todate {
+        /*position:absolute;*/
+        z-index: 1000;
+    }
+    .Dropdwn {
+        width: 238px;
+        height: 33px;
+    }
+    th {
+        font-size: 13px;
+    }
+    td {
+        font-size: 13px;
+    }
+    .dt-buttons a {
+        background: #8BC34A !important;
+    }
+</style>
+<br />
+<br />
+<div class="container-fluid" id="pay">
+    <div class="col-md-4"></div>
+    <div class="col-sm-12" style="margin-left: 273px;">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">From Date</span>
+                    @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">To Date</span>
+                    @Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"><a class="btn btn-primary" onclick="GetRepData()">Submit</a></div>
+    </div>
+    <div class="container-fliud" id="Div1" style="margin-left:38px;">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="display paymntAppl table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Applicant Name</th>
+                            <th>Payment RequestId</th>
+                            <th>ConsumerNo</th>
+                            <th>Scheme</th>
+                            <th>Payment Type</th>
+                            <th>Validity Till</th>
+                            <th>Payment Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Sum</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="loader" style="display:none;">
+        <center>
+            <img class="loading-image" src="~/Content/images/ajax-loader.gif" alt="loading.." style="width:30px;height:30px;">
+        </center>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        getdates()
+        $('.paymntAppl').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+               {
+                   extend: 'excelHtml5',
+                   text: '<i class="fa fa-file-excel-o"></i>',
+                   titleAttr: 'Excel'
+               },
+               {
+                   extend: 'csvHtml5',
+                   text: '<i class="fa fa-file-text-o"></i>',
+                   titleAttr: 'CSV'
+               },
+              {
+                  extend: 'pdfHtml5',
+                  text: '<i class="fa fa-file-pdf-o"></i>',
+                  titleAttr: 'PDF'
+              }
+            ]
+        });
+        $('th').css("background", "#87CEEB");
+        $('th').css("color", "#ffffff");
+    })
+    function GetRepData() {
+        $('.loader').show();
+        $.get('@Url.Action("PaymentRep", "Report")', { Fromdate: $("#fromdate").val(), Todate: $("#todate").val() }, function (result) {
+             
+            var table = $('.paymntAppl').DataTable();
+            table.destroy();
+            $('.paymntAppl tbody').empty();
+            $.each(result, function (i, data) {
+                var num = i + 1;
+                $('.paymntAppl').append('<tr><td>' + data.BenName + '</td><td>' + data.ServiceRequestID + '</td><td>' + data.ConsumerNo + '</td><td>' + data.Scheme + '</td><td>' + data.PaymentType + '</td><td>' + data.ValidTill + '</td><td>' + data.CreatedDate + '</td><td>' + data.BillAmount + '</td></tr>')
+            });
+            $('.loader').hide();
+            $('.paymntAppl').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Excel'
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: 'CSV'
+                },
+               {
+                   extend: 'pdfHtml5',
+                   text: '<i class="fa fa-file-pdf-o"></i>',
+                   titleAttr: 'PDF'
+               }
+                ],
+                "footerCallback": function (row, data, start, end, display) {
+                     
+                    var api = this.api(), data;
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+                    pageTotal = api
+                        .column(7, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    $(api.column(7).footer()).html(
+                         +pageTotal
+                    );
+                }
+            });
+        });
+    }
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2021",
+            autoclose: true
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $("#fromdate,#todate").val(today);
+    }
+</script>

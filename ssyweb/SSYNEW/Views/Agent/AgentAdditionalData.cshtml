@@ -1,0 +1,673 @@
+﻿@{
+    ViewBag.Title = "AgentAdditionalData";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+    var FName = @Html.Raw(Json.Encode(ViewBag.FName))
+    var LName = @Html.Raw(Json.Encode(ViewBag.LName))
+    var MobileNumber = @Html.Raw(Json.Encode(ViewBag.MobileNumber))
+
+    var DistName = @Html.Raw(Json.Encode(ViewBag.DistName))
+    var SubdivName = @Html.Raw(Json.Encode(ViewBag.SubdivName))
+    var LandNumber = @Html.Raw(Json.Encode(ViewBag.LandNumber))
+    var Result = @Html.Raw(Json.Encode(ViewBag.SucessMes))
+
+    var RegType = @Html.Raw(Json.Encode(ViewBag.RegType))
+    var dateDiff = @Html.Raw(Json.Encode(ViewBag.dateDiff))
+    var SubtractDate = @Html.Raw(Json.Encode(ViewBag.SubtractDate))
+    var Location = @Html.Raw(Json.Encode(ViewBag.Location))
+
+
+</script>
+<style>
+    #nav {
+        display: none !important;
+    }
+</style>
+@using (Html.BeginForm("AgentAdditionalData", "Agent", FormMethod.Post, new { id = "signupform", onsubmit = "return FinalSubmit()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container" style="margin-left:-85px;">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Service Provider Details</div>
+            <div class="panel-body" style="overflow-y: scroll; height: 350px">
+                <br />
+                <br />
+                <div id="msg" style="display:none;"> <center><label><b> <font color="red"> Your Application Is Pending </font></b></label></center>    </div>
+                <br />
+                <div class="form-group">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">First Name : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("FrstName", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Last Name : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("LstName", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:50px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Mobile Number : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("MobileNum", "", null, new { @class = "form-control " })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Land Line : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("LandNum", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:100px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">District : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("District", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Sub Division : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("SubDiv", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:150px;">
+
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Location : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("Location", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email"> Gp/Ward : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("GpWard", "", null, new { @class = "form-control ", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group" style="margin-top:200px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Gender : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("Gender", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Male", Value = "Male" },
+                                             new SelectListItem{ Text="Female", Value = "Female" },
+                                              new SelectListItem{ Text="Others", Value = "Others" }
+                                        }, new { @class = "form-control  Dropdwn" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Marital Status <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("MarSt", new List<SelectListItem>
+                                        {
+
+                                             new SelectListItem{ Text="Single", Value = "Single" },
+                                              new SelectListItem{ Text="Married", Value = "Married" },
+                                               new SelectListItem{ Text="Divorced", Value = "Divorced" },
+                                              new SelectListItem{ Text="Others", Value = "Others" },
+                                              new SelectListItem{ Text="Widow", Value = "Widow" }
+                                        }, new { @class = "form-control  Dropdwn" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group" style="margin-top:250px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label id="lblFH">Father Name <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("HFName", "", null, new { @class = "form-control ", onkeypress = "return onlyAlphabets(event,this)" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">DOB <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("Dob", "", null, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group" style="margin-top:300px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Pan Number <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("Pan", "", null, new { @class = "form-control ", onkeydown = "return IsAlphaNumaric(event)", @maxlength = "10", @onchange = "ValidatePan()" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Pan Proof <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            <input type="file" multiple="multiple" name="files[0]" class="form-control" id="PanDoc" tabindex="96" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:350px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Aadhar Number <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            @Html.TextBox("Aadhar", "", null, new { @class = "form-control ", onkeydown = "return IsNumericOnly(event)", @maxlength = "12", @onchange = "ValidateAadhar()" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Aadhar Proof <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            <input type="file" multiple="multiple" name="files[1]" class="form-control" id="AadharDoc" tabindex="96" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:400px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Security Deposit Proof <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            <input type="file" multiple="multiple" name="files[2]" class="form-control" id="DDDoc" tabindex="96" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Photo <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            <input type="file" multiple="multiple" name="files[3]" class="form-control" id="Photoprof" tabindex="96" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:450px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Signature <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" multiple="multiple" name="files[4]" class="form-control" id="signatureproof" tabindex="96" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Bank Name <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("BankName", "", null, new { @class = "form-control", @maxlength = "25", onkeypress = "return onlyAlphabets(event,this)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:500px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Branch Name <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            @Html.TextBox("BrnchName", "", null, new { @class = "form-control ", @maxlength = "25", onkeypress = "return onlyAlphabets(event,this)" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Ifsc Code <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            @Html.TextBox("IfscCode", "", null, new { @class = "form-control ", @maxlength = "11", onkeydown = "return IsAlphaNumaric(event)", @style = "text-transform:uppercase" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:550px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Account Number <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+
+                            @Html.TextBox("ActNumber", "", null, new { @class = "form-control ", onkeydown = "return IsNumericOnly(event)", @maxlength = "16" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group" style="margin-top:600px;">
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">Address <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            <textarea id="Address" name="Address" rows="4" cols="35"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="col-md-2">
+                            <label for="email">PinCode <span style="color: red">*</span> </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("PinCode", "", null, new { @class = "form-control ", onkeydown = "return IsNumericOnly(event)", @maxlength = "6" })
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <a href="/Agent/SkipAdditionalData" class="btn btn-sm card-1 inline btn-info BtnSkip" style="margin-top:80px;display:none;">Skip</a>
+                <button type="submit" id="Save" class="btn btn-sm card-1 inline btn-primary  clearside" style="margin-top:80px;">Submit</button>
+                <br />
+                <br />
+
+                <br />
+
+                @* } *@
+            </div>
+
+        </div>
+
+    </div>
+    <input type="hidden" id="DeptUserId" value="1" name="DeptUserId" />
+}
+<script>
+    $(document).ready(function () {
+
+        if(RegType == "E" && dateDiff <30)
+        {
+            $(".BtnSkip").show();
+        }
+        var message = Result;
+
+        if(message !=""  )
+        {
+            alert(message);
+
+            window.location.href = "/Agent/AgentAdditionalData";
+
+        }
+
+        $("#Dob").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1920:2018",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+
+        $("#Dob").val(today);
+
+        $("#FrstName").val(FName);
+        $("#LstName").val(LName);
+        $("#MobileNum").val(MobileNumber);
+        $("#LandNum").val(LandNumber);
+        $("#District").val(DistName);
+        $("#SubDiv").val(SubdivName);
+       // $("#Location").val(Location);
+
+        var Location = "";
+        $.get('@Url.Action("GetMultipleLoca", "Registration")', { Uid: deptuserid }, function (dat) {
+            $.each(dat, function (i, data) {
+                 
+                Location +=data.Text +",";
+            });
+            $("#Location").val(Location);
+        });
+        var GpWard = "";
+        $.get('@Url.Action("GetMultipleGpWard", "Registration")', { Uid: deptuserid }, function (dat) {
+            $.each(dat, function (i, data) {
+                 
+                GpWard +=data.Text +",";
+            });
+            $("#GpWard").val(GpWard);
+        });
+        $.get('@Url.Action("GetAgentAdditionalDet", "Agent")', { DeptUserID: deptuserid }, function (dat) {
+             
+
+
+            if(dat != "0")
+            {
+
+                $("#Save").hide();
+                $("#msg").show();
+                $("#marqueediv").hide();
+
+                var dbth = dat.Dob.split("-");
+
+                 
+
+                $("#Dob").val(dbth[1]+"-"+dbth[0]+"-"+dbth[2]);
+                $("#Pan").val(dat.PanNumber);
+
+                $("#Aadhar").val(dat.AadharNumber);
+
+                $("#BankName").val(dat.BankName);
+                $("#BrnchName").val(dat.BranchName);
+                $("#IfscCode").val(dat.IfscCode);
+                $("#ActNumber").val(dat.AccountNumber);
+                $("#PinCode").val(dat.Pincode);
+                $("#Address").val(dat.Address);
+                $("#Gender").val(dat.Gender);
+                $("#MarSt").val(dat.Marital);
+                $("#HFName").val(dat.RelName);
+                if(dat.Gender == "Female" && dat.Marital =="Married" )
+                {
+                    $("#lblFH").text("Husband Name *:");
+                }
+
+
+            }
+
+        });
+
+
+    });
+    function onlyAlphabets(e, t) {
+
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+    function IsAlphaNumaric(e) {
+        if ((e.keyCode >= 186 && e.keyCode <= 188) || (e.keyCode == 190) || e.keyCode == 191 ||
+    e.keyCode == 192 || e.keyCode == 109 || (e.keyCode >= 219 && e.keyCode <= 222) || (e.keyCode >= 110 && e.keyCode <= 111) ||
+    (e.keyCode >= 106 && e.keyCode <= 107) || e.keyCode == 59 || e.keyCode == 189 || e.keyCode == 61 || e.keyCode == 173 ||
+    ((e.keyCode >= 48 && e.keyCode <= 57)  && e.shiftKey == true)) {
+            return false;
+        }
+    }
+    function IsNumericOnly(e) {
+        var value = $(e.target).val();
+        var n = value.indexOf(".");
+        if (n > 0) {
+            if ((e.keyCode == 65) || (e.keyCode == 66) || (e.keyCode >= 68 && e.keyCode <= 85) || e.keyCode == 89 || e.keyCode == 87 || e.keyCode == 90 || (e.keyCode == 86 && e.ctrlKey == false) || (e.keyCode == 67 && e.ctrlKey == false) || (e.keyCode == 88 && e.ctrlKey == false) || e.keyCode == 187 || (e.keyCode == 189 && e.shiftKey == true) || e.keyCode == 190 || e.keyCode == 191 || e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 111 || e.keyCode == 189 || e.keyCode == 110 || e.keyCode == 186 || e.keyCode == 188 || (e.keyCode == 61 && e.shiftKey == false) || (e.keyCode == 173 && e.shiftKey == true) || e.keyCode == 192 || (e.keyCode == 191 && e.shiftKey == true) || (e.keyCode >= 219 && e.keyCode <= 222) || e.keyCode == 106 || e.keyCode == 59 || (e.keyCode >= 48 && e.keyCode <= 57 && e.shiftKey == true))
+                return false;
+        } else {
+            if ((e.keyCode == 65) || (e.keyCode == 66) || (e.keyCode >= 68 && e.keyCode <= 85) || e.keyCode == 89 || e.keyCode == 87 || e.keyCode == 90 || (e.keyCode == 86 && e.ctrlKey == false) || (e.keyCode == 67 && e.ctrlKey == false) || (e.keyCode == 88 && e.ctrlKey == false) || e.keyCode == 187 || (e.keyCode == 189 && e.shiftKey == true) || (e.keyCode == 190 && e.shiftKey == true) || e.keyCode == 191 || e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 111 || e.keyCode == 189 || e.keyCode == 186 || e.keyCode == 188 || (e.keyCode == 61 && e.shiftKey == false) || (e.keyCode == 173 && e.shiftKey == true) || e.keyCode == 192 || (e.keyCode == 191 && e.shiftKey == true) || (e.keyCode >= 219 && e.keyCode <= 222) || e.keyCode == 106 || e.keyCode == 59 || (e.keyCode >= 48 && e.keyCode <= 57 && e.shiftKey == true))
+                return false;
+        }
+    }
+    function ValidatePan()
+    {
+        var pan = $("#Pan").val();
+        if(pan.length !=10)
+        {
+            alert("Invalid Pan Number");
+            $("#Pan").focus();
+            $("#Pan").val("");
+            return false;
+        }
+    }
+    function ValidateAadhar()
+    {
+        var Aadhar = $("#Aadhar").val();
+        if(Aadhar.length !=12)
+        {
+            alert("Invalid Aadhar Number");
+            $("#Aadhar").focus();
+            $("#Aadhar").val("");
+            return false;
+        }
+    }
+    function FinalSubmit()
+    {
+
+
+        if($("#HFName").val() =="" ||$("#HFName").val() == null )
+        {
+            var gender = $("#Gender").val();
+            var MarStatus = $("#MarSt").val();
+            if(gender == "Female" && MarStatus == "Married")
+            {
+                alert("Please Enter Husband Name");
+                $("#HFName").focus();
+                return false;
+            }
+            else
+            {
+                alert("Please Enter Father Name");
+                $("#HFName").focus();
+                return false;
+            }
+        }
+        if($("#Dob").val() =="" ||$("#Dob").val() == null )
+        {
+            alert("Please Select Dob");
+            $("#Dob").focus();
+            return false;
+        }
+
+        if($("#Pan").val() =="" ||$("#Pan").val() == null )
+        {
+            alert("Please Enter  Pan Number");
+            $("#Pan").focus();
+            return false;
+        }
+        if($("#PanDoc").val() =="" ||$("#PanDoc").val() == null )
+        {
+            alert("Please Choose  Pan Proof");
+            $("#PanDoc").focus();
+            return false;
+        }
+
+        if($("#Aadhar").val() =="" ||$("#Aadhar").val() == null )
+        {
+            alert("Please Enter  Aadhar Number");
+            $("#Aadhar").focus();
+            return false;
+        }
+
+        if($("#AadharDoc").val() =="" ||$("#AadharDoc").val() == null )
+        {
+            alert("Please Choose  AAadhar Proof");
+            $("#AadharDoc").focus();
+            return false;
+        }
+        if($("#DDDoc").val() =="" ||$("#DDDoc").val() == null )
+        {
+            alert("Please Choose  Security Deposit Proof");
+            $("#DDDoc").focus();
+            return false;
+        }
+        if($("#Photoprof").val() =="" ||$("#Photoprof").val() == null )
+        {
+            alert("Please Choose Photo");
+            $("#Photoprof").focus();
+            return false;
+        }
+
+        if($("#signatureproof").val() =="" ||$("#signatureproof").val() == null )
+        {
+            alert("Please Choose  Signature Proof");
+            $("#signatureproof").focus();
+            return false;
+        }
+
+
+
+        if($("#BankName").val() =="" ||$("#BankName").val() == null )
+        {
+            alert("Please Enter  Bank Name");
+            $("#BankName").focus();
+            return false;
+        }
+        if($("#BrnchName").val() =="" ||$("#BrnchName").val() == null )
+        {
+            alert("Please Enter  Brnch Name");
+            $("#BrnchName").focus();
+            return false;
+        }
+        if($("#IfscCode").val() =="" ||$("#IfscCode").val() == null )
+        {
+            alert("Please Enter  Ifsc Code");
+            $("#IfscCode").focus();
+            return false;
+        }
+        if($("#ActNumber").val() =="" ||$("#ActNumber").val() == null )
+        {
+            alert("Please Enter  Account Number");
+            $("#ActNumber").focus();
+            return false;
+        }
+        if($("#Address").val() =="" ||$("#Address").val() == null )
+        {
+            alert("Please Enter  Address");
+            $("#Address").focus();
+            return false;
+        }
+        if($("#PinCode").val() =="" ||$("#PinCode").val() == null )
+        {
+            alert("Please Enter  PinCode");
+            $("#PinCode").focus();
+            return false;
+        }
+
+
+    }
+    $("#IfscCode").keypress(function() {
+
+        var ifscval = $(this).val();
+        if(ifscval.length == 4)
+        {
+            $(this).val(ifscval+"0");
+            return false;
+        }
+    });
+    $('INPUT[type="file"]').change(function () {
+         
+         
+        if(this.id == "Photoprof" || this.id == "signatureproof")
+        {
+            if (this.files[0].size < 2000000) {
+                var ext = this.value.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                        break;
+                    default:
+                        alert('Please choose only jpg,jpeg or png File');
+                        this.value = '';
+                }
+            }
+            else {
+                alert('Please choose File Size below 2MB');
+                this.value = '';
+            }
+        }
+        else{
+            if (this.files[0].size < 2000000) {
+                var ext = this.value.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'pdf':
+                    case 'JPG':
+                    case 'JPEG':
+                    case 'PNG':
+                    case 'PDF':
+                        break;
+                    default:
+                        alert('Please choose only jpg,jpeg or png,pdf File');
+                        this.value = '';
+                }
+            }
+            else {
+                alert('Please choose File Size below 2MB');
+                this.value = '';
+            }
+        }
+    });
+    $("#Gender").change(function()
+    {
+        $("#MarSt").val("Single")
+        $("#lblFH").text("Father Name *:");
+    });
+    $("#MarSt").change(function()
+    {
+
+        var gender = $("#Gender").val();
+        var Mstatus = $("#MarSt").val();
+        if(gender == "Female" &&Mstatus =="Married" )
+        {
+            $("#lblFH").text("Husband Name *:");
+        }
+        else
+        {
+            $("#lblFH").text("Father Name *:");
+        }
+    })
+    $("#ActNumber").change(function()
+    {
+        var txtlength = $("#ActNumber").val();
+         
+
+        if(txtlength.length > 16 || txtlength.length < 9)
+        {
+            alert("Invalid  Account Number");
+            $("#ActNumber").focus();
+            $("#ActNumber").val("");
+            return false;
+        }
+    })
+</script>

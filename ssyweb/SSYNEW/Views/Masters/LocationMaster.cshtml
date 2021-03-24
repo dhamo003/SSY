@@ -1,0 +1,180 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+    ViewBag.Title = "LocationMaster";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+<style>
+    th {
+        font-size: 13px;
+        color : white;
+        /*background-color:red;*/
+    }
+    td {
+        font-size: 13px;
+    }
+      .dataTables_length
+    {
+        display:none;
+    }
+   
+    .modal-dialog {
+        position: fixed !important;
+        margin-left: -200px !important;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="logo" style="text-align: center;"><h3>Location Master</h3></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">District <span style="color: red">*</span></span>
+                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Sub Division  <span style="color: red">*</span></span>
+                    @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control " })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <a id="GetData" class="btn btn-primary">Submit</a>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <table class="TblLoc  table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="no-sort">S.No</th>
+                        <th class="no-sort">District Name</th>
+                        <th class="no-sort">Sub Division Name</th>
+                        <th class="no-sort">Location Name</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="LocDivModel" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width:643px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="height:70px;">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space" style="width:310px;">
+                                <span class="input-group-addon input-label">Location  Name <span style="color: red">*</span></span>
+                                @Html.TextBox("MstLocName", "", new { @class = "form-control  valid", maxlength = "50", onkeypress = " return IsCharsOnly(event); " })
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div style="display:none">
+                        <label id="MstLocId" style="display:none;"></label>
+                    </div>
+
+                    <a id="UpdateLocation" class="btn btn-success">Update</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var editor;
+        $(document).ready(function () {
+            LoadGrid()
+            $("#UpdateLocation").click(function () {
+                 
+
+                var Name = $("#MstLocName").val();
+                var Id = $("#MstLocId").text();
+                if (Name == "" || Name == null) {
+                    alert("Please Enter Location Name");
+                    return false;
+                }
+                $.get('@Url.Action("updateDistrictName", "Masters")', { id: Id, Name: Name, Type: 'L' }, function (result) {
+                    if(result =="S")
+                    {
+                        alert("Location Name Updated Succesfully");
+                        $('#LocDivModel').modal('toggle')
+                    }
+                    else
+                    {
+                        alert(result);
+                    }
+                });
+            });
+        });
+
+    function EditLoc(id) {
+
+             
+
+            var Dname = $("#lblLName" + id).text();
+            $("#MstLocName").val(Dname);
+            $("#MstLocId").text(id);
+    }
+    function LoadGrid()
+    {
+        $.get('@Url.Action("GetLocationList", "Masters")', { DName: $("#disid option:selected").text(), SName: $("#subdivid option:selected").text() }, function (result) {
+         
+        var table = $('.TblLoc').DataTable();
+        table.destroy();
+        $('.TblLoc tbody').empty();
+        $.each(result, function (i, data) {
+            var num = i + 1;
+            $('.TblLoc').append('<tr><td style="text-align: center !important; ">' + data.BlockSno + '</td><td style="text-align: center !important; ">' + data.DistrictName + '</td><td style="text-align: center !important; ">' + data.SubDivisionName + '</td><td>' + data.BlockName + '</td><td><a href="#" data-toggle="modal" data-target="#LocDivModel"   onClick = "EditLoc(' + data.BlockSno + ');" id=' + data.BlockSno + '><span class="glyphicon glyphicon-pencil" ></span></a><label id="lblLName' + data.BlockSno + '" style="display:none">' + data.BlockName + '</label></td></tr>')
+        });
+        $('.TblLoc').DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['no-sort']
+            }]
+        });
+    });
+    }
+    $('#GetData').click(function () {
+        LoadGrid()
+    });
+
+    $("#disid").change(loadpreSubdiv);
+    function loadpreSubdiv() {
+
+
+        $.get('@Url.Action("GetSubdivisionJSON", "Registration")', { ID: $("#disid").val() }, function (dat) {
+
+            $("#subdivid").find("option").remove();
+            $("#subdivid").append("<option value=" + "0"+ "> " +"ALL" + " </option>");
+            $.each(dat, function (i, data) {
+                 
+                if (data.Value !="0")
+                $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+        });
+
+    }
+    </script>

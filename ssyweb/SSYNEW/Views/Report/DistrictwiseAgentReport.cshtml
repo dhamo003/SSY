@@ -1,0 +1,320 @@
+﻿@model SSY.Models.Reports
+
+@{
+    ViewBag.Title = "DistrictwiseAgentReport";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+@*<link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />*@
+<link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+
+
+<style>
+    #fromdate, #todate {
+        z-index: 1000;
+    }
+  
+    .dropdown-toggle, .dropdown-menu {
+        width: 200px !important;
+    }
+    .dataTables_filter {
+        margin-left: 280px !important;
+    }
+
+    .dataTables_length, .dataTables_filter {
+        display: none !important;
+    }
+    .dropdown-menu {
+        position: absolute;
+        z-index: 9999;
+        max-height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+      thead
+        {
+            background-color : #094c86  !important;
+        }
+        th{
+            text-align: center !important; 
+             color : white !important;
+        }
+</style>
+
+<script>
+  
+    var sendloactions = "";
+    var RepSubDVision ="";
+    var RepLocation ="";
+    var SendSubDiv ="";
+    var ReportDistrics = "";
+
+</script>
+
+<div class="container-fliud" style="height:500px;">
+    <div class="" style="text-align: center"><h4><b>Agent Details</b></h4></div>
+    <br />
+
+    <div class="col-sm-12" style="margin-left: 59px;">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">District</span>
+                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control District", @tabindex = "8" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divsub">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Sub Division</span>
+                    @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control dropdown-menu", @tabindex = "7" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divloc">
+            <div class="form-group">
+                <div class="input-group extra-space">
+                    <span class="input-group-addon input-label">Loc
+                    ation</span>
+                    @Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location dropdown-menu", id = "Location", @tabindex = "8" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"><a class="btn btn-primary" onclick="GetRepData()">Search</a></div>
+    </div>
+    <iframe name="ifr" id="ifr" style="width: 100%;height:100%; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+
+    @*<input type="hidden" id="MultiLoca" value="" name="MultiLoca" />*@
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.TblAgentData').DataTable({
+
+            dom: 'Bfrtip',
+
+            "ordering": false,
+
+            buttons: [
+                {
+                    extend: 'excel',
+
+                    text: 'Download Excel'
+                }
+            ]
+        });
+
+        $("#disid").removeAttr("multiple");
+
+        $("#disid").attr("multiple", "multiple");
+
+        $('#disid').multiselect({
+            columns: 3,
+            placeholder: 'Select Languages',
+            search: true,
+
+            includeSelectAllOption: true
+        })
+
+        $("#disid").multiselect('rebuild');
+
+
+        $('option', $('#disid')).each(function (element) {
+            $(this).removeAttr('selected').prop('selected', false);
+        });
+        $("#disid").multiselect('refresh');
+
+        $("#subdivid").val("-1");
+        $(".Location").val("-1");
+
+        //$("#disid").multiselect('selectAll', true);
+
+        $("#disid").change(loadSubdiv);
+        $("#subdivid").change(loadBlock);
+    });
+
+    function loadSubdiv() {
+
+        var Districtselected = $("#disid option:selected");
+        var Districtmessage="0";
+        Districtselected.each(function () {
+             
+            var res =     $(this).val();
+
+            Districtmessage += ","+$(this).val();
+        });
+
+        $.get('@Url.Action("GetDidsSubdivisionJSON", "Report")', {IDs: Districtmessage }, function (dat) {
+            $("#subdivid").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+
+
+            $("#subdivid").removeAttr("multiple");
+
+            $("#subdivid").attr("multiple", "multiple");
+            $('#subdivid').multiselect({
+                columns:3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#subdivid").multiselect('rebuild');
+
+            $('option', $('#subdivid')).each(function (element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+            $("#subdivid").multiselect('refresh');
+
+        });
+    }
+
+
+    function loadBlock() {
+
+
+        var SubDistrictselected = $("#subdivid option:selected");
+        var SubDistrictmessage="0";
+        SubDistrictselected.each(function () {
+             
+            var res =     $(this).val();
+
+            SubDistrictmessage += ","+$(this).val();
+
+        });
+
+        $.get('@Url.Action("GetblockforSubRepIdsJSON", "Report")', { IDs: SubDistrictmessage }, function (dat) {
+             
+            $("#Location").find("option").remove();
+
+            sendloactions = "";
+            $.each(dat, function (i, data) {
+                 
+                if (data.Value != "0")
+                    $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                sendloactions += data.Value + ",";
+            });
+            $("#Location").attr("multiple", "multiple");
+            $('#Location').multiselect({
+                columns: 3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#Location").multiselect('rebuild');
+
+            $('option', $('#Location')).each(function (element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+            $("#Location").multiselect('refresh');
+        });
+
+    }
+
+    function GetRepData()
+    {
+     
+
+        if ($("#disid").val() == "" || $("#disid").val() == null || $("#disid").val() == "0") {
+            alert("Please Select District");
+            $("#disid").focus();
+            return false;
+        }
+
+        if ($("#subdivid").val() == "" || $("#subdivid").val() == null || $("#subdivid").val() == "-1") {
+            alert("Please Select Subdivision");
+            $("#subdivid").focus();
+            return false;
+        }
+
+        if ($("#Location").val() == "" || $("#Location").val() == null || $("#Location").val() == "-1") {
+            alert("Please Select Location");
+            $("#Location").focus();
+            return false;
+        }
+
+
+
+        var LocationSelected = $("#Location option:selected");
+        var Locationmessage="0";
+        LocationSelected.each(function () {
+             
+            var res =     $(this).val();
+
+            Locationmessage += ","+$(this).val();
+
+        });
+		alert(" Locationmessage = " + Locationmessage);
+        var url = "/SSYIDCard/AgentReport.aspx?loccodes=" + Locationmessage;
+
+
+        $('iframe#ifr').attr('src', url);
+
+        @*$.get('@Url.Action("GetAgentDetails", "Report")', { IDs: Locationmessage }, function (result) {
+            // 
+
+            var table = $('.TblAgentData').DataTable();
+            table.destroy();
+
+            $('.TblAgentData tbody').empty();
+        
+            if (Object.keys(result).length > 0) {
+
+                $.each(result, function (i, data) {
+                                     
+
+                    $('.TblAgentData').append('<tr><td>' + data.Slno + '</td><td>' + data.AgentName + '</td><td>' + data.Designation + '</td><td>' + data.ARN + '</td><td>' + data.Mobileno + '</td><td>' + data.Email_ID + '</td><td>' + data.Address + '</td></tr>')
+
+                });
+
+
+                $('.TblAgentData').DataTable({
+
+                    dom: 'Bfrtip',
+
+                    "ordering": false,
+
+                    buttons: [
+                        {
+                            extend: 'excel',
+
+                            text: 'Download Excel'
+                        }
+                    ]
+                });
+            }
+            else {
+                $('.TblAgentData').DataTable();
+            }
+
+        });*@
+
+    }
+
+    $('#btnPaging').click(function () {
+
+        var val = $('#txtPaging').val();
+        if (val != "" && val != 0) {
+
+            val = val - 1;
+            var table = $('.TblAgentData').DataTable();
+            table.page(parseInt(val)).draw('page');
+        }
+        else {
+            alert('Requested page number not valid');
+            $('#txtPaging').focus();
+        }
+    });
+
+</script>

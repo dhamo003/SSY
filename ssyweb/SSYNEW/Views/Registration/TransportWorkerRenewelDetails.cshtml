@@ -1,0 +1,621 @@
+﻿@{
+    ViewBag.Title = "TransportWorkerRenewelDetails";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" rel="stylesheet">
+<script src="~/Scripts/my_scripts/toaster.js"></script>
+<script src="~/Scripts/my_scripts/Validations.js"></script>
+<script>
+    var userId = @Html.Raw(Json.Encode(ViewBag.userId))
+    var regId = @Html.Raw(Json.Encode(ViewBag.TRegId))
+</script>
+<style>
+    .text-on-pannel {
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        margin-left: 20px;
+        padding: 3px 5px;
+        position: absolute;
+        margin-top: -47px;
+        border: 1px solid #337ab7;
+        border-radius: 8px;
+    }
+
+    .panel {
+        /* for text on pannel */
+        margin-top: 27px !important;
+    }
+
+    .panel-body {
+        padding-top: 30px !important;
+    }
+
+    label {
+        font-weight: bold !important;
+    }
+
+    .primarybtn {
+        width: 114px !important;
+        background-color: #3d7ede !important;
+    }
+
+    .addbtn {
+        width: 114px !important;
+        background-color: blueviolet !important;
+    }
+
+    .lblValue {
+        font-size: smaller !important;
+    }
+
+    .divHistory {
+        /*width: 110px;*/
+        height: 300px;
+        overflow: auto;
+    }
+</style>
+@using (Html.BeginForm("TransportWorkerRenewelDetails", "Registration", FormMethod.Post, new { onsubmit = "return submitForm()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <form role="form">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <h5 class="text-on-pannel text-primary"><strong class="text-uppercase">Payment History</strong></h5>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Date of enrolment under BOCWA scheme
+                                </label>
+                                <input type="text" class="form-control" id="txtDateOfEnrollMent">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Subscription payment and year of payment
+                                </label>
+                                <input type="text" class="form-control" id="txtSubscriptionYear">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+
+
+                        <div class="row col-md-10" style="margin-left:14px;">
+                            <center><h5><b>Renewal History</b></h5></center>
+                            <div class="row divHistory">
+
+                                <table class="table table-bordered tblPaymentHistory" id="tblPaymentHistory">
+                                    <thead>
+                                        <tr style="background:darkcyan;color:white;">
+                                            <th>S.No</th>
+                                            <th>Year</th>
+                                            <th>Month</th>
+                                            <th>Amount</th>
+                                            <th>Date Of Collection</th>
+                                            <th>Receipt Page No</th>
+                                            <th>Receipt Book No</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <select class="form-control ddlyear" id="ddlyear1">
+                                                    <option value="0">Select Year</option>
+                                                    <option value="2000">2000</option>
+                                                    <option value="2001">2001</option>
+                                                    <option value="2002">2002</option>
+                                                    <option value="2003">2003</option>
+                                                    <option value="2004">2004</option>
+                                                    <option value="2005">2005</option>
+                                                    <option value="2006">2006</option>
+                                                    <option value="2007">2007</option>
+                                                    <option value="2008">2008</option>
+                                                    <option value="2009">2009</option>
+                                                    <option value="2010">2010</option>
+                                                    <option value="2011">2011</option>
+                                                    <option value="2012">2012</option>
+                                                    <option value="2013">2013</option>
+                                                    <option value="2014">2014</option>
+                                                    <option value="2015">2015</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2019">2019</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control ddlmnth" id="ddlmnth1">
+                                                    <option value="00">Select Month</option>
+                                                    <option value="01">01</option>
+                                                    <option value="02">02</option>
+                                                    <option value="03">03</option>
+                                                    <option value="04">04</option>
+                                                    <option value="05">05</option>
+                                                    <option value="06">06</option>
+                                                    <option value="07">07</option>
+                                                    <option value="08">08</option>
+                                                    <option value="09">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                            </td>
+                                            <td>  <input type="text" class="form-control" value="30" id="txtAmount1"></td>
+                                            <td>  <input type="text" class="form-control txtCollectionDate" id="txtCollectionDate1"></td>
+                                            <td>  <input type="text" class="form-control txtReceptPagno1" id="txtReceptPagno1"></td>
+                                            <td>  <input type="text" class="form-control txtReceptBookno1" id="txtReceptBookno1"></td>
+                                            <td><button type="button" class="removefambutton" title="Remove this row">X</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>
+                                                <select class="form-control ddlyear" id="ddlyear2">
+                                                    <option value="0">Select Year</option>
+                                                    <option value="2000">2000</option>
+                                                    <option value="2001">2001</option>
+                                                    <option value="2002">2002</option>
+                                                    <option value="2003">2003</option>
+                                                    <option value="2004">2004</option>
+                                                    <option value="2005">2005</option>
+                                                    <option value="2006">2006</option>
+                                                    <option value="2007">2007</option>
+                                                    <option value="2008">2008</option>
+                                                    <option value="2009">2009</option>
+                                                    <option value="2010">2010</option>
+                                                    <option value="2011">2011</option>
+                                                    <option value="2012">2012</option>
+                                                    <option value="2013">2013</option>
+                                                    <option value="2014">2014</option>
+                                                    <option value="2015">2015</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2019">2019</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control ddlmnth" id="ddlmnth2">
+                                                    <option value="00">Select Month</option>
+                                                    <option value="01">01</option>
+                                                    <option value="02">02</option>
+                                                    <option value="03">03</option>
+                                                    <option value="04">04</option>
+                                                    <option value="05">05</option>
+                                                    <option value="06">06</option>
+                                                    <option value="07">07</option>
+                                                    <option value="08">08</option>
+                                                    <option value="09">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" class="form-control" value="30" id="txtAmount2"></td>
+                                            <td>  <input type="text" class="form-control txtCollectionDate1" id="txtCollectionDate2"></td>
+                                            <td>  <input type="text" class="form-control txtReceptPagno2" id="txtReceptPagno2"></td>
+                                            <td>  <input type="text" class="form-control txtReceptBookno2" id="txtReceptBookno2"></td>
+                                            <td><button type="button" class="removefambutton" title="Remove this row">X</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>
+                                                <select class="form-control ddlyear" id="ddlyear3">
+                                                    <option value="0">Select Year</option>
+                                                    <option value="2000">2000</option>
+                                                    <option value="2001">2001</option>
+                                                    <option value="2002">2002</option>
+                                                    <option value="2003">2003</option>
+                                                    <option value="2004">2004</option>
+                                                    <option value="2005">2005</option>
+                                                    <option value="2006">2006</option>
+                                                    <option value="2007">2007</option>
+                                                    <option value="2008">2008</option>
+                                                    <option value="2009">2009</option>
+                                                    <option value="2010">2010</option>
+                                                    <option value="2011">2011</option>
+                                                    <option value="2012">2012</option>
+                                                    <option value="2013">2013</option>
+                                                    <option value="2014">2014</option>
+                                                    <option value="2015">2015</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2019">2019</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control ddlmnth" id="ddlmnth3">
+                                                    <option value="00">Select Month</option>
+                                                    <option value="01">01</option>
+                                                    <option value="02">02</option>
+                                                    <option value="03">03</option>
+                                                    <option value="04">04</option>
+                                                    <option value="05">05</option>
+                                                    <option value="06">06</option>
+                                                    <option value="07">07</option>
+                                                    <option value="08">08</option>
+                                                    <option value="09">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" class="form-control" value="30" id="txtAmount3"></td>
+                                            <td>  <input type="text" class="form-control txtCollectionDate" id="txtCollectionDate3"></td>
+                                            <td>  <input type="text" class="form-control txtReceptPagno3" id="txtReceptPagno3"></td>
+                                            <td>  <input type="text" class="form-control txtReceptBookno3" id="txtReceptBookno3"></td>
+                                            <td><button type="button" class="removefambutton" title="Remove this row">X</button></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row">
+
+                                <center> <a class="btn btn-primary addbtn" onclick="AddPaymentRow()">Add</a></center>
+
+                            </div>
+                            <input type="hidden" id="Bensno1" value="1112121231" name="Bensno" />
+                            <input type="hidden" id="bencollectiondtls" value="1212" name="bencollectiondtls" />
+                            <input type="hidden" id="BenFamdet1" value="12121" name="BenFamdet" />
+                            <input type="hidden" id="BenTranspRenwldet" value="1212" name="BenTranspRenwldet" />
+                            <input type="hidden" id="BenTranspRenwlRowCount" value="0" name="BenTranspRenwlRowCount" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @*<center> <button type="button" class="btn btn-primary primarybtn" onclick="submitForm()">Submit</button></center>*@
+                <center><button type="submit" class="btn btn-primary " tabindex="119">Submit</button></center>
+            </div>
+        </form>
+    </div>
+
+}
+
+
+<script>
+		$(document).ready(function () {
+
+
+			$(".JoinDate,.EndDate,#txtDateOfEnrollMent,.txtCollectionDate,.txtCollectionDate1,.txtCollectionDate2,.txtCollectionDate3").datepicker({
+				dateFormat: "dd-mm-yy",
+				changeYear: true,
+				yearRange: "1960:2019",
+				autoclose: true,
+				maxDate: new Date()
+			})
+			var dat = new Date();
+			var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+			var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+			var today = day + "-" + month + "-" + dat.getFullYear();
+			$(".JoinDate,.EndDate,.txtCollectionDate,.txtCollectionDate1,.txtCollectionDate2,.txtCollectionDate3").val(today);
+
+		});
+
+		//ADD Family Row
+		function AddPaymentRow() {
+			 
+			var rowCount = $('#tblPaymentHistory tr').length;
+
+
+
+			$('#tblPaymentHistory').append('<tr><td>' + rowCount + '</td><td><select class= "form-control ddlyear" id = "ddlyear' + rowCount + '" ><option value="0">Select Year</option><option value = "2000"> 2000</option><option value="2001">2001</option><option value="2002">2002</option><option value="2003">2003</option><option value="2004">2004</option><option value="2005">2005</option><option value="2006">2006</option><option value="2007">2007</option><option value="2008">2008</option><option value="2009">2009</option><option value="2010">2010</option><option value="2011">2011</option><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option></select ></td><td><select class="form-control ddlmnth" id="ddlmnth' + rowCount + '"><option value="00">Select Month</option><option value ="01"> 01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></td><td><input type="text" class="form-control" value="30" id="txtAmount' + rowCount + '"></td><td>  <input type="text" class="form-control txtCollectionDate" id="txtCollectionDate' + rowCount + '"></td><td>  <input type="text" class="form-control txtReceptPagno" id="txtReceptPagno' + rowCount + '"></td><td><input type="text" class="form-control txtReceptBookno" id="txtReceptBookno' + rowCount + '"></td><td><button type="button"   class="removefambutton" title="Remove this row">X</button></td></tr>')
+
+			$("#txtCollectionDate" + rowCount).datepicker({
+				dateFormat: "dd-mm-yy",
+				changeYear: true,
+				yearRange: "1920:2017",
+				autoclose: true,
+				maxDate: new Date()
+			})
+			var dat = new Date();
+			var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+			var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+			var today = day + "-" + month + "-" + dat.getFullYear();
+			$("#txtCollectionDate" + rowCount).val(today);
+			//$('body').on('change', '#txtCollectionDate' + rowCount, function () {
+			//	var dob = $("#txtCollectionDate" + rowCount).val();
+			//	var dateAr = dob.split('-');
+			//	var dateofbirth = dateAr[2] + "/" + dateAr[1] + "/" + dateAr[0];
+			//	var age = calculateAge(dateofbirth);
+			//	$("#NamAge" + rowCount).val(age)
+			//});
+
+			binddatepickerWithid(rowCount);
+		}
+
+		$(document).on('click', 'button.removefambutton', function () { // <-- changes
+			 
+			var famrowCount = $('.tblPaymentHistory tr').length;
+			var $tr = $(this).closest('tr');
+			var myRow = $tr.index();
+			if (myRow == famrowCount - 2) {
+				$(this).closest('tr').remove();
+				return false;
+			}
+			else {
+				alert("Only last row will be deleted");
+				return false;
+			}
+		});
+
+		function binddatepickerWithid1(rowCount) {
+
+
+			for (i = 1950; i < 2020; i++) {
+
+				$("#ddlyear" + rowCount).append("<option value=" + i + "> " + i + " </option>");
+
+
+			}
+
+			$("#ddlmnth" + rowCount).append("<option value=" + "01" + "> " + "January" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "02" + "> " + "February" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "03" + "> " + "March" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "04" + "> " + "April" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "05" + "> " + "May" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "06" + "> " + "June" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "07" + "> " + "July" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "08" + "> " + "August" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "09" + "> " + "September" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "10" + "> " + "October" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "11" + "> " + "November" + " </option>");
+			$("#ddlmnth" + rowCount).append("<option value=" + "12" + "> " + "December" + " </option>");
+
+			$(".JoinDate,.EndDate,#txtDateOfEnrollMent,#txtCollectionDate" + rowCount).datepicker({
+				dateFormat: "dd-mm-yy",
+				changeYear: true,
+				yearRange: "1960:2019",
+				autoclose: true, maxDate: new Date()
+			})
+			var dat = new Date();
+			var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+			var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+			var today = day + "-" + month + "-" + dat.getFullYear();
+			$(".JoinDate,.EndDate").val(today);
+		}
+		//function EditSubmit() {
+
+		//	var namrowCount = $('#tblPaymentHistory tr').length;
+		//	alert("namrowCount =" + namrowCount);
+		//	$("#NamCount").val(namrowCount);
+
+		//	var doc1 = "";
+
+		//	for (i = 1; i < namrowCount; i++) {
+		//		if ($("#ddlyear" + i).val() == "" || $("#ddlyear" + i).val() == null) {
+		//			alert("Please Select Year");
+		//			$("#ddlyear" + i).focus();
+		//			return false;
+		//		}
+		//		if ($("#ddlmnth" + i).val() == "" || $("#ddlmnth" + i).val() == null) {
+		//			alert("Please Select Month");
+		//			$("#ddlmnth" + i).focus();
+		//			return false;
+		//		}
+		//		if ($("#txtAmount" + i).val() == "" || $("#txtAmount" + i).val() == null) {
+		//			alert("Please Enter Amount");
+		//			$("#txtAmount" + i).focus();
+		//			return false;
+		//		}
+		//		if ($("#txtCollectionDate" + i).val() == "" || $("#txtCollectionDate" + i).val() == null) {
+		//			alert("Please Select Collection Date");
+		//			$("#txtCollectionDate" + i).focus();
+		//			return false;
+		//		}
+		//		if ($("#txtReceptPagno" + i).val() == "" || $("#txtReceptPagno" + i).val() == null) {
+		//			alert("Please Enter Receipt Page No");
+		//			$("#txtReceptPagno" + i).focus();
+		//			return false;
+		//		}
+		//		if ($("#txtReceptBookno" + i).val() == "" || $("#txtReceptBookno" + i).val() == null) {
+		//			alert("Please Enter Receipt Book No");
+		//			$("#txtReceptBookno" + i).focus();
+		//			return false;
+		//		}
+
+		//		doc1 += $("#ddlyear" + i).val() + "$";
+		//		doc1 += $("#ddlmnth" + i).val() + "$";
+		//		doc1 += $("#txtAmount" + i).val() + "$";
+		//		doc1 += $("#txtCollectionDate" + i).val() + "$";
+		//		doc1 += $("#txtReceptPagno" + i).val() + "$";
+		//		doc1 += $("#txtReceptBookno" + i).val() + "~";
+
+
+
+		//	}
+		//	alert("doc1 = " + doc1);
+		//	$("#BenConstnamedet").val(doc1);
+		//}
+
+
+		function GetRenewelDetails(regNumber) {
+			$.get('@Url.Action("GetFamilyDetails", "Registration")', { regNumber: regNumber}, function (res) {
+				$('.tblPaymentHistory tbody').empty();
+            if(res =="" || res ==null)
+            {
+                $("input[name=dependentdet]").prop('checked', true);
+                $('.tblfamily').hide();
+                $('.btndepen').hide();
+            }
+            $.each(res, function (i, data) {
+                var rowCount = $('.tblfamily tr').length;
+                $('.tblfamily').append('<tr><td style="display:none"><input id="Familyid'+rowCount+'" type="text" value="'+(data.BenFamilyMemSno)+'"  class="form-control" name="Familyid"></td><td><input id="famid'+rowCount+'" type="text"  class="form-control" value="'+rowCount+'" style="width:39px;" readonly="readonly"></td><td><input id="FamWRU'+rowCount+'" type="text"  class="form-control" value="'+(data.BenFamilySchRegNo)+'" name="famiName"  maxlength = 16 onkeypress = "return IsAlphaNumaric(event,this)"></td><td><input id="FamDept'+rowCount+'" type="text"  class="form-control" value="'+(data.BenDependentName)+'" name="FamDept" style="width:112px;" onkeypress = "return onlyAlphabets(event,this)"></td><td><select id="DDLFamRel'+rowCount+'" value="'+(data.BenDependentRelation)+'" class="form-control" name="DDLFamRel" style="width: 92px;"><option value="Father">Father</option><option value="Mother">Mother</option><option value="Spouse">Spouse</option><option value="Son">Son</option><option value="Daughter">Daughter</option></select></td><td><select id="DDLFamGender'+rowCount+'" class="form-control"  name="DDLGender" style="width: 92px;"><option value="Male">Male</option><option value="Female">Female</option></select></td><td><input id="FamDob'+rowCount+'" type="text"  name="FamDob" class="form-control notranslate Famdob" value="'+data.Dob+'"  style="width:130px;"></td><td><input id="FamAge'+rowCount+'"  class="form-control" type="text" value="'+data.BenFamilyAge+'" name="FamAge" style="width:50px;" onkeypress = "return onlynumber(event,this)" maxlength = 3 readonly="readonly"><td><input id="AdhNoFam'+rowCount+'" type="text" value="'+data.BenFamilyAadhaarNo+'" class="form-control" name="AdhNoFam" maxlength = 12 onkeypress = "return onlynumber(event)" ></td><td><input id="schpassbk'+rowCount+'" type="file" class="form-control" name="files['+(rowCount-1)+']" ></td><td style="display:none;"><label id="lblschemechk'+rowCount+'">0</label></td><td><a class="btn btn-warning" onclick="DeleteFamilyModal('+data.BenFamilyMemSno+')">Delete</a></td><td></td></tr>')
+                $("#FamDob"+rowCount).datepicker({
+                    dateFormat: "dd-mm-yy",
+                    changeYear: true,
+                    yearRange: "1960:2017",
+                    autoclose: true,
+                    maxDate: new Date()
+                })
+                var dat = new Date();
+                var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+                var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+                var today = day + "-" + month + "-" + dat.getFullYear();
+                $("#DDLFamRel"+rowCount).val(data.BenDependentRelation);
+                $("#DDLFamGender"+rowCount).val(data.BenFamilyGender);
+                $('body').on('change', '#FamDob'+rowCount, function () {
+                    var dob = $("#FamDob"+rowCount).val();
+                    var dateAr = dob.split('-');
+                    var dateofbirth = dateAr[2] +"/"+dateAr[1] +"/"+dateAr[0];
+                    var age = calculateAge(dateofbirth);
+                    if($("#DDLFamRel"+rowCount).val() =="Son")
+                    {
+                        if(age >=21)
+                        {
+                            alert("This dependent will be eligible for the Educational benefit only.");
+                            //alert("Son's age to be less than 21");
+                            //return false;
+                        }
+                    }
+                    $("#FamAge"+rowCount).val(age)
+                });
+                $('body').on('change', '#FamWRU'+rowCount, function () {
+                    $.get('@Url.Action("GetBenDetails", "Agent")', { id: $("#FamWRU"+rowCount).val()}, function (dat) {
+                        if(dat == "")
+                        {
+                            alert("No Data Found, Please Enter Data Manually.");
+                            return False;
+                        }
+                        $('#lblschemechk'+rowCount).text("1");
+                        $('#FamDept'+rowCount).val(dat.BenFirstName +' '+ dat.BenMiddleName +' '+ dat.BenLastName);
+                        $('#DDLFamGender'+rowCount).val(dat.BenGender);
+                        $('#FamDob'+rowCount).val(dat.BenDob);
+                        $("#FamAge" +rowCount).val(dat.BenAge);
+                        $("#AdhNoFam"+rowCount).val(dat.AadharCard);
+                        $("#schpassbk"+rowCount).show();
+                    });
+                });
+                $('body').on('change', '#DDLFamGender'+rowCount, function () {
+                    var famrel =  $("#DDLFamRel"+rowCount).val();
+                    var famgen =  $("#DDLFamGender"+rowCount).val();
+                    if(famgen =="Male")
+                    {
+                        if(famrel == "Mother" ||famrel == "Daughter")
+                        {
+                            alert("Invalid Gender");
+                            return false;
+                        }
+                    }
+                    if(famgen =="Female")
+                    {
+                        if(famrel == "Father" ||famrel == "Son")
+                        {
+                            alert("Invalid Gender");
+                            return false;
+                        }
+                    }
+                });
+            });
+        });
+
+		}
+
+		function submitForm() {
+
+			//alert();
+			var namrowCount = $('#tblPaymentHistory tr').length;
+			//alert("namrowCount =" + namrowCount);
+			$("#BenTranspRenwlRowCount").val(namrowCount);
+
+			if ($("#txtDateOfEnrollMent").val() == "" || $("#txtDateOfEnrollMent").val() == null || $("#txtDateOfEnrollMent").val() == 0) {
+
+				ErrorMessage("Please Select Enrollment Date");
+				$("#txtDateOfEnrollMent").focus();
+				return false;
+			}
+			if ($("#txtSubscriptionYear").val() == "" || $("#txtSubscriptionYear").val() == null) {
+
+				ErrorMessage("Please Enter Subscription Year");
+				$("#txtSubscriptionYear").focus();
+				return false;
+			}
+			var doc = "";
+			 
+			var renwlrowCount = $('.tblPaymentHistory tr').length;
+			for (i = 1; i < renwlrowCount; i++) {
+				 
+				if ($("#ddlyear" + i).val() == "" || $("#ddlyear" + i).val() == null || $("#ddlyear" + i).val() == "0") {
+					alert("Please Select Year");
+					$("#ddlyear" + i).focus();
+					return false;
+				}
+				if ($("#ddlmnth" + i).val() == "" || $("#ddlmnth" + i).val() == null || $("#ddlmnth" + i).val() == "00") {
+					alert("Please Select Month");
+					$("#ddlmnth" + i).focus();
+					return false;
+				}
+				if ($("#txtAmount" + i).val() == "" || $("#txtAmount" + i).val() == null || $("#txtAmount" + i).val() == "") {
+					alert("Please Enter Amount");
+					$("#txtAmount" + i).focus();
+					return false;
+				}
+				if ($("#txtAmount" + i).val() < 0) {
+					alert("Please Enter valid Amount");
+					$("#txtAmount" + i).focus();
+					return false;
+				}
+				if ($("#txtCollectionDate" + i).val() == "" || $("#txtCollectionDate" + i).val() == null) {
+					alert("Please Select Collection Date");
+					$("#txtCollectionDate" + i).focus();
+					return false;
+				}
+				if ($("#txtReceptPagno" + i).val() == "" || $("#txtReceptPagno" + i).val() == null) {
+					alert("Please Enter Receipt Page No");
+					$("#txtReceptPagno" + i).focus();
+					return false;
+				}
+				if ($("#txtReceptBookno" + i).val() == "" || $("#txtReceptBookno" + i).val() == null) {
+					alert("Please Enter Receipt Book No");
+					$("#txtReceptBookno" + i).focus();
+					return false;
+				}
+
+				doc += $("#ddlyear" + i).val() + "$";
+				doc += $("#ddlmnth" + i).val() + "$";
+				doc += $("#txtAmount" + i).val() + "$";
+				doc += $("#txtCollectionDate" + i).val() + "$";
+				doc += $("#txtReceptPagno" + i).val() + "$";
+				doc += $("#txtReceptBookno" + i).val() + "~";
+			}
+			doc += "";
+			$("#bencollectiondtls").val(doc);
+
+
+			//var form = $('#additionalInformation')[0];
+			//var data = new FormData(form);
+
+
+
+			//$.ajax({
+			//	url: '/Registration/TransportNewAdditionalDet',
+			//	type: 'post',
+			//	enctype: 'multipart/form-data',
+			//	processData: false,  // Important!
+			//	contentType: false,
+			//	cache: false,
+			//	data: data,
+			//	success: function (Res) {
+			//		alert(Res.Message);
+			//		if (Res.Code == "000") {
+			//			window.location.href = "/Registration/TransportNewAdditionalDet";
+			//		}
+			//	}
+			//});
+		}
+</script>

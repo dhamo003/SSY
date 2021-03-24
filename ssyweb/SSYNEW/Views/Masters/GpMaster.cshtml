@@ -1,0 +1,157 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "GpMaster";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+
+@*<link href="https://cdn.rawgit.com/andreasvirkus/5775d57375a48e2a3e21b3432742e53a/raw/7dcec4727004d7e09cc3260b0a2deef1f0ff75f4/jAlert.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/andreasvirkus/5775d57375a48e2a3e21b3432742e53a/raw/882b0f276df26d2fe575711a4ba96ff99b0b524c/jAlert.js"></script>*@
+
+
+
+<style>
+
+
+</style>
+<center>
+
+    <div class="panel panel-default" style="width:600px;margin-top:100px;">
+        <div class="panel-heading"><font size="4">GP Ward Creation</font></div>
+        <div class="panel-body" style="background-color:#e3f3f5">
+           
+                <div class="row">
+                    <div class="col-md-3">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group extra-space">
+                                    <span class="input-group-addon input-label" style="width:101px;">District</span>
+                                    @Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control", @tabindex = "6" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                <span class="input-group-addon input-label">Sub Division</span>
+                                @Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        
+                            <div class="form-group">
+                                <div class="input-group extra-space">
+                                    <span class="input-group-addon input-label" style="width:101px;">GP Name</span>
+                                    @Html.TextBox("txtName", "", new { @class = "form-control", @maxlength = 50, onkeypress = "return onlyAlphabets(event,this)", @style = "text-transform:uppercase" })
+                                    </div>
+
+                                </div>
+                       
+                    </div>
+                </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-success" id="btnSubmit" style="width:274px;background-color:#009688">Save</a>
+                </div>
+            </div>
+    </div>
+</center>
+
+<script>
+
+
+ 
+    $(document).ready(function () {
+      $("#disid").change(loadSubdiv);
+      function loadSubdiv() {
+          $("#txtName").val("");
+          $.get('@Url.Action("GetSubdivisionJSON", "Login")', { ID: $("#disid").val() }, function (dat) {
+              $("#subdivid").find("option").remove();
+             // $("#subdivid").append("<option value=0>Select</option>");
+              RepSubDVision = "";
+              $.each(dat, function (i, data) {
+                   
+                 // if (data.Value != "0")
+                      $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                  RepSubDVision += data.Value + ",";
+              });
+          });
+      }
+    });
+
+
+    $("#btnSubmit").click(function () {
+        var District = $("#disid").val();
+        var SubDivision = $("#subdivid").val();
+        var Name = $("#txtName").val();
+
+
+        if (District == "0") {
+            
+            alert("Please select district");
+            $("#disid").focus();
+            return false;
+        }
+
+        if (SubDivision == "0") {
+
+            alert("Please select subdivision");
+            $("#subdivid").focus();
+            return false;
+        }
+
+        if (Name.trim() == "" || Name == null) {
+            alert("Please enter GP Name");
+            $("#txtName").focus();
+            return false;
+        }
+        $.get('@Url.Action("SaveGpWard", "Masters")', { District: $("#disid").val(), Subdivision: $("#subdivid").val(), Name: $("#txtName").val().trim().toUpperCase() }, function (Res) {
+
+            if(Res.Code == "000")
+            {
+                alert(Res.Message);
+                window.location.href = "/Masters/GpMaster";
+                return false;
+            }
+            else
+            {
+                alert(Res.Message);
+                return false;
+            }
+
+        });
+    });
+    function onlyAlphabets(e, t) {
+        // ;
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+</script>

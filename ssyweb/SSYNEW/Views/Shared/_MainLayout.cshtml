@@ -1,0 +1,1181 @@
+﻿@{
+
+    var UserType = Convert.ToString(Session["UserType"]);
+    var UserName = Convert.ToString(Session["UserName"]);
+    var checkRegType = Convert.ToString(Session["CheckRegType"]);
+    int ChkAddData = Convert.ToInt16(Session["ChkAddData"]);
+    int DiffDate = Convert.ToInt16(Session["DiffDate"]);
+    //var CheckPassWord = Session["ChangePwd"].ToString();
+    int RoleId = Convert.ToInt16(Session["UserType"]);
+
+    var result = SSY.Data.HomeData.GetMenuList(RoleId).ToList();
+
+
+    int submenuid = 0;
+}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <title> SSY Admin </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/bootstrap.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/font-awesome.min.css")" />
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-production-plugins.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-production.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-skins.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/admin-styles.css")">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/smartadmin-rtl.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/demo.min.css")">
+
+    <link href="@Url.Content("~/Content/ssy_css/dataTables.bootstrap.min.css")" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/ssy_css/custom-div.css")">
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="@Url.Content("~/Content/images/favicon/favicon.ico")" type="image/x-icon">
+    <link rel="icon" href="@Url.Content("~/Content/images/favicon/favicon.ico")" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" )"></script>
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    <style>
+        /*storage alert start*/
+        .memory_alert {
+            border: 1px solid #f95454;
+            display: flex !important;
+            /* margin: 10% auto; */
+            background-color: #fff;
+            width: 100%;
+            margin: 0px;
+            text-align: center;
+        }
+
+            .memory_alert i {
+                width: 50px;
+                height: 52px;
+                text-align: center;
+                line-height: 50px;
+                background-color: #f95454;
+                margin-right: 14px;
+                color: #fff;
+                font-size: 22px;
+            }
+
+            .memory_alert div {
+                color: #3a3a3a;
+                font-weight: 600;
+                flex-grow: 1;
+                padding: 5px 0px 0px 0px;
+            }
+
+                .memory_alert div > p {
+                    margin: 0;
+                    font-size: 11px;
+                    color: #888;
+                }
+
+        .memory_alert_close {
+            flex-grow: unset !important;
+        }
+
+            .memory_alert_close i {
+                margin: 0;
+                font-size: 14px;
+                height: 30px;
+                width: 30px;
+                margin: 6px 7px;
+                line-height: 30px;
+                border-radius: 20px;
+                cursor: pointer;
+            }
+
+        .memory_alert_popup {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999999;
+        }
+        /*storage alert end*/
+    </style>
+</head>
+
+<body class="minified">
+    <header id="header" class="innerbenexi">
+        <div id="logo-group">
+            <span id="logo"> <img src="@Url.Content("~/Content/images/3lionshead-white.png")" alt="SmartAdmin"> </span>
+
+            <!-- END AJAX-DROPDOWN -->
+        </div>
+
+        <div class="logo-cation">
+            <h2 style="font-family: 'Exo', sans-serif;font-weight:bold;">SSY -<span style="">Samajik Suraksha Yojana</span></h2>
+            <h5>Social Security for Unorganised workers</h5>
+        </div>
+
+        <!-- pulled right: nav area -->
+        <!-- pulled right: nav area -->
+        <div class="pull-right head-right">
+            <div class="welcome-dropdown">
+                <button type="button"><i class="fa fa-user"></i>Welcome @Session["BenName"] <span class="caret"></span></button>
+                <ul class="welcome-dropdown-menu">
+                    <li><a href="~/Registration/Edit"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-pencil"></span>Edit Profile</a></li>
+                    <li><a href="~/Login/beniPassWordChange"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-eye-close"></span>Change Password</a></li>
+                    <li><a href="~/Home/Logout"><span style="font-size: 16px;" class="hidden-xs showopacity glyphicon glyphicon-off"></span>Logout</a></li>
+                </ul>
+            </div>
+            <!-- collapse menu button -->
+            @*<div id="hide-menu" class="btn-header pull-right">
+                    <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+                </div>*@
+            <!-- end collapse menu -->
+            <!-- #MOBILE -->
+            <!-- Top menu profile link : this shows only when top menu is active -->
+            <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+                <li class="">
+                    <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
+                        <img src="@Url.Content("~/Content/images/avatars/sunny.png")" alt="John Doe" class="online" />
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> Setting</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="profile.html" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> <u>P</u>rofile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="toggleShortcut"><i class="fa fa-arrow-down"></i> <u>S</u>hortcut</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i> Full <u>S</u>creen</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            @Html.ActionLink("LogOut", "Index", "Home")
+                            <a href="@Url.Action("LogOut", "Home")" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- logout button -->
+            @*<div id="logout" class="btn-header transparent pull-right">
+                    <span> <a href="@Url.Action("LogOut", "Home")" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+                </div>*@
+            <!-- end logout button -->
+            <!-- fullscreen button -->
+            @*<div id="fullscreen" class="btn-header transparent pull-right">
+                    <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+                </div>*@
+            <!-- end fullscreen button -->
+            <!-- multiple lang dropdown : find all flags in the flags page -->
+            @*<ul class="header-dropdown-list hidden-xs">
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li class="active">
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-us" alt="United States"> English (US)</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-fr" alt="France"> Français</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-es" alt="Spanish"> Español</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-de" alt="German"> Deutsch</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-jp" alt="Japan"> 日本語</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-cn" alt="China"> 中文</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-it" alt="Italy"> Italiano</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-pt" alt="Portugal"> Portugal</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-ru" alt="Russia"> Русский язык</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><img src="@Url.Content("~/Content/images/blank.gif")" class="flag flag-kr" alt="Korea"> 한국어</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>*@
+            <!-- end multiple lang -->
+
+        </div>
+        <!-- end pulled right: nav area -->
+
+    </header>
+    <!-- END HEADER -->
+    <!-- Left panel : Navigation area -->
+    <!-- Note: This width of the aside area can be adjusted through LESS variables -->
+    <aside id="left-panel" class="innerbenexi">
+
+        <!-- User info -->
+        @*<div class="login-info">
+                <span>
+                     User image size is adjusted inside CSS, it should stay as it
+                    <img src="@Url.Content("~/Content/images/avatars/sunny.png")" alt="me" class="online" />
+                    <span>
+                        Welcome, @Session["BenName"]
+                    </span>
+                </span>
+            </div>*@
+        <!-- end user info -->
+        <!-- NAVIGATION : This navigation is also responsive-->
+        <nav id="beneficiary" style="display: block;">
+            <ul>
+                <li>
+                    <a>
+                    </a>
+                </li>
+                <li class="active open">
+
+                    <a href="~/Home/Dashboard" title="Dashboard">
+                        <span class="hidden-xs showopacity glyphicon glyphicon-home"></span>
+                        <span class="menu-item-parent">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+
+                    <a href="#" title="Scheme Information">
+                        <span class="hidden-xs showopacity glyphicon glyphicon-link"></span>
+                        <span class="menu-item-parent">Scheme Information</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Procedures">
+                        <span class="hidden-xs showopacity glyphicon glyphicon-link"></span>
+                        <span class="menu-item-parent">Procedures</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="" title="FAQ's'">
+                        <span class="hidden-xs showopacity glyphicon glyphicon-cog"></span>
+                        <span class="menu-item-parent">FAQ's</span>
+                    </a>
+                </li>
+                <li class="top-menu-invisible">
+                    <a href="#">@*<i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i>*@ <span class="menu-item-parent">Master Edit</span><b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a>
+                    <ul>
+                        <li class="">
+                            <a href="/Registration/EditDepNomi" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">Nomi/Dep Edit</span></a>
+                        </li>
+
+                        <li class="">
+                            <a href="/Registration/EditPfDetails" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">PF/ESI Edit</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EditBankDetails" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">Edit Bank Details</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EditBenePersonalDetails" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">Edit Name Details</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EditBeneDOBDetails" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">Edit Dob Details</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EditBeneAddressDetails" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">Edit Address Details</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EditBeneHusbandDetails" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">Edit Husband Name</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EditSlochange" title="Dashboard"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">SLO Change</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EDistrictRegistrationCheck" title="EDistrictRegistrationCheck"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">e-Dist Reg Check</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/EDistrictRenewelDetailsCheck" title="EDistrictRenewelDetailsCheck"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">e-Dist Renewel Update</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/Registration/TransportWorkerRenewel" title="TransportWorkerRenewel"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">e-Dist Scheme Renewel</span></a>
+                        </li>
+                        @*<li class="">
+                                <a href="/Registration/ConstructionExiAdditionalDet" title="ConstructionExiAdditionalDet"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">ConstructionExiAdditionalDet</span></a>
+                            </li>
+                            <li class="">
+                                <a href="/Registration/ConstructionNewAdditionalDet" title="ConstructionNewAdditionalDet"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">ConstructionNewAdditionalDet</span></a>
+                            </li>
+                            <li class="">
+                                <a href="/Registration/TransportExiAdditionalDet" title="TransportExiAdditionalDet"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">TransportExiAdditionalDet</span></a>
+                            </li>
+                            <li class="">
+                                <a href="/Registration/TransportNewAdditionalDet" title="TransportNewAdditionalDet"><i class="hidden-xs showopacity glyphicon glyphicon-edit"></i> <span class="menu-item-parent">TransportNewAdditionalDet</span></a>
+                            </li>*@
+
+                    </ul>
+                </li>
+                <li class="top-menu-invisible">
+                    <a href="#">@*<i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i>*@ <span class="menu-item-parent">Report</span><b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a>
+                    <ul>
+                        <li class="">
+                            <a href="/Report/PfRep" title="Dashboard"><i class=""></i> <span class="menu-item-parent">PF Balance History Report</span></a>
+                        </li>
+
+                        <li class="">
+                            <a href="/Report/paymentReportforBenif" title="Dashboard"><i class=""></i> <span class="menu-item-parent">Payment History Report</span></a>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+                <li class="top-menu-invisible">
+                    <a href="#">@*<i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i>*@ <span class="menu-item-parent">PF Reports</span><b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a>
+                    <ul>
+                        <li class="">
+                            <a href="/ClaimsReport/BeneficiaryPassBookPFDetailsReport1" title="Dashboard"><i class=""></i> <span class="menu-item-parent">Beneficiary PassBook PFDetails Report</span></a>
+                        </li>
+                        <li class="">
+                            <a href="/ClaimsReport/BeneficiaryAnnualStatementReportFormVI" title="Dashboard"><i class=""></i> <span class="menu-item-parent">Annual Statement of PF</span></a>
+                        </li>
+                    </ul>
+                    @*<ul>
+                            <li class="">
+                                <a href="/ClaimsReport/BeneficiaryAnnualStatementReportFormVI" title="Dashboard"><i class=""></i> <span class="menu-item-parent">Annual Statement of PF</span></a>
+                            </li>
+                        </ul>*@
+                </li>
+                <li class="top-menu-invisible">
+                    <a href="#">
+                        @*<i class="fa fa-lg fa-fw fa-table"></i>*@
+                        @*<span class="glyphicon glyphicon-asterisk"></span>*@
+                        <span class="menu-item-parent" title="Dashboard"> <i class="glyphicon glyphicon-asterisk"></i> Claim</span>
+                        <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b>
+                    </a>
+                    <ul>
+                        <li><a href="/Claim/Entry" title="Dashboard"><i class="fa fa-lg fa-fw fa-gear"></i><span class="menu-item-parent">Claim Entry </span></a></li>
+                        <li><a href="/Claim/Claims" title="Dashboard"><i class="fa fa-lg fa-fw fa-gear"></i><span class="menu-item-parent">Claim Status </span></a></li>
+                        <li><a href="/Claim/DraftClaims" title="Dashboard"><i class="fa fa-lg fa-fw fa-gear"></i><span class="menu-item-parent">Draft Claims </span></a></li>
+                        @*<li><a href="/Claim/ReferralClaims" title="Dashboard"><i class="fa fa-lg fa-fw fa-gear"></i><span class="menu-item-parent">Refer Claims </span></a></li>*@
+                    </ul>
+
+                </li>
+                <li class="top-menu-invisible">
+                    <a href="#">
+                        @*<i class="fa fa-lg fa-fw fa-table"></i>*@
+                        <span class="menu-item-parent" title="Dashboard"><i class="glyphicon glyphicon-list-alt"></i> Refer Claim</span>
+                        <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b>
+                    </a>
+                    <ul>
+                        <li><a href="/Claim/ReferralClaims" title="Dashboard"><i class="glyphicon glyphicon-list-alt "></i><span class="menu-item-parent">Refer Claims </span></a></li>
+                    </ul>
+
+                </li>
+                <li class="top-menu-invisible">
+                    <a href="#">
+                        <span class="menu-item-parent" title="Dashboard"><i class="glyphicon glyphicon-list-alt"></i> Legacy Claims</span>
+                        <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b>
+                    </a>
+                    <ul>
+                        <li><a href="/Claim/legacyclaimentry" title="Dashboard"><i class="glyphicon glyphicon-list-alt "></i><span class="menu-item-parent"> Legacy Claim Entry </span></a></li>
+                        <li><a href="/Claim/legacylist" title="Dashboard"><i class="glyphicon glyphicon-list-alt "></i><span class="menu-item-parent"> Legacy Claim Status </span></a></li>
+                    </ul>
+
+                </li>
+                @*pf left menu*@
+                <li class="top-menu-invisible">
+                    <a href="#">
+                        <span class="menu-item-parent" title="Dashboard"><i class="glyphicon glyphicon-list-alt"></i> PF</span>
+                        <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b>
+                    </a>
+                    <ul>
+                        <li><a href="/Claim/benpfdetails" title="Dashboard"><i class="glyphicon glyphicon-list-altr"></i><span class="menu-item-parent">PF Summary </span></a></li>
+                    </ul>
+
+                </li>
+            </ul>
+        </nav>
+
+
+        <span class="minifyme" data-action="minifyMenu">
+            <i class="fa fa-arrow-circle-left hit"></i>
+        </span>
+
+    </aside>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+
+
+    @*storage alert Start*@
+    <div class="memory_alert_popup" style="display:none;" >
+        <div class="memory_alert" style="display: none;">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            <div>
+                Storage Almost Full
+                <p>Storage full please add storage and try again </p>
+            </div>
+            @*<div class="memory_alert_close" id="Storage_alert_close"><i class="fa fa-times" aria-hidden="true"></i></div>*@
+        </div>
+    </div>
+    @*storage alert End*@
+
+
+    <!-- END NAVIGATION -->
+    <!-- MAIN PANEL -->
+    <div id="main" role="main">
+
+        <!-- RIBBON -->
+        <div id="ribbon" class="innerbenexi">
+
+            <span class="ribbon-button-alignment">
+                <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+                    <i class="fa fa-refresh"></i>
+                </span>
+            </span>
+
+            <!-- breadcrumb -->
+            @*<ol class="breadcrumb">
+                    <li>@Request.Url.LocalPath.TrimStart('/')</li>
+                </ol>*@
+            <ol class="breadcrumb text-right">
+
+                <li><b>SSIN NO:</b> @Session["SSIN"].ToString()</li>
+                <li><b>Worker Type:</b> @Session["BenOccupation"].ToString() </li>
+
+            </ol>
+        </div>
+
+        <div id="content">
+            @RenderBody()
+        </div>
+
+    </div>
+    <!-- END MAIN PANEL -->
+    <!-- PAGE FOOTER -->
+    <div class="page-footer innerbenexi">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <span class="txt-color-white">Copy right for Labour Department, Govt. of West Bengal</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 text-right hidden-xs">
+                <div class="txt-color-white inline-block">
+                    <i class="txt-color-blueLight hidden-mobile">Developed by  <a target="_blank" href="#" class="text-white">Webel Technology Limited</a></i>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE FOOTER -->
+    <!-- SHORTCUT AREA : With large tiles (activated via clicking user name tag)
+    Note: These tiles are completely responsive,
+    you can add as many as you like
+    -->
+    <div id="shortcut">
+        <ul>
+            <li>
+                <a href="inbox.html" class="jarvismetro-tile big-cubes bg-color-blue"> <span class="iconbox"> <i class="fa fa-envelope fa-4x"></i> <span>Mail <span class="label pull-right bg-color-darken">14</span></span> </span> </a>
+            </li>
+            <li>
+                <a href="calendar.html" class="jarvismetro-tile big-cubes bg-color-orangeDark"> <span class="iconbox"> <i class="fa fa-calendar fa-4x"></i> <span>Calendar</span> </span> </a>
+            </li>
+            <li>
+                <a href="gmap-xml.html" class="jarvismetro-tile big-cubes bg-color-purple"> <span class="iconbox"> <i class="fa fa-map-marker fa-4x"></i> <span>Maps</span> </span> </a>
+            </li>
+            <li>
+                <a href="invoice.html" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-book fa-4x"></i> <span>Invoice <span class="label pull-right bg-color-darken">99</span></span> </span> </a>
+            </li>
+            <li>
+                <a href="gallery.html" class="jarvismetro-tile big-cubes bg-color-greenLight"> <span class="iconbox"> <i class="fa fa-picture-o fa-4x"></i> <span>Gallery </span> </span> </a>
+            </li>
+            <li>
+                <a href="profile.html" class="jarvismetro-tile big-cubes selected bg-color-pinkDark"> <span class="iconbox"> <i class="fa fa-user fa-4x"></i> <span>My Profile </span> </span> </a>
+            </li>
+        </ul>
+    </div>
+
+    <script data-pace-options='{ "restartOnRequestAfter": true }' src="@Url.Content("~/Scripts/plugin/pace/pace.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app.config.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/notification/SmartNotification.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/smartwidgets/jarvis.widget.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/sparkline/jquery.sparkline.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/jquery-validate/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/masked-input/jquery.maskedinput.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/select2/select2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/fastclick/fastclick.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/smart-chat-ui/smart.chat.ui.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/smart-chat-ui/smart.chat.manager.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.cust.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.resize.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.time.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/flot/jquery.flot.tooltip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/vectormap/jquery-jvectormap-1.2.2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js")"></script>
+
+    <!-- Full Calendar -->
+    <script src="@Url.Content("~/Scripts/plugin/moment/moment.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugin/fullcalendar/fullcalendar.min.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.0.201604172/pdfobject.js"></script>
+    <script src="@Url.Content("~/Scripts/Common.js")"></script>
+    <script src="@Url.Content("~/Scripts/Convertjs.js")"></script>
+    <script src="@Url.Content("~/Content/jquery-ui.js")"></script>
+    <script src="@Url.Content("~/Scripts/my_scripts/reg-bread.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/DisableEvents.js")"></script>
+
+    <script src="@Url.Content("~/Content/ssy_js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/Content/ssy_js/dataTables.bootstrap.min.js")"></script>
+    <script defer src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")"></script>
+
+
+
+    <script src="@Url.Content("~/Scripts/customjs.js")"></script>
+    <script src="~/Scripts/libs/ceo-ceo-module.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/alc-alc-module.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/inspector-inspector-module.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/dlc-dlc-module.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/tresurer-tresurer-module.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/libs/default~alc-alc-module~claim-claim-module~dlc-dlc-module~inspector-inspector-module.js"></script>*@
+    <script src="~/Scripts/libs/default~alc-alc-module~ceo-ceo-module~claim-claim-module~dlc-dlc-module~inspector-inspector-module~t~fef680f5.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/libs/default~alc-alc-module~claim-claim-module~dlc-dlc-module~inspector-inspector-module.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/libs/claim-claim-module.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/runtime.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/polyfills.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/styles.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/vendor.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // DO NOT REMOVE : GLOBAL FUNCTIONS!
+            pageSetUp();
+
+            /*
+             * PAGE RELATED SCRIPTS
+             */
+
+            $(".js-status-update a").click(function () {
+                var selText = $(this).text();
+                var $this = $(this);
+                $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+                $this.parents('.dropdown-menu').find('li').removeClass('active');
+                $this.parent().addClass('active');
+            });
+
+            /*
+            * TODO: add a way to add more todo's to list
+            */
+
+            // initialize sortable
+            $(function () {
+                $("#sortable1, #sortable2").sortable({
+                    handle: '.handle',
+                    connectWith: ".todo",
+                    update: countTasks
+                }).disableSelection();
+            });
+
+            // check and uncheck
+            $('.todo .checkbox > input[type="checkbox"]').click(function () {
+                var $this = $(this).parent().parent().parent();
+
+                if ($(this).prop('checked')) {
+                    $this.addClass("complete");
+
+                    // remove this if you want to undo a check list once checked
+                    //$(this).attr("disabled", true);
+                    $(this).parent().hide();
+
+                    // once clicked - add class, copy to memory then remove and add to sortable3
+                    $this.slideUp(500, function () {
+                        $this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
+                        $this.remove();
+                        countTasks();
+                    });
+                } else {
+                    // insert undo code here...
+                }
+
+            })
+            // count tasks
+            function countTasks() {
+
+                $('.todo-group-title').each(function () {
+                    var $this = $(this);
+                    $this.find(".num-of-tasks").text($this.next().find("li").size());
+                });
+
+            }
+
+            /*
+            * RUN PAGE GRAPHS
+            */
+
+            /* TAB 1: UPDATING CHART */
+            // For the demo we use generated data, but normally it would be coming from the server
+
+            var data = [], totalPoints = 200, $UpdatingChartColors = $("#updating-chart").css('color');
+
+            function getRandomData() {
+                if (data.length > 0)
+                    data = data.slice(1);
+
+                // do a random walk
+                while (data.length < totalPoints) {
+                    var prev = data.length > 0 ? data[data.length - 1] : 50;
+                    var y = prev + Math.random() * 10 - 5;
+                    if (y < 0)
+                        y = 0;
+                    if (y > 100)
+                        y = 100;
+                    data.push(y);
+                }
+
+                // zip the generated y values with the x values
+                var res = [];
+                for (var i = 0; i < data.length; ++i)
+                    res.push([i, data[i]])
+                return res;
+            }
+
+            // setup control widget
+            var updateInterval = 1500;
+            $("#updating-chart").val(updateInterval).change(function () {
+
+                var v = $(this).val();
+                if (v && !isNaN(+v)) {
+                    updateInterval = +v;
+                    $(this).val("" + updateInterval);
+                }
+
+            });
+
+            // setup plot
+            var options = {
+                yaxis: {
+                    min: 0,
+                    max: 100
+                },
+                xaxis: {
+                    min: 0,
+                    max: 100
+                },
+                colors: [$UpdatingChartColors],
+                series: {
+                    lines: {
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.4
+                            }, {
+                                opacity: 0
+                            }]
+                        },
+                        steps: false
+
+                    }
+                }
+            };
+
+            var plot = $.plot($("#updating-chart"), [getRandomData()], options);
+
+            /* live switch */
+            $('input[type="checkbox"]#start_interval').click(function () {
+                if ($(this).prop('checked')) {
+                    $on = true;
+                    updateInterval = 1500;
+                    update();
+                } else {
+                    clearInterval(updateInterval);
+                    $on = false;
+                }
+            });
+
+            function update() {
+                if ($on == true) {
+                    plot.setData([getRandomData()]);
+                    plot.draw();
+                    setTimeout(update, updateInterval);
+
+                } else {
+                    clearInterval(updateInterval)
+                }
+
+            }
+
+            var $on = false;
+
+            /*end updating chart*/
+
+            /* TAB 2: Social Network  */
+
+            $(function () {
+                // jQuery Flot Chart
+                var twitter = [[1, 27], [2, 34], [3, 51], [4, 48], [5, 55], [6, 65], [7, 61], [8, 70], [9, 65], [10, 75], [11, 57], [12, 59], [13, 62]], facebook = [[1, 25], [2, 31], [3, 45], [4, 37], [5, 38], [6, 40], [7, 47], [8, 55], [9, 43], [10, 50], [11, 47], [12, 39], [13, 47]], data = [{
+                    label: "Twitter",
+                    data: twitter,
+                    lines: {
+                        show: true,
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.1
+                            }, {
+                                opacity: 0.13
+                            }]
+                        }
+                    },
+                    points: {
+                        show: true
+                    }
+                }, {
+                    label: "Facebook",
+                    data: facebook,
+                    lines: {
+                        show: true,
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.1
+                            }, {
+                                opacity: 0.13
+                            }]
+                        }
+                    },
+                    points: {
+                        show: true
+                    }
+                }];
+
+                var options = {
+                    grid: {
+                        hoverable: true
+                    },
+                    colors: ["#568A89", "#3276B1"],
+                    tooltip: true,
+                    tooltipOpts: {
+                        //content : "Value <b>$x</b> Value <span>$y</span>",
+                        defaultTheme: false
+                    },
+                    xaxis: {
+                        ticks: [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4, "APR"], [5, "MAY"], [6, "JUN"], [7, "JUL"], [8, "AUG"], [9, "SEP"], [10, "OCT"], [11, "NOV"], [12, "DEC"], [13, "JAN+1"]]
+                    },
+                    yaxes: {
+
+                    }
+                };
+
+                var plot3 = $.plot($("#statsChart"), data, options);
+            });
+
+            // END TAB 2
+
+            // TAB THREE GRAPH //
+            /* TAB 3: Revenew  */
+
+            $(function () {
+
+                var trgt = [[1354586000000, 153], [1364587000000, 658], [1374588000000, 198], [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080], [1414592000000, 353], [1424593000000, 749], [1434594000000, 523], [1444595000000, 258], [1454596000000, 688], [1464597000000, 364]], prft = [[1354586000000, 53], [1364587000000, 65], [1374588000000, 98], [1384589000000, 83], [1394590000000, 980], [1404591000000, 808], [1414592000000, 720], [1424593000000, 674], [1434594000000, 23], [1444595000000, 79], [1454596000000, 88], [1464597000000, 36]], sgnups = [[1354586000000, 647], [1364587000000, 435], [1374588000000, 784], [1384589000000, 346], [1394590000000, 487], [1404591000000, 463], [1414592000000, 479], [1424593000000, 236], [1434594000000, 843], [1444595000000, 657], [1454596000000, 241], [1464597000000, 341]], toggles = $("#rev-toggles"), target = $("#flotcontainer");
+
+                var data = [{
+                    label: "Target Profit",
+                    data: trgt,
+                    bars: {
+                        show: true,
+                        align: "center",
+                        barWidth: 30 * 30 * 60 * 1000 * 80
+                    }
+                }, {
+                    label: "Actual Profit",
+                    data: prft,
+                    color: '#3276B1',
+                    lines: {
+                        show: true,
+                        lineWidth: 3
+                    },
+                    points: {
+                        show: true
+                    }
+                }, {
+                    label: "Actual Signups",
+                    data: sgnups,
+                    color: '#71843F',
+                    lines: {
+                        show: true,
+                        lineWidth: 1
+                    },
+                    points: {
+                        show: true
+                    }
+                }]
+
+                var options = {
+                    grid: {
+                        hoverable: true
+                    },
+                    tooltip: true,
+                    tooltipOpts: {
+                        //content: '%x - %y',
+                        //dateFormat: '%b %y',
+                        defaultTheme: false
+                    },
+                    xaxis: {
+                        mode: "time"
+                    },
+                    yaxes: {
+                        tickFormatter: function (val, axis) {
+                            return "$" + val;
+                        },
+                        max: 1200
+                    }
+
+                };
+
+                plot2 = null;
+
+                function plotNow() {
+                    var d = [];
+                    toggles.find(':checkbox').each(function () {
+                        if ($(this).is(':checked')) {
+                            d.push(data[$(this).attr("name").substr(4, 1)]);
+                        }
+                    });
+                    if (d.length > 0) {
+                        if (plot2) {
+                            plot2.setData(d);
+                            plot2.draw();
+                        } else {
+                            plot2 = $.plot(target, d, options);
+                        }
+                    }
+
+                };
+
+                toggles.find(':checkbox').on('change', function () {
+                    plotNow();
+                });
+                plotNow()
+
+            });
+
+            /*
+             * VECTOR MAP
+             */
+
+            data_array = {
+                "US": 4977,
+                "AU": 4873,
+                "IN": 3671,
+                "BR": 2476,
+                "TR": 1476,
+                "CN": 146,
+                "CA": 134,
+                "BD": 100
+            };
+
+            $('#vector-map').vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
+                    },
+                    hover: {
+                        "fill-opacity": 1
+                    }
+                },
+                series: {
+                    regions: [{
+                        values: data_array,
+                        scale: ['#85a8b6', '#4d7686'],
+                        normalizeFunction: 'polynomial'
+                    }]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data_array[code] == 'undefined') {
+                        e.preventDefault();
+                    } else {
+                        var countrylbl = data_array[code];
+                        el.html(el.html() + ': ' + countrylbl + ' visits');
+                    }
+                }
+            });
+
+            /*
+             * FULL CALENDAR JS
+             */
+
+            if ($("#calendar").length) {
+                var date = new Date();
+                var d = date.getDate();
+                var m = date.getMonth();
+                var y = date.getFullYear();
+
+                var calendar = $('#calendar').fullCalendar({
+
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
+                    height: "auto",
+
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agenDay' //month, agendaDay,
+                    },
+
+                    select: function (start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: allDay
+                            }, true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },
+
+                    events: [{
+                        title: 'All Day Event',
+                        start: new Date(y, m, 1),
+                        description: 'long description',
+                        className: ["event", "bg-color-greenLight"],
+                        icon: 'fa-check'
+                    }, {
+                        title: 'Long Event',
+                        start: new Date(y, m, d - 5),
+                        end: new Date(y, m, d - 2),
+                        className: ["event", "bg-color-red"],
+                        icon: 'fa-lock'
+                    }, {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d - 3, 16, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-blue"],
+                        icon: 'fa-clock-o'
+                    }, {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d + 4, 16, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-blue"],
+                        icon: 'fa-clock-o'
+                    }, {
+                        title: 'Meeting',
+                        start: new Date(y, m, d, 10, 30),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
+                    }, {
+                        title: 'Lunch',
+                        start: new Date(y, m, d, 12, 0),
+                        end: new Date(y, m, d, 14, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
+                    }, {
+                        title: 'Birthday Party',
+                        start: new Date(y, m, d + 1, 19, 0),
+                        end: new Date(y, m, d + 1, 22, 30),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
+                    }, {
+                        title: 'Smartadmin Open Day',
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        className: ["event", "bg-color-darken"]
+                    }],
+
+
+                    eventRender: function (event, element, icon) {
+                        if (!event.description == "") {
+                            element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
+                        }
+                        if (!event.icon == "") {
+                            element.find('.fc-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
+                        }
+                    }
+                });
+
+            };
+
+            /* hide default buttons */
+            $('.fc-toolbar .fc-right, .fc-toolbar .fc-center').hide();
+
+            // calendar prev
+            $('#calendar-buttons #btn-prev').click(function () {
+                $('.fc-prev-button').click();
+                return false;
+            });
+
+            // calendar next
+            $('#calendar-buttons #btn-next').click(function () {
+                $('.fc-next-button').click();
+                return false;
+            });
+
+            // calendar today
+            $('#calendar-buttons #btn-today').click(function () {
+                $('.fc-button-today').click();
+                return false;
+            });
+
+            // calendar month
+            $('#mt').click(function () {
+                $('#calendar').fullCalendar('changeView', 'month');
+            });
+
+            // calendar agenda week
+            $('#ag').click(function () {
+                $('#calendar').fullCalendar('changeView', 'agendaWeek');
+            });
+
+            // calendar agenda day
+            $('#td').click(function () {
+                $('#calendar').fullCalendar('changeView', 'agendaDay');
+            });
+
+            /*
+             * CHAT
+             */
+
+            $.filter_input = $('#filter-chat-list');
+            $.chat_users_container = $('#chat-container > .chat-list-body')
+            $.chat_users = $('#chat-users')
+            $.chat_list_btn = $('#chat-container > .chat-list-open-close');
+            $.chat_body = $('#chat-body');
+
+            /*
+            * LIST FILTER (CHAT)
+            */
+
+            // custom css expression for a case-insensitive contains()
+            jQuery.expr[':'].Contains = function (a, i, m) {
+                return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+            };
+
+            function listFilter(list) {// header is any element, list is an unordered list
+                // create and add the filter form to the header
+
+                $.filter_input.change(function () {
+                    var filter = $(this).val();
+                    if (filter) {
+                        // this finds all links in a list that contain the input,
+                        // and hide the ones not containing the input while showing the ones that do
+                        $.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
+                        $.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
+                    } else {
+                        $.chat_users.find("li").slideDown();
+                    }
+                    return false;
+                }).keyup(function () {
+                    // fire the above change event after every letter
+                    $(this).change();
+
+                });
+
+            }
+
+            // on dom ready
+            listFilter($.chat_users);
+
+            // open chat list
+            $.chat_list_btn.click(function () {
+                $(this).parent('#chat-container').toggleClass('open');
+            })
+
+            $.chat_body.animate({
+                scrollTop: $.chat_body[0].scrollHeight
+            }, 500);
+
+        });
+
+    </script>
+
+    <!-- Your GOOGLE ANALYTICS CODE Below -->
+    <script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+
+        /* Including the header file */
+        //$(function () {
+        //    $('#includedeHeader').load('admin-header.html');
+        //})
+    </script>
+
+    <script>
+        var typeLog = localStorage.getItem("loginType");
+        if (typeLog == 'beneficiary') {
+            $("#divBenDash").css('display', 'block');
+        }
+        else {
+
+            $("#dashboardMain").css('display', 'block');
+        }
+
+        /* based on user type chnage the menu */
+
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('body').removeClass('desktop-detected');
+            $('#left-panel').mouseover(function () {
+                $('body').removeClass('minified');
+                $('body').addClass('desktop-detected');
+            });
+            $('#left-panel').mouseleave(function () {
+                $('body').removeClass('desktop-detected');
+                $('body').addClass('minified');
+
+            });
+            $('.welcome-dropdown').mouseover(function () {
+                $('.welcome-dropdown-menu').show();
+            });
+            $('.welcome-dropdown').mouseleave(function () {
+                $('.welcome-dropdown-menu').hide();
+            });
+        });
+    </script>
+</body>
+
+</html>

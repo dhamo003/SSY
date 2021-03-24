@@ -1,0 +1,1419 @@
+﻿@model SSY.Models.Reports
+@{
+	ViewBag.Title = "SPAdminRepNew";
+	Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/smoothness.jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link href="~/Content/my_css/buttons.dataTables.min.css" rel="stylesheet" />
+
+<link href="~/Content/ssy_css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/font-awesome.min.css" rel="stylesheet" />
+
+<script src="~/Content/ssy_js/jquery.js"></script>
+
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+<script src="~/Content/ssy_js/dataTables.buttons.min.js"></script>
+
+<script src="~/Content/ssy_js/buttons.flash.min.js"></script>
+<script src="~/Content/ssy_js/jszip.min.js"></script>
+<script src="~/Content/ssy_js/pdfmake.min.js"></script>
+<script src="~/Content/ssy_js/vfs_fonts.js"></script>
+
+<script src="~/Content/ssy_js/buttons.html5.min.js"></script>
+<script src="~/Content/ssy_js/buttons.print.min.js"></script>
+<script src="~/Content/ssy_js/bootstrap-multiselect.js"></script>
+
+<script src="~/Content/ssy_js/jquery.js"></script>
+<link href="~/Content/ssy_css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+    var UserTypeid = @Html.Raw(Json.Encode(ViewBag.usertype))
+    var Deptid = @Html.Raw(Json.Encode(ViewBag.deptid))
+    var RepSubDVision ="";
+    var RepLocation ="";
+    var SendSubDiv ="";
+    var SendLocation ="";
+    var LoadRoles ="";
+    var    path ="";
+    var ValuSend = "";
+    var SelUserid = 0;
+    var Value = "";
+    var disticts = "";
+
+    var GpList = "";
+    var PsList = "";
+    var PoList = "";
+
+
+    var SendGp = "";
+    var SendPs = "";
+    var SendPo = "";
+
+</script>
+<style>
+	#fromdate, #todate {
+		/*position:absolute;*/
+		z-index: 1000;
+	}
+
+	.Dropdwn {
+		width: 185px;
+		height: 33px;
+	}
+
+	th {
+		font-size: 13px;
+	}
+
+	td {
+		font-size: 13px;
+	}
+
+	.dt-buttons a {
+		background: #8BC34A !important;
+	}
+
+	.dropdown-toggle, .dropdown-menu {
+		width: 200px !important;
+	}
+
+	.dropdown-menu {
+		position: absolute;
+		z-index: 9999;
+		max-height: 250px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	#loading-img {
+		/*background : url('/Content/pleasewait.gif') center center no-repeat;*/
+		height: 100%;
+		z-index: 20;
+		width: 100%;
+	}
+
+	#Div1 {
+		width: 1220px !important;
+		height: 500px !important;
+		overflow: scroll;
+		white-space: nowrap;
+		margin-left: 35px;
+	}
+
+	.loader {
+		background: #e9e9e9;
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		opacity: 0.5;
+	}
+
+	.dataTables_filter {
+		display: none;
+	}
+
+	.dataTables_processing {
+		background-color: green !important;
+		color: black !important;
+		border-color: white !important;
+	}
+</style>
+
+
+<div class="loader">
+
+
+	<div id="loading-img">
+		<center><img src="~/Content/pleasewait.gif" /></center>
+		@* background: url(~/Content/pleasewait.gif) center center no-repeat;*@
+
+
+
+	</div>
+
+</div>
+<div class="container-fluid" id="sign">
+	<marquee scrollamount="7"><font color="green" size="3"><b>Report can be viewed for a date range of one month,if date range is more than one month please click on download.</b></font></marquee>
+
+	<div class="logo" style="text-align: center;"><h3><b>Detailed Report</b></h3></div>
+	<div class="col-sm-12">
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">District</span>
+					@Html.DropDownListFor(m => m.disid, new SelectList(Model.district, "Value", "Text"), new { @class = "form-control", @tabindex = "6" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3" id="">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Sub Division</span>
+					@Html.DropDownListFor(m => m.subdivid, new SelectList(Model.subdivision, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3" id="">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Location</span>
+					@Html.DropDownListFor(m => m.muncorp, new SelectList(Model.muncorpname, "Value", "Text"), new { @class = "form-control Location", id = "Location", @tabindex = "8" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3" id="">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">P.S</span>
+
+					@Html.DropDownListFor(m => m.ps, new SelectList(Model.psname, "Value", "Text"), new { @class = "form-control perpsid", id = "perpsid" })
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-3" id="">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">P.O</span>
+					@Html.DropDownListFor(m => m.po, new SelectList(Model.poname, "Value", "Text"), new { @class = "form-control perPOid", id = "perPOid" })
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="col-md-3" id="">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">GP/Ward</span>
+					@Html.DropDownListFor(m => m.ward, new SelectList(Model.wardname, "Value", "Text"), new { @class = "form-control ward", id = "ward" })
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">User Type</span>
+					@Html.DropDownListFor(m => m.Typeid, new SelectList(Model.Type, "Value", "Text"), new { @class = "form-control Location", id = "Typeid", @tabindex = "8" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Role</span>
+					@Html.DropDownListFor(m => m.Roleid, new SelectList(Model.Role, "Value", "Text"), new { @class = "form-control Location", id = "Roleid", @tabindex = "8" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3" id="divRepUserId">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Users</span>
+					@Html.DropDownListFor(m => m.Userid, new SelectList(Model.Users, "Value", "Text"), new { @class = "form-control", id = "Userid", @tabindex = "8" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Worker Type</span>
+					@Html.DropDownList("schemeid", new List<SelectListItem>
+										{
+											 new SelectListItem{ Text="-- Select Worker Type --", Value = "0" },
+											  new SelectListItem{ Text="ALL", Value = "ConstructionWorker,TransportWorker,Others" },
+											new SelectListItem{ Text="Construction Worker", Value = "ConstructionWorker" },
+											 new SelectListItem{ Text="Transport Worker", Value = "TransportWorker" },
+											  new SelectListItem{ Text="Other Worker", Value = "Others" }
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Status</span>
+					@Html.DropDownList("SchemeStatus", new List<SelectListItem>
+										{
+											  new SelectListItem{ Text="ALL", Value = "0,1,2,3" },
+											new SelectListItem{ Text="Approved", Value = "1" },
+											 new SelectListItem{ Text="Pending", Value = "0" },
+											  new SelectListItem{ Text="Rejected", Value = "2" },
+											  new SelectListItem{ Text="SendBack", Value = "3" }
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Form Status</span>
+					@Html.DropDownList("FromStatus", new List<SelectListItem>
+										{
+											  new SelectListItem{ Text="ALL", Value = "Y,N" },
+											new SelectListItem{ Text="Partially filled in", Value = "N" },
+											 new SelectListItem{ Text="Completely filled in", Value = "Y" },
+
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Religion</span>
+					@Html.DropDownListFor(m => m.relgid, new SelectList(Model.religion, "Value", "Text"), new { @class = "form-control " })
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">From Date</span>
+					@Html.TextBoxFor(m => m.fromdate, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">To Date</span>
+					@Html.TextBoxFor(m => m.todate, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<a class="btn btn-primary" onclick="GetRepData()">Submit</a>
+			<a class="btn btn-primary" style="margin-left: 10px;" onclick="GetDwnld()">Download</a>
+
+		</div>
+
+
+	</div>
+
+
+	<div class="input-group" style="align-content:flex-end; width:300px;margin-left:700px;">
+		<input type="Search" placeholder="Enter SSIN Number/Scheme Registration" class="form-control searchval" onkeydown="return IsAlphaNumaric(event)" />
+		<div class="input-group-btn">
+			<button class="btn btn-info getSearchDet" style="background-color:#094c86">
+				<span class="glyphicon glyphicon-search" style="height: 19px;"></span>
+			</button>
+		</div>
+	</div>
+
+
+
+	<div class="container-fluid" id="Div1" style="margin-top : 10px;">
+		<div class="row">
+			<div>
+				<table class="detailedAppl  table-bordered display" cellspacing="0" width="100%">
+					<thead style="background-color:#094c86;color:white;">
+						<tr>
+							<th colspan="16">
+								<center>Benificiary Details</center>
+							</th>
+							<th colspan="7">
+								<center> Address</center>
+							</th>
+							<th colspan="3"></th>
+						</tr>
+						<tr>
+							<th>S.No.</th>
+							<th>SSI Number</th>
+							<th>Worker Type</th>
+							<th>Scheme Registration</th>
+							<th>Date Of Registration</th>
+							<th>Verified Date</th>
+							<th>Name</th>
+							<th>Father's Name</th>
+							<th>Religion</th>
+							<th>Date Of Birth</th>
+							<th>Mobile No</th>
+							<th>PF</th>
+							<th>EPIC Card No</th>
+							<th>Aadhaar Card No</th>
+							<th>Bank A/c No</th>
+							<th>Bank IFS Code</th>
+							<th>District</th>
+							<th>Sub Division</th>
+							<th>Location</th>
+							<th>P.S</th>
+							<th>P.O</th>
+							<th>Gp/Ward</th>
+							<th>Village</th>
+							<th>Status</th>
+							<th>Form Submission Status</th>
+							<th>View</th>
+
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-1 pull-right" style="padding-right:-15px;padding-top:5px; padding-bottom:5px;">
+				<div class="input-group input-group-sm">
+					<input type="text" id="txtPaging" class="form-control" placeholder="Jump to Page..">
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="button" id="btnPaging">Go!</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="BenSno" value="0" name="BenSno" />
+	</div>
+
+	<br />
+	<br />
+
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#Typeid").val("-1");
+        $("#Roleid").val("-1");
+        $("#Userid").val("-1");
+		getdates();
+		
+        var tblheader= "";
+        var users = "";
+        var senduseridrep  = $("#Userid").val();
+        var lengthrep = $('#Userid').children('option').length;
+        if(senduseridrep.length == lengthrep)
+            users = "All";
+        else
+            users = $("#Userid option:selected").text();
+		if (UserTypeid == 1 || UserTypeid == 5 || UserTypeid == 24)
+            tblheader = "District : " +$("#disid option:selected").text()+" , "+" Sub Division : "+$("#subdivid option:selected").text() +" , "+" Location : "+$("#Location option:selected").text() +"\n\n"+ "UserType : " +$("#Typeid option:selected").text()+" , "+ "Role : " +$("#Roleid option:selected").text()+" , "+ "User : " +users+"\n\n"+" Worker Type : "+$("#schemeid option:selected").text()+", Status : "+$("#SchemeStatus option:selected").text()+"\n\n"+" From Date : " + $("#fromdate").val() +" , "+" To Date :" +$("#todate").val();
+        if(UserTypeid == 7 ||UserTypeid == 3 || UserTypeid == 4)
+            tblheader = "District : " +$("#disid option:selected").text()+"\n\n"+ "UserType : " +$("#Typeid option:selected").text()+" , "+ "Role : " +$("#Roleid option:selected").text()+" , "+ "User : " +users +"\n\n"+" Worker Type : "+$("#schemeid option:selected").text()+", Status : "+$("#SchemeStatus option:selected").text()+"\n\n"+" From Date : " + $("#fromdate").val() +"  "+", To Date : " +$("#todate").val();
+        if(UserTypeid == 6)
+            tblheader = "District : " +$("#disid option:selected").text() +" , "+" Sub Division : "+$("#subdivid option:selected").text() +" , "+" Location : "+$("#Location option:selected").text() +"\n\n"+ "UserType : " +$("#Typeid option:selected").text()+" , "+ "Role : " +$("#Roleid option:selected").text()+" , "+ "User : " +users +"\n\n"+" Worker Type : "+$("#schemeid option:selected").text()+", Status : "+$("#SchemeStatus option:selected").text()+"\n\n"+" From Date : " + $("#fromdate").val() +"  "+", To Date : " +$("#todate").val();
+
+
+        $('.detailedAppl').DataTable({
+            //dom: 'Bfrtip',
+            "bSort": false
+        });
+
+     //   $('th').css("background", "#094c86");
+       // $('th').css("color", "white");
+
+        //Asst  Labour Com
+        if(UserTypeid == 6)
+        {
+            $("#disid").attr("disabled", true);
+        }
+
+        // Deputy Labour Com , Additional LC , Joint LC
+        if(UserTypeid == 7 || UserTypeid == 3 || UserTypeid == 4)
+        {
+            $("#divloc").hide();
+            $("#divsub").hide();
+        }
+
+        //Inspector
+        if(UserTypeid == "5")
+        {
+             
+            $.get('@Url.Action("GetMultipleLoca", "Registration")', { Uid: Deptid }, function (dat) {
+                $("#Location").find("option").remove();
+                $("#Location").append("<option value=-1> " + "ALL" + " </option>");
+                RepLocation = "";
+                $.each(dat, function (i, data) {
+                     
+                    $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    RepLocation +=  data.Value +",";
+				});
+				
+				
+            });
+        }
+		
+        //Asst  Labour Com
+        if(UserTypeid == "6")
+        {
+            $.get('@Url.Action("GetMultipleSubDiv", "Registration")', { Uid: Deptid }, function (dat) {
+                $("#subdivid").find("option").remove();
+                $("#subdivid").append("<option value=-1> " + "ALL" + " </option>");
+                RepSubDVision = "";
+                $.each(dat, function (i, data) {
+                     
+                    $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    RepSubDVision +=  data.Value +"," ;
+                });
+                if(UserTypeid == "6")
+                {
+                    GetAlcLocations()
+                }
+            });
+        }
+
+        // Deputy Labour Com , Additional LC , Joint LC
+        if(UserTypeid == "7" || UserTypeid == "3" || UserTypeid == "4")
+        {
+            $.get('@Url.Action("GetMultipleDistricts", "Registration")', { Uid: Deptid}, function (dat) {
+                 
+                 //disticts ="";
+                $("#disid").find("option").remove();
+
+                $("#disid").append("<option value=0> " + "Select District" + " </option>");
+                $.each(dat, function (i, data) {
+                    $("#disid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                   // disticts +=  data.Value +"," ;
+                });
+            });
+        }
+    })
+
+    $(".getSearchDet").click(function () {
+         
+        var value = $(".searchval").val();
+
+        if (value == "" || value == null) {
+            alert("Please Enter SSIN Number/Scheme Registration.");
+            return false;
+        }
+
+        GetRepData()
+    })
+    function GetRepData() {
+         
+
+		if (UserTypeid == 1 || UserTypeid == 2 || UserTypeid == 24)
+        {
+            if ($("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == "" || $("#Location").val() == null) {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ||$("#schemeid").val() == "0" ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+        if (UserTypeid == 5) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == 0 || $("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == 0 || $("#Location").val() == "" || $("#Location").val() == null) {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ||$("#schemeid").val() == "0" ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+        if (UserTypeid == 6) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == 0 || $("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == 0 || $("#Location").val() == "" || $("#Location").val() == null) {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ||$("#schemeid").val() == "0" ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+        if (UserTypeid == 7 || UserTypeid == 3 || UserTypeid == 4) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ||$("#schemeid").val() == "0" ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+   // Date validations
+        var arr1 = $('#fromdate').val().split('-');
+        var arr2 = $('#todate').val().split('-');
+        var startDate = new Date(arr1[1] +"-"+arr1[0] + "-"+arr1[2]);
+        var endDate = new Date(arr2[1] +"-"+arr2[0] + "-"+arr2[2]);
+
+        // alert(endDate - startDate);
+
+        var diffDate = (endDate - startDate)/1000/60/60/24;
+
+        //alert(diffDate);
+
+        if (diffDate > 31 || diffDate < 0){
+
+            alert("Report can be viewed for a date range of one Month");
+
+            return false;
+
+        }
+         
+        var selectedUserid = $("#Userid option:selected").text();
+        var senduserid  = $("#Userid").val();
+        var length = $('#Userid').children('option').length;
+        ValuSend = "";
+        SendSubDiv = "";
+        SendLocation = "";
+        Value = "1";
+        if ($("#subdivid").val() == "0") //if($("#subdivid").val() == "-1")
+        {
+            SendSubDiv =   RepSubDVision;
+        }
+        else
+        {
+            SendSubDiv = $("#subdivid").val();
+        }
+        if ($("#Location").val() == "0")//if($("#Location").val() == "-1")
+        {
+            SendLocation =   RepLocation ;
+        }
+        else
+        {
+            SendLocation = $("#Location").val();
+        }
+        var SelectedUSerid = $("#Userid option:selected");
+
+        if(length == senduserid.length )
+         {
+            Value = 0;
+        }
+
+        SelUserid = 1;
+        SelectedUSerid.each(function () {
+             
+            var res =     $(this).val();
+            ValuSend += $(this).val()+",";
+        });
+
+        $('.detailedAppl tbody').empty();
+
+        var table = $('.detailedAppl').DataTable();
+        table.destroy();
+       $('.detailedAppl tbody').empty();
+
+
+        var senduseridrep  = $("#Userid").val();
+        var lengthrep = $('#Userid').children('option').length;
+        if(senduseridrep.length == lengthrep)
+            users = "All";
+        else
+            users = $("#Userid option:selected").text();
+		if (UserTypeid == 1 || UserTypeid == 5 || UserTypeid == 24)
+            tblheader = "District : " +$("#disid option:selected").text()+" , "+" Sub Division : "+$("#subdivid option:selected").text() +" , "+" Location : "+$("#Location option:selected").text() +"\n\n"+ "UserType : " +$("#Typeid option:selected").text()+" , "+ "Role : " +$("#Roleid option:selected").text()+" , "+ "User : " +users+"\n\n"+" Worker Type : "+$("#schemeid option:selected").text()+", Status : "+$("#SchemeStatus option:selected").text()+"\n\n"+" From Date : " + $("#fromdate").val() +" , "+" To Date :" +$("#todate").val();
+        if(UserTypeid == 7 ||UserTypeid == 3 || UserTypeid == 4)
+            tblheader = "District : " +$("#disid option:selected").text()+"\n\n"+ "UserType : " +$("#Typeid option:selected").text()+" , "+ "Role : " +$("#Roleid option:selected").text()+" , "+ "User : " +users +"\n\n"+" Worker Type : "+$("#schemeid option:selected").text()+", Status : "+$("#SchemeStatus option:selected").text()+"\n\n"+" From Date : " + $("#fromdate").val() +"  "+", To Date : " +$("#todate").val();
+        if(UserTypeid == 6)
+            tblheader = "District : " +$("#disid option:selected").text() +" , "+" Sub Division : "+$("#subdivid option:selected").text() +" , "+" Location : "+$("#Location option:selected").text() +"\n\n"+ "UserType : " +$("#Typeid option:selected").text()+" , "+ "Role : " +$("#Roleid option:selected").text()+" , "+ "User : " +users +"\n\n"+" Worker Type : "+$("#schemeid option:selected").text()+", Status : "+$("#SchemeStatus option:selected").text()+"\n\n"+" From Date : " + $("#fromdate").val() +"  "+", To Date : " +$("#todate").val();
+
+        //Police Station
+        if ($("#perpsid").val() == "0") {//if ($("#perpsid").val() == "-1") {
+            SendPs = PsList;
+        }
+        else {
+            SendPs = $("#perpsid").val();
+        }
+
+
+
+        //PostOffice
+        if ($("#perPOid").val() == "0") {//if ($("#perPOid").val() == "-1") {
+            SendPo = PoList;
+        }
+        else {
+            SendPo = $("#perPOid").val();
+        }
+
+
+        // Gp List
+        if ($("#ward").val() == "0") {//if ($("#ward").val() == "-1") {
+            SendGp = GpList;
+        }
+        else {
+            SendGp = $("#ward").val();
+        }
+
+
+
+        $('.detailedAppl').DataTable({
+
+          //  dom: 'Bfrtip',
+            "bSort": false,
+            "processing": true,
+            "serverSide": true,
+
+            "ajax":{
+                "url": "/Report/DetailedRepNew",
+                "type": "POST",
+                "data": { SelectUserid: ValuSend, Districtid: $("#disid").val(), Subdivid: SendSubDiv, Locid: SendLocation, Fromdate: $("#fromdate").val(), Todate: $("#todate").val(), schemeid: $("#schemeid").val(), SchemeStatus: $("#SchemeStatus").val(), UserCategryid: $("#Typeid").val(), selectusertype: $("#Roleid").val(), userid: SelUserid, SearchValue: $(".searchval").val(), Value: Value, FormStatus: $("#FromStatus").val(), GpList: SendGp, PoList: SendPo, PsList : SendPs, Religion : $("#relgid").val()},
+                "dataType": "JSON"
+            },
+
+            "columns": [
+
+                { "data": "Sno" },
+                 { "data": "SSINNo" },
+                { "data": "WorkerType" },
+                { "data": "SchemeNo" },
+                { "data": "RegDate" },
+                { "data": "VerifyDate" },
+                { "data": "Name" },
+                { "data": "fathername" },
+                { "data": "Religion" },
+                { "data": "DOB" },
+                { "data": "Mobileno" },
+				{ "data": "PFStatus" },
+				{ "data": "EpicCard" },
+				{ "data": "AadharCard" },
+				{ "data": "BenBankAccNo" },
+				{ "data": "BenBankIfscCode" },
+
+                { "data": "DistrictName" },
+                { "data": "SubDivisionName" },
+                { "data": "BlockName" },
+                { "data": "PsName" },
+                { "data": "PoName" },
+                { "data": "GpWard" },
+                { "data": "Village" },
+                { "data": "Status" },
+                { "data": "FormStatus" },
+                { "data": "BenSno",'render': function (data, type, row) {
+                    return '<td><a href="#" data-toggle="modal" data-target=".regpop"  onClick = "Bentrnasclick(' + row.BenSno + ');" '+ '>'  + "View" + '</a></td>';},}],
+
+            "order": [[ 1, 'asc' ]],
+
+
+        });
+
+
+
+    }
+    $("#Dwnpdf").click(function(){
+        $("#loadSymbol").hide();
+        $("#Dwnpdf").hide()
+        $("#genpdf").show();
+        window.location.href = "DownloadDetailedRepExcel/?filename="+path;
+    })
+    @*$('.quickdownload').click(function() {
+         
+        var tablecount = $('.detailedAppl').DataTable();
+        var count = tablecount.data().count();
+        if(count =="0")
+        {
+            alert("No data available in table");
+            return false;
+        }
+        $("#loadSymbol").show();
+        $.get('@Url.Action("DetailedReportDownload", "Report")', {SelectUserid:ValuSend,Districtid:$("#disid").val(),Subdivid:SendSubDiv,Locid:SendLocation,Fromdate: $("#fromdate").val(),Todate: $("#todate").val(),schemeid:$("#schemeid").val(),SchemeStatus:$("#SchemeStatus").val(),UserCategryid:$("#Typeid").val(),selectusertype:$("#Roleid").val(),userid:SelUserid}, function (result) {
+            path= result;
+            $("#loadSymbol").hide();
+            $("#genpdf").hide();
+            $("#Dwnpdf").show()
+        });
+    });*@
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeYear: true,
+            yearRange: "1960:2020",
+            autoclose: true,
+            maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $("#fromdate,#todate").val(today);
+    }
+    //Get Detailed Report
+    //Load Subdivision
+    $("#disid").change(loadSubdiv);
+    function loadSubdiv() {
+
+        $.get('@Url.Action("GetSubdivisionJSONNew", "Login")', { ID: $("#disid").val() }, function (dat) {
+            $("#subdivid").find("option").remove();
+            //$("#subdivid").append("<option value=-1>ALL</option>");
+            $("#subdivid").append("<option value=0>ALL</option>");
+            RepSubDVision = "";
+            $.each(dat, function (i, data) {
+                 
+                if(data.Value !="0")
+                    $("#subdivid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                RepSubDVision +=  data.Value +",";
+            });
+            loadGP();
+
+        });
+        // get blocks
+        $.get('@Url.Action("GetblockforDisRepJSONNew", "Report")', { ID: $("#disid").val() }, function (dat) {
+             
+            $("#Location").find("option").remove();
+            RepLocation = "";
+            $.each(dat, function (i, data) {
+                 
+                $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                RepLocation +=  data.Value +",";
+            });
+        });
+
+        loadPS();
+        loadperPO();
+
+    }
+    //Load Blocks
+    $("#subdivid").change(loadBlock);
+    function loadBlock() {
+         
+        var val = $("#subdivid").val();
+        if(val == "-1")
+        {
+            GetAlcLocations()
+        }
+        else
+        {
+            $.get('@Url.Action("GetblockforSubRepJSONNew", "Report")', { ID: $("#subdivid").val() }, function (dat) {
+                 
+                $("#Location").find("option").remove();
+                //$("#Location").append("<option value=-1>ALL</option>");
+                $("#Location").append("<option value=0>ALL</option>");
+                RepLocation = "";
+                $.each(dat, function (i, data) {
+                     
+                    if(data.Value !="0")
+                        $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    RepLocation +=  data.Value +",";
+                });
+            });
+        }
+
+        loadGP();
+    }
+
+  //  $("#perpsid").change(loadGP);
+
+    //Load Roles
+    $("#Typeid").change(LoadRoles);
+    function LoadRoles()
+    {
+        if($("#Typeid").val() == "3")
+        {
+            $("#Roleid").find("option").remove();
+            $("#Userid").find("option").remove();
+            $("#Roleid,#Userid").append("<option value=15>Beneficiary</option>");
+            $("#Userid").attr("multiple", "multiple");
+            $('#Userid').multiselect({
+                columns:3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+                // selectAll: true
+            })
+            $("#Userid").multiselect('rebuild');
+        }
+        else
+        {
+            LoadRoles = "";
+            $.get('@Url.Action("GetJsonRoles", "Report")', { id: $("#Typeid").val()}, function (dat) {
+                 
+                $("#Roleid").find("option").remove();
+                $.each(dat, function (i, data) {
+                     
+                   // alert(UserTypeid +" "+data.Value);
+
+                    if( UserTypeid == "1")
+                    {
+                        $("#Roleid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                        LoadRoles += data.Value +",";
+                    }
+                    if( UserTypeid == "7" ||UserTypeid =="3" ||UserTypeid =="4")
+                    {
+                        if(data.Value != "1")
+                        {
+                            $("#Roleid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                            LoadRoles += data.Value +",";
+                        }
+
+                    }
+                    if( UserTypeid == "6")
+                    {
+                        if(data.Value != "1" && data.Value != "7" && data.Value != "3" && data.Value != "4" )
+                        {
+                            $("#Roleid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                            LoadRoles += data.Value +",";
+                        }
+
+                    }
+                    if( UserTypeid == "5")
+                    {
+                        if(data.Value != "1" && data.Value != "7" && data.Value != "6" && data.Value != "3" && data.Value != "4")
+                        {
+                            $("#Roleid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                            LoadRoles += data.Value +",";
+                        }
+
+                    }
+                });
+                $("#Roleid").val("-1");
+            });
+        }
+    }
+    //load Users
+    $("#Roleid").change(LoadUsers);
+    function LoadUsers()
+    {
+        var checkids="0";
+        var sendroles = "";
+
+        if(UserTypeid == "7")
+        {
+            checkids =  $("#disid").val();
+        }
+        if(UserTypeid == "6")
+        {
+            checkids =  $("#subdivid").val();
+        }
+        if ($("#subdivid").val() == "0")//if($("#subdivid").val() == "-1")
+        {
+            SendSubDiv =   RepSubDVision;
+        }
+        else
+        {
+            SendSubDiv = $("#subdivid").val();
+        }
+        if ($("#Location").val() == "0")//if($("#Location").val() == "-1")
+        {
+            SendLocation =   RepLocation ;
+        }
+        else
+        {
+            SendLocation = $("#Location").val();
+        }
+        if($("#Roleid").val() != "0" && $("#Roleid").val() != "-1")
+            sendroles = $("#Roleid").val();
+        else
+            sendroles = LoadRoles;
+
+
+
+
+        $.get('@Url.Action("GetJsonUsersNew", "Report")', { Roleids: sendroles, Districtid: $("#disid").val(), Subdivid: SendSubDiv, Locid: SendLocation }, function (dat) {
+             
+            $("#Userid").find("option").remove();
+            $.each(dat, function (i, data) {
+                 
+                if(data.Value !="0" && data.Value !="-1")
+                    $("#Userid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+            });
+            $("#Userid").attr("multiple", "multiple");
+            $('#Userid').multiselect({
+                columns:3,
+                placeholder: 'Select Languages',
+                search: true,
+                includeSelectAllOption: true
+            })
+            $("#Userid").multiselect('rebuild');
+        });
+    }
+    //Load Alc Locations
+    function GetAlcLocations()
+    {
+        $.get('@Url.Action("GetBlocksBySubDivision", "Report")', { ID:RepSubDVision }, function (dat) {
+             
+            $("#Location").find("option").remove();
+            RepLocation = "";
+            $.each(dat, function (i, data) {
+                 
+                $("#Location").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                RepLocation +=  data.Value +",";
+            });
+        });
+    }
+
+    function GetDwnld() {
+		if (UserTypeid == 1 || UserTypeid == 2 || UserTypeid == 24)
+        {
+            if ($("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == "" || $("#Location").val() == null ) {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+        if (UserTypeid == 5) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == 0 || $("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == 0 || $("#Location").val() == "" || $("#Location").val() == null) {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ||$("#schemeid").val() == "0" ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+        if (UserTypeid == 6) {
+            if ($("#disid").val() == 0 || $("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#subdivid").val() == 0 || $("#subdivid").val() == "" || $("#subdivid").val() == null) {
+                alert("Please Select SubDivision");
+                $("#subdivid").focus();
+                return false;
+            }
+            if ($("#Location").val() == 0 || $("#Location").val() == "" || $("#Location").val() == null) {
+                alert("Please Select Location");
+                $("#Location").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ||$("#schemeid").val() == "0" ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+        if (UserTypeid == 7 || UserTypeid == 3 || UserTypeid == 4) {
+            if ($("#disid").val() == "" || $("#disid").val() == null) {
+                alert("Please Select District");
+                $("#disid").focus();
+                return false;
+            }
+            if ($("#Typeid").val() == "" || $("#Typeid").val() == null ||$("#Typeid").val() == "-1" ) {
+                alert("Please Select User Type");
+                $("#Typeid").focus();
+                return false;
+            }
+            if ($("#Roleid").val() == "" || $("#Roleid").val() == null ||$("#Roleid").val() == "-1" ) {
+                alert("Please Select Role");
+                $("#Roleid").focus();
+                return false;
+            }
+            if ($("#Userid").val() == "" || $("#Userid").val() == null ||$("#Userid").val() == "-1" ) {
+                alert("Please Select User");
+                $("#Userid").focus();
+                return false;
+            }
+            if ($("#schemeid").val() == "" || $("#schemeid").val() == null ) {
+                alert("Please Select Worker Type");
+                $("#schemeid").focus();
+                return false;
+            }
+        }
+         
+        var selectedUserid = $("#Userid option:selected").text();
+        var senduserid  = $("#Userid").val();
+        var length = $('#Userid').children('option').length;
+        ValuSend = "";
+        SendSubDiv = "";
+        SendLocation = "";
+        Value = "1";
+
+        if($("#subdivid").val() == "-1")
+        {
+            SendSubDiv =   RepSubDVision;
+        }
+        else
+        {
+            SendSubDiv = $("#subdivid").val();
+        }
+        if($("#Location").val() == "-1")
+        {
+            SendLocation =   RepLocation ;
+        }
+        else
+        {
+            SendLocation = $("#Location").val();
+        }
+        var SelectedUSerid = $("#Userid option:selected");
+
+        SelUserid = 1;
+        SelectedUSerid.each(function () {
+             
+            var res =     $(this).val();
+            ValuSend += $(this).val()+",";
+        });
+
+        if(length == senduserid.length )
+        {
+            Value = 0;
+        }
+
+
+
+        //Police Station
+        if ($("#perpsid").val() == "0") {//if ($("#perpsid").val() == "-1") {
+            SendPs = PsList;
+        }
+        else {
+            SendPs = $("#perpsid").val();
+        }
+
+
+
+        //PostOffice
+        if ($("#perPOid").val() == "0") {//if ($("#perPOid").val() == "-1") {
+            SendPo = PoList;
+        }
+        else {
+            SendPo = $("#perPOid").val();
+        }
+
+
+        // Gp List
+        if ($("#ward").val() == "0") {//if ($("#ward").val() == "-1") {
+            SendGp = GpList;
+        }
+        else {
+            SendGp = $("#ward").val();
+        }
+
+
+        var senduseridrep  = $("#Userid").val();
+        var lengthrep = $('#Userid').children('option').length;
+        if(senduseridrep.length == lengthrep)
+            users = "All";
+        else
+            users = $("#Userid option:selected").text();
+
+        @*$.get('@Url.Action("DownloadDetailReportNew", "Report")', { SelectUserid: ValuSend, Districtid: $("#disid").val(), Subdivid: SendSubDiv, Locid: SendLocation, Fromdate: $("#fromdate").val(), Todate: $("#todate").val(), schemeid: $("#schemeid").val(), SchemeStatus: $("#SchemeStatus").val(), UserCategryid: $("#Typeid").val(), selectusertype: $("#Roleid").val(), userid: SelUserid, ReportName: "Detailed Report", Value: Value, FormStatus: $("#FromStatus").val(), GpList: SendGp, PoList: SendPo, PsList: SendPs, Religion: $("#relgid").val()}, function (result) {
+
+            alert(result);
+        })*@
+
+		//"ajax": {
+		//	"url": "/Report/DownloadDetailReportNew",
+		//		"type": "GET",
+		//			"data": { SelectUserid: ValuSend, Districtid: $("#disid").val(), Subdivid: SendSubDiv, Locid: SendLocation, Fromdate: $("#fromdate").val(), Todate: $("#todate").val(), schemeid: $("#schemeid").val(), SchemeStatus: $("#SchemeStatus").val(), UserCategryid: $("#Typeid").val(), selectusertype: $("#Roleid").val(), userid: SelUserid, ReportName: "Detailed Report", Value: Value, FormStatus: $("#FromStatus").val(), GpList: SendGp, PoList: SendPo, PsList : SendPs, Religion : $("#relgid").val() },
+		//	"dataType": "JSON"
+		//},
+		$.ajax({
+			url: "/Report/DownloadDetailReportNew",
+			type: 'post',
+			data: { SelectUserid: ValuSend, Districtid: $("#disid").val(), Subdivid: SendSubDiv, Locid: SendLocation, Fromdate: $("#fromdate").val(), Todate: $("#todate").val(), schemeid: $("#schemeid").val(), SchemeStatus: $("#SchemeStatus").val(), UserCategryid: $("#Typeid").val(), selectusertype: $("#Roleid").val(), userid: SelUserid, ReportName: "Detailed Report", Value: Value, FormStatus: $("#FromStatus").val(), GpList: SendGp, PoList: SendPo, PsList : SendPs, Religion : $("#relgid").val() },
+			success: function (result) {
+				alert(result);
+				//Do Something
+			},
+			error: function (xhr) {
+				//Do Something to handle error
+			}
+		});
+
+    }
+    $('#btnPaging').click(function () {
+        var val = $('#txtPaging').val();
+        if (val != "" && val != 0) {
+
+            val = val - 1;
+            var table = $('.detailedAppl').DataTable();
+            table.page(parseInt(val)).draw('page');
+        }
+        else {
+            alert('Requested page number not valid');
+            $('#txtPaging').focus();
+        }
+    });
+
+
+
+  //  $("#perdistid").change(loadPS);
+    function loadPS() {
+
+       // $("#perpsid").find("option").remove();
+		 
+        $.get('@Url.Action("GetPSAllNew", "Registration")', { ID: $("#disid").val()}, function (dat) {
+            $("#perpsid").find("option").remove();
+            PsList = "";
+
+            $.each(dat, function (i, data) {
+                 
+               // if (data.Value !="0")
+                $("#perpsid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                PsList += data.Value + ",";
+            });
+
+           // $("#perpsid").append("<option value=" + "-1" + "> " + "ALL" + " </option>");
+
+        });
+
+
+        //$("#perpsid").attr("multiple", "multiple");
+        //$('#perpsid').multiselect({
+        //    columns: 3,
+        //    placeholder: 'Select Languages',
+        //    search: true,
+        //    includeSelectAllOption: true
+        //})
+        //$("#perpsid").multiselect('rebuild');
+    }
+
+  //$("#perdistid").change(loadperPO);
+    function loadperPO() {
+
+      //  $("#perPOid").find("option").remove();
+		 
+        $.get('@Url.Action("GetPOSTOFFICENew", "Registration")', { ID: $("#disid").val()}, function (dat) {
+            $("#perPOid").find("option").remove();
+
+            PoList = "";
+            $.each(dat, function (i, data) {
+                 
+
+                //if (data.Value != 0)
+                $("#perPOid").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+
+                PoList += data.Value + ",";
+            });
+
+           // $("#perPOid").append("<option value=" + "-1" + "> " + "ALL" + " </option>");
+
+
+        });
+
+        //$("#perPOid").attr("multiple", "multiple");
+        //$('#perPOid').multiselect({
+        //    columns: 3,
+        //    placeholder: 'Select Languages',
+        //    search: true,
+        //    includeSelectAllOption: true
+        //})
+        //$("#perPOid").multiselect('rebuild');
+    }
+
+//$("#persubdivid").change(loadGP);
+     
+    function loadGP() {
+        //$("#ward").find("option").remove();
+
+
+        var val = $("#subdivid").val();
+        if ((val == "-1") || (val == "0")) {
+            //$.get('@Url.Action("GetGPBasedOnDistrictNew", "Registration")', { ID: $("#disid").val() }, function (dat) {
+			$.get('@Url.Action("GetGPAllNew", "Registration")', { ID: $("#subdivid").val() }, function (dat) {
+                $("#ward").find("option").remove();
+
+                GpList = "";
+                $.each(dat, function (i, data) {
+                     
+                  //  if (data.Value != "0")
+                    $("#ward").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+
+                    GpList += data.Value + ",";
+                });
+
+                GpList += "0" + ",";
+                GpList += "9999" + ",";
+
+             //   $("#ward").append("<option value=" + "-1" + "> " + "ALL" + " </option>");
+
+            });
+        }
+        else {
+
+
+            //$.get('@Url.Action("GetGPAllNew", "Registration")', { ID: $("#subdivid").val() }, function (dat) {
+			$.get('@Url.Action("GetGpNew", "Report")', { subdivid : $("#subdivid").val() }, function (dat) {
+                $("#ward").find("option").remove();
+                GpList = "";
+                $.each(dat, function (i, data) {
+                     
+                   // if (data.Value != "0")
+                    $("#ward").append("<option value=" + data.Value + "> " + data.Text + " </option>");
+                    GpList += data.Value + ",";
+                });
+
+            });
+
+            GpList += "0" + ",";
+            GpList += "9999" + ",";
+
+          //  $("#ward").append("<option value=" + "-1" + "> " + "ALL" + " </option>");
+
+        }
+
+        //  $("#ward").attr("multiple", "multiple");
+        //$('#ward').multiselect({
+        //    columns: 3,
+        //    placeholder: 'Select Languages',
+        //    search: true,
+        //    includeSelectAllOption: true
+        //})
+        //$("#ward").multiselect('rebuild');
+    }
+</script>

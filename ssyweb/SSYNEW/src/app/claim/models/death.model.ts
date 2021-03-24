@@ -1,0 +1,32 @@
+import { AttachmentModel } from "./attachment.model";
+import { ClaimExceptionDetailsModel } from "../../models/claimExceptionDetails";
+import { ClaimCheckListDetailsModel } from "../../models/ClaimCheckListDetails";
+export class DeathModel {
+    deathId: number;
+    claimEntryId: number;
+    claimRefernceNo: string;
+    dateofDeath: Date;
+    natureofDeath: number;
+    placeofDeath: string;
+    detailsofDeath: string;
+    claimAmount: number;
+    approvedAmount: number;
+    isDeathorpermanentdisabilitynotcausedbyinjuries: boolean;
+    isDeathorpermanentdisabilitynotcausedbyintentional: boolean;
+    isOtherFinancialAssistance: boolean;
+    statusId: number;
+    claimType: number;
+    createdBy: number;
+    attachmentDTOList: Array<AttachmentModel>;
+    natureofDeathName: string;
+    dateofDeathString: string;
+    inspectorComments: string;
+    alcComments: string;
+    dlcComments: string;
+    exceptionComments: string;
+    inspChronologicalOrderComments: string;
+    alcChronologicalOrderComments: string;
+    dlcChronologicalOrderComments: string;
+    deathClaimExceptionDetails: Array<ClaimExceptionDetailsModel>;
+    deathClaimCheckListDetails: Array<ClaimCheckListDetailsModel>;
+}

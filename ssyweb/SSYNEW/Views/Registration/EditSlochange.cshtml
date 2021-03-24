@@ -1,0 +1,190 @@
+﻿@model SSY.Models.RegistartionForUser
+@{
+	ViewBag.Title = "EditSlochange";
+	Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    var benSno = @Html.Raw(Json.Encode(ViewBag.Bensno))
+    var Count = @Html.Raw(Json.Encode(ViewBag.Count))
+
+    var Status = @Html.Raw(Json.Encode(ViewBag.Status))
+
+    var StatusName = @Html.Raw(Json.Encode(ViewBag.StatusName))
+
+    var ClaimCount = @Html.Raw(Json.Encode(ViewBag.ClaimCount))
+	var Gender = @Html.Raw(Json.Encode(ViewBag.Gender))
+
+		var Oldsloid = @Html.Raw(Json.Encode(ViewBag.Sloid))
+	var OldsloNam = @Html.Raw(Json.Encode(ViewBag.Sloname))
+	var Benmob = @Html.Raw(Json.Encode(ViewBag.Mobileno))
+
+</script>
+<style>
+	th {
+		font-size: 13px;
+		color: white;
+		/*background-color:red;*/
+	}
+
+	td {
+		font-size: 13px;
+	}
+</style>
+<div class="">
+	<fieldset class="custom-border">
+		<legend class="custom-border color-white"><span class="leg-sty">SLO Details</span></legend>
+
+
+		<div class="row">
+
+			<form role="form" id="form">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Current SLO<span style="color: red"></span></label>
+							@Html.TextBox("CurrentSlo", "", null, new { @class = "form-control ", @readonly = "readonly" })
+						</div>
+					</div>
+				</div>
+				<br />
+				<div>
+					<table class="table table-striped table-bordered Apllications">
+						<thead>
+							<tr style="background-color:#87CEEB;">
+								<th>S.No</th>
+								<th>SLO Name</th>
+								<th>Mark New SLO</th>
+								@*<th style="display:block;"></th>*@
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+
+				<input type="hidden" id="CurrentSlono" value="0" name="CurrentSlono" />
+				<input type="hidden" id="Benmobno" value="" name="Benmobno" />
+
+			</form>
+
+		</div>
+
+		<div id="divClaimStatus" style="display:block;">
+			<div class="row" id="divBtn">
+				<center>
+					<a class="btn btn-primary" onclick="FinalSubmit()">Submit</a>
+
+				</center>
+			</div>
+		</div>
+
+	</fieldset>
+</div>
+
+<script>
+
+	$(document).ready(function () {
+		$('.Apllications').DataTable({
+		});
+		
+		$("#CurrentSlono").val(Oldsloid);
+		$("#CurrentSlo").val(OldsloNam);
+		$("#Benmobno").val(Benmob);
+		GetReport()
+
+
+	});
+
+	function GetReport() {
+       
+		$.get('@Url.Action("GetSLODetails", "Home")', { BenSnid: benSno }, function (result) {
+             
+            //var table = $('.Apllications').DataTable();
+            //table.destroy();
+			$('.Apllications tbody').empty();
+
+			var rowCnt = 0;
+
+            $.each(result, function (i, data) {
+				var num = i + 1;
+				rowCnt = rowCnt + 1;
+                 
+				
+			//$('.Apllications').append('<tr><td>' + rowCnt + '</td><td>' + data.SLOName + '</td><td><input type="radio" name="SSINAct" class="SSINAct' + rowCnt + '" value="' + data.ARNNumber + '"></td></tr>')
+
+				//$('.Apllications').append('<tr><td>' + rowCnt + '</td><td><a href="#" name = "SloName" class="SloName' + rowCnt +'"  value=' + data.SLOName + '>' + data.SLOName + '</a></td><td><input type="radio" name="SloNumber" class="SloNumber' + rowCnt + '" value="' + data.ARNNumber + '"></td></tr>')
+
+				$('.Apllications').append('<tr><td>' + rowCnt + '</td><td>' + data.SLOName + '</td><td><input type="radio" name="SloNumber" class="SloNumber' + rowCnt + '" value="' + data.UserId + '"><input id="SloName' + rowCnt + '" value="' + data.SLOName + '" readonly="readonly" style="width:120px; height:18px; display : none;"></td></tr>')
+				
+            });
+            //$('.Apllications').DataTable({
+            //});
+
+        });
+	}
+
+	function FinalSubmit() {
+		var rowCnt1 = $('.Apllications tr').length;
+		
+		var stMergRegno = "", stMermes = "";
+		var MainId = "", MainName = "";
+		var chknt = "0";
+		var ucnt = "0";
+
+		if (rowCnt1 > 1) {
+
+			for (i = 1; i < rowCnt1; i++) {
+
+				var MergCheck = $(".SloNumber" + i).is(':checked');
+				//alert(" i " + i);
+				if (MergCheck == true) {
+					ucnt = ucnt + 1;
+					//MainName =  $(".SloName" + i).val() 
+					MainName = $("#SloName"+i).val()
+					MainId = $("input[name='SloNumber']:checked"). val() //$(".SloNumber" + i).is(':checked').val()
+					
+				}
+			}
+
+			if (ucnt == 0 ) {
+				alert("Please Select Radio Button to Change SLO")
+				return;
+			}
+
+			//alert("Merg Numbers = " + stMergRegno);
+			//alert("Main Numbers = " + MainId);
+
+			//var Ok = confirm("Please Confirm the SSIN Numbers \n" + stMermes + " Merge with " + MainId + "\n Do you want to update now ?");
+			var Ok = confirm("Please confirm the SLO Change From  \n" + $("#CurrentSlo").val() + " to " + MainName + "\n Do you want to update now?");
+			if (Ok == true) {
+
+				var Ok1 = confirm("Do you want to proceed ?");
+				if (Ok1 == true) {
+
+					$.get('@Url.Action("UpdateSLOChange", "Home")', { Oldslno: $("#CurrentSlono").val(), Oldslnam: $("#CurrentSlo").val(), newslno: MainId, newslname: MainName, benslno: benSno, BMob: $("#Benmobno").val()  }, function (Res) {
+
+						alert(Res.Message)
+						 
+						window.location.href = "/Registration/EditSlochange";
+					});
+				}
+				else {
+					//window.top.location.href = "/Registration/EditSlochange";
+					return false;
+				}
+
+			}
+			else {
+				//window.top.location.href = "/Registration/EditSlochange";
+				return false;
+			}
+
+		}
+		else {
+			alert("Please Select SLO")
+		}
+
+	}
+
+
+</script>

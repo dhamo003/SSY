@@ -1,0 +1,188 @@
+﻿@model SSY.Models.Reports
+@{
+    ViewBag.Title = "SLOReport";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+</script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/Content/my_css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<style>
+    #fromdate, #todate {
+        z-index: 1000;
+    }
+    .Dropdwn {
+        width: 238px;
+        height: 33px;
+    }
+    th {
+        font-size: 13px;
+    }
+    td {
+        font-size: 13px;
+    }
+    .dt-buttons a {
+        background: #8BC34A !important;
+    }
+</style>
+
+<marquee scrollamount="7"><font color="green" size="3"><b>Report can be viewed for a date range of one month.</b></font></marquee>
+
+<div class="container-fluid" id="sign">
+    
+	<div class="col-sm-12">
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">From Date</span>
+					@Html.TextBoxFor(m => m.fromdate, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">To Date</span>
+					@Html.TextBoxFor(m => m.todate, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Worker Type</span>
+					@Html.DropDownList("schemeid", new List<SelectListItem>
+			   {
+				   //new SelectListItem{ Text="-- Select Worker Type --", Value = "0" },
+				   //new SelectListItem{ Text="ALL", Value = "1,2,3" },
+				   //new SelectListItem{ Text="Construction Worker", Value = "2" },
+				   // new SelectListItem{ Text="Transport Worker", Value = "3" },
+				   //  new SelectListItem{ Text="Other Worker", Value = "1" }
+
+				   new SelectListItem{ Text="ALL", Value = "ConstructionWorker,TransportWorker,Others" },
+				   new SelectListItem{ Text="Construction Worker", Value = "ConstructionWorker" },
+					new SelectListItem{ Text="Transport Worker", Value = "TransportWorker" },
+					 new SelectListItem{ Text="Other Worker", Value = "Others" }
+
+			   }, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Type Of Registartion</span>
+					@*@Html.DropDownList("ApplicationType", new List<SelectListItem>
+					{
+						  new SelectListItem{ Text="All", Value = "CAF,Legacy1,Legacy2,NewReg,OldReg" },
+						new SelectListItem{ Text="CAF", Value = "CAF" },
+						 new SelectListItem{ Text="Legacy 1", Value = "Legacy1" },
+						  new SelectListItem{ Text="Legacy 2", Value = "Legacy2" },
+						  new SelectListItem{ Text="Fresh application", Value = "NewReg" },
+						  new SelectListItem{ Text="New application from CAF", Value = "OldReg" }
+					}, new { @class = "form-control" })*@
+
+					@Html.DropDownList("ApplicationType", new List<SelectListItem>
+										{
+											  new SelectListItem{ Text="All", Value = "CAF Updated,CAF not Updated,Partially Filled,Completely Filled" },
+											new SelectListItem{ Text="CAF Updated", Value = "CAF Updated" },
+											 new SelectListItem{ Text="CAF not Updated", Value = "CAF not Updated" },
+											  new SelectListItem{ Text="Partially Filled", Value = "Partially Filled" },
+											  new SelectListItem{ Text="Completely Filled", Value = "Completely Filled" }
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="input-group extra-space">
+					<span class="input-group-addon input-label">Status</span>
+					@Html.DropDownList("AppStatus", new List<SelectListItem>
+										{
+											  new SelectListItem{ Text="All", Value = "0,1,2,3" },
+											new SelectListItem{ Text="Pending", Value = "0" },
+											 new SelectListItem{ Text="Approved", Value = "1" },
+											  new SelectListItem{ Text="Rejected", Value = "2" },
+											  new SelectListItem{ Text="SendBack", Value = "3" }
+
+										}, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"><a class="btn btn-primary" onclick="GetRepData()">Submit</a></div>
+	</div>
+
+    <div class="row">
+        <div class="col-md-12 column">
+            <div class="container-fluid">
+
+                <iframe name="ifr" id="ifr" style="width: 100%;height:500px; position: relative; border: none; margin-bottom:5%;margin-left:50px;margin-right:150px;padding-right:50px; max-height: 400px;overflow-y:auto; border-radius: 0px; "></iframe>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        getdates();
+        
+    })
+    function GetRepData() 
+    {
+        var arr1 = $('#fromdate').val().split('-');
+        var arr2 = $('#todate').val().split('-');
+        var startDate = new Date(arr1[1] + "-" + arr1[0] + "-" + arr1[2]);
+        var endDate = new Date(arr2[1] + "-" + arr2[0] + "-" + arr2[2]);
+
+        // alert(endDate - startDate);
+
+        var diffDate = (endDate - startDate) / 1000 / 60 / 60 / 24;
+
+        //alert(diffDate);
+
+        if (diffDate > 31 || diffDate < 0) {
+
+            alert("Report can be viewed for a date range of one Month");
+
+            return false;
+
+        }
+        else {
+           // var url = "/SSYIDCard/GrievancesReport.aspx";
+          //  alert(deptuserid + "," + $('#ApplicationType option:selected').text() + "," + $('#ApplicationType').val());
+			 //alert("fromdate = " + $('#fromdate').val() + " & todate=" + $('#todate').val() + " & createdby=" + deptuserid + " & AppTypeText=" + $('#ApplicationType option:selected').text() + " & ApplicationType=" + $('#ApplicationType').val() + " & Status=" + $('#AppStatus').val() + " & StatusText=" + $('#AppStatus option:selected').text());
+
+			//var url = "/SSYIDCard/UserReport.aspx?fromdate=" + $('#fromdate').val() + "&todate=" + $('#todate').val() + "&createdby=" + deptuserid + "&AppTypeText=" + $('#ApplicationType option:selected').text() + "&ApplicationType=" + $('#ApplicationType').val() + "&Status=" + $('#AppStatus').val() + "&StatusText=" + $('#AppStatus option:selected').text() + "&workertype=" + $('#schemeid').val() + "&workerTypetext=" + $('#schemeid  option:selected').text();
+
+
+			var url = "/SSYIDCard/UserReport.aspx?fromdate=" + $('#fromdate').val() + "&todate=" + $('#todate').val() + "&createdby=" + deptuserid + "&AppTypeText=" + $('#ApplicationType').val() + "&ApplicationType=" + $('#ApplicationType option:selected').text() + "&Status=" + $('#AppStatus').val() + "&StatusText=" + $('#AppStatus option:selected').text() + "&workertype=" + $('#schemeid  option:selected').text() + "&workerTypetext=" + $('#schemeid').val();
+
+
+
+            $('iframe#ifr').attr('src', url);
+        }
+
+       
+    }
+    function getdates() {
+        $("#fromdate,#todate").datepicker({
+         
+
+            dateFormat: "dd-mm-yy",
+        changeYear: true,
+        yearRange: "1960:2020",
+        autoclose: true,
+        maxDate: new Date()
+        })
+        var dat = new Date();
+        var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+        var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+        var today = day + "-" + month + "-" + dat.getFullYear();
+        $("#fromdate,#todate").val(today);
+    }
+</script>

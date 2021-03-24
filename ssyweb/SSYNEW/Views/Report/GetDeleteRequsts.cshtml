@@ -1,0 +1,374 @@
+﻿
+@{
+    ViewBag.Title = "GetDeleteRequsts";
+    Layout = "~/Views/Shared/_LocDashoardLayout.cshtml";
+}
+
+<link href="~/Content/ssy_css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/ssy_css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Content/ssy_js/jquery.dataTables.min.js"></script>
+<script src="~/Content/ssy_js/dataTables.bootstrap.min.js"></script>
+
+<script>
+    var deptuserid = @Html.Raw(Json.Encode(ViewBag.deptuserid))
+</script>
+
+<style>
+    th {
+        font-size: 12px;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    .pdfobject-container {
+        height: 500px;
+    }
+
+    .pdfobject {
+        border: 1px solid #666;
+    }
+
+    .modal-backdrop.in {
+        opacity: 0;
+    }
+
+    .modal-backdrop {
+        position: relative !important;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <center><h3 class="product-description">Delete Requests Details</h3></center>
+            <div class="row" style="margin-left : 150px;">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group" style="width:180px;">
+                        <div class="input-group extra-space">
+                            <span class="input-group-addon input-label">Status</span>
+                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                             new SelectListItem{ Text="Pending", Value = "0" },
+                                              new SelectListItem{ Text="Approved", Value = "1" },
+                                               new SelectListItem{ Text="Rejected", Value = "2" }
+                                        }, new { @class = "form-control  Dropdwn" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <br />
+            <div style="margin-left:30px;">
+                <table class="table table-striped table-bordered Apllications" cellspacing="0" width="100%">
+                    <thead style="background-color:#87CEEB">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Created Date</th>
+                            <th>Request Type</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Delete Dependent*@
+<div class="modal fade" id="divDeleteDep" role="dialog">
+    <div class="modal-dialog" style="margin-left:-500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:1000px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Remarks</h4>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <table class="table table-bordered tblfamily">
+                        <thead>
+                            <tr>
+
+
+                                <th>Registration No. </th>
+                                <th>Dependent Name</th>
+                                <th>Relationship</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+
+                                <th>Aadhaar No, if any</th>
+
+                               
+
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+                <div class="row" id="divDepDet" style="display:none;">
+
+                    <div class="col-md-4" style="margin-left:200px;">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                <span class="input-group-addon input-label">Remarks</span>
+                               
+                                <textarea name="test_field" id="DepRemarks" style="width: 544px;height: 104px;"></textarea>
+                               
+                                <input type="hidden" id="DepRequestId" value="0" name="DepRequestId" />
+                                <input type="hidden" id="DepUniqueId" value="0" name="DepUniqueId" />
+                               
+                            </div>
+                        </div>
+                      <center><a class="btn btn-info" onclick="DeleteDep(2)">Submit</a></center> 
+
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+             
+
+            </div>
+            <div class="modal-footer" id="footerDep">
+                <a class="btn btn-success" onclick="DeleteDep(1)">Approve</a>
+                <a class="btn btn-danger btnRejcted">Rejected</a>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*Delete Nominee*@
+<div class="modal fade" id="divDeleteNominee" role="dialog">
+    <div class="modal-dialog" style="margin-left:170px;">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:1000px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Remarks</h4>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <table class="table table-bordered tblNaminee">
+                        <thead style=" background-color : #094c86  !important;color:white">
+                            <tr>
+
+
+                                <th>Name</th>
+                                <th>Relationship with applicant</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+
+                                <th>Share Allocation</th>
+                                <th>Bank Name</th>
+                                <th>Bank Account No.</th>
+                                <th>Branch Name</th>
+                                <th>IFSC Code</th>
+                               
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="row" id="divNomineeDet" style="display:none;">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                <span class="input-group-addon input-label">Remarks</span>
+
+                                <textarea name="test_field" id="NomineeRemarks" style="width: 544px;height: 104px;"></textarea>
+                                <input type="hidden" id="NomRequestId" value="0" name="NomRequestId" />
+                                <input type="hidden" id="NomUniqueId" value="0" name="NomUniqueId" />
+                                @*</textarea>*@
+                            </div>
+                            
+
+                        </div>
+                        <a class="btn btn-info" onclick="DeleteNominee(2)">Submit</a>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer" id="footerNominee">
+                <a class="btn btn-success" onclick="DeleteNominee(1)">Approve</a>
+                <a class="btn btn-danger  btnnomineeRej">Reject</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+ $(document).ready(function () {
+        GetReport()
+    });
+    $("#Status").change(function(){
+        GetReport()
+    })
+    function GetReport()
+    {
+        var c = $("#Status").val();
+        $.get('@Url.Action("GetDeleteRequestDet", "Report")', { deptuserid: deptuserid, Status: $("#Status").val() }, function (result) {
+         
+        var table = $('.Apllications').DataTable();
+        table.destroy();
+        $('.Apllications tbody').empty();
+        $.each(result, function (i, data) {
+        var num = i + 1;
+         
+       // alert(data.ReqType);
+        if(data.ReqType =="Deletion of dependent")
+        {
+            if(data.Status == "Pending")
+            $('.Apllications').append('<tr><td>' + num + '</td><td><a href="#"   onclick="GetDepDet(' + data.UniqueValue+');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.Date + '</td><td>'+data.ReqType+'</td><td>' + data.Status + '</td><td class="tr_hide">'+data.Remarks+'</td></tr>')
+            else
+                $('.Apllications').append('<tr><td>' + num + '</td><td>' + data.Name + '</td><td>' + data.Date + '</td><td>'+data.ReqType+'</td><td>' + data.Status + '</td><td class="tr_hide">'+data.Remarks+'</td></tr>')
+
+        }
+        else
+        {
+            if(data.Status == "Pending")
+            $('.Apllications').append('<tr><td>' + num + '</td><td><a href="#"  onclick="GetNomiDet(' + data.UniqueValue+');" id=' + data.Name + '>' + data.Name + '</a></td><td>' + data.Date + '</td><td>'+data.ReqType+'</td><td>' + data.Status + '</td><td class="tr_hide">'+data.Remarks+'</td></tr>')
+            else
+                $('.Apllications').append('<tr><td>' + num + '</td><td>' + data.Name + '</td><td>' + data.Date + '</td><td>'+data.ReqType+'</td><td>' + data.Status + '</td><td class="tr_hide">'+data.Remarks+'</td></tr>')
+
+
+        }
+        });
+
+        $('.Apllications').DataTable({
+        });
+       
+        });
+        }
+
+    function GetDepDet(id)
+    {
+        $("#divDepDet").hide();
+        $("#divDeleteDep").modal('show');
+
+        $.get('@Url.Action("GetFamilyDeleteReqDetails", "Registration")',  {Id : id}, function (res) {
+            $('.tblfamily tbody').empty();
+            $.each(res, function (i, data) {
+
+                $("#DepRequestId").val(data.DeleteId);
+                $("#DepUniqueId").val(data.BenFamilyMemSno);
+
+          
+                
+                $('.tblfamily').append('<tr><td>'+data.BenFamilySchRegNo+'</td><td>'+data.BenDependentName+'</td><td>'+data.BenDependentRelation+'</td><td>'+data.BenFamilyGender+'</td><td>'+data.Dob+'</td><td>'+data.BenFamilyAadhaarNo+'</td></tr>')
+                
+            }) 
+        });
+    }
+
+    function GetNomiDet(id)
+    {
+        $("#divNomineeDet").hide();
+        $("#divDeleteNominee").modal('show');
+
+        $.get('@Url.Action("GetNamineeDeleteReqDetails", "Registration")',  {Id : id}, function (res) {
+            $('.tblNaminee tbody').empty();
+            $.each(res, function (i, data) {
+              //  alert(data.DeleteId);
+              //  alert(data.BenNomineeSno);
+                $("#NomRequestId").val(data.DeleteId);
+                $("#NomUniqueId").val(data.BenNomineeSno);
+
+                $('.tblNaminee').append('<tr><td>'+data.BenNomineeName+'</td><td>'+data.BenNomineeRelation+'</td><td>'+data.BenNomineeGender+'</td><td>'+data.Dob+'</td><td>'+data.BenNomineeShareAllocation+'</td><td>'+data.BenNomineeBankName+'</td><td>'+data.BenNomineeBankAccNo+'</td><td>'+data.BenNomineeBankBranch+'</td><td>'+data.BenNomineeBankIfscCode+'</td></tr>')
+    
+            }) 
+       
+        });
+    }
+
+
+    $(".btnRejcted").click(function(){
+
+        $("#divDepDet").show();
+
+    })
+
+
+    $(".btnnomineeRej").click(function(){
+
+        $("#divNomineeDet").show();
+
+    })
+
+    function DeleteDep(id)
+    {
+        var DepUniqueId = $("#DepUniqueId").val();
+        var DepRequestId = $("#DepRequestId").val();
+        var DepRemarks = $("#DepRemarks").val();
+
+        if(id == 2)
+        {
+            if(DepRemarks == "" || DepRemarks == null)
+            {
+                alert("Please enter remarks");
+                $("#DepRemarks").val();
+                return false;
+
+            }
+        }
+        $.get('@Url.Action("UpdateDepDelRequest", "Registration")',  {RequestId : DepRequestId,Status :id,Remarks : DepRemarks,UniqueId :DepUniqueId,VerifiedBy :deptuserid}, function (res) {
+
+            alert(res.Message);
+            window.location.href = "/Report/GetDeleteRequsts";
+
+            $("#divDeleteDep").modal('hide');
+
+        });
+
+
+
+       // alert("Submited");
+    }
+    
+    function DeleteNominee(id)
+    {
+        var NomineeUniqueId = $("#NomUniqueId").val();
+        var NomineeRequestId =$("#NomRequestId").val();
+        var NomineeRemarks = $("#NomineeRemarks").val();
+
+        if(id == 2)
+        {
+            if(NomineeRemarks == "" || NomineeRemarks == null)
+            {
+                alert("Please enter remarks");
+                $("#NomineeRemarks").val();
+                return false;
+
+            }
+        }
+
+        $.get('@Url.Action("UpdateNomineeDelRequest", "Registration")',  {RequestId : NomineeRequestId,Status :id,Remarks : NomineeRemarks,UniqueId : NomineeUniqueId,VerifiedBy :deptuserid}, function (res) {
+            alert(res.Message);
+            $("#divDeleteNominee").modal('hide');
+            window.location.href = "/Report/GetDeleteRequsts";
+        });
+      
+
+    }
+    
+</script>

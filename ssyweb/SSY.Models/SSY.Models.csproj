@@ -1,0 +1,1447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{631DC762-BCC8-440F-BA9E-F2CD118432DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SSY.Models</RootNamespace>
+    <AssemblyName>SSY.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BenJunkData2.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictWiseSchemeWiseSSIN_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistWiseSchemWisebkp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistWiseSchemWise_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistWiseSubDivwiseBlockWisebak_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistWiseSubDivwiseBlockWise_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetBenFamilyMemberDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetBenNomineeDtlsDetForCertificate_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetBenNomineeDtlsDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetDeleteDependentDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetDeleteNomineeDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetDeleteRequests_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetFamilyTempDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Get_BenRevivedDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Get_LoginCounts_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LocationCodeMissingUniqueData.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LocationType.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelExtensions.cs" />
+    <Compile Include="Models\ServiceRequestViewModel.cs" />
+    <Compile Include="Models\SiteSettingsViewModel.cs" />
+    <Compile Include="Models\SSYMenuViewModel.cs" />
+    <Compile Include="Models\SSYRoleViewModel.cs" />
+    <Compile Include="Pftable.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RabbitMQ\DeDupBenificiary.cs" />
+    <Compile Include="ReadNotification.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RegOtp.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Report_BeneficiaryApplicationDistrictWiseStaus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Report_BeneficiaryApplicationStaus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SaveBenfiRegistrationPart2New_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SaveBenfiRegistrationPart2_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SaveBenfiRegistration_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SaveBenifRegdet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SaveNomineedepdntTemp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpAgentAdditionalData_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpAgentApplicationstatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpAllDistrictWiseSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpApplicationsByAgeForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpApplicationStatusByGenderWiseForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpApplicationStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpAppliedMonths_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpAverageConcurrentUsersPerDayReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpBeniDetailedReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpBeniLegacyDataReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpBenTempAddressDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCheckBeneRegNoOrSSINo_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCheckDedupeProcForLegacyCAFUpdateTemp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCheckDedupeProcForRealTime_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCheckMobileWithDob_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCheckSmsCount_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCreateGpWard_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCreatePoliceStation_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpCreatePostOffices_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashClaimStatusDLC_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashClaimStatusSLO_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashClaimStatusSuperAdmin_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashClaimStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashFundReleaseStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashFundStatusSuperAdmin_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashFundStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashOverallClaimStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashPaymentStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDashReferStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDatewiseDistrictWiseSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDeatiledAbstractReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDedupeOfflineForLegacyCAFUpdateTemp2_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDedupSuspectCards_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDeleteDependent_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDeleteNominee_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDetailBeniReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDetailedReportLatestNewExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDetailedReportLatestNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDetailedReportLatest_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDetailedReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPDistrictsData_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDistrictWiseAbstractReportForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDistrictWiseSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDownloadDetailedReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDownloadLegacyOfflineReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDownloadRegReportOffline_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDuplicateApplicationsByAadhaarNoAndLocation_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDuplicateApplicationsByAadhaarNo_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDuplicateApplicationsByEpicNoAndLocation_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpDuplicateApplicationsByEpic_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpEditBankDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpEditBankDetHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpEditBenePersonalDetailsExt1_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpEditBenePersonalDetailsExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpEditBenePersonalDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGenerateSSINoWithBeneSno_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGenerateSSINo_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGenerateTempSSINo_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetAddressDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetAgentAdditionalData_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetAgents_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetApllicationSummeryExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetApllicationSummery_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBankBranch_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBankCenter_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBankList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBeneAddressDetEditHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBeneDOBDetEditHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBeneHusbandDetEditHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenePersonalDetEditHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenFamilyTemp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenfDetailsByAadhaar_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenfDetailsByUniqueId_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenfDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBeniDocs_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBeniRequests_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenNomineeTemp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBenSnoByAddressEditID_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBlockDetailbySubdivIds_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBlockDetailbySubdivRepNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBlockDetailbySubdivRep_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBlockDetail_New_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetBlockDetail_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetCaste_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetConstructionEdistrictDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetConstructTransList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPGetContactDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDeddopBenfDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDeedoopDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDetailReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDetailsbyRegnum_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDidsSubDivisionByDLC_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDidsSubDivision_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDistrictsSubDivisionsLocations_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDistrict_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDownlaodRequests_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDownLoadRequestData_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDraftApplication_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetDutyNature_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEdiNomDep_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPGeteDistBeneRegDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPGeteDistBeneRenewalDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEdistConstructionDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistCWDataAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistCWDataApplications_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistDetailsforDashBoard_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistDetailsforRegistration_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPgeteDistFilePaths_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistRenewelApplicationsfromSLO_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistRenewelApplications_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistReneweldataByBenSno_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistReneweldatafromSLOById_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistrictTransportAllDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEdistTransportDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistTWDataAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGeteDistTWDataApplications_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditAddressDetAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditAddressDetApp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditBankDetAppById_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditBankDetApp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditDOBDetApp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPermanentAddressDetAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPersonalDetAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPersonalDetAppById_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPersonalDetApp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPersonalHusbandDetAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPersonalHusbandDetApp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetEditPresentAddressDetAppByIdExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGpMstRoleWise_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGPNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGP_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGrievancesReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGroupDuplicateDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGroupUniqueDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGroupWiseActions_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetGroupWiseSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetIssAuthNames_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetJobDistrictWiseDetailedHeader_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetJobDistrictWiseDetailed_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetJobDistrictWiseSummaryHeader_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetJobDistrictWiseSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPgetlabelNames_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetListOfInd_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetLocationBySubDiv_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetLocationsList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMarital_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMenuListByRole_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMenuList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMultipleDisbyUser_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMultipleGpWardbyUser_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMultipleLocabyUser_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetMultipleSubDivbyUser_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetNameChangedDocument_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetNames_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetNomineeTempDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetNotificationList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetOfflineReportHeaders_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPGetPFBalanceExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetPfDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetPoNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetPo_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetPsDtsNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetPsDts_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetRejectedhistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetReligion_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetRequiredDocs_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetRuralUrban_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSingleActionHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSLOCode_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSLOList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSMSFailureStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpgetSSI_NumberDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSSYStats_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSubDivisionList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSubDivisionNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSubdivisionsByDistrct_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetSubDivision_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPGetSubGroupDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetTempBenDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetToltalBlockDetailNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetToltalBlockDetail_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGettotalNotificationList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetTransportWorkerRegDetailsForRenewal_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetUserInfByUserCode_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetUserInfo_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetUserListNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetUserList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetUserTypes_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetVehicleNature_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGetWorkerStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpGet_AgentDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpHourlyReg_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpInsertBeneAddressReq_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpInsertConstructRenewalDeatils_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPInsertPfDet_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpInsertTransportBeneRenewalReq_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLast6MonthsApplicationsForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLast6MonthsApprovedApplicationsForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLast6MonthsPendingApplicationsForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLast6MonthsRejectedApplicationsForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLast6MonthsSentbackApplicationsForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLegacyBeniReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLegacyDataReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SplitString_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpLocationWiseAbstractReportForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpNewApplicationOfConstructionWorkerStatusForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpNewApplicationOfOthersStatusForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpNewApplicationOfTransportWorkerStatusForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpNewApplicationStatusForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpNewApplicationStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpNewDashApplicationStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpOfflinePart1FillReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPart1ApplicationCount_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPaymentReciept_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPaymentReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPendencyByLocation_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPfDetailsVerify_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPfDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpPfOpted_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpProfessionalSummaryNew2_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpProfessionalSummaryNew3_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpProfessionalSummaryNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpProfessionalSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpReapplyNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpReapply_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpRegistrationsByType_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpRegistrations_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpRegReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpRoleWiseNotificationList_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSaveBenfiRegistration_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSaveMergedSSI_NoDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSaveReamrks_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSchemeNewApplicationStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSLOMapping_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSloReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSSINDetaledSummary_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSSINSummaryReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpStatusWiseCount_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSubDivisionWiseAbstractReportForMB_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPSubGroupDelete_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spsub_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpSuspectCards_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUnsubmittedApp_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateAgentUserDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPUpdateAppStatus_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateeDistCWData_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateeDistTWDataExt_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateeDistTWData_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateExistingDeatilsNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateExistingDeatils_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateGroupVerificationdetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateNomineeCAFDeatilsext_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateNomineeCAFDeatils_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpUpdateNomineeDeoendent_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyAddressDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyBankDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyDOBDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyeDistCWDataApplication_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyeDistRenewelDetailsofBenefromSLO_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyeDistRenewelDetailsofBene_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyeDistTWDataApplication_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyPersonalDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpVerifiyPersonalHusbandDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_ActionHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_ConvertingRejectedToPending_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_DeailedReport_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_DeeDoopActionHistory_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_Deptuserdetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_GetFile_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_GetLocationsByDistrictIdNew_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_GetLocationsByDistrictId_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_GetLocationWiseProfessionCount_New_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_GetLocationWiseProfessionCount_Testing_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSchemeDetailsSummery_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSchemeDetails_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_RLOwiseLegacy1and2Count_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_RLOwiseRegCount_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_SaveBankBranch_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_SaveBankCenter_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sp_SaveBankName_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SSYModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SSYModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SSYModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SSYModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SSYModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TableCount.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblActionHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblAgentAdditionalData.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblAilment.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblApprovalPermission.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblAttachement.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBankBranch.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBankCenter.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBankDist.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBankMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenAddress.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenAddress9Lakhs38.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenAddressCAFUpdateHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenAddressIssue.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenAddressIssues2.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenAddressReAppylyHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBeneficiary.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBeneficiary9Lakhs38.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBeneficiaryCAFUpdateHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBeneficiaryPFAccount.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBeneficiaryReAppylyHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenFamilyMember.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenFamilyMemberCAFUpdateHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenFamilyMemberReAppylyHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenJUnkAddress.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenNomineeDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenNomineeDtlsCAFUpdateHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenNomineeDtlsReAppylyHistory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenPFInterestRegister.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenScheme.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBenSchemesDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBlockDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBlockDetailsold.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBoard.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblBoardUser.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblCasteMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblCheckListDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblCheckListHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblClaim.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblClaimConfigDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblClaimConfigHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblClaimStatu.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDeath.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDeathCheckListDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDeathClaimExceptionDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDedupeConditionMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDisabilityCheckListDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDisabilityClaimExceptionDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDistrictMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDownlaodRequest.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDuplicateCardsGenerated.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblDuplicaterecordIssue.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblEducationCheckListDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblEducationClaimExceptionDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblEducationDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblEducationHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFamilyTemp.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFinancialYear.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFundReleaseOrderDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFundReleaseOrderHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFundRequestDtl1.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFundRequestDtl2.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFundRequestExpensesDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblFundRequestHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblGPMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblHealthFamilyCheckListDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblHealthFamilyClaimExceptionDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblHealthFamilyPackage.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblHelp.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblHospital.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblIssuingAuthName.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblLabel.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblListOfInd.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblLogin.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblLoginType.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblLOVDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblLOVHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblMaritalMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblMenu.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblNatureDuty.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblNatureVehicle.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblNewReg.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblNotiFication.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblOfflineRegReport.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPackage.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPart1ApplicationCountOffline.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPaymentProcessingHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPaymentReleaseHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPaymodeMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPdfFile.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPFDepositDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPFDepositMaster.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPfDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPostOfficeData.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblProvidentFund.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblProvidentFundCheckListDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblProvidentFundClaimExceptionDetail.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblPsMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblRelationType.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblReligionMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblRequiredDoc.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblRLOOffice.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblRLOOfficeBank.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblRLOOfficeUser.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblRole.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSchemeMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSitecount.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSM.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSSINMst.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSubDivision.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSubMenu.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblSummaryReport.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblTempBenificiaryDetRep.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblTempDwnld.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblTransaction.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblTransactionLog.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblUserCategory.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblUserGpWardMap.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblUserType.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblUtilizationCertificateDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblUtilizationCertificateHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblWorkerType.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblWorkFlowDtl.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblWorkFlowHdr.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblWorkFlowTransaction.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblWorkflowTransactionLog.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TblWorkFlowTransactionStep.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_SiteSettings.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateDeleteDepRequest_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateDeleteNomineeRequest_Result.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDisMap.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLocationMap.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserSubDivMap.cs">
+      <DependentUpon>SSYModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="SSYModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SSYModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="SSYModel.edmx.diagram">
+      <DependentUpon>SSYModel.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SSYModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SSYModel.edmx</DependentUpon>
+      <LastGenOutput>SSYModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="SSYModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SSYModel.edmx</DependentUpon>
+      <LastGenOutput>SSYModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

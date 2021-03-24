@@ -1,0 +1,13 @@
+﻿@model SSY.Models.practise
+@{
+    ViewBag.Title = "Practice";
+}
+
+<h2>Practice</h2>
+
+@Html.EditorFor(m => m.Name, new { @class = "form-control" })  @*Accept varchar*@
+
+
+@Html.EditorFor(m => m.Gender, new { @class = "form-control" })  @*Check box*@
+
+@Html.EditorFor(m => m.Sno, new { @class = "form-control" })  @*Accept Integers*@

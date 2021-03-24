@@ -1,0 +1,555 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_MainHomeLayout.cshtml";
+}
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+<style>
+    .maskimage {
+        background-image: url("/Content/images/1366X768_300RS-FRONT%20(1).jpg");
+        background-attachment: fixed;
+    }
+
+    .header {
+        padding: 10px 16px;
+        background: #555;
+        color: #f1f1f1;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+        .sticky + .content {
+            padding-top: 102px;
+        }
+
+
+    .relief_fund {
+        border: 16px solid #343685;
+        font-family: 'Poppins', sans-serif;
+        margin-top: 10px;
+        margin-bottom: 40px;
+        padding: 0px;
+    }
+
+    .relief_fund_title {
+        background: #343685;
+        text-align: center;
+    }
+
+        .relief_fund_title h1 {
+            color: #fff;
+            font-size: 29px;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+
+        .relief_fund_title h3 {
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+            margin: 40px 0;
+        }
+
+            .relief_fund_title h3 a {
+                color: #80FFF6;
+                text-decoration: underline;
+            }
+
+        .relief_fund_title p {
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+        }
+
+            .relief_fund_title p a {
+                color: #f1ff13;
+                text-decoration: underline;
+                ;
+            }
+
+    .relief_fund_content {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .relief_fund_btm {
+        outline: none !important;
+        width: 100px;
+        margin: 0px 31px;
+    }
+</style>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<div class="img-responsive fade-in-on-load maskimage" id="closeimg">
+    <marquee direction="left" scrollamount="5" behavior="scroll" style=" height: 30px; font-size: 20px;color:red;"><b>Click anywhere to proceed</b> &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<b>স্ক্রীনের যে কোন জায়গায় ক্লীক্‌ করুন</b></marquee>
+
+</div>
+
+
+
+
+<div class="row bgrcolor">
+
+    <div class="col-md-9 margin-top">
+
+
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="~/Content/images/ban5.jpg" alt="" class="img-responsive">
+                    <div class="carousel-caption">
+                        <p class="bgrcolor" style="font-size : 25px;"><b>Empowering Unorganized Workers To Face Every Exigency Of Life</b> </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="~/Content/images/ban6.jpg" alt="" class="img-responsive">
+                    <div class="carousel-caption">
+                        <p class="bgrcolor" style="font-size : 25px;"><b>Uniform Benefits To All Unorganized Workers</b> </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="~/Content/images/ban9.jpg" alt="" class="img-responsive">
+                    <div class="carousel-caption">
+                        <p class="bgrcolor" style="font-size : 25px;"><b>Income Security Throughout Life <br>Safety Training & Skill Development</b></p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="~/Content/images/ban11.jpg" alt="" class="img-responsive">
+                    <div class="carousel-caption">
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="~/Content/images/ban13.jpg" alt="" class="img-responsive">
+                    <div class="carousel-caption">
+                    </div>
+                </div>
+            </div>
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-3 fromthedesk">
+        <div class="row">
+            <div class="col-md-12 displayinline text-left">
+                <img src="~/Content/images/our_unit2.jpg"><h3>From the Desk of</h3>
+            </div>
+        </div>
+        <div class="well well-sm">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/Content/images/cm.jpg" class="img-responsive">
+                </div>
+                <div class="col-md-8 marleftminus15">
+                    <h4><b> Smt. Mamata Banerjee</b></h4>
+                    <p>
+                        Hon'ble Chief Minister <br />
+                        <small>Govt. of West Bengal</small><br />
+                        <a href='~/Content/pdf/Message%20of%20CM.pdf' target="_blank" class="pull-right">Read More</a>
+                    </p>
+                </div>
+            </div>
+
+
+
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/Content/images/Moloy-Ghatak.jpg" class="img-responsive">
+                </div>
+                <div class="col-md-8 marleftminus15">
+                    <h4><b>Shri. Moloy Ghatak</b></h4>
+                    <p>
+                        Minister-in-Charge<br />
+                        <small>Labour Dept., Govt. of WestBengal</small><br />
+                        <a href='~/Content/pdf/Message%20of%20MIC.pdf' target="_blank" class="pull-right">Read More</a>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/Content/images/1.jpg" class="img-responsive">
+                </div>
+                <div class="col-md-8 marleftminus15">
+                    <h4><b>Shri. Jakir Hossain</b></h4>
+                    <p>
+                        Minister of State<br />
+                        <small>Labour Dept., Govt. of WestBengal</small><br />
+                        <a href='~/Content/pdf/Message%20of%20MOS.pdf' target="_blank" class="pull-right">Read More</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row" style="display:none;">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8 marleftminus15">
+                    <h4><b>Shri. Hirdyesh Mohan, IAS</b></h4>
+                    <p>
+                        Pricipal Secretary<br />
+                        <small>Labour Dept., Govt. of WestBengal</small><br />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*Covid 19 Banner Starts*@
+<div class="container relief_fund">
+    <h1 style="background-color: #343685;color: #fff;margin: 0;">West Bengal State Emergency Relief Fund </h1>
+    <div class="row">
+        <div class="col-md-12 relief_fund_content" style="padding: 15px 30px;">
+            <p style="font-size: 14px;margin-bottom: 20px;">The West Bengal State Government Appeals ALL to contribute in West Bengal State Emergency Relief Fund and assist the State in prevention and control of situation arising out of unforeseen emergencies like <strong>COVID-19 (CORONA)</strong>.</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="font-size: 14px;margin-bottom: 20px;"><h4 class="text-center" style="color:#343685; ">The contributions can be made both through Cheque/DD/Debit Card/ Credit Card /UPI and kind.</h4></p>
+                </div>
+                <div class="col-md-7">                   
+                    <p style="font-size: 14px;margin-bottom: 20px;">Bank details for <strong style="color:#343685; ">Cheque/DD/Debit Card/ Credit Card /UPI contribution</strong> are as follows:</p>
+                    <p style="font-size: 14px;margin-bottom: 20px;">
+                        <strong>A/c Name   :</strong> 	West Bengal State Emergency Relief Fund</br>
+                        <strong>A/c No     :</strong>  	628005501339</br>
+                        <strong>Bank       :</strong> 	ICICI Bank Ltd. , <strong>Branch     :</strong> Howrah</br>
+                        <strong>Swift Code       :</strong> 	ICICINBBCTS</br>
+                        <strong>IFS Code   :</strong> 	ICIC0006280, <strong>MICR Code  :</strong> 	700229010
+                    </p>
+                    <p style="font-size: 14px;"><strong>For contribution in kind contact :</strong> <a href="mailto:wbsacs@gmail.com"><strong>wbsacs@gmail.com</strong></a> </p>
+                    <p style="display: flex; font-size:14px; line-height: 34px;">For further details </br> <a href="@Url.Content("~/Content/images/covid_19/West_Bengal_State_Emergency_Relief_Fund.pdf") " target="_blank"><strong><img src="~/Content/images/covid_19/pdf-icon.png" width="40" height="" alt="pdf-icon"> <span style="color: #2c2c2c;">Click Here</span></strong></a> </p>
+                </div>
+                <div class="col-md-2">
+                    <p style="color: red;font-size: 14px;text-align: center;margin-top: 27px;font-weight: 600;">Please CLICK the ICON below to make ONLINE PAYMENT</p>
+                    @*<img src="~/Content/images/covid_19/relief_fund.jpg" width="180" height="" alt="relief_fund" style="margin-left:51px;margin-top: -25px;">*@
+                    <a href="https://eazypay.icicibank.com/eazypayLink?P1=m9BPa3/GAmP3nzLWEHC4zA==" target="_blank"><img src="https://wblc.gov.in/sites/all/themes/lcTheme/images/covid19.png" width="100%" height="" alt="relief_fund_btm" class="relief_fund_btm"></a>
+                </div>
+                <div  class="col-md-3">
+                    <div align="center" style="width: 183px;float: left;margin-top: 27px;">
+                        <span style="text-align :justify; color :red; font-weight :bold "><strong>Have you already contributed ?</strong></span><br> <br>
+                        <a href="https://excise.wb.gov.in/wbserf/Page/WBSERF_Generate_Receipt.aspx" target="_blank"><strong>Download Acknowledgment Receipt</strong></a>
+                    </div>
+                    <div align="left" style="float: right;margin-top: 52px;padding: 0px 31px 0px 0px;" valign="middle"><a href="https://excise.wb.gov.in/wbserf/Page/WBSERF_Generate_Receipt.aspx" target="_blank"><img alt="CLick to download" src="http://www.wbfin.gov.in/New_Fin/Receipt.png" width="40px"></a></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="small-box" style="background-repeat: no-repeat;border: solid 2px #e8e8e8;height: auto;border-radius: 0px;margin-top: 20px;padding: 15px;background-color: #e8e8e8;">
+
+        <div class="inner" style="height: auto; width: 100%;">
+            <div>
+                <table cellspacing="0" id="GridView3" style="height:100%;width:100%;border-collapse:collapse;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;" id="txtblnk">
+                                                <a id="GridView3_hpl_filelinktop_0" href="../writereaddata/50-SB(SM).pdf" target="_blank"><span id="GridView3_lbl_subjecttop_0" style="color:#880000;font-family:Georgia;font-size:16px;font-weight:normal;">Constitution of the West Bengal State Emergency Relief Fund</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%; color: #2f3030;" valign="top">
+                                                Category :
+                                                <span id="GridView3_lbl_catgorytop_0">West Bengal State Emergency Relief Fund</span>&nbsp;Posted
+                                                On : &nbsp;<span id="GridView3_Label1top_0">23/03/2020</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="height: 8px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table cellspacing="0" id="GridView1" style="height:100%;width:100%;border-collapse:collapse;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;">
+                                                <a id="GridView1_hpl_filelink_0" href="../writereaddata/1423-F(Y).pdf" target="_blank"><span id="GridView1_lbl_subject_0" style="color:#0C2B53;font-family:Georgia;font-size:16px;font-weight:normal;">Revised Working procedure for the Treasuries for combating the outbreak of Corona Virus (COVID 19)</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%; color: #370404;" valign="top">
+                                                Category :&nbsp;<span id="GridView1_lbl_catgory_0">Audit</span>&nbsp;Posted
+                                                On :
+                                                <span id="GridView1_Label1_0">26/03/2020</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="height: 8px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;">
+                                                <a id="GridView1_hpl_filelink_1" href="../writereaddata/1422-F(Y).pdf" target="_blank"><span id="GridView1_lbl_subject_1" style="color:#0C2B53;font-family:Georgia;font-size:16px;font-weight:normal;">Drawal of bills in anticipation of allotment</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%; color: #370404;" valign="top">
+                                                Category :&nbsp;<span id="GridView1_lbl_catgory_1">Audit</span>&nbsp;Posted
+                                                On :
+                                                <span id="GridView1_Label1_1">26/03/2020</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="height: 8px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;">
+                                                <a id="GridView1_hpl_filelink_2" href="../writereaddata/1424-F(H).pdf" target="_blank"><span id="GridView1_lbl_subject_2" style="color:#0C2B53;font-family:Georgia;font-size:16px;font-weight:normal;">Roster duty of Schedule A Stenographer in the Control Room of Disaster Management and Civil Defence Deptt in State Emergency Operation Centre, Nabanna</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%; color: #370404;" valign="top">
+                                                Category :&nbsp;<span id="GridView1_lbl_catgory_2">Audit</span>&nbsp;Posted
+                                                On :
+                                                <span id="GridView1_Label1_2">26/03/2020</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="height: 8px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;">
+                                                <a id="GridView1_hpl_filelink_3" href="../writereaddata/1426-F(H).pdf" target="_blank"><span id="GridView1_lbl_subject_3" style="color:#0C2B53;font-family:Georgia;font-size:16px;font-weight:normal;">Partial modification of Finance Departments Order No. 1424-F(H) dated 26.03.2020</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="width: 100%; text-align: justify;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%; color: #370404;" valign="top">
+                                                Category :&nbsp;<span id="GridView1_lbl_catgory_3">Audit</span>&nbsp;Posted
+                                                On :
+                                                <span id="GridView1_Label1_3">26/03/2020</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="height: 8px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@*Covid 19 Banner Ends*@
+
+<div class="threebarsec" style="margin:15px 1.2%;">
+
+    <div class="row" style="text-transform:uppercase;">
+        <div class="col-md-4 text-center hm-green texture1 paddingtb">
+            <div class="row">
+                <div class="col-md-4"><img src="~/Content/images/applyOnline-icon.png" class="" height="100"></div>
+                <div class="col-md-8 padding bgrcolor">
+                    <blink style="text-decoration: blink;color: darkviolet;"><a href="/Registration/BenificiaryReg" class="text-bold text-white letterspacing">QUICK APPLICATION</a></blink>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center gp texture2 paddingtb">
+            <div class="row">
+                <div class="col-md-4"><img src="~/Content/images/Pub%203.png" class="" height="100"></div>
+                <div class="col-md-8 padding bgrcolor">
+                    <a class="text-bold text-white letterspacing">PUBLICATIONS</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 or text-center cl texture3 paddingtb">
+            <div class="row">
+                <div class="col-md-4"><img src="~/Content/images/Noti2.png" class="" height="100"></div>
+                <div class="col-md-8 padding bgrcolor">
+                    <a href="~/Home/GetPortalNoty" class="text-bold text-white letterspacing">Announcements</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='row'>
+
+    <div class='col-md-12'>
+        <div class="carousel slide media-carousel" id="media">
+            <div class="carousel-inner">
+                <div class="item  active">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a class="" href="#"><img alt="" src="~/Content/images/clients/egiye-bangla.jpg" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="" href="#"><img alt="" src="~/Content/images/clients/employment-bank.jpg" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="" href="https://www.wblabour.gov.in/"><img alt="" src="~/Content/images/clients/wblabour.png" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="" href="http://labour.nic.in/"><img alt="" src="~/Content/images/clients/labournic.png" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="" href="http://www.ilo.org/global/lang--en/index.htm"><img alt="" src="~/Content/images/clients/ilo.png" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="" href="https://www.wblc.gov.in/"><img alt="" src="~/Content/images/clients/wblc.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="row">
+
+
+                        <div class="col-md-2">
+                            <a class="" href="#"><img alt="" src="~/Content/images/clients/wbtdc.jpg" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="" href="#"><img alt="" src="~/Content/images/clients/tollfree.jpg" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a data-slide="prev" href="#media" class="left carousel-control" style="margin-top:14px !important">‹</a>
+            <a data-slide="next" href="#media" class="right carousel-control" style="margin-top:14px !important">›</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var clickValue = 0;
+        var $affectedElements = $("p"); // Can be extended, ex. $("div, p, span.someClass")
+
+        // Storing the original size in a data attribute so size can be reset
+        $affectedElements.each(function () {
+            var $this = $(this);
+            $this.data("orig-size", $this.css("font-size"));
+        });
+
+        $("#btn-increase").click(function () {
+            changeFontSize(1);
+        })
+
+        $("#btn-decrease").click(function () {
+            changeFontSize(-1);
+        })
+
+        $("#btn-orig").click(function () {
+            $affectedElements.each(function () {
+                var $this = $(this);
+                $this.css("font-size", $this.data("orig-size"));
+            });
+        })
+
+        function changeFontSize(direction) {
+            $affectedElements.each(function () {
+                var $this = $(this);
+                $this.css("font-size", parseInt($this.css("font-size")) + direction);
+            });
+        }
+
+        $("#btn-color").click(function () {
+
+            if (clickValue == 0) {
+                $(".bgrcolor").css("background", "black").css("color", "yellow");
+                $(".spnColor").css("color", "yellow");
+                //$(".fbgrcolor").css("color", "black");
+
+                // $(".fontcolor ,.acolor")
+                clickValue = 1;
+            }
+            else {
+
+                $(".bgrcolor").css("background", "").css("color", "");
+                $(".spnColor").css("color", "");
+                // $(".fontcolor ,.acolor").
+                $(".fbgcolor").css("background", "teal");
+                clickValue = 0;
+            }
+
+
+
+
+        })
+
+
+    });
+</script>

@@ -1,0 +1,997 @@
+﻿@{
+    ViewBag.Title = "EditDepNomi";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    thead {
+        /*background-color : #094c86  !important;
+            color : white !important;*/
+    }
+
+    th {
+        background-color: #094c86 !important;
+        color: white !important;
+    }
+</style>
+<script>
+    var UserId = @Html.Raw(Json.Encode(ViewBag.UserId))
+    var Message = @Html.Raw(Json.Encode(ViewBag.Message))
+</script>
+@using (Html.BeginForm("EditDepNomi", "Registration", FormMethod.Post, new { onsubmit = "return EditSubmit()", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="div1" style="display:none;">
+        <form role="form">
+            <div class="container-fluid" style="margin-left:20px;">
+                <div class="row">
+                    <fieldset class="custom-border">
+                        <label class=""><b>Do you want to provide Dependent Details</b></label>
+                        <input type="radio" class="depenlst" name="dependentdet" value="Yes" id="depyes" tabindex="89">
+                        <label><b>Yes</b></label>
+                        <input type="radio" class="depenlst" name="dependentdet" value="No" id="depno" tabindex="90">
+                        <label><b>No</b></label>
+                        <legend class="custom-border"><b>Dependent Details</b></legend>
+                        <table class="table table-bordered tblfamily">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">DepId</th>
+                                    <th>S.No</th>
+                                    <th style="width: 50px;">Whether Registered under SASPFUW/BOCW/WBTWSS. If yes, then provide Registration No. </th>
+                                    <th>Dependent Name</th>
+                                    <th>Relationship</th>
+                                    <th>Gender</th>
+                                    <th>DOB</th>
+                                    <th>Age (Years)</th>
+                                    <th>Aadhaar No, if any</th>
+                                    <th class="">Scheme PassBook</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th class="" style="display:none;"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="pull-right btndepen">
+                            <a onclick="AddFamilyRow()" tabindex="77" class="btn btn-primary" style="margin-right:10px;">Add</a>
+                        </div>
+                    </fieldset>
+                    <br class="clearfix" />
+                    <fieldset class="custom-border">
+                        <legend class="custom-border color-white"><span class="leg-sty"><b>Nominee Details </b></span></legend>
+                        <label class=""><b>Do you want to provide Nominee Details</b></label>
+                        <input type="radio" class="nomineelst" name="nomineedet" value="Yes" id="nomiyes" tabindex="89">
+                        <label><b>Yes</b></label>
+                        <input type="radio" class="nomineelst" name="nomineedet" value="No" id="nomino" tabindex="90">
+                        <label><b>No</b></label>
+                        <table class="table table-bordered tblNaminee">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">NomiId</th>
+                                    <th>S.No</th>
+                                    <th>Name</th>
+                                    <th>Relationship with applicant</th>
+                                    <th>Gender</th>
+                                    <th>DOB</th>
+                                    <th>Age (Years)</th>
+                                    <th>Share Allocation</th>
+                                    <th>You have account number</th>
+                                    <th>Bank Name</th>
+                                    <th>Bank Account No.</th>
+                                    <th>Branch Name</th>
+                                    <th>IFSC Code</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="pull-right btnnom">
+                            <a onclick="NamineeAdd()" tabindex="88" class="btn btn-primary" style="margin-right:10px;">Add</a>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <center><button type="submit" class="btn btn-primary " tabindex="119">Submit</button></center>
+
+            <div class="row" style="margin-top : 50px;width:1000px;margin-left:150px;">
+
+                <center><h4>Delete Requests</h4></center>
+                <table class="table table-bordered tblRequests">
+                    <thead>
+                        <tr>
+                            <th>Dep/Nominee Name</th>
+                            <th>Request Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            @*Start Hidden Fields*@
+
+            <input type="hidden" id="Bensno" value="1112121231" name="Bensno" />
+            <input type="hidden" id="Bennamedet" value="1212" name="Bennamedet" />
+            <input type="hidden" id="BenFamdet" value="12121" name="BenFamdet" />
+            <input type="hidden" id="NamCount" value="0" name="NamCount" />
+            <input type="hidden" id="FamCount" value="0" name="FamCount" />
+            <input type="hidden" id="DependentStatus" value="0" name="DependentStatus" />
+            <input type="hidden" id="NomineeStatus" value="0" name="NomineeStatus" />
+            @*End Hidden Fields*@
+        </form>
+
+    </div>
+
+    <div id="div2" style="display:none;">
+        <center><h4><b>Please fill remaining information</b></h4></center>
+    </div>
+
+}
+
+@*Delete Dependent*@
+<div class="modal fade" id="divDeleteDep" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:570px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Remarks</h4>
+
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row" id="divDepDet">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                @* <span class="input-group-addon input-label">Remarks</span>*@
+                                @*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+                                @*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+                                <textarea name="test_field" id="DepRemarks" style="width: 544px;height: 104px;"></textarea>
+                                <input type="hidden" id="DepSno" value="0" name="DepSno" />
+                                @*</textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row" id="loadeDeprdiv" style="display:none;margin-top:80px;">
+                    <center><img src="  /Content/images/ColorProcessing.gif" /> </center>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" onclick="DeleteDep()">Submit</a>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*Delete Nominee*@
+<div class="modal fade" id="divDeleteNominee" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:570px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Remarks</h4>
+
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row" id="divNomineeDet">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group extra-space">
+                                @* <span class="input-group-addon input-label">Remarks</span>*@
+                                @*<textarea rows="4" id="rejremk" name="Remark" cols="5" class="form-control" style="width: 500px;">*@
+
+                                @*   @Html.TextBox("rejremk", "", new { @class = "form-control", })*@
+                                <textarea name="test_field" id="NomineeRemarks" style="width: 544px;height: 104px;"></textarea>
+                                <input type="hidden" id="NomineeSno" value="0" name="DepSno" />
+                                @*</textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="row" id="loadeNomineerdiv" style="display:none;margin-top:80px;">
+                    <center><img src="  /Content/images/ColorProcessing.gif" /> </center>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" onclick="DeleteNominee()">Submit</a>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#Bensno").val(UserId);
+        var Bensno =  $("#Bensno").val();
+        if(Message !="")
+        {
+            alert(Message);
+            if(Message ="request submitted successfully")
+            {
+                window.location.href = "/Registration/EditDepNomi";
+            }
+        }
+        BindData(Bensno)
+        $.get('@Url.Action("GetStatusRequests", "Registration")',  {Bensno : Bensno}, function (res) {
+            $('.tblRequests tbody').empty();
+
+            $.each(res, function (i, data) {
+
+                if(data.Status == "Approved")
+                    $('.tblRequests').append('<tr><td>'+data.ReqName+'</td><td>'+data.ReqType+'</td><td>'+data.Date+'</td><td ><font color="#008000"><strong>Approved</strong></td><td>'+data.Remarks+'</td></tr>')
+                if(data.Status == "Rejected")
+                    $('.tblRequests').append('<tr><td>'+data.ReqName+'</td><td>'+data.ReqType+'</td><td>'+data.Date+'</td><td><strong>Rejected</strong></td><td>'+data.Remarks+'</td></tr>')
+                if(data.Status == "Pending")
+                    $('.tblRequests').append('<tr><td>'+data.ReqName+'</td><td>'+data.ReqType+'</td><td>'+data.Date+'</td><td><font color="#DAA520"><strong>Pending</strong></td><td>'+data.Remarks+'</td></tr>')
+
+            });
+
+        });
+    });
+    function BindData(Bensno)
+    {
+        $.get('@Url.Action("GetbenDetails", "Registration")', {bensno : Bensno}, function (res) {
+
+            if(res.Part2 =="Y")
+            {
+                $("#div1").show();
+            }
+            else
+            {
+                $("#div2").show();
+
+            }
+        });
+        //Getting benificiary Family Data
+        $.get('@Url.Action("GetFamilyDetails", "Registration")',  {bensno : Bensno}, function (res) {
+            $('.tblfamily tbody').empty();
+            if(res =="" || res ==null)
+            {
+                $("input[name=dependentdet]").prop('checked', true);
+                $('.tblfamily').hide();
+                $('.btndepen').hide();
+            }
+            $.each(res, function (i, data) {
+                var rowCount = $('.tblfamily tr').length;
+                $('.tblfamily').append('<tr><td style="display:none"><input id="Familyid'+rowCount+'" type="text" value="'+(data.BenFamilyMemSno)+'"  class="form-control" name="Familyid"></td><td><input id="famid'+rowCount+'" type="text"  class="form-control" value="'+rowCount+'" style="width:39px;" readonly="readonly"></td><td><input id="FamWRU'+rowCount+'" type="text"  class="form-control" value="'+(data.BenFamilySchRegNo)+'" name="famiName"  maxlength = 16 onkeypress = "return IsAlphaNumaric(event,this)"></td><td><input id="FamDept'+rowCount+'" type="text"  class="form-control" value="'+(data.BenDependentName)+'" name="FamDept" style="width:112px;" onkeypress = "return onlyAlphabets(event,this)"></td><td><select id="DDLFamRel'+rowCount+'" value="'+(data.BenDependentRelation)+'" class="form-control" name="DDLFamRel" style="width: 92px;"><option value="Father">Father</option><option value="Mother">Mother</option><option value="Spouse">Spouse</option><option value="Son">Son</option><option value="Daughter">Daughter</option></select></td><td><select id="DDLFamGender'+rowCount+'" class="form-control"  name="DDLGender" style="width: 92px;"><option value="Male">Male</option><option value="Female">Female</option></select></td><td><input id="FamDob'+rowCount+'" type="text"  name="FamDob" class="form-control notranslate Famdob" value="'+data.Dob+'"  style="width:130px;"></td><td><input id="FamAge'+rowCount+'"  class="form-control" type="text" value="'+data.BenFamilyAge+'" name="FamAge" style="width:50px;" onkeypress = "return onlynumber(event,this)" maxlength = 3 readonly="readonly"><td><input id="AdhNoFam'+rowCount+'" type="text" value="'+data.BenFamilyAadhaarNo+'" class="form-control" name="AdhNoFam" maxlength = 12 onkeypress = "return onlynumber(event)" ></td><td><input id="schpassbk'+rowCount+'" type="file" class="form-control" name="files['+(rowCount-1)+']" ></td><td style="display:none;"><label id="lblschemechk'+rowCount+'">0</label></td><td><a class="btn btn-warning" onclick="DeleteFamilyModal('+data.BenFamilyMemSno+')">Delete</a></td><td></td></tr>')
+                $("#FamDob"+rowCount).datepicker({
+                    dateFormat: "dd-mm-yy",
+                    changeYear: true,
+                    yearRange: "1960:2017",
+                    autoclose: true,
+                    maxDate: new Date()
+                })
+                var dat = new Date();
+                var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+                var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+                var today = day + "-" + month + "-" + dat.getFullYear();
+                $("#DDLFamRel"+rowCount).val(data.BenDependentRelation);
+                $("#DDLFamGender"+rowCount).val(data.BenFamilyGender);
+                $('body').on('change', '#FamDob'+rowCount, function () {
+                    var dob = $("#FamDob"+rowCount).val();
+                    var dateAr = dob.split('-');
+                    var dateofbirth = dateAr[2] +"/"+dateAr[1] +"/"+dateAr[0];
+                    var age = calculateAge(dateofbirth);
+                    if($("#DDLFamRel"+rowCount).val() =="Son")
+                    {
+                        if(age >=21)
+                        {
+                            alert("This dependent will be eligible for the Educational benefit only.");
+                            //alert("Son's age to be less than 21");
+                            //return false;
+                        }
+                    }
+                    $("#FamAge"+rowCount).val(age)
+                });
+                $('body').on('change', '#FamWRU'+rowCount, function () {
+                    $.get('@Url.Action("GetBenDetails", "Agent")', { id: $("#FamWRU"+rowCount).val()}, function (dat) {
+                        if(dat == "")
+                        {
+                            alert("No Data Found, Please Enter Data Manually.");
+                            return False;
+                        }
+                        $('#lblschemechk'+rowCount).text("1");
+                        $('#FamDept'+rowCount).val(dat.BenFirstName +' '+ dat.BenMiddleName +' '+ dat.BenLastName);
+                        $('#DDLFamGender'+rowCount).val(dat.BenGender);
+                        $('#FamDob'+rowCount).val(dat.BenDob);
+                        $("#FamAge" +rowCount).val(dat.BenAge);
+                        $("#AdhNoFam"+rowCount).val(dat.AadharCard);
+                        $("#schpassbk"+rowCount).show();
+                    });
+                });
+                $('body').on('change', '#DDLFamGender'+rowCount, function () {
+                    var famrel =  $("#DDLFamRel"+rowCount).val();
+                    var famgen =  $("#DDLFamGender"+rowCount).val();
+                    if(famgen =="Male")
+                    {
+                        if(famrel == "Mother" ||famrel == "Daughter")
+                        {
+                            alert("Invalid Gender");
+                            return false;
+                        }
+                    }
+                    if(famgen =="Female")
+                    {
+                        if(famrel == "Father" ||famrel == "Son")
+                        {
+                            alert("Invalid Gender");
+                            return false;
+                        }
+                    }
+                });
+            });
+        });
+        //Get Nominee Details
+        $.get('@Url.Action("GetNamineeDetails", "Registration")',  {bensno : Bensno}, function (res) {
+            $('.tblNaminee tbody').empty();
+            if(res =="" || res ==null)
+            {
+                $("input[name=nomineedet]").prop('checked', true);
+                $('.tblNaminee').hide();
+                $('.btnnom').hide();
+            }
+             
+            $.each(res, function (i, data) {
+                var rowCount = $('.tblNaminee tr').length;
+				$('.tblNaminee').append('<tr><td style="display:none"><input id="nomineeid' + rowCount + '" type="text" value="' + (data.BenNomineeSno) + '"  class="form-control" name="nomineeid"></td><td><input id="namid' + rowCount + '" type="text"  class="form-control" value="' + rowCount + '" style="width:39px;" readonly="readonly"></td><td><input id="NamiName' + rowCount + '" type="text"  class="form-control" value="' + (data.BenNomineeName) + '" name="NamiName" style="width:112px;" onkeypress = "return onlyAlphabets(event,this)"></td><td><select id="DDLNamRel' + rowCount + '" value="' + (data.BenNomineeRelation) + '" class="form-control" name="DDLNamRel" style="width: 92px;"><option value="Father">Father</option><option value="Mother">Mother</option><option value="Spouse">Spouse</option><option value="Son">Son</option><option value="Daughter">Daughter</option><option value="Others">Others</option></select></td><td><select id="DDLNamGender' + rowCount + '" class="form-control"  name="DDLGender" style="width: 92px;"><option value="Male">Male</option><option value="Female">Female</option></select></td><td><input id="namdob' + rowCount + '" type="text"  name="namdob" class="form-control notranslate namdob" value="' + data.Dob + '"  style="width:130px;"></td><td><input id="NamAge' + rowCount + '"  class="form-control" type="text" value="' + data.BenNomineeAge + '" name="NamAge" style="width:50px;" onkeypress = "return onlynumber(event,this)" maxlength = 3 readonly="readonly"></td> <td><input id="SahreAlo' + rowCount + '"  class="form-control" type="text" value="' + data.BenNomineeShareAllocation + '" name="SahreAlo" onkeypress = "return onlynumber(event,this)" maxlength = 3 style="width:50px;"></td><td><input type="radio"  name="nomineeAct' + rowCount + '" class="nomineeAct' + rowCount + '" value="Yes">Yes <br/><input type="radio"  name="nomineeAct' + rowCount + '" class="nomineeAct' + rowCount + '" value="No">No</td><td><input id="Bankname'+rowCount+'"  class="form-control" type="text" name="Bankname" value="'+data.BenNomineeBankName+'"  maxlength = 16 onkeypress = "return onlyAlphabets(event,this)"></td><td><input id="BankActNo'+rowCount+'"   class="form-control" type="text" value="'+data.BenNomineeBankAccNo+'" name="BankActNo"  maxlength = 16 onkeypress = "return onlynumber(event,this)"></td><td><input id="BranchName'+rowCount+'"   class="form-control" type="text" name="BranchName" value="'+data.BenNomineeBankBranch+'" style="width:100px;" maxlength = 25 onkeypress = "return onlyAlphabets(event,this)"></td><td><input id="NamIfscCode'+rowCount+'" type="text" value="'+data.BenNomineeBankIfscCode+'" class="form-control" name="NamIfscCode" style="width:85px;text-transform:uppercase" maxlength = 11 onkeypress = "return IsAlphaNumaric(event)" ></td><td><a class="btn btn-warning" onclick="DeleteNomineeModal('+data.BenNomineeSno+')">Delete</a></td><td></td></tr>')
+
+                if (data.BenNomineeBankAccNo != null && data.BenNomineeBankAccNo != "") {
+                    $("input[name=nomineeAct" + rowCount + "][value=Yes]").prop('checked', true);
+                }
+
+                $("#namdob" + rowCount).datepicker({
+                    dateFormat: "dd-mm-yy",
+                    changeYear: true,
+                    yearRange: "1920:2020",
+                    autoclose: true,
+                    maxDate: new Date()
+                })
+                var dat = new Date();
+                var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+                var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+                var today = day + "-" + month + "-" + dat.getFullYear();
+                $("#DDLNamRel"+rowCount).val(data.BenNomineeRelation);
+                $("#DDLNamGender"+rowCount).val(data.BenNomineeGender);
+                $('body').on('change', '#DDLNamRel'+rowCount, function () {
+                    var Checknamrel =  $("#DDLNamRel"+rowCount).val();
+                    for (i = 1; i < rowCount; i++)
+                    {
+                        var rel =  $("#DDLNamRel"+rowCount).val();
+                        if(rel == "Father" || rel == "Mother"|| rel =="Spouse" )
+                        {
+                            if(Checknamrel == rel )
+                            {
+                                alert("Invalid Relation");
+                                return false;
+                            }
+                        }
+                    }
+                });
+                $('body').on('change', '#namdob'+rowCount, function () {
+                    var dob = $("#namdob"+rowCount).val();
+                    var dateAr = dob.split('-');
+                    var dateofbirth = dateAr[2] +"/"+dateAr[1] +"/"+dateAr[0];
+                    var age = calculateAge(dateofbirth);
+                    $("#NamAge"+rowCount).val(age)
+                });
+                $('body').on('change', '#SahreAlo'+rowCount, function () {
+                    Changevalue();
+                });
+                $('body').on('change', '#DDLNamGender'+rowCount, function () {
+                    var namrel =  $("#DDLFamRel"+rowCount).val();
+                    var namgen =  $("#DDLFamGender"+rowCount).val();
+                    if(namgen =="Male")
+                    {
+                        if(namrel == "Mother" ||namrel == "Daughter")
+                        {
+                            alert("Invalid Gender");
+                            return false;
+                        }
+                    }
+                    if(namgen =="Female")
+                    {
+                        if(namrel == "Father" ||namrel == "Son")
+                        {
+                            alert("Invalid Gender");
+                            return false;
+                        }
+                    }
+                });
+                $('body').on('keypress', '#NamIfscCode'+rowCount, function () {
+                    var ifscnomval = $(this).val();
+                    if(ifscnomval.length == 4)
+                    {
+                        $(this).val(ifscnomval+"0");
+                        return false;
+                    }
+                });
+                $('body').on('change', '#BankActNo'+rowCount, function ()
+                {
+                    var txtlength = $(this).val();
+                     
+                    if(txtlength.length > 16 || txtlength.length < 9)
+                    {
+                        alert("Invalid Bank Account Number");
+                        $(this).focus().val('');
+                        return false;
+                    }
+                })
+            });
+        });
+    }
+    //ADD Family Row
+    function AddFamilyRow() {
+         
+        var rowCount = $('.tblfamily tr').length;
+        if (rowCount > 6) {
+            alert("maximum row limit is 6");
+            return false;
+        }
+        else {
+            $('.tblfamily').append('<tr><td style="display:none"><input id="Familyid' + rowCount + '" type="text" value="0"  class="form-control" name="Familyid"></td><td><input id="FamSno' + rowCount + '" class="form-control" type="text" name="FamSno" value="' + (rowCount) + '" style="width:39px; text-transform:uppercase" readonly="readonly"></td><td><input id="FamWRU' + rowCount + '" class="form-control" type="text" name="FamWRU" maxlength = 16 onkeypress = "return IsAlphaNumaric(event)" style= "text-transform:uppercase"></td><td><input id="FamDept' + rowCount + '" class="form-control" type="text" name="FamDept" maxlength = 25 onkeypress = "return onlyAlphabets(event,this)"></td><td><select id="DDLFamRel' + rowCount + '" class="form-control" name="DDLFamRel"><option value="Father">Father</option><option value="Mother">Mother</option><option value="Spouse">Spouse</option><option value="Son">Son</option><option value="Daughter">Daughter</option></select></td><td><select id="DDLFamGender' + rowCount + '" class="form-control" name="DDLGender" style="width: 98px;"><option value="Male">Male</option><option value="Female">Female</option></select></td><td><input id="FamDob' + rowCount + '"" type="text" class="form-control notranslate FamDob" name="Dob"  style="width:130px;"></td><td><input id="FamAge' + rowCount + '" type="text" class="form-control" name="FamAge" onkeypress = "return onlynumber(event,this)" maxlength = 3 readonly="readonly" style="width:50px;"></td><td><input id="AdhNoFam' + rowCount + '" type="text" class="form-control" name="AdhNoFam" maxlength = 12, onkeypress = "return onlynumber(event,this)"></td><td><input id="schpassbk' + rowCount + '" type="file" class="form-control" name="files[' + (rowCount-1) + ']"   ></td><td></td><td><button type="button"   class="removefambutton" title="Remove this row">X</button></td></tr>')
+            $("#FamDob" + rowCount).datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                yearRange: "1920:2017",
+                autoclose: true,
+                maxDate: new Date()
+            })
+            var dat = new Date();
+            var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+            var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+            var today = day + "-" + month + "-" + dat.getFullYear();
+            $("#FamDob" + rowCount).val(today);
+            $('body').on('change', '#FamDob' + rowCount, function () {
+                var dob = $("#FamDob" + rowCount).val();
+                var dateAr = dob.split('-');
+                var dateofbirth = dateAr[2] + "/" + dateAr[1] + "/" + dateAr[0];
+                var age = calculateAge(dateofbirth);
+
+                if ($("#DDLFamRel" + rowCount).val() == "Son") {
+                    if (age >= 21) {
+                       // alert("Son's age to be less than 21");
+                        // return false;
+                        alert("This dependent will be eligible for the Educational benefit only.");
+
+                    }
+                }
+                $("#FamAge" + rowCount).val(age)
+            });
+            $('body').on('change', '#DDLFamGender' + rowCount, function () {
+                var famrel = $("#DDLFamRel" + rowCount).val();
+                var famgen = $("#DDLFamGender" + rowCount).val();
+                if (famgen == "Male") {
+                    if (famrel == "Mother" || famrel == "Daughter") {
+                        alert("Invalid Gender");
+                        return false;
+                    }
+                }
+                if (famgen == "Female") {
+                    if (famrel == "Father" || famrel == "Son") {
+                        alert("Invalid Gender");
+                        return false;
+                    }
+                }
+            });
+            $('body').on('change', '#DDLFamRel' + rowCount, function () {
+                var Checkfamrel = $("#DDLFamRel" + rowCount).val();
+                for (i = 1; i < rowCount; i++) {
+                    var rel = $("#DDLFamRel" + rowCount).val();
+                    if (rel == "Father" || rel == "Mother" || rel == "Spouse") {
+                        if (Checkfamrel == rel) {
+                            alert("Invalid Relation");
+                            return false;
+                        }
+                    }
+                }
+            });
+            $('body').on('change', '#FamWRU' + rowCount, function () {
+                $.get('@Url.Action("GetBenDetails", "Agent")', { id: $("#FamWRU" + rowCount).val() }, function (dat) {
+                    if (dat == "") {
+                        alert("No Data Found, Please Enter Data Manually.");
+                        return false;
+                    }
+                    $('#FamDept' + rowCount).val(dat.BenFirstName + ' ' + dat.BenMiddleName + ' ' + dat.BenLastName);
+                    $('#DDLFamGender' + rowCount).val(dat.BenGender);
+                    $('#FamDob' + rowCount).val(dat.BenDob);
+                    $("#FamAge" + rowCount).val(dat.BenAge);
+                    $("#AdhNoFam" + rowCount).val(dat.AadharCard);
+                    $("#schpassbk" + rowCount).show();
+                });
+            });
+        }
+    }
+    function NamineeAdd() {
+         
+        var rowCount = $('.tblNaminee tr').length;
+        var shreallocationrange = "0";
+        for (i = 1; i < rowCount; i++) {
+            shreallocationrange = parseInt((shreallocationrange), 10) + parseInt(($("#SahreAlo" + i).val()), 10);
+        }
+        if (shreallocationrange >= 100) {
+            alert("Share Allocation Already 100%");
+            return false;
+        }
+        if (rowCount > 3) {
+            alert("Maximum limit is 3");
+            return false;
+        }
+        else {
+            $('.tblNaminee').append('<tr><td style="display:none"><input id="nomineeid' + rowCount + '" type="text" value="0"  class="form-control" name="nomineeid"></td><td><input id="NamiSno' + rowCount + '" type="text"  class="form-control" name="FamSno" value="' + (rowCount) + '" style="width:39px;" readonly="readonly"></td><td><input id="NamiName' + rowCount + '" type="text"  class="form-control" name="NamiName" style="width:112px;" onkeypress = "return onlyAlphabets(event,this)"></td><td><select id="DDLNamRel' + rowCount + '"  class="form-control" name="DDLNamRel" style="width: 92px;"><option value="Father">Father</option><option value="Mother">Mother</option><option value="Spouse">Spouse</option><option value="Son">Son</option><option value="Daughter">Daughter</option></select></td><td><select id="DDLNamGender' + rowCount + '" class="form-control"  name="DDLGender" style="width: 92px;"><option value="Male">Male</option><option value="Female">Female</option></select></td><td><input id="namdob' + rowCount + '" type="text" name="namdob" class="form-control notranslate namdob"  style="width:130px;"></td><td><input id="NamAge' + rowCount + '"  class="form-control" type="text" name="NamAge" style="width:39px;" onkeypress = "return onlynumber(event,this)" maxlength = 3 readonly="readonly"></td> <td><input id="SahreAlo' + rowCount + '"  class="form-control" type="text" name="SahreAlo" onkeypress = "return onlynumber(event,this)" maxlength = 3 style="width:50px;"></td><td><input type="radio"  name="nomineeAct' + rowCount + '" class="nomineeAct' + rowCount + '" value="Yes">Yes <br/><input type="radio"  name="nomineeAct' + rowCount + '" class="nomineeAct' + rowCount +'" value="No">No</td><td><input id="Bankname' + rowCount + '"   class="form-control" type="text" name="Bankname"  maxlength = 16 onkeypress = "return onlyAlphabets(event,this)"></td><td><input id="BankActNo' + rowCount + '"   class="form-control" type="text" name="BankActNo"  maxlength = 16 onkeypress = "return onlynumber(event,this)"></td><td><input id="BranchName' + rowCount + '"   class="form-control" type="text" name="BranchName" style="width:100px;" maxlength = 25 onkeypress = "return onlyAlphabets(event,this)"></td><td><input id="NamIfscCode' + rowCount + '" type="text"  class="form-control" name="NamIfscCode" style="width:85px;text-transform:uppercase" maxlength = 11 onkeypress = "return IsAlphaNumaric(event)" ></td><td></td><td><button type="button"  class="removenambutton" title="Remove this row">X</button></td></tr>')
+            $("#namdob" + rowCount).datepicker({
+                dateFormat: "dd-mm-yy",
+                changeYear: true,
+                yearRange: "1920:2017",
+                autoclose: true,
+                maxDate: new Date()
+            })
+            var dat = new Date();
+            var month = (dat.getMonth() + 1) < 10 ? '0' + (dat.getMonth() + 1) : '' + (dat.getMonth() + 1);
+            var day = (dat.getDate()) < 10 ? '0' + (dat.getDate()) : '' + (dat.getDate());
+            var today = day + "-" + month + "-" + dat.getFullYear();
+            $("#namdob" + rowCount).val(today);
+            $('body').on('change', '#namdob' + rowCount, function () {
+                var dob = $("#namdob" + rowCount).val();
+                var dateAr = dob.split('-');
+                var dateofbirth = dateAr[2] + "/" + dateAr[1] + "/" + dateAr[0];
+                var age = calculateAge(dateofbirth);
+                $("#NamAge" + rowCount).val(age)
+            });
+            $('body').on('change', '#DDLNamRel' + rowCount, function () {
+                var Checknamrel = $("#DDLNamRel" + rowCount).val();
+                for (i = 1; i < rowCount; i++) {
+                    var rel = $("#DDLNamRel" + rowCount).val();
+                    if (rel == "Father" || rel == "Mother" || rel == "Spouse") {
+                        if (Checknamrel == rel) {
+                            alert("Invalid Relation");
+                            return false;
+                        }
+                    }
+                }
+            });
+            $('body').on('change', '#SahreAlo' + rowCount, function () {
+                Changevalue();
+            });
+            $('body').on('change', '#DDLNamGender' + rowCount, function () {
+                var namrel = $("#DDLFamRel" + rowCount).val();
+                var namgen = $("#DDLFamGender" + rowCount).val();
+                if (namgen == "Male") {
+                    if (namrel == "Mother" || namrel == "Daughter") {
+                        alert("Invalid Gender");
+                        return false;
+                    }
+                }
+                if (namgen == "Female") {
+                    if (namrel == "Father" || namrel == "Son") {
+                        alert("Invalid Gender");
+                        return false;
+                    }
+                }
+            });
+            $('body').on('keypress', '#NamIfscCode' + rowCount, function () {
+                var ifscnomval = $(this).val();
+                if (ifscnomval.length == 4) {
+                    $(this).val(ifscnomval + "0");
+                    return false;
+                }
+            });
+            $('body').on('change', '#BankActNo' + rowCount, function () {
+                var txtlength = $(this).val();
+                 
+                if (txtlength.length > 16 || txtlength.length < 9) {
+                    alert("Invalid Bank Account Number");
+                    $(this).focus().val('');
+                    return false;
+                }
+            })
+        }
+    }
+    function EditSubmit()
+    {
+        var DependentStatus = $("input[name='dependentdet']:checked").val();
+        var NomineeStatus = $("input[name='nomineedet']:checked").val();
+        if(DependentStatus == undefined &&NomineeStatus == undefined){
+            alert("Please Select Dependent Details (or) Nominee Details ");
+            return false;
+        }
+        var famrowCount = $('.tblfamily tr').length;
+        var namrowCount = $('.tblNaminee tr').length;
+        $("#NamCount").val(namrowCount);
+        $("#FamCount").val(famrowCount);
+        var doc = "";
+        if(DependentStatus == undefined)
+        {
+            alert("Please Select Yes/No For Dependent Details");
+            $("#depyes").focus();
+            return false;
+        }
+        $("#DependentStatus").val(DependentStatus);
+        var FamFatherCount = 0;
+        var FamMotherCount = 0;
+        var FamSpouseCount = 0;
+        if(DependentStatus =="Yes")
+        {
+            for (i = 1;i < famrowCount; i++)
+            {
+                 
+                if($("#FamDept"+i).val() =="" ||$("#FamDept"+i).val() ==null)
+                {
+                    alert("Please Enter Dependent Name");
+                    $("#FamDept"+i).focus();
+                    return false;
+                }
+                if($("#FamDob"+i).val() =="" ||$("#FamDob"+i).val() ==null)
+                {
+                    alert("Please Enter Date Of Birth");
+                    $("#FamDob"+i).focus();
+                    return false;
+                }
+                if($("#FamAge"+i).val() =="" ||$("#FamAge"+i).val() ==null)
+                {
+                    alert("Please Enter Age");
+                    $("#FamAge"+i).focus();
+                    return false;
+                }
+                if ($("#AdhNoFam"+i).val().length != 12 && $("#AdhNoFam"+i).val().length > 1) {
+                    alert("Please Enter Valid Aadhaar Number");
+                    $("#AdhNoFam" + i).focus();
+                    return false;
+                }
+                var schempbk = $("#lblschemechk"+i).text();
+                if(schempbk == 1)
+                {
+                    if($("#schpassbk"+i-1).val() =="" ||$("#schpassbk"+i-1).val() ==null)
+                    {
+                        alert("Please select Scheme Passbook");
+                        $("#schpassbk" + i).focus();
+                        return false;
+                    }
+                }
+                var famrel =  $("#DDLFamRel"+i).val();
+                if(famrel =="Father")
+                    FamFatherCount = FamFatherCount + 1;
+                if(famrel =="Mother")
+                    FamMotherCount = FamMotherCount + 1;
+                if(famrel =="Spouse")
+                    FamSpouseCount = FamSpouseCount + 1;
+                if(FamFatherCount > 1 ||FamMotherCount > 1 ||FamSpouseCount >1)
+                {
+                    alert("Invalid Relation");
+                    return false;
+                }
+                doc += $("#FamWRU"+i).val() + "$";
+                doc +=$("#FamDept"+i).val() + "$";
+                doc +=$("#DDLFamRel"+i).val() + "$";
+                doc +=$("#DDLFamGender"+i).val() + "$";
+                doc +=$("#FamDob"+i).val() +"$";
+                doc +=$("#FamAge"+i).val() + "$";
+                doc +=$("#AdhNoFam"+i).val() + "$";
+                doc +=$("#Familyid"+i).val() + "~";
+            }
+        }
+        doc += "";
+        $("#BenFamdet").val(doc);
+        var doc1 = "";
+        var shreallocation = "0";
+        if(NomineeStatus == undefined)
+        {
+            alert("Please Select Yes/No For Nominee  Details");
+            $("#nomiyes").focus();
+            return false;
+        }
+        var NamFather = 0;
+        var Nammother = 0;
+        var NamSpouse = 0;
+        $("#NomineeStatus").val(NomineeStatus);
+        if(NomineeStatus == "Yes")
+        {
+            for (i = 1;i < namrowCount; i++)
+            {
+                if($("#NamiName"+i).val() =="" ||$("#NamiName"+i).val() ==null)
+                {
+                    alert("Please Enter Nominee Name");
+                    $("#NamiName"+i).focus();
+                    return false;
+                }
+                if($("#DDLNamRel"+i).val() =="" ||$("#DDLNamRel"+i).val() ==null)
+                {
+                    alert("Please Enter Nominee  Relation");
+                    $("#DDLNamRel"+i).focus();
+                    return false;
+                }
+                if($("#namdob"+i).val() =="" ||$("#namdob"+i).val() ==null)
+                {
+                    alert("Please Enter Nominee  Date Of Birth");
+                    $("#namdob"+i).focus();
+                    return false;
+                }
+                if($("#NamAge"+i).val() =="" ||$("#NamAge"+i).val() ==null)
+                {
+                    alert("Please Enter Nominee  Age");
+                    $("#NamAge"+i).focus();
+                    return false;
+                }
+                if($("#SahreAlo"+i).val() =="" ||$("#SahreAlo"+i).val() ==null)
+                {
+                    alert("Please Enter Nominee  Share Allocation");
+                    $("#SahreAlo"+i).focus();
+                    return false;
+                }
+                var namrel =  $("#DDLNamRel"+i).val();
+                if(namrel =="Father")
+                    NamFather  = NamFather  + 1;
+                if(namrel =="Mother")
+                    Nammother  = Nammother  + 1;
+                if(namrel =="Spouse")
+                    NamSpouse  = NamSpouse  + 1;
+                if(NamFather > 1 ||Nammother > 1 ||NamSpouse >1)
+                {
+                    alert("Invalid Relation");
+                    return false;
+                }
+                var agevalid = $("#NamAge" + i).val();
+
+
+                var bnkValidation = $("input[name=nomineeAct" + i + "]:checked").val();
+
+                if (bnkValidation == null || bnkValidation == undefined) {
+                    alert("Please select  account number yes/no");
+                    $(".nomineeAct" + i).focus();
+                    return false;
+                }
+
+                if (bnkValidation == "Yes") {
+                    if($("#Bankname"+i).val() =="" ||$("#Bankname"+i).val() ==null)
+                    {
+                        alert("Please Enter Nominee  Bank Name");
+                        $("#Bankname"+i).focus();
+                        return false;
+                    }
+                    if($("#BankActNo"+i).val() =="" ||$("#BankActNo"+i).val() ==null)
+                    {
+                        alert("Please Enter Nominee  Bank Account No");
+                        $("#BankActNo"+i).focus();
+                        return false;
+                    }
+                    if($("#BranchName"+i).val() =="" ||$("#BranchName"+i).val() ==null)
+                    {
+                        alert("Please Enter Nominee  Branch Name");
+                        $("#BranchName"+i).focus();
+                        return false;
+                    }
+                    if($("#NamIfscCode"+i).val() =="" ||$("#NamIfscCode"+i).val() ==null)
+                    {
+                        alert("Please Enter Nominee  IFSC Code");
+                        $("#NamIfscCode"+i).focus();
+                        return false;
+                    }
+                    if ($("#NamIfscCode"+i).val().length != 11) {
+                        alert("Please Enter Valid IFSC Code");
+                        $("#NamIfscCode" + i).focus();
+                        return false;
+                    }
+                }
+                shreallocation =  parseInt((shreallocation),10)+parseInt(($("#SahreAlo"+i).val()),10);
+                doc1 +=  $("#NamiName"+i).val() + "$";
+                doc1 +=  $("#DDLNamRel"+i).val() + "$";
+                doc1 +=  $("#DDLNamGender"+i).val() + "$";
+                doc1 +=  $("#NamAge"+i).val() + "$";
+                doc1 +=  $("#namdob"+i).val() + "$";
+                doc1 +=  $("#SahreAlo"+i).val() + "$";
+                doc1 +=  $("#BranchName"+i).val() + "$";
+                doc1 +=   $("#NamIfscCode"+i).val() + "$";
+                doc1 +=  $("#BankActNo"+i).val() + "$";
+                doc1 +=  $("#nomineeid"+i).val() + "$";
+                doc1 +=  $("#Bankname"+i).val() + "~";
+            }
+        }
+        doc1 += "";
+        $("#Bennamedet").val(doc1);
+        if(NomineeStatus == "Yes")
+        {
+            if(shreallocation >100)
+            {
+                var i = namrowCount-1;
+                alert("The Shareallocation value Should not exceed 100");
+                $("#SahreAlo"+1).focus();
+                return false;
+            }
+            if(shreallocation < 100)
+            {
+                var i = namrowCount-1;
+                alert("The Shareallocation value Should not be less than 100");
+                $("#SahreAlo"+i).focus();
+                return false;
+            }
+        }
+    }
+    //Dependent Change
+    $('.depenlst').change(function() {
+        var DependentStatus = $("input[name='dependentdet']:checked").val();
+        var rowCount = $('.tblfamily tr').length;
+        if(rowCount == 1)
+        {
+            AddFamilyRow()
+        }
+        if(DependentStatus =="Yes")
+        {
+            $(".tblfamily").show();
+            $(".btndepen").show();
+        }
+        if(DependentStatus =="No")
+        {
+            $(".tblfamily").hide();
+            $(".btndepen").hide();
+        }
+    });
+    //Nominee Change
+    $('.nomineelst').change(function() {
+        var nomineedet = $("input[name='nomineedet']:checked").val();
+        var rowCount = $('.tblNaminee tr').length;
+        if(rowCount == 1)
+        {
+            NamineeAdd()
+        }
+        if(nomineedet =="Yes")
+        {
+            $(".tblNaminee").show();
+            $(".btnnom").show();
+        }
+        if(nomineedet =="No")
+        {
+            $(".tblNaminee").hide();
+            $(".btnnom").hide();
+        }
+    });
+    function onlynumber(e, t) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            return false;
+        }
+    }
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 46) || (charCode == 32))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+    $(document).on('click', 'button.removefambutton', function () { // <-- changes
+        var famrowCount = $('.tblfamily tr').length;
+        var $tr = $(this).closest('tr');
+        var myRow = $tr.index();
+        if(myRow == famrowCount-2)
+        {
+            $(this).closest('tr').remove();
+            return false;
+        }
+        else
+        {
+            alert("Only last row will be deleted");
+            return false;
+        }
+    });
+    $(document).on('click', 'button.removenambutton', function () {
+        var namrowCount = $('.tblNaminee tr').length;
+        var $tr = $(this).closest('tr');
+        var myRow = $tr.index();
+        if(myRow ==namrowCount-2)
+        {
+            $(this).closest('tr').remove();
+            return false;
+        }
+        else
+        {
+            alert("Only last row will be deleted")
+            return false;
+        }
+    });
+
+
+    function DeleteFamilyModal(id)
+    {
+
+        $("#divDeleteDep").modal('show');
+        $("#DepSno").val(id);
+
+
+    }
+
+    function DeleteNomineeModal(id)
+    {
+        $("#divDeleteNominee").modal('show');
+        $("#NomineeSno").val(id);
+
+    }
+
+    function DeleteDep()
+    {
+        var Id = $("#DepSno").val();
+        var Remarks = $("#DepRemarks").val();
+
+        if(Remarks == "" || Remarks == null)
+        {
+            alert("Please enter remarks");
+            $("#DepRemarks").focus();
+            return false;
+        }
+
+        $.get('@Url.Action("DeleteDependent", "Registration")',  {Id : Id,Remarks : Remarks,Type : 0,DelBy :UserId}, function (res) {
+
+            $("#divDeleteDep").modal('hide');
+
+            alert(res.Message);
+            if(res.Code == "000")
+            {
+                window.location.href = "/Registration/EditDepNomi";
+                return false;
+            }
+        });
+    }
+    function DeleteNominee()
+    {
+        var Id = $("#NomineeSno").val();
+        var Remarks = $("#NomineeRemarks").val();
+
+        if(Remarks == "" || Remarks == null)
+        {
+            alert("Please enter remarks");
+            $("#NomineeRemarks").focus();
+            return false;
+        }
+
+        $.get('@Url.Action("DeleteNominee", "Registration")',  {Id : Id,Remarks : Remarks,Type : 0,DelBy :UserId}, function (res) {
+
+            $("#divDeleteNominee").modal('hide');
+
+            alert(res.Message);
+            if(res.Code == "000")
+            {
+                window.location.href = "/Registration/EditDepNomi";
+                return false;
+            }
+        });
+
+
+
+    }
+
+
+</script>

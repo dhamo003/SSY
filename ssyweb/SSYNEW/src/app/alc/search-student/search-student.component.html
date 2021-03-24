@@ -1,0 +1,94 @@
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-sortable="false">
+
+                <header>
+                    <h2>Search Student </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="ssv-search">
+                            <label class="label">Student Name </label>
+                            <input type="text" name="name" class="advancedSearchTextbox" [(ngModel)]="studentName" placeholder="Search Student Name"
+                                   maxlength="50" #name="ngModel" required>
+                            <button (click)="searchStudent()"><i class="fa fa-search"></i></button>
+                            <!--<span [style.color]="!nameValid?'red':''"><b>*</b></span>
+                                <div *ngIf="!nameValid">
+                                <span style="color: red;">Student Name is required </span>
+                            </div>-->
+                        </div>
+
+
+                        <p></p>
+                        <table class="table table-striped" [mfData]="claimsData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter>Action</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="ssin">SSIN</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="benName">Beneficiary Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="benType">Beneficiary Type</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimRefernceNo">Claim Reference No.</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimType">Claim Category</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="submittedDateString">Submission Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="claimAmount">Amount</mfDefaultSorter>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of mf.data; let i=index;">
+                                    <td class="">
+                                        <a (click)="onTrackClaimClick(user)" title="Track" class="txt-color-red"><i class="fa fa-recycle"></i></a>
+                                        <a (click)="onreviewClick(user)" title="Review" class="txt-color-red"><i class="fa fa-check-square-o fa-lg"></i></a>
+                                    </td>
+                                    <td>{{user.ssin}}</td>
+                                    <td>{{user.benName}}</td>
+                                    <td>{{user.benType}}</td>
+                                    <td>{{user.claimRefernceNo}}</td>
+                                    <td>Education</td>
+                                    <td>{{user.submittedDateString}}</td>
+                                    <td>{{user.claimAmount}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div *ngIf="claimsData.length>0">
+                                            <ngb-pagination [collectionSize]="totalRows" [(pageSize)]="pageSize" [(page)]="page" (pageChange)="changepage($event)" [boundaryLinks]="true"></ngb-pagination>
+                                            <!--<mfBootstrapPaginator></mfBootstrapPaginator>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    </div>
+</section>

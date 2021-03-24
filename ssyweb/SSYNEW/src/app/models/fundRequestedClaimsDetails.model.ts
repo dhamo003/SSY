@@ -1,0 +1,101 @@
+﻿import { Claims } from "../claim/models/claims.model";
+
+export class FundRequestDetailsModel {
+    fundRequestHdrId:          number;
+    rloOfficeID:               number;
+    fundRequestDate:           any;
+    fundRequestDateString:     any;
+    fundRequiredDate:          any;
+    fundRequiredDateString:    any;
+    fundApprovedDate:          any;
+    fundApprovedDateString:    any;
+    fundReleaseDate:           any;
+    fundReleaseDateString:     any;
+    fundRequested:             number;
+    fundSanctioned:            any;
+    fundReleased:              any;
+    fundRequestType:           any;
+    releaseOrderNumber:        any;
+    dlcComments:               any;
+    alcComments:               any;
+    boardComments:             any;
+    statusId:                  number;
+    createdBy:                 number;
+    createdDate:               any;
+    updatedBy:                 any;
+    updatedDate:               any;
+    boardId:                   number;
+    boardName:                 string;
+    locations:                 any;
+    fundRequestClaims:         any;
+    fundRequestDtl1List:       FundRequestDtl1List[];
+    fundRequestDtl2List:       any;
+    fundClaimList: FundClaimList[];
+    sendBackByDLCDate:         any;
+    sendBackByDLCDateString:   any;
+    forwardToBoardDate:        any;
+    forwardToBoardDateString:  any;
+    sendBackByBoardDate:       any;
+    sendBackByBoardDateString: any;
+    rejectByBoardDate:         any;
+    rejectByBoardDateString:   any;
+    locationNames:             string;
+    claimTypes: string;
+    rloBankAccountId: any;
+    rloBankName: any;
+    dlcChronologicalOrderComments: string;
+    ceoChronologicalOrderComments: string;
+    //treasurerChronologicalOrderComments: string;
+}
+
+export interface FundClaimList {
+    claimId:                number;
+    transactionId:          number;
+    claimRefernceNo:        string;
+    ssin:                   string;
+    benSno:                 number;
+    benName:                string;
+    benType:                string;
+    claimAmount:            any;
+    statusName:             any;
+    entryPointName:         any;
+    claimType:              string;
+    rejectedDate:           any;
+    rejectedDateString:     any;
+    submittedDate:          string;
+    submittedDateString:    string;
+    approvedDate:           any;
+    approvedDateString:     any;
+    sentBackDate:           any;
+    sentBackDateString:     any;
+    isEdit:                 boolean;
+    statusId:               any;
+    approvedAmount:         number;
+    inspectorComments:      any;
+    alcComments:            any;
+    dlcComments:            any;
+    exceptionComments:      any;
+    paymentStatusId:        any;
+    benSubDivision:         any;
+    paymentProcessingId:    any;
+    forwardedDate:          any;
+    forwardedDateString:    any;
+    referDate:              any;
+    referDateString:        any;
+    lastActionDate:         any;
+    lastActionDateString:   any;
+    forcedClosedDate:       any;
+    forcedClosedDateString: any;
+    workerTypeId:           number;
+    benBmc: number;
+    selected: boolean;
+    paymentStatus: any;
+    paymentStatusName: string;
+}
+
+export interface FundRequestDtl1List {
+    fundRequestDtl1Id: number;
+    fundRequestId:     number;
+    locationId:        number;
+    locationName:      string;
+}
